@@ -30,7 +30,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Stage "vendor") | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $Stage "licenses") | Out-Null
 
 if (Test-Path (Join-Path $Root "bin/AppVolumeBridge.exe")) {
-  throw "AppVolumeBridge.exe must not be shipped. Now Playing 2.5.0 uses direct Windows Core Audio."
+  throw "AppVolumeBridge.exe must not be shipped. Now Playing 2.5.1 uses direct Windows Core Audio."
 }
 
 if (Test-Path (Join-Path $Root "node_modules")) {
@@ -55,9 +55,9 @@ $Python = Get-Command python -ErrorAction SilentlyContinue
 if (-not $Python) { $Python = Get-Command py -ErrorAction SilentlyContinue }
 if ($Python) {
   if ($Python.Name -eq "py.exe" -or $Python.Name -eq "py") {
-    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py")
+    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py")
   } else {
-    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py")
+    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py")
   }
   if ($LASTEXITCODE -ne 0) { throw "main.py failed Python syntax validation" }
 } else {
@@ -67,6 +67,9 @@ if ($Python) {
 Copy-Item (Join-Path $Root "plugin.json") $Stage
 Copy-Item (Join-Path $Root "main.py") $Stage
 Copy-Item (Join-Path $Root "ytmusic_service.py") $Stage
+Copy-Item (Join-Path $Root "runtime_compat.py") $Stage
+Copy-Item (Join-Path $Root "runtime_stdlib") $Stage -Recurse -Force
+Copy-Item (Join-Path $Root "CHANGELOG_2.5.1.md") $Stage
 Copy-Item (Join-Path $Root "dist/index.js") (Join-Path $Stage "dist")
 Copy-Item (Join-Path $Root "bin/MediaBridge.exe") (Join-Path $Stage "bin")
 Copy-Item (Join-Path $Root "bin/ThumbnailBridge.exe") (Join-Path $Stage "bin")

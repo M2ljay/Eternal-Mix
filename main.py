@@ -1,3 +1,15 @@
+# Decky Windows can omit optional stdlib modules from its frozen interpreter.
+# Install the narrow fallback before importing http.server or its dependencies.
+import os
+import sys
+
+_PLUGIN_SOURCE_DIR = os.path.dirname(os.path.abspath(__file__))
+if _PLUGIN_SOURCE_DIR not in sys.path:
+    sys.path.insert(0, _PLUGIN_SOURCE_DIR)
+from runtime_compat import active_stdlib_fallbacks, install_stdlib_fallbacks
+
+install_stdlib_fallbacks(_PLUGIN_SOURCE_DIR)
+
 import csv
 import ctypes
 import hashlib
@@ -36,9 +48,6 @@ from pathlib import Path
 
 import decky_plugin
 
-_PLUGIN_SOURCE_DIR = os.path.dirname(os.path.abspath(__file__))
-if _PLUGIN_SOURCE_DIR not in sys.path:
-    sys.path.insert(0, _PLUGIN_SOURCE_DIR)
 from ytmusic_service import YouTubeMusicService
 
 SPOTIFY_AUDIO_CACHE_LIMIT_BYTES = 5 * 1024 * 1024 * 1024
@@ -46,7 +55,10 @@ TOPBAR_CEF_PORT = 8080
 TOPBAR_BADGE_ID = "decky-nowplaying-topbar-badge"
 TOPBAR_STYLE_ID = "decky-nowplaying-topbar-style"
 TOPBAR_WEATHER_BADGE_ID = "decky-weather-topbar-badge"
-TOPBAR_CLOCK_SELECTORS = ["._1HhLUvHH6BZLIOyOE80TVh", "#header ._1HhLUvHH6BZLIOyOE80TVh"]
+TOPBAR_CLOCK_SELECTORS = [
+    "#header ._1HhLUvHH6BZLIOyOE80TVh", "._1HhLUvHH6BZLIOyOE80TVh",
+    '#header [class*="Clock"]', "#header time",
+]
 TOPBAR_REINJECT_SECONDS = 0.75
 TOPBAR_FORCE_REINJECT_SECONDS = 2.0
 TOPBAR_MAX_CHARS = 28
@@ -349,6 +361,28 @@ class LocalMusicPlayerWorker:
             pass
 
 
+class _LoopbackHTTPServer(http.server.ThreadingHTTPServer):
+    """Plugin-owned server; do not modify Decky's IPC socket/error handlers."""
+
+    daemon_threads = True
+    allow_reuse_address = True
+    block_on_close = False
+
+    def get_request(self):
+        connection, address = super().get_request()
+        # CEF may pre-open sockets without sending a request. Bound idle readers.
+        connection.settimeout(15.0)
+        return connection, address
+
+    def handle_error(self, request, client_address):
+        error = sys.exc_info()[1]
+        if isinstance(error, (ConnectionError, TimeoutError)):
+            return
+        if isinstance(error, OSError) and getattr(error, "winerror", None) in {64, 995, 10053, 10054}:
+            return
+        super().handle_error(request, client_address)
+
+
 class LocalMusicStreamServer:
     """Small localhost HTTP server for CEF/HTMLAudioElement playback.
 
@@ -594,7 +628,7 @@ class LocalMusicStreamServer:
                             pass
                     self.close_connection = True
 
-        self._server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        self._server = _LoopbackHTTPServer(("127.0.0.1", 0), Handler)
         self._server.daemon_threads = True
         self.port = int(self._server.server_address[1])
         self._thread = threading.Thread(target=self._server.serve_forever, name="NowPlaying-LocalAudioHTTP", daemon=True)
@@ -607,7 +641,10 @@ class LocalMusicStreamServer:
 
     def stop(self) -> None:
         server = self._server
+        worker = self._thread
         self._server = None
+        self._thread = None
+        self.port = 0
         if server is None:
             return
         try:
@@ -618,7 +655,8 @@ class LocalMusicStreamServer:
             server.server_close()
         except Exception:
             pass
-
+        if worker is not None and worker is not threading.current_thread():
+            worker.join(timeout=1.0)
 
 
 class Plugin:
@@ -6295,27 +6333,32 @@ class Plugin:
         await self._run_in_executor(self._spotify_executor, self._spotify_open_url, "https://developer.spotify.com/dashboard")
         return True
 
-    def _stop_spotify_auth_server(self) -> None:
-        server = self._spotify_auth_server
-        self._spotify_auth_server = None
+    def _stop_spotify_callback_server(self, server_attribute: str, thread_attribute: str) -> None:
+        server = getattr(self, server_attribute, None)
+        worker = getattr(self, thread_attribute, None)
+        setattr(self, server_attribute, None)
+        setattr(self, thread_attribute, None)
         if server is not None:
             try:
                 server.shutdown()
             except Exception:
+                pass
+            finally:
+                try:
+                    server.server_close()
+                except Exception:
+                    pass
+        if worker is not None and worker is not threading.current_thread():
+            try:
+                worker.join(timeout=1.0)
+            except RuntimeError:
                 pass
 
+    def _stop_spotify_auth_server(self) -> None:
+        self._stop_spotify_callback_server("_spotify_auth_server", "_spotify_auth_thread")
+
     def _stop_spotify_playback_auth_server(self) -> None:
-        server = self._spotify_playback_auth_server
-        self._spotify_playback_auth_server = None
-        if server is not None:
-            try:
-                server.shutdown()
-            except Exception:
-                pass
-            try:
-                server.server_close()
-            except Exception:
-                pass
+        self._stop_spotify_callback_server("_spotify_playback_auth_server", "_spotify_playback_auth_thread")
 
     def _spotify_token_request(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         encoded = urllib.parse.urlencode({k: v for k, v in payload.items() if v is not None}).encode("utf-8")
@@ -6450,7 +6493,7 @@ class Plugin:
             def log_message(self, fmt: str, *args: Any) -> None:
                 return
 
-        class SpotifyPlaybackCallbackServer(http.server.ThreadingHTTPServer):
+        class SpotifyPlaybackCallbackServer(_LoopbackHTTPServer):
             allow_reuse_address = True
 
         try:
@@ -6565,7 +6608,7 @@ class Plugin:
             def log_message(self, fmt: str, *args: Any) -> None:
                 return
 
-        class SpotifyCallbackServer(http.server.ThreadingHTTPServer):
+        class SpotifyCallbackServer(_LoopbackHTTPServer):
             allow_reuse_address = True
 
         try:
@@ -8135,7 +8178,7 @@ class Plugin:
         session = connection = request = None
         try:
             session = winhttp.WinHttpOpen(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NowPlaying/2.5.0",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NowPlaying/2.5.1",
                 WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
                 None,
                 None,
@@ -8326,7 +8369,7 @@ class Plugin:
         params = {"query": f'artist:"{name}"', "fmt": "json", "limit": max(8, min(25, int(limit) * 3))}
         request = urllib.request.Request(
             "https://musicbrainz.org/ws/2/artist/?" + urllib.parse.urlencode(params),
-            headers={"User-Agent": "NowPlayingDecky/2.5.0 (https://github.com/LoZazaMastro)", "Accept": "application/json"},
+            headers={"User-Agent": "NowPlayingDecky/2.5.1 (https://github.com/LoZazaMastro)", "Accept": "application/json"},
         )
         with urllib.request.urlopen(request, timeout=5) as response:
             payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8380,7 +8423,7 @@ class Plugin:
                 url = f"https://webservice.fanart.tv/{version}/music/{urllib.parse.quote(clean_mbid, safe='')}?" + urllib.parse.urlencode({"api_key": api_key})
                 request = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "NowPlayingDecky/2.5.0", "Accept": "application/json"},
+                    headers={"User-Agent": "NowPlayingDecky/2.5.1", "Accept": "application/json"},
                 )
                 with urllib.request.urlopen(request, timeout=5) as response:
                     payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8428,7 +8471,7 @@ class Plugin:
             url = "https://www.theaudiodb.com/api/v1/json/2/search.php?" + urllib.parse.urlencode({"s": name})
             request = urllib.request.Request(
                 url,
-                headers={"User-Agent": "NowPlayingDecky/2.5.0", "Accept": "application/json"},
+                headers={"User-Agent": "NowPlayingDecky/2.5.1", "Accept": "application/json"},
             )
             try:
                 with urllib.request.urlopen(request, timeout=8) as response:
@@ -9854,7 +9897,7 @@ class Plugin:
         now_mono = time.monotonic()
         report = {
             "generatedAt": datetime.now().isoformat(timespec="seconds"),
-            "pluginVersion": "2.5.0",
+            "pluginVersion": "2.5.1",
             "python": sys.version,
             "platform": platform.platform(),
             "backend": {
@@ -9968,7 +10011,7 @@ class Plugin:
         operation_durations["totalBeforeWrite"] = round((time.monotonic() - diagnostic_started) * 1000, 1)
         runtime_logs = self._read_runtime_logs_for_diagnostics()
         content = (
-            "NOW PLAYING 2.5.0 DIAGNOSTICS\n"
+            "NOW PLAYING 2.5.1 DIAGNOSTICS\n"
             + json.dumps(report, ensure_ascii=False, indent=2)
             + "\n\nSTRUCTURED EVENTS (oldest to newest)\n"
             + "\n".join(json.dumps(item, ensure_ascii=False, sort_keys=True) for item in structured_events)
@@ -10161,30 +10204,46 @@ class Plugin:
         c = json.dumps(cfg, ensure_ascii=False)
         return (
             "(function(){var C=" + c + ";"
+            "function restoreClock(pc){if(!pc||!pc.hasAttribute('data-decky-nowplaying-clock'))return;"
+            "var value=pc.getAttribute('data-decky-nowplaying-original-order');"
+            "var priority=pc.getAttribute('data-decky-nowplaying-original-priority')||'';"
+            "if(pc.style.getPropertyValue('order')==='-2'){if(value){pc.style.setProperty('order',value,priority);}else{pc.style.removeProperty('order');}}"
+            "pc.removeAttribute('data-decky-nowplaying-clock');"
+            "pc.removeAttribute('data-decky-nowplaying-original-order');"
+            "pc.removeAttribute('data-decky-nowplaying-original-priority');}"
             "function removeBadge(){var l=document.querySelectorAll('#'+C.badge);"
             "for(var k=0;k<l.length;k++){l[k].remove();}"
             "document.documentElement.removeAttribute('data-decky-nowplaying-left');"
-            "var pc=document.querySelector('[data-decky-nowplaying-clock=\"1\"]');"
-            "if(pc){pc.removeAttribute('data-decky-nowplaying-clock');pc.style.removeProperty('order');}}"
+            "var marked=document.querySelectorAll('[data-decky-nowplaying-clock]');"
+            "for(var m=0;m<marked.length;m++){restoreClock(marked[m]);}"
+            "var oldStyle=document.getElementById(C.style);if(oldStyle){oldStyle.remove();}}"
             "if(!C.enabled||!C.label){removeBadge();return;}"
             "var s=document.getElementById(C.style);"
             "if(!s){s=document.createElement('style');s.id=C.style;document.head.appendChild(s);}"
             "s.textContent='#'+C.badge+'{display:inline-flex;align-items:center;gap:.34em;margin-left:.6em;opacity:.92;white-space:nowrap;font:inherit;line-height:1;color:#fff;pointer-events:none;vertical-align:middle;position:relative;align-self:center;transform:translateY(-1px);}#'+C.badge+' svg{width:.92em;height:.92em;display:block;fill:currentColor;flex:0 0 auto;}#'+C.badge+' span{display:inline-block;line-height:1;}';"
             "function iconSvg(k){var p={spotify:'M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.7 0 12 0zm5.5 17.3c-.2.4-.7.5-1 .2-2.8-1.7-6.4-2.1-10.6-1.1-.4.1-.8-.2-.9-.5-.1-.4.2-.8.5-.9 4.6-1 8.5-.6 11.6 1.3.4.2.5.7.4 1zm1.4-3.3c-.3.4-.8.6-1.3.3-3.2-2-8.2-2.6-11.9-1.4-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.4-1.3 9.8-.6 13.5 1.6.4.2.6.8.2 1.2zm.1-3.4C15.2 8.4 8.8 8.2 5.2 9.3c-.6.2-1.2-.2-1.4-.7-.2-.6.2-1.2.7-1.4 4.3-1.3 11.3-1 15.7 1.6.5.3.7 1 .4 1.6-.3.4-1 .6-1.6.2z',tidal:'M12 4 8 8 4 4 0 8l4 4 4-4 4 4-4 4 4 4 4-4-4-4 4-4-4-4zm4 4 4-4 4 4-4 4-4-4z',apple:'M18.7 12.7c0-2.7 2.2-4 2.3-4.1-1.3-1.9-3.3-2.1-4-2.2-1.7-.2-3.3 1-4.1 1-.8 0-2.1-1-3.5-.9-1.8 0-3.5 1.1-4.4 2.7-1.9 3.3-.5 8.2 1.4 10.9.9 1.3 2 2.8 3.5 2.8 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.2.9 3.7.9s2.5-1.3 3.4-2.7c1.1-1.5 1.5-3 1.5-3.1 0 0-2.9-1.1-2.9-4.4zM15.9 4.7c.8-1 1.3-2.3 1.1-3.7-1.1 0-2.5.7-3.3 1.7-.7.8-1.3 2.2-1.1 3.5 1.2.1 2.5-.6 3.3-1.5z',deezer:'M0 17h5v3H0v-3zm6 0h5v3H6v-3zm6 0h5v3h-5v-3zm6 0h6v3h-6v-3zM6 13h5v3H6v-3zm6 0h5v3h-5v-3zm6 0h6v3h-6v-3zm0-4h6v3h-6V9zm0-4h6v3h-6V5z',amazon:'M14 7c-2.4.1-8.2.8-8.2 5.7 0 5.3 6.7 5.5 8.9 2.1.3.5 1.7 1.8 2.2 2.3l2.7-2.7s-1.6-1.2-1.6-2.5V5c0-1.2-1.2-4-5.5-4C8.2 1 6 3.7 6 6l3.6.3c.8-2.4 2.6-2.4 2.6-2.4 2 0 1.7 1.4 1.7 3.3zm0 4.2c0 3.9-4.1 3.3-4.1.8 0-2.3 2.5-2.7 4.1-2.8v2zm6.6 7.9c-.4.5-3.4 3.2-8.5 3.2S3.2 18.9 2 17.5c-.3-.4.1-.5.3-.4 3.6 2.2 9.1 5.7 18.1 1 .4-.2.6.1.2 1z',soundcloud:'M23.9 14.2c-.1 1.8-1.6 3.1-3.4 3.1h-8.2c-.4 0-.7-.3-.7-.7V7.9c0-.3.2-.6.5-.7.2-.1 1-.6 2.4-.6 2.5 0 4.6 1.8 5.2 4.3.3-.1.6-.1.9-.1 1.9 0 3.4 1.5 3.3 3.4zM9.1 9.4c.3 2.7.4 5 0 7.7-.1.3-.5.3-.6 0-.3-2.6-.3-5 0-7.7.1-.3.5-.3.6 0zM6 10c.3 2.5.3 4.6 0 7.1-.1.3-.5.3-.6 0-.3-2.5-.3-4.6 0-7.1.1-.3.5-.3.6 0zM3.1 11.7c.4 1.9.2 3.5 0 5.4-.1.3-.5.3-.6 0-.2-1.9-.4-3.5 0-5.4.1-.3.5-.3.6 0z',localMusic:'M3 9v6h4l5 4V5L7 9H3zm12.5 3a3.5 3.5 0 0 0-2-3.16v6.32A3.5 3.5 0 0 0 15.5 12zm-2-8.5v2.06A7 7 0 0 1 18 12a7 7 0 0 1-4.5 6.44v2.06A9 9 0 0 0 20 12a9 9 0 0 0-6.5-8.5z'};var path=p[k]||'M12 3v10.6A4 4 0 1 1 10 10V6l10-3v10.6A4 4 0 1 1 18 10V5.5L12 7.2z';return '<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"'+path+'\"></path></svg>';}"
-            "var roots=Array.prototype.slice.call(document.querySelectorAll('#header,[class*=GamepadHeader],[class*=HeaderStatus],[class*=TopBar]'));"
+            "var roots=Array.prototype.slice.call(document.querySelectorAll('#header,._1E_SL1bTibeQ3PQRBZoS_-,[class*=GamepadHeader],[class*=HeaderStatus],[class*=TopBar]'));"
             "var clock=null,i;"
             "function inRoot(node){if(!node)return false;if(roots.length<1)return false;for(var r=0;r<roots.length;r++){if(roots[r]===node||roots[r].contains(node))return true;}return false;}"
             "for(i=0;i<C.selectors.length;i++){var q=document.querySelector(C.selectors[i]);if(q&&inRoot(q)){clock=q;break;}}"
             "if(!clock){for(var rr=0;rr<roots.length&&!clock;rr++){var ns=Array.prototype.slice.call(roots[rr].querySelectorAll('div,span'));"
             "for(i=0;i<ns.length;i++){var t=(ns[i].textContent||'').trim();if(/^\\d{1,2}:\\d{2}(\\s|$)/.test(t)){clock=ns[i];break;}}}}"
-            "if(!clock){return;}"
-            "try{clock.setAttribute('data-decky-nowplaying-clock','1');if(C.left){clock.style.order='-2';document.documentElement.setAttribute('data-decky-nowplaying-left','1');}else{clock.style.removeProperty('order');document.documentElement.removeAttribute('data-decky-nowplaying-left');}}catch(e){}"
+            "if(!clock){removeBadge();return;}"
+            "var previous=document.querySelectorAll('[data-decky-nowplaying-clock]');"
+            "for(var p=0;p<previous.length;p++){if(previous[p]!==clock){restoreClock(previous[p]);}}"
+            "try{if(C.left){if(!clock.hasAttribute('data-decky-nowplaying-clock')){"
+            "clock.setAttribute('data-decky-nowplaying-original-order',clock.style.getPropertyValue('order'));"
+            "clock.setAttribute('data-decky-nowplaying-original-priority',clock.style.getPropertyPriority('order'));}"
+            "clock.setAttribute('data-decky-nowplaying-clock','1');clock.style.setProperty('order','-2');"
+            "document.documentElement.setAttribute('data-decky-nowplaying-left','1');}"
+            "else{restoreClock(clock);document.documentElement.removeAttribute('data-decky-nowplaying-left');}}catch(e){}"
             "var b=document.getElementById(C.badge);"
             "if(!b){b=document.createElement('span');b.id=C.badge;b.setAttribute('aria-hidden','true');}"
-            "b.innerHTML=(C.service==='youtubeMusic'?'<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"></circle><circle cx=\"12\" cy=\"12\" r=\"5\" opacity=\".32\"></circle><path d=\"M10 8.7 15.3 12 10 15.3z\"></path></svg>':iconSvg(C.service))+'<span></span>';"
-            "b.lastChild.textContent=C.label;"
+            "if(b.getAttribute('data-nowplaying-service')!==C.service||!b.lastChild){b.innerHTML=(C.service==='youtubeMusic'?'<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"></circle><circle cx=\"12\" cy=\"12\" r=\"5\" opacity=\".32\"></circle><path d=\"M10 8.7 15.3 12 10 15.3z\"></path></svg>':iconSvg(C.service))+'<span></span>';b.setAttribute('data-nowplaying-service',C.service);}"
+            "if(b.lastChild.textContent!==C.label){b.lastChild.textContent=C.label;}"
+            "var duplicates=document.querySelectorAll('#'+C.badge);for(var d=0;d<duplicates.length;d++){if(duplicates[d]!==b){duplicates[d].remove();}}"
             "var w=document.getElementById(C.weather);"
-            "if(w&&w.parentNode){if(w.nextSibling!==b){w.parentNode.insertBefore(b,w.nextSibling);}}"
+            "if(w&&w.parentNode&&inRoot(w)){if(w.nextSibling!==b){w.parentNode.insertBefore(b,w.nextSibling);}}"
             "else if(b.parentNode!==clock){clock.appendChild(b);}"
             "})();"
         )
@@ -10193,7 +10252,7 @@ class Plugin:
         try:
             request = urllib.request.Request(
                 f"http://127.0.0.1:{TOPBAR_CEF_PORT}/json/list",
-                headers={"User-Agent": "Decky Now Playing/2.5.0"},
+                headers={"User-Agent": "Decky Now Playing/2.5.1"},
             )
             with urllib.request.urlopen(request, timeout=2) as response:
                 targets = json.loads(response.read().decode("utf-8"))
@@ -10428,6 +10487,7 @@ class Plugin:
         self.helper_path = self.bundled_helper_path
         self.thumbnail_bridge_path = self.bundled_thumbnail_bridge_path
         self.app_volume_bridge_path = self.bundled_app_volume_bridge_path
+        self._log("Now Playing 2.5.1 runtime fallbacks: " + (", ".join(active_stdlib_fallbacks()) or "native stdlib"))
         self._log(f"plugin_dir={self.plugin_dir}")
         self._log(f"bundled_helper_path={self.bundled_helper_path}")
         try:
@@ -10457,6 +10517,14 @@ class Plugin:
         except Exception as exc:
             self._log(f"Spotify background session scheduling error: {exc}")
     async def _unload(self) -> None:
+        pending = []
+        for name in ("_topbar_task", "_source_retry_task", "_spotify_warmup_task", "_spotify_background_monitor_task"):
+            task = getattr(self, name, None)
+            if task is not None and not task.done():
+                task.cancel()
+                pending.append(task)
+        if pending:
+            await asyncio.gather(*pending, return_exceptions=True)
         self._shutdown_helper()
         try:
             if self._spotify_warmup_task and not self._spotify_warmup_task.done():
@@ -10471,6 +10539,7 @@ class Plugin:
             pass
         try:
             self._stop_spotify_auth_server()
+            self._stop_spotify_playback_auth_server()
         except Exception:
             pass
         try:

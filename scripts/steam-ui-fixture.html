@@ -1,0 +1,149 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Now Playing 2.5.1 integration regression</title></head><body><pre id="results">RUNNING</pre>
+<script>
+const FULLSCREEN_CHROME_STYLE_ID='np-fullscreen-chrome-style';
+const FULLSCREEN_ROUTE='/now-playing/fullscreen';
+const SPOTIFY_BIG_PICTURE_ROUTE='/now-playing/spotify-big-picture';
+const LOCAL_MUSIC_BIG_PICTURE_ROUTE='/now-playing/local-music-big-picture';
+const YOUTUBE_MUSIC_BIG_PICTURE_ROUTE='/now-playing/youtube-music-big-picture';
+const FULLSCREEN_SETTINGS_ROUTE='/now-playing/settings-fullscreen';
+let DFL={Router:{WindowStore:{}},Navigation:{}};
+/*__INTEGRATION__*/
+const TOPBAR=/*__TOPBAR__*/;
+(async()=>{
+ const results=[];
+ function assert(value,message){if(!value)throw new Error(message);}
+ function test(name,fn){fn();results.push('PASS '+name);}
+ const sleep=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
+ const make=(tag,attributes={},parent=document.body)=>{
+  const el=document.createElement(tag);
+  for(const [key,value]of Object.entries(attributes))el.setAttribute(key,value);
+  parent.appendChild(el);return el;
+ };
+ function clean(){
+  forceRestoreFullscreenChrome();fullscreenUiDisposed=false;
+  document.querySelectorAll('[data-fixture]').forEach(el=>el.remove());
+  DFL={Router:{WindowStore:{}},Navigation:{Navigate(){},NavigateBack(){},CloseSideMenus(){}}};
+ }
+ function chrome(){
+  clean();
+  const wrapper=make('div',{'data-fixture':'1'});
+  const header=make('div',{id:'header',class:'_1E_SL1bTibeQ3PQRBZoS_-'},wrapper);
+  const clock=make('div',{class:'_1HhLUvHH6BZLIOyOE80TVh'},header);clock.textContent='12:34';
+  const footer=make('div',{class:'_3T1iFy2maYycwqgFuzERyf'},wrapper);
+  const unrelated=make('div',{class:'other-plugin-overlay'},wrapper);
+  unrelated.style.cssText='position:fixed;top:0;width:100vw;height:100px;display:flex';
+  return{wrapper,header,clock,footer,unrelated};
+ }
+ try{
+  test('gamepad navigation uses the supplied Steam window API',()=>{
+   clean();let route='';DFL.Router.WindowStore.GamepadUIMainWindowInstance={Navigate(value){route=value;}};
+   assert(performSteamNavigation(FULLSCREEN_ROUTE)&&route===FULLSCREEN_ROUTE,'Wrong route');
+  });
+  test('missing Router uses Decky Navigation',()=>{
+   clean();let back=0;DFL.Router=undefined;DFL.Navigation.NavigateBack=()=>back++;
+   assert(performSteamNavigation()&&back===1,'Fallback failed');
+  });
+  test('throwing WindowStore getter uses public fallback',()=>{
+   clean();let route='';DFL.Router={get WindowStore(){throw new Error('disposed');}};
+   DFL.Navigation.Navigate=value=>route=value;
+   assert(performSteamNavigation(LOCAL_MUSIC_BIG_PICTURE_ROUTE)&&route===LOCAL_MUSIC_BIG_PICTURE_ROUTE,'Disposed store blocked navigation');
+  });
+  test('array of windows never selects the first desktop decoy',()=>{
+   clean();const desktop={Navigate(){throw new Error('desktop chosen');}};
+   const gamepad={IsMainGamepadUIWindow:()=>true,Navigate(){}};
+   DFL.Router.WindowStore.SteamUIWindows=[desktop,gamepad];
+   assert(steamNavigationWindow()===gamepad,'Desktop chosen instead of gamepad');
+  });
+  test('Map-backed window collection is supported',()=>{
+   clean();const gamepad={IsGamepadUIOverlayWindow:()=>true};
+   DFL.Router.WindowStore.SteamUIWindows=new Map([['overlay',gamepad]]);
+   assert(steamNavigationWindow()===gamepad,'Map collection unsupported');
+  });
+  test('missing navigation restores Steam instead of leaving hidden chrome',()=>{
+   const{header}=chrome();retainFullscreenChromeSuppression();DFL.Navigation=undefined;
+   assert(!performSteamNavigation(FULLSCREEN_ROUTE),'Failure not reported');
+   assert(!document.documentElement.classList.contains('npFullscreenActive'),'Suppression left active');
+   assert(header.style.display!=='none','Header left hidden');
+  });
+  test('current hashed header/footer are hidden; unrelated overlays stay visible',()=>{
+   const{header,footer,unrelated}=chrome();retainFullscreenChromeSuppression();
+   assert(getComputedStyle(header).display==='none'&&getComputedStyle(footer).display==='none','Current Steam classes not hidden');
+   assert(getComputedStyle(unrelated).display==='flex','Unrelated overlay hidden');
+  });
+  test('all original inline property values and priorities survive repeated suppression',()=>{
+   const{header}=chrome();header.style.cssText='display:flex!important;opacity:.42;visibility:visible;transition:opacity 2s;animation:none;pointer-events:auto';
+   const properties=['display','opacity','visibility','transition','animation','pointer-events'];
+   const before=properties.map(p=>[header.style.getPropertyValue(p),header.style.getPropertyPriority(p)]);
+   retainFullscreenChromeSuppression();markAllFullscreenChrome();markAllFullscreenChrome();forceRestoreFullscreenChrome();
+   assert(JSON.stringify(before)===JSON.stringify(properties.map(p=>[header.style.getPropertyValue(p),header.style.getPropertyPriority(p)])),'Styles not restored');
+  });
+  test('virtual keyboard descendants prevent their container from being hidden',()=>{
+   const{footer}=chrome();const keyboard=make('div',{class:'_33MO29eFMotoHmrmT1-6sw'},footer);
+   retainFullscreenChromeSuppression();assert(getComputedStyle(footer).display!=='none','Keyboard parent hidden');
+   assert(getComputedStyle(keyboard).display!=='none','Keyboard hidden');
+  });
+  test('opening a keyboard restores an already-hidden ancestor',()=>{
+   const{footer}=chrome();retainFullscreenChromeSuppression();make('div',{class:'Oel3OSshpNqQ5hIOrC1Z5'},footer);
+   markAllFullscreenChrome();assert(getComputedStyle(footer).display!=='none','New keyboard remains hidden');
+  });
+  test('header-like controls inside the music view stay visible',()=>{
+   const{wrapper}=chrome();const view=make('div',{class:'npFullscreenRoot'},wrapper);
+   const control=make('div',{class:'_3T1iFy2maYycwqgFuzERyf'},view);
+   retainFullscreenChromeSuppression();assert(getComputedStyle(control).display!=='none','Own UI hidden');
+  });
+  test('queued marking cannot re-hide Steam after explicit restore',()=>{
+   chrome();retainFullscreenChromeSuppression();forceRestoreFullscreenChrome();markAllFullscreenChrome();
+   assert(!document.documentElement.classList.contains('npFullscreenActive'),'Late callback re-hid Steam');
+  });
+  test('dismount restores styles and blocks late marking',()=>{
+   const{header}=chrome();retainFullscreenChromeSuppression();fullscreenUiDisposed=true;forceRestoreFullscreenChrome();markAllFullscreenChrome();
+   assert(!document.documentElement.classList.contains('npFullscreenActive')&&header.style.display!=='none','Unload left hidden chrome');
+  });
+  {
+   const{wrapper}=chrome();const frame=make('iframe',{},wrapper);
+   const frameDoc=frame.contentDocument;const header=frameDoc.createElement('div');header.id='header';header.style.display='flex';frameDoc.body.appendChild(header);
+   DFL.Router.WindowStore.SteamUIWindows=new Map([['child',{BrowserWindow:frame.contentWindow}]]);
+   retainFullscreenChromeSuppression();assert(header.style.display==='none','Child document not handled');
+   DFL.Router.WindowStore.SteamUIWindows=[];forceRestoreFullscreenChrome();
+   assert(header.style.display==='flex'&&!frameDoc.documentElement.classList.contains('npFullscreenActive'),'Forgot disposed document');
+   results.push('PASS previously touched Steam documents are restored after leaving the window collection');
+  }
+  {
+   chrome();navigateBackFromBigPicture();navigateToFullscreen();await sleep(240);
+   assert(document.documentElement.classList.contains('npFullscreenActive'),'Old back timers broke new fullscreen route');
+   results.push('PASS reopening fullscreen cancels stale back-restoration timers');forceRestoreFullscreenChrome();
+  }
+  test('topbar text is escaped and repeated injection reuses the existing nodes',()=>{
+   const{clock}=chrome();clock.style.setProperty('order','7','important');
+   (0,eval)(TOPBAR.left);const badge=document.getElementById('decky-nowplaying-topbar-badge');const child=badge.lastChild;
+   assert(child.textContent==='Track <test> & 日本','Unsafe/wrong label');
+   (0,eval)(TOPBAR.left);assert(document.getElementById(badge.id)===badge&&badge.lastChild===child,'Unchanged badge rebuilt');
+   assert(document.querySelectorAll('#'+badge.id).length===1,'Duplicate badge');
+   (0,eval)(TOPBAR.off);assert(clock.style.getPropertyValue('order')==='7'&&clock.style.getPropertyPriority('order')==='important','Clock order not restored');
+   assert(!document.getElementById(badge.id)&&!document.getElementById('decky-nowplaying-topbar-style'),'Disable left stale DOM');
+  });
+  test('topbar updates only the title when the service is unchanged',()=>{
+   chrome();(0,eval)(TOPBAR.left);const badge=document.getElementById('decky-nowplaying-topbar-badge');const child=badge.lastChild;
+   (0,eval)(TOPBAR.changed);assert(badge.lastChild===child&&child.textContent==='New track','Title update rebuilt children');
+   (0,eval)(TOPBAR.off);
+  });
+  test('topbar duplicate badges are removed',()=>{
+   const{clock}=chrome();(0,eval)(TOPBAR.left);const duplicate=document.getElementById('decky-nowplaying-topbar-badge').cloneNode(true);clock.appendChild(duplicate);
+   (0,eval)(TOPBAR.left);assert(document.querySelectorAll('#decky-nowplaying-topbar-badge').length===1,'Duplicate survived');(0,eval)(TOPBAR.off);
+  });
+  test('weather outside the Steam header cannot steal the music badge',()=>{
+   const{clock,wrapper}=chrome();make('div',{id:'decky-weather-topbar-badge'},wrapper);(0,eval)(TOPBAR.left);
+   assert(document.getElementById('decky-nowplaying-topbar-badge').parentNode===clock,'Badge attached outside Steam header');(0,eval)(TOPBAR.off);
+  });
+  test('weather in the header remains ahead of the music badge',()=>{
+   const{header}=chrome();const weather=make('div',{id:'decky-weather-topbar-badge'},header);(0,eval)(TOPBAR.left);
+   assert(weather.nextSibling===document.getElementById('decky-nowplaying-topbar-badge'),'Weather placement changed');(0,eval)(TOPBAR.off);
+  });
+  test('losing the Steam clock removes orphaned badge and styles',()=>{
+   const{clock}=chrome();(0,eval)(TOPBAR.left);clock.remove();(0,eval)(TOPBAR.left);
+   assert(!document.getElementById('decky-nowplaying-topbar-badge')&&!document.getElementById('decky-nowplaying-topbar-style'),'Orphaned topbar state');
+  });
+  clean();document.getElementById('results').textContent=results.join('\n')+'\nALL '+results.length+' TESTS PASSED';
+ }catch(error){forceRestoreFullscreenChrome();document.getElementById('results').textContent=results.join('\n')+'\nFAIL '+error.stack;}
+})();
+</script></body></html>

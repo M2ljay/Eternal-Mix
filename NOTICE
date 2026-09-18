@@ -100,3 +100,13 @@ Fullscreen particle visuals
 The Flower and Circle modes are an independent Canvas 2D adaptation of formulas
 from audible-visuals, distributed under the Apache License 2.0. The original license is retained in
 licenses/audible-visuals-LICENSE.txt.
+
+Frozen Python runtime compatibility (2.5.1)
+------------------------------------------
+The narrowly scoped fallback files in runtime_stdlib are derived from the
+CPython 3.13.5 standard library installed in the build environment. Native
+modules take priority. http_server.py includes a compatibility fallback for
+Python versions predating mimetypes.guess_file_type. Source and shipped hashes
+are recorded in runtime_stdlib/PROVENANCE.json. Complete PSF and related license
+notices are retained in licenses/Python-stdlib-LICENSE.txt. The existing vendor
+html package is used only when the host runtime does not supply it.

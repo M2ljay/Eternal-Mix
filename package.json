@@ -1,6 +1,6 @@
 {
   "name": "now-playing",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Console-style Spotify, YouTube Music, local and Windows media playback with fullscreen visuals for Decky Loader.",
   "author": "LoZazaMastro",
   "type": "module",
@@ -10,8 +10,10 @@
     "package:win": "powershell -ExecutionPolicy Bypass -File ./package-win.ps1",
     "check:i18n": "node scripts/validate-translations.mjs",
     "check:types": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
-    "check:python": "python -m py_compile main.py ytmusic_service.py && python scripts/validate-runtime.py",
-    "verify": "node scripts/validate-translations.mjs && tsc --noEmit --noUnusedLocals --noUnusedParameters && python -m py_compile main.py ytmusic_service.py && python scripts/validate-runtime.py && node --check dist/index.js"
+    "check:python": "python -m py_compile main.py ytmusic_service.py runtime_compat.py && python scripts/validate-frozen-runtime.py",
+    "verify": "npm run check:i18n && npm run check:types && npm run check:python && npm run check:steam && node --check dist/index.js",
+    "check:steam": "node scripts/validate-steam-bundle.mjs && python scripts/validate-steam-ui.py --node",
+    "check:steam:browser": "python scripts/validate-steam-ui.py"
   },
   "license": "MIT",
   "dependencies": {

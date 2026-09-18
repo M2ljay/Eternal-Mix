@@ -1,0 +1,30 @@
+{
+  "source": "CPython 3.13.5 standard-library files installed in the build environment (/usr/lib/python3.13); PSF license",
+  "target": "Pure-Python fallbacks; Python 3.11-compatible syntax; native modules always preferred",
+  "files": {
+    "http_server.py": {
+      "upstream_path": "http/server.py",
+      "source_sha256": "253cc04a379f2a42dc72c33a9a67218ecda13b54995b72c3f59e83d1abe8e9a3",
+      "shipped_sha256": "3dc188d0bb4a6148cd0526e7aa309265226d5d5877abd14283a9df7c3221dec1",
+      "modification": "Use guess_type when native mimetypes lacks the Python 3.13 guess_file_type API."
+    },
+    "socketserver.py": {
+      "upstream_path": "socketserver.py",
+      "source_sha256": "ecbbe1a633801460399a8f10b39007aa0e13cdbdad507e39414000f097b769b5",
+      "shipped_sha256": "ecbbe1a633801460399a8f10b39007aa0e13cdbdad507e39414000f097b769b5",
+      "modification": "Unmodified"
+    },
+    "mimetypes.py": {
+      "upstream_path": "mimetypes.py",
+      "source_sha256": "a6074f9516d69b046c97f75392ad0cc5eb3ab1b9c17ef3ba6731e2d9db12dd43",
+      "shipped_sha256": "a6074f9516d69b046c97f75392ad0cc5eb3ab1b9c17ef3ba6731e2d9db12dd43",
+      "modification": "Unmodified"
+    },
+    "webbrowser.py": {
+      "upstream_path": "webbrowser.py",
+      "source_sha256": "b6bf0f5dd9cc863d535b711402cecd33cd0e9543f1879a4e81bee64928c92cac",
+      "shipped_sha256": "b6bf0f5dd9cc863d535b711402cecd33cd0e9543f1879a4e81bee64928c92cac",
+      "modification": "Unmodified"
+    }
+  }
+}

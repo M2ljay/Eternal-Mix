@@ -626,9 +626,71 @@ let fullscreenSuppressionLeaseCount = 0;
 let fullscreenSuppressionReleaseTimer = 0;
 const fullscreenChromeRefreshTimers = new Set<number>();
 const fullscreenTransitionLeaseTimers = new Set<number>();
+const fullscreenBackRestoreTimers = new Set<number>();
+const fullscreenTouchedDocuments = new Set<Document>();
+const fullscreenSavedStyles = new Map<HTMLElement, { values: [string, string, string][]; marker: string | null }>();
+let fullscreenUiDisposed = false;
+
+// Verified against the supplied Steam UI chunk (18 September 2026). Native
+// CSS-module builds do not contain the readable BasicFooter/Keyboard names.
+const steamKeyboardSelector = [
+  "._33MO29eFMotoHmrmT1-6sw", ".Oel3OSshpNqQ5hIOrC1Z5",
+  "._45rH7-kY4P2uVEb3TxZhm", "._19zHK8nTq8UXEJGUbHczuE",
+  "._1fMXTJK26Av1xwzGL5RI86",
+  '[class*="VirtualKeyboard"]', '[class*="virtualkeyboard"]',
+].join(",");
+
+function steamWindowStore(): any {
+  try { return (Router as any)?.WindowStore; } catch { return undefined; }
+}
+
+function steamWindows(store = steamWindowStore()): any[] {
+  try {
+    const windows = store?.SteamUIWindows;
+    if (Array.isArray(windows)) return windows;
+    if (typeof windows?.values === "function") return Array.from(windows.values());
+  } catch { /* Steam may be recreating its windows. */ }
+  return [];
+}
+
+function steamNavigationWindow(): any {
+  const store = steamWindowStore();
+  try {
+    if (store?.GamepadUIMainWindowInstance) return store.GamepadUIMainWindowInstance;
+  } catch { /* A disposed Steam window must not block the public fallback. */ }
+  return steamWindows(store).find((candidate) => {
+    try { return candidate?.IsMainGamepadUIWindow?.() || candidate?.IsGamepadUIOverlayWindow?.(); }
+    catch { return false; }
+  });
+}
+
+function performSteamNavigation(route?: string): boolean {
+  const method = route === undefined ? "NavigateBack" : "Navigate";
+  const args = route === undefined ? [] : [route];
+  const mainWindow = steamNavigationWindow();
+  try {
+    if (typeof mainWindow?.[method] === "function") {
+      mainWindow[method](...args);
+      return true;
+    }
+  } catch (error) { console.warn("[Now Playing] Steam window navigation unavailable", error); }
+  try {
+    const navigation = Navigation as any;
+    if (typeof navigation?.[method] === "function") {
+      navigation[method](...args);
+      return true;
+    }
+  } catch (error) { console.warn("[Now Playing] Steam navigation fallback unavailable", error); }
+  forceRestoreFullscreenChrome();
+  return false;
+}
 
 const fullscreenChromeSelectors = [
   "#header",
+  "._1E_SL1bTibeQ3PQRBZoS_-", // Steam header
+  "._3T1iFy2maYycwqgFuzERyf", // BasicFooter
+  "._2JJDHoMl4ArT89aNzlYM3N", // FooterLegend
+  ".VdbQ_picJ9tv7JtnXP8eZ",   // QuickAccessFooter
   '[class*="BasicFooter"]',
   '[class*="FooterLegend"]',
   '[class*="QuickAccessFooter"]',
@@ -667,59 +729,33 @@ function fullscreenSuppressionDocuments(): Document[] {
   try { addDocument(window.parent?.document); } catch {}
   try { addDocument(window.opener?.document); } catch {}
 
-  const store = (Router as any)?.WindowStore;
-  addWindowDocument(store?.GamepadUIMainWindowInstance);
-  if (Array.isArray(store?.SteamUIWindows)) {
-    store.SteamUIWindows.forEach(addWindowDocument);
-  }
+  const store = steamWindowStore();
+  try { addWindowDocument(store?.GamepadUIMainWindowInstance); } catch {}
+  steamWindows(store).forEach(addWindowDocument);
 
   return docs;
 }
 
 function ensureFullscreenChromeStyle(targetDocument: Document = document) {
-  const style = targetDocument.getElementById(FULLSCREEN_CHROME_STYLE_ID) as HTMLStyleElement | null;
-  const css = `
-    html.npFullscreenActive #header,
-    html.npFullscreenActive [class*="BasicFooter"],
-    html.npFullscreenActive [class*="FooterLegend"],
-    html.npFullscreenActive [class*="QuickAccessFooter"],
-    html.npFullscreenActive [class*="GamepadFooter"],
-    html.npFullscreenActive [class*="GamepadHeader"],
-    html.npFullscreenActive [class*="HeaderStatus"],
-    html.npFullscreenActive [class*="StatusIcons"],
-    html.npFullscreenActive [class*="TopBar"],
-    html.npFullscreenActive [data-np-fullscreen-chrome="true"],
-    body.npFullscreenActive #header,
-    body.npFullscreenActive [class*="BasicFooter"],
-    body.npFullscreenActive [class*="FooterLegend"],
-    body.npFullscreenActive [class*="QuickAccessFooter"],
-    body.npFullscreenActive [class*="GamepadFooter"],
-    body.npFullscreenActive [class*="GamepadHeader"],
-    body.npFullscreenActive [class*="HeaderStatus"],
-    body.npFullscreenActive [class*="StatusIcons"],
-    body.npFullscreenActive [class*="TopBar"],
-    body.npFullscreenActive [data-np-fullscreen-chrome="true"] {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      transition: none !important;
-      animation: none !important;
-    }
-  `;
-
-  if (style) {
-    style.textContent = css;
-    return;
+  if (!targetDocument.head) return;
+  let style = targetDocument.getElementById(FULLSCREEN_CHROME_STYLE_ID) as HTMLStyleElement | null;
+  // Only nodes positively identified as Steam chrome are hidden. Matching every
+  // wide element at the top/bottom also hid keyboards and third-party overlays.
+  const css = `html.npFullscreenActive [data-np-fullscreen-chrome="true"],
+body.npFullscreenActive [data-np-fullscreen-chrome="true"] {
+  display: none !important; opacity: 0 !important; visibility: hidden !important;
+  pointer-events: none !important; transition: none !important; animation: none !important;
+}`;
+  if (!style) {
+    style = targetDocument.createElement("style");
+    style.id = FULLSCREEN_CHROME_STYLE_ID;
+    targetDocument.head.appendChild(style);
   }
-
-  const nextStyle = targetDocument.createElement("style");
-  nextStyle.id = FULLSCREEN_CHROME_STYLE_ID;
-  nextStyle.textContent = css;
-  targetDocument.head.appendChild(nextStyle);
+  if (style.textContent !== css) style.textContent = css;
 }
 
 function isSteamVirtualKeyboardElement(element: HTMLElement | null): boolean {
+  if (element?.closest(steamKeyboardSelector) || element?.querySelector(steamKeyboardSelector)) return true;
   let current = element;
   for (let depth = 0; current && depth < 10; depth += 1, current = current.parentElement) {
     const className = typeof current.className === "string" ? current.className : "";
@@ -736,7 +772,27 @@ function isSteamVirtualKeyboardElement(element: HTMLElement | null): boolean {
   return false;
 }
 
+function restoreFullscreenElement(element: HTMLElement) {
+  const saved = fullscreenSavedStyles.get(element);
+  if (saved) {
+    saved.values.forEach(([property, value, priority]) => {
+      if (value) element.style.setProperty(property, value, priority);
+      else element.style.removeProperty(property);
+    });
+    if (saved.marker === null) element.removeAttribute("data-np-fullscreen-chrome");
+    else element.setAttribute("data-np-fullscreen-chrome", saved.marker);
+    fullscreenSavedStyles.delete(element);
+  }
+}
+
 function hideElementImmediately(element: HTMLElement) {
+  if (!fullscreenSavedStyles.has(element)) {
+    const properties = ["display", "opacity", "visibility", "pointer-events", "transition", "animation"];
+    fullscreenSavedStyles.set(element, {
+      values: properties.map((property) => [property, element.style.getPropertyValue(property), element.style.getPropertyPriority(property)]),
+      marker: element.getAttribute("data-np-fullscreen-chrome"),
+    });
+  }
   element.dataset.npFullscreenChrome = "true";
   element.style.setProperty("display", "none", "important");
   element.style.setProperty("opacity", "0", "important");
@@ -748,31 +804,19 @@ function hideElementImmediately(element: HTMLElement) {
 
 function markFullscreenChrome(targetDocument: Document = document) {
   if (!targetDocument.documentElement.classList.contains("npFullscreenActive")) return;
-
   targetDocument.querySelectorAll<HTMLElement>(fullscreenChromeSelectors.join(",")).forEach((element) => {
-    if (!element.closest(".npFullscreenRoot") && !isSteamVirtualKeyboardElement(element)) hideElementImmediately(element);
-  });
-
-  const targetWindow = targetDocument.defaultView ?? window;
-  const viewportWidth = targetWindow.innerWidth;
-  const viewportHeight = targetWindow.innerHeight;
-  targetDocument.querySelectorAll<HTMLElement>("body *").forEach((element) => {
-    if (element.closest(".npFullscreenRoot") || element.dataset.npFullscreenChrome === "true" || isSteamVirtualKeyboardElement(element)) return;
-
-    const rect = element.getBoundingClientRect();
-    if (rect.width < viewportWidth * 0.45 || rect.height <= 0 || rect.height > 190) return;
-
-    const computed = targetWindow.getComputedStyle(element);
-    if (!/^(fixed|absolute|sticky)$/.test(computed.position)) return;
-
-    const touchesTop = rect.top <= 12 && rect.bottom <= 194;
-    const touchesBottom = rect.bottom >= viewportHeight - 12 && rect.top >= viewportHeight - 194;
-    if (touchesTop || touchesBottom) hideElementImmediately(element);
+    if (element.closest(".npFullscreenRoot") || isSteamVirtualKeyboardElement(element)) {
+      restoreFullscreenElement(element);
+    } else {
+      hideElementImmediately(element);
+    }
   });
 }
 
 function markAllFullscreenChrome() {
+  if (fullscreenUiDisposed || fullscreenSuppressionLeaseCount <= 0) return;
   fullscreenSuppressionDocuments().forEach((targetDocument) => {
+    fullscreenTouchedDocuments.add(targetDocument);
     ensureFullscreenChromeStyle(targetDocument);
     targetDocument.documentElement.classList.add("npFullscreenActive");
     targetDocument.body?.classList.add("npFullscreenActive");
@@ -781,6 +825,7 @@ function markAllFullscreenChrome() {
 }
 
 function scheduleFullscreenChromeMark() {
+  if (fullscreenUiDisposed || fullscreenSuppressionLeaseCount <= 0) return;
   if (fullscreenChromeFrame) window.cancelAnimationFrame(fullscreenChromeFrame);
   fullscreenChromeFrame = window.requestAnimationFrame(() => {
     fullscreenChromeFrame = 0;
@@ -824,22 +869,20 @@ function deactivateFullscreenChromeSuppression() {
   if (fullscreenChromeFrame) window.cancelAnimationFrame(fullscreenChromeFrame);
   fullscreenChromeFrame = 0;
 
-  fullscreenSuppressionDocuments().forEach((targetDocument) => {
+  const documents = new Set([...fullscreenTouchedDocuments, ...fullscreenSuppressionDocuments()]);
+  fullscreenSavedStyles.forEach((_saved, element) => restoreFullscreenElement(element));
+  documents.forEach((targetDocument) => {
     targetDocument.documentElement.classList.remove("npFullscreenActive");
     targetDocument.body?.classList.remove("npFullscreenActive");
-    targetDocument.querySelectorAll<HTMLElement>('[data-np-fullscreen-chrome="true"]').forEach((element) => {
-      delete element.dataset.npFullscreenChrome;
-      element.style.removeProperty("display");
-      element.style.removeProperty("opacity");
-      element.style.removeProperty("visibility");
-      element.style.removeProperty("pointer-events");
-      element.style.removeProperty("transition");
-      element.style.removeProperty("animation");
-    });
+    targetDocument.getElementById(FULLSCREEN_CHROME_STYLE_ID)?.remove();
   });
+  fullscreenTouchedDocuments.clear();
 }
 
 function retainFullscreenChromeSuppression() {
+  if (fullscreenUiDisposed) return;
+  fullscreenBackRestoreTimers.forEach((timer) => window.clearTimeout(timer));
+  fullscreenBackRestoreTimers.clear();
   fullscreenSuppressionLeaseCount += 1;
   if (fullscreenSuppressionReleaseTimer) {
     window.clearTimeout(fullscreenSuppressionReleaseTimer);
@@ -872,6 +915,8 @@ function holdFullscreenChromeSuppressionForTransition(duration = 1800) {
 }
 
 function forceRestoreFullscreenChrome() {
+  fullscreenBackRestoreTimers.forEach((timer) => window.clearTimeout(timer));
+  fullscreenBackRestoreTimers.clear();
   fullscreenTransitionLeaseTimers.forEach((timer) => window.clearTimeout(timer));
   fullscreenTransitionLeaseTimers.clear();
   if (fullscreenSuppressionReleaseTimer) window.clearTimeout(fullscreenSuppressionReleaseTimer);
@@ -880,30 +925,38 @@ function forceRestoreFullscreenChrome() {
   deactivateFullscreenChromeSuppression();
 }
 
-function navigateBackFromBigPicture() {
-  const mainWindow =
-    Router.WindowStore?.GamepadUIMainWindowInstance ??
-    Router.WindowStore?.SteamUIWindows?.[0];
+function scheduleChromeRestoration(delays: number[]) {
+  delays.forEach((delay) => {
+    const timer = window.setTimeout(() => {
+      fullscreenBackRestoreTimers.delete(timer);
+      if (!fullscreenUiDisposed && fullscreenSuppressionLeaseCount <= 0) deactivateFullscreenChromeSuppression();
+    }, delay);
+    fullscreenBackRestoreTimers.add(timer);
+  });
+}
 
-  if (mainWindow?.NavigateBack) mainWindow.NavigateBack();
-  else Navigation.NavigateBack();
+function navigateBackFromBigPicture() {
+
+  performSteamNavigation();
+  forceRestoreFullscreenChrome();
 
   // Big Picture is the outermost plugin route. Restore Steam chrome immediately,
   // then repeat while Steam rebuilds its header/footer during the route transition.
-  [0, 60, 180, 420, 900].forEach((delay) => window.setTimeout(forceRestoreFullscreenChrome, delay));
+  scheduleChromeRestoration([0, 60, 180, 420, 900]);
 }
 
 function navigateBackToQamFromSettings() {
-  const mainWindow =
-    Router.WindowStore?.GamepadUIMainWindowInstance ??
-    Router.WindowStore?.SteamUIWindows?.[0];
   const back = () => {
-    if (mainWindow?.NavigateBack) mainWindow.NavigateBack();
-    else Navigation.NavigateBack();
+    if (!fullscreenUiDisposed) performSteamNavigation();
   };
   back();
-  window.setTimeout(back, 120);
-  [0, 80, 220, 520, 1000].forEach((delay) => window.setTimeout(forceRestoreFullscreenChrome, delay));
+  const backTimer = window.setTimeout(() => {
+    fullscreenBackRestoreTimers.delete(backTimer);
+    back();
+  }, 120);
+  forceRestoreFullscreenChrome();
+  fullscreenBackRestoreTimers.add(backTimer);
+  scheduleChromeRestoration([0, 80, 220, 520, 1000]);
 }
 
 function navigateToFullscreen() {
@@ -917,15 +970,8 @@ function navigateToFullscreen() {
     // Older Decky/Steam builds can throw here; navigation below still works in most cases.
   }
 
-  const mainWindow =
-    Router.WindowStore?.GamepadUIMainWindowInstance ??
-    Router.WindowStore?.SteamUIWindows?.[0];
 
-  if (mainWindow?.Navigate) {
-    mainWindow.Navigate(FULLSCREEN_ROUTE);
-  } else {
-    Navigation.Navigate(FULLSCREEN_ROUTE);
-  }
+  if (!performSteamNavigation(FULLSCREEN_ROUTE)) return;
 
   // Steam can rebuild the top/footer in the same task as navigation; suppress again immediately.
   markAllFullscreenChrome();
@@ -943,15 +989,8 @@ function navigateToSpotifyBigPicture() {
     // Navigation still works on Steam builds where side-menu closing is unavailable.
   }
 
-  const mainWindow =
-    Router.WindowStore?.GamepadUIMainWindowInstance ??
-    Router.WindowStore?.SteamUIWindows?.[0];
 
-  if (mainWindow?.Navigate) {
-    mainWindow.Navigate(SPOTIFY_BIG_PICTURE_ROUTE);
-  } else {
-    Navigation.Navigate(SPOTIFY_BIG_PICTURE_ROUTE);
-  }
+  if (!performSteamNavigation(SPOTIFY_BIG_PICTURE_ROUTE)) return;
 
   markAllFullscreenChrome();
   queueMicrotask(markAllFullscreenChrome);
@@ -962,9 +1001,7 @@ function navigateToLocalMusicBigPicture() {
   holdFullscreenChromeSuppressionForTransition();
   markAllFullscreenChrome();
   try { Navigation.CloseSideMenus(); } catch {}
-  const mainWindow = Router.WindowStore?.GamepadUIMainWindowInstance ?? Router.WindowStore?.SteamUIWindows?.[0];
-  if (mainWindow?.Navigate) mainWindow.Navigate(LOCAL_MUSIC_BIG_PICTURE_ROUTE);
-  else Navigation.Navigate(LOCAL_MUSIC_BIG_PICTURE_ROUTE);
+  if (!performSteamNavigation(LOCAL_MUSIC_BIG_PICTURE_ROUTE)) return;
   markAllFullscreenChrome();
   queueMicrotask(markAllFullscreenChrome);
   window.requestAnimationFrame(markAllFullscreenChrome);
@@ -974,9 +1011,7 @@ function navigateToYouTubeMusicBigPicture() {
   holdFullscreenChromeSuppressionForTransition();
   markAllFullscreenChrome();
   try { Navigation.CloseSideMenus(); } catch {}
-  const mainWindow = Router.WindowStore?.GamepadUIMainWindowInstance ?? Router.WindowStore?.SteamUIWindows?.[0];
-  if (mainWindow?.Navigate) mainWindow.Navigate(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE);
-  else Navigation.Navigate(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE);
+  if (!performSteamNavigation(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE)) return;
   markAllFullscreenChrome();
   queueMicrotask(markAllFullscreenChrome);
   window.requestAnimationFrame(markAllFullscreenChrome);
@@ -986,9 +1021,7 @@ function navigateToFullscreenSettings() {
   holdFullscreenChromeSuppressionForTransition();
   markAllFullscreenChrome();
   try { Navigation.CloseSideMenus(); } catch {}
-  const mainWindow = Router.WindowStore?.GamepadUIMainWindowInstance ?? Router.WindowStore?.SteamUIWindows?.[0];
-  if (mainWindow?.Navigate) mainWindow.Navigate(FULLSCREEN_SETTINGS_ROUTE);
-  else Navigation.Navigate(FULLSCREEN_SETTINGS_ROUTE);
+  if (!performSteamNavigation(FULLSCREEN_SETTINGS_ROUTE)) return;
   markAllFullscreenChrome();
   queueMicrotask(markAllFullscreenChrome);
   window.requestAnimationFrame(markAllFullscreenChrome);
@@ -997,16 +1030,8 @@ function navigateToFullscreenSettings() {
 function navigateBackFromFullscreen() {
   holdFullscreenChromeSuppressionForTransition();
   markAllFullscreenChrome();
-  const mainWindow =
-    Router.WindowStore?.GamepadUIMainWindowInstance ??
-    Router.WindowStore?.SteamUIWindows?.[0];
 
-  if (mainWindow?.NavigateBack) {
-    mainWindow.NavigateBack();
-    return;
-  }
-
-  Navigation.NavigateBack();
+  performSteamNavigation();
 }
 
 function OceanLayer() {
@@ -4464,6 +4489,7 @@ function NowPlayingTitle() {
 }
 
 export default definePlugin(() => {
+  fullscreenUiDisposed = false;
   routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
   routerHook.addRoute(SPOTIFY_BIG_PICTURE_ROUTE, SpotifyBigPictureRoute);
   routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
@@ -4476,6 +4502,8 @@ export default definePlugin(() => {
     content: <Content />,
     icon: <FaMusic />,
     onDismount() {
+      fullscreenUiDisposed = true;
+      forceRestoreFullscreenChrome();
       publishPlaybackActivity(false, "Stopped", "", "", "");
       localAudioPlayer.destroy();
       routerHook.removeRoute(FULLSCREEN_ROUTE);

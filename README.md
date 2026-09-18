@@ -43,6 +43,16 @@ Con il plugin Weather installato, il visualizzatore può mostrare anche le previ
 
 I brani stereo di Spotify, La tua musica e YouTube Music possono essere distribuiti su impianti 5.1 o 7.1. Ogni canale ha un volume dedicato, regolabile dal controller con anteprima immediata. Su un dispositivo stereo il sistema esegue automaticamente il downmix.
 
+## Novità della versione 2.5.1
+
+- Corretto il blocco d'avvio su Decky Windows quando il runtime Python non include `http.server`: vengono usati moduli di riserva solo dove mancano quelli nativi.
+- Aggiornata l'integrazione con header, footer, tastiera e finestre Big Picture dei file Steam del 18 settembre 2026 forniti per questa release.
+- Migliorato il ripristino dell'interfaccia dopo lo schermo intero e il reload; indicatore musicale senza duplicati e con ripristino dell'ordine originale dell'orologio.
+- Chiusura esplicita dei listener audio/OAuth e cancellazione delle attività periodiche durante l'unload.
+
+Dettagli e limiti delle verifiche sono in [TEST_REPORT_2.5.1.md](TEST_REPORT_2.5.1.md).
+I test simulati non sostituiscono una prova su Windows con Decky e Steam in esecuzione.
+
 ## Novità della versione 2.5.0
 
 - Spotify apre l'uscita audio soltanto quando la riproduzione parte e la riapre automaticamente dopo una pausa o un cambio di dispositivo.

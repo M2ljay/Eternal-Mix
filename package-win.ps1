@@ -30,7 +30,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Stage "vendor") | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $Stage "licenses") | Out-Null
 
 if (Test-Path (Join-Path $Root "bin/AppVolumeBridge.exe")) {
-  throw "AppVolumeBridge.exe must not be shipped. Now Playing 2.5.1 uses direct Windows Core Audio."
+  throw "AppVolumeBridge.exe must not be shipped. Now Playing uses direct Windows Core Audio."
 }
 
 if (Test-Path (Join-Path $Root "node_modules")) {
@@ -69,7 +69,7 @@ Copy-Item (Join-Path $Root "main.py") $Stage
 Copy-Item (Join-Path $Root "ytmusic_service.py") $Stage
 Copy-Item (Join-Path $Root "runtime_compat.py") $Stage
 Copy-Item (Join-Path $Root "runtime_stdlib") $Stage -Recurse -Force
-Copy-Item (Join-Path $Root "CHANGELOG_2.5.1.md") $Stage
+Copy-Item (Join-Path $Root "CHANGELOG_$Version.md") $Stage
 Copy-Item (Join-Path $Root "dist/index.js") (Join-Path $Stage "dist")
 Copy-Item (Join-Path $Root "bin/MediaBridge.exe") (Join-Path $Stage "bin")
 Copy-Item (Join-Path $Root "bin/ThumbnailBridge.exe") (Join-Path $Stage "bin")

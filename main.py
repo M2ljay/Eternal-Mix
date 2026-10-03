@@ -61,6 +61,7 @@ TOPBAR_CLOCK_SELECTORS = [
 ]
 TOPBAR_REINJECT_SECONDS = 0.75
 TOPBAR_FORCE_REINJECT_SECONDS = 2.0
+TOPBAR_IDLE_REINJECT_SECONDS = 30.0
 TOPBAR_MAX_CHARS = 28
 
 
@@ -722,6 +723,7 @@ class Plugin:
         self.topbar_enabled = False
         self.topbar_left = False
         self._topbar_task = None
+        self._topbar_settings_changed = asyncio.Event()
         self._spotify_warmup_task: Optional[asyncio.Task[Any]] = None
         self._spotify_background_monitor_task: Optional[asyncio.Task[Any]] = None
         self._spotify_auto_source_suppress_until = 0.0
@@ -8178,7 +8180,7 @@ class Plugin:
         session = connection = request = None
         try:
             session = winhttp.WinHttpOpen(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NowPlaying/2.5.1",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NowPlaying/2.5.2",
                 WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
                 None,
                 None,
@@ -8369,7 +8371,7 @@ class Plugin:
         params = {"query": f'artist:"{name}"', "fmt": "json", "limit": max(8, min(25, int(limit) * 3))}
         request = urllib.request.Request(
             "https://musicbrainz.org/ws/2/artist/?" + urllib.parse.urlencode(params),
-            headers={"User-Agent": "NowPlayingDecky/2.5.1 (https://github.com/LoZazaMastro)", "Accept": "application/json"},
+            headers={"User-Agent": "NowPlayingDecky/2.5.2 (https://github.com/LoZazaMastro)", "Accept": "application/json"},
         )
         with urllib.request.urlopen(request, timeout=5) as response:
             payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8423,7 +8425,7 @@ class Plugin:
                 url = f"https://webservice.fanart.tv/{version}/music/{urllib.parse.quote(clean_mbid, safe='')}?" + urllib.parse.urlencode({"api_key": api_key})
                 request = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "NowPlayingDecky/2.5.1", "Accept": "application/json"},
+                    headers={"User-Agent": "NowPlayingDecky/2.5.2", "Accept": "application/json"},
                 )
                 with urllib.request.urlopen(request, timeout=5) as response:
                     payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8471,7 +8473,7 @@ class Plugin:
             url = "https://www.theaudiodb.com/api/v1/json/2/search.php?" + urllib.parse.urlencode({"s": name})
             request = urllib.request.Request(
                 url,
-                headers={"User-Agent": "NowPlayingDecky/2.5.1", "Accept": "application/json"},
+                headers={"User-Agent": "NowPlayingDecky/2.5.2", "Accept": "application/json"},
             )
             try:
                 with urllib.request.urlopen(request, timeout=8) as response:
@@ -9897,7 +9899,7 @@ class Plugin:
         now_mono = time.monotonic()
         report = {
             "generatedAt": datetime.now().isoformat(timespec="seconds"),
-            "pluginVersion": "2.5.1",
+            "pluginVersion": "2.5.2",
             "python": sys.version,
             "platform": platform.platform(),
             "backend": {
@@ -10011,7 +10013,7 @@ class Plugin:
         operation_durations["totalBeforeWrite"] = round((time.monotonic() - diagnostic_started) * 1000, 1)
         runtime_logs = self._read_runtime_logs_for_diagnostics()
         content = (
-            "NOW PLAYING 2.5.1 DIAGNOSTICS\n"
+            "NOW PLAYING 2.5.2 DIAGNOSTICS\n"
             + json.dumps(report, ensure_ascii=False, indent=2)
             + "\n\nSTRUCTURED EVENTS (oldest to newest)\n"
             + "\n".join(json.dumps(item, ensure_ascii=False, sort_keys=True) for item in structured_events)
@@ -10065,6 +10067,7 @@ class Plugin:
 
     async def set_topbar_enabled(self, enabled: bool) -> bool:
         self.topbar_enabled = bool(enabled)
+        self._topbar_settings_changed.set()
         self._save_topbar_setting(self.topbar_enabled)
         try:
             if self.topbar_enabled:
@@ -10077,6 +10080,7 @@ class Plugin:
 
     async def set_topbar_left(self, enabled: bool) -> bool:
         self.topbar_left = bool(enabled)
+        self._topbar_settings_changed.set()
         self._save_topbar_setting(self.topbar_enabled)
         try:
             await self._refresh_topbar_once(force=True)
@@ -10252,7 +10256,7 @@ class Plugin:
         try:
             request = urllib.request.Request(
                 f"http://127.0.0.1:{TOPBAR_CEF_PORT}/json/list",
-                headers={"User-Agent": "Decky Now Playing/2.5.1"},
+                headers={"User-Agent": "Decky Now Playing/2.5.2"},
             )
             with urllib.request.urlopen(request, timeout=2) as response:
                 targets = json.loads(response.read().decode("utf-8"))
@@ -10348,8 +10352,13 @@ class Plugin:
         service = str(state.get("service") or "music")
         signature = json.dumps([label, enabled, service, bool(self.topbar_left)], ensure_ascii=False)
         now = time.monotonic()
-        if not force and signature == self._topbar_last_signature and now - self._topbar_last_injected_at < TOPBAR_FORCE_REINJECT_SECONDS:
-            return
+        if not force and signature == self._topbar_last_signature:
+            # A hidden badge does not need fresh WebSocket connections to every
+            # Steam page every two seconds. Keep a bounded cleanup for quiet
+            # playback while preserving fast state detection and active repair.
+            reinject_after = TOPBAR_FORCE_REINJECT_SECONDS if enabled else TOPBAR_IDLE_REINJECT_SECONDS
+            if not self.topbar_enabled or now - self._topbar_last_injected_at < reinject_after:
+                return
         await self._run_in_executor(self._topbar_executor, self._inject_topbar_badge_with_service, label, enabled, service, bool(self.topbar_left))
         self._topbar_last_signature = signature
         self._topbar_last_injected_at = now
@@ -10379,11 +10388,15 @@ class Plugin:
 
     async def _topbar_loop(self) -> None:
         while True:
+            self._topbar_settings_changed.clear()
             try:
                 await self._refresh_topbar_once()
             except Exception as exc:
                 self._log(f"topbar loop error: {exc}")
-            await asyncio.sleep(TOPBAR_REINJECT_SECONDS)
+            if self.topbar_enabled:
+                await asyncio.sleep(TOPBAR_REINJECT_SECONDS)
+            else:
+                await self._topbar_settings_changed.wait()
 
     async def _warm_spotify_session_background(self) -> None:
         if not bool(self.spotify_settings.get("enabled")):
@@ -10487,7 +10500,7 @@ class Plugin:
         self.helper_path = self.bundled_helper_path
         self.thumbnail_bridge_path = self.bundled_thumbnail_bridge_path
         self.app_volume_bridge_path = self.bundled_app_volume_bridge_path
-        self._log("Now Playing 2.5.1 runtime fallbacks: " + (", ".join(active_stdlib_fallbacks()) or "native stdlib"))
+        self._log("Now Playing 2.5.2 runtime fallbacks: " + (", ".join(active_stdlib_fallbacks()) or "native stdlib"))
         self._log(f"plugin_dir={self.plugin_dir}")
         self._log(f"bundled_helper_path={self.bundled_helper_path}")
         try:

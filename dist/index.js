@@ -43078,7 +43078,7 @@ function navigateToSpotifyBigPicture() {
         DFL.Navigation.CloseSideMenus();
     }
     catch {
-        // DFL.Navigation still works on Steam builds where side-menu closing is unavailable.
+        // Navigation still works on Steam builds where side-menu closing is unavailable.
     }
     if (!performSteamNavigation(SPOTIFY_BIG_PICTURE_ROUTE))
         return;
@@ -43130,7 +43130,6 @@ function navigateBackFromFullscreen() {
     markAllFullscreenChrome();
     performSteamNavigation();
 }
-
 function OceanLayer() {
     const canvasRef = SP_REACT.useRef(null);
     SP_REACT.useEffect(() => {

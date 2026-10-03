@@ -1,6 +1,6 @@
 {
   "name": "now-playing",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Console-style Spotify, YouTube Music, local and Windows media playback with fullscreen visuals for Decky Loader.",
   "author": "LoZazaMastro",
   "type": "module",

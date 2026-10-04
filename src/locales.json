@@ -449,7 +449,10 @@
       "browserHeadersDescription": "Advanced recovery: open music.youtube.com in your browser and sign in with Google. Open Developer Tools, select Network and reload the page. Select a browse request to music.youtube.com, copy its request headers and paste them below.",
       "qualityLow": "Low",
       "qualityMedium": "Medium",
-      "qualityHigh": "High"
+      "qualityHigh": "High",
+      "podcasts": "Podcasts",
+      "episodes": "Episodes",
+      "podcast": "Podcast"
     }
   },
   "it": {
@@ -902,7 +905,10 @@
       "browserHeadersDescription": "Recupero avanzato: apri music.youtube.com nel browser e accedi con Google. Apri gli Strumenti per sviluppatori, seleziona Rete e ricarica la pagina. Seleziona una richiesta browse verso music.youtube.com, copia le intestazioni della richiesta e incollale qui sotto.",
       "qualityLow": "Bassa",
       "qualityMedium": "Media",
-      "qualityHigh": "Alta"
+      "qualityHigh": "Alta",
+      "podcasts": "Podcast",
+      "episodes": "Episodi",
+      "podcast": "Podcast"
     }
   },
   "es": {
@@ -1355,7 +1361,10 @@
       "browserHeadersDescription": "Recuperación avanzada: abre music.youtube.com en el navegador e inicia sesión con Google. Abre las herramientas para desarrolladores, selecciona Red y recarga la página. Selecciona una solicitud browse a music.youtube.com, copia sus encabezados y pégalos abajo.",
       "qualityLow": "Baja",
       "qualityMedium": "Media",
-      "qualityHigh": "Alta"
+      "qualityHigh": "Alta",
+      "podcasts": "Pódcasts",
+      "episodes": "Episodios",
+      "podcast": "Pódcast"
     }
   },
   "fr": {
@@ -1808,7 +1817,10 @@
       "browserHeadersDescription": "Récupération avancée : ouvrez music.youtube.com dans votre navigateur et connectez-vous avec Google. Ouvrez les outils de développement, sélectionnez Réseau et actualisez la page. Sélectionnez une requête browse vers music.youtube.com, copiez ses en-têtes et collez-les ci-dessous.",
       "qualityLow": "Faible",
       "qualityMedium": "Moyenne",
-      "qualityHigh": "?lev?e"
+      "qualityHigh": "?lev?e",
+      "podcasts": "Podcasts",
+      "episodes": "Épisodes",
+      "podcast": "Podcast"
     }
   },
   "de": {
@@ -2261,7 +2273,10 @@
       "browserHeadersDescription": "Erweiterte Wiederherstellung: Öffne music.youtube.com im Browser und melde dich mit Google an. Öffne die Entwicklertools, wähle Netzwerk und lade die Seite neu. Wähle eine browse-Anfrage an music.youtube.com, kopiere ihre Anfrageheader und füge sie unten ein.",
       "qualityLow": "Niedrig",
       "qualityMedium": "Mittel",
-      "qualityHigh": "Hoch"
+      "qualityHigh": "Hoch",
+      "podcasts": "Podcasts",
+      "episodes": "Folgen",
+      "podcast": "Podcast"
     }
   },
   "pt-br": {
@@ -2714,7 +2729,10 @@
       "browserHeadersDescription": "Recuperação avançada: abra music.youtube.com no navegador e entre com o Google. Abra as ferramentas do desenvolvedor, selecione Rede e recarregue a página. Selecione uma solicitação browse para music.youtube.com, copie os cabeçalhos e cole-os abaixo.",
       "qualityLow": "Baixa",
       "qualityMedium": "M?dia",
-      "qualityHigh": "Alta"
+      "qualityHigh": "Alta",
+      "podcasts": "Podcasts",
+      "episodes": "Episódios",
+      "podcast": "Podcast"
     }
   },
   "ru": {
@@ -3167,7 +3185,10 @@
       "browserHeadersDescription": "Расширенное восстановление: откройте music.youtube.com в браузере и войдите с Google. Откройте инструменты разработчика, выберите «Сеть» и перезагрузите страницу. Выберите запрос browse к music.youtube.com, скопируйте его заголовки и вставьте их ниже.",
       "qualityLow": "??????",
       "qualityMedium": "???????",
-      "qualityHigh": "???????"
+      "qualityHigh": "???????",
+      "podcasts": "Подкасты",
+      "episodes": "Выпуски",
+      "podcast": "Подкаст"
     }
   },
   "ja": {
@@ -3620,7 +3641,10 @@
       "browserHeadersDescription": "高度な復旧: ブラウザーでmusic.youtube.comを開き、Googleでログインします。デベロッパーツールのNetworkを開いてページを再読み込みします。music.youtube.comへのbrowseリクエストのヘッダーをコピーし、下に貼り付けます。",
       "qualityLow": "?",
       "qualityMedium": "?",
-      "qualityHigh": "?"
+      "qualityHigh": "?",
+      "podcasts": "ポッドキャスト",
+      "episodes": "エピソード",
+      "podcast": "ポッドキャスト"
     }
   },
   "ko": {
@@ -4073,7 +4097,10 @@
       "browserHeadersDescription": "고급 복구: 브라우저에서 music.youtube.com을 열고 Google로 로그인하세요. 개발자 도구에서 Network를 열고 페이지를 다시 로드하세요. music.youtube.com으로 보내는 browse 요청의 헤더를 복사해 아래에 붙여 넣으세요.",
       "qualityLow": "??",
       "qualityMedium": "??",
-      "qualityHigh": "??"
+      "qualityHigh": "??",
+      "podcasts": "팟캐스트",
+      "episodes": "에피소드",
+      "podcast": "팟캐스트"
     }
   },
   "zh": {
@@ -4526,7 +4553,10 @@
       "browserHeadersDescription": "高级恢复：在浏览器中打开 music.youtube.com 并使用 Google 登录。打开开发者工具，选择“网络”并刷新页面。复制发送到 music.youtube.com 的 browse 请求标头，然后粘贴到下方。",
       "qualityLow": "?",
       "qualityMedium": "?",
-      "qualityHigh": "?"
+      "qualityHigh": "?",
+      "podcasts": "播客",
+      "episodes": "单集",
+      "podcast": "播客"
     }
   }
 }

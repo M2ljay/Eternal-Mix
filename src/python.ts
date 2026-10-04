@@ -332,7 +332,7 @@ export function youtubeMusicSearch(query: string): Promise<SpotifyApiResult> {
   return call<[query: string], SpotifyApiResult>("youtube_music_search", query);
 }
 
-export function youtubeMusicGetLibrary(section: "tracks" | "albums" | "playlists" | "artists", maxItems = 100): Promise<SpotifyApiResult> {
+export function youtubeMusicGetLibrary(section: "tracks" | "albums" | "playlists" | "artists" | "podcasts" | "episodes", maxItems = 100): Promise<SpotifyApiResult> {
   return call<[section: string, maxItems: number], SpotifyApiResult>("youtube_music_get_library", section, maxItems);
 }
 

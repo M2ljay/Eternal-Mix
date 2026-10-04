@@ -787,16 +787,33 @@ class YouTubeMusicService:
             title = str(artists[0].get("name") or "").strip()
         if result_type in {"artist", "profile"} and not browse_id and artists:
             browse_id = str(artists[0].get("id") or "").strip()
-        if video_id or result_type in {"song", "video", "track"}:
+        # Podcast shows and episodes name their channel/show in "channel" or
+        # "podcast" rather than "artists"; surface it as the subtitle.
+        podcast_ref = value.get("podcast") if isinstance(value.get("podcast"), dict) else {}
+        channel_ref = value.get("channel") if isinstance(value.get("channel"), dict) else {}
+        is_episode = result_type == "episode" or str(value.get("videoType") or "") == "MUSIC_VIDEO_TYPE_PODCAST_EPISODE"
+        is_podcast_show = result_type == "podcast" or browse_id.startswith("MPSP")
+        if not artists and (is_episode or is_podcast_show):
+            owner_ref = channel_ref if channel_ref.get("name") else podcast_ref
+            owner_name = str(owner_ref.get("name") or "").strip()
+            # A show id (MPSP…) is not an artist page; keep the name only.
+            owner_id = str(owner_ref.get("id") or "").strip()
+            if owner_name:
+                artists = [{"name": owner_name, "id": owner_id if owner_id.startswith("UC") else ""}]
+        if video_id or result_type in {"song", "video", "track", "episode"}:
             if not video_id or not title:
                 return None
             album_value = value.get("album") if isinstance(value.get("album"), dict) else {}
+            if is_episode and not album_value and podcast_ref:
+                # Show the podcast name; no id, since the player opens album ids
+                # with the album endpoint, which cannot load a podcast show.
+                album_value = {"id": "", "name": podcast_ref.get("name") or ""}
             album = {
                 "id": str(album_value.get("id") or ""),
                 "name": str(album_value.get("name") or ""),
                 "images": self._images(value),
             }
-            return {
+            track = {
                 "id": video_id,
                 "uri": f"ytmusic:track:{video_id}",
                 "type": "track",
@@ -809,6 +826,11 @@ class YouTubeMusicService:
                 "videoId": video_id,
                 "is_saved": bool(value.get("inLibrary")),
             }
+            if is_episode:
+                track["isPodcast"] = True
+                if value.get("date"):
+                    track["release_date"] = str(value.get("date") or "")
+            return track
         if result_type in {"album", "single"} or browse_id.startswith("MPRE"):
             kind = "album"
         elif result_type in {"artist", "profile"} or browse_id.startswith("UC"):
@@ -817,7 +839,7 @@ class YouTubeMusicService:
             kind = "playlist"
         if not browse_id or not title:
             return None
-        return {
+        normalized = {
             "id": browse_id,
             "uri": f"ytmusic:{kind}:{browse_id}",
             "type": kind,
@@ -826,8 +848,11 @@ class YouTubeMusicService:
             "artists": artists,
             "images": self._images(value),
             "release_date": str(value.get("year") or ""),
-            "owner": {"display_name": self._display_text(value.get("author") or value.get("owner"))},
+            "owner": {"display_name": self._display_text(value.get("author") or value.get("owner") or channel_ref)},
         }
+        if is_podcast_show and kind == "playlist":
+            normalized["isPodcast"] = True
+        return normalized
 
     def _normalize_many(self, values: Any, forced_type: str = "") -> List[Dict[str, Any]]:
         if not isinstance(values, list):
@@ -902,7 +927,7 @@ class YouTubeMusicService:
     def search(self, query: str) -> Dict[str, Any]:
         cleaned = str(query or "").strip()[:180]
         if len(cleaned) < 2:
-            return {"tracks": {"items": []}, "albums": {"items": []}, "artists": {"items": []}, "playlists": {"items": []}}
+            return {key: {"items": []} for key in ("tracks", "albums", "artists", "playlists", "podcasts", "episodes")}
         def produce() -> Dict[str, Any]:
             # Unfiltered search shelves label the first flex column with the
             # result type ("Song", "Video"), which ytmusicapi surfaces as a fake
@@ -912,6 +937,8 @@ class YouTubeMusicService:
                 "albums": ("albums", "album"),
                 "artists": ("artists", "artist"),
                 "playlists": ("playlists", "playlist"),
+                "podcasts": ("podcasts", "podcast"),
+                "episodes": ("episodes", "episode"),
             }
             request_clients = {
                 key: self._independent_client_for_request()
@@ -928,7 +955,7 @@ class YouTubeMusicService:
                 return self._normalize_many(values, forced_type)[:20]
 
             groups: Dict[str, List[Dict[str, Any]]] = {}
-            with ThreadPoolExecutor(max_workers=4, thread_name_prefix="NowPlaying-YTM-Search") as pool:
+            with ThreadPoolExecutor(max_workers=len(searches), thread_name_prefix="NowPlaying-YTM-Search") as pool:
                 futures = {
                     key: pool.submit(fetch_group, request_clients[key], search_filter, forced_type)
                     for key, (search_filter, forced_type) in searches.items()
@@ -937,7 +964,8 @@ class YouTubeMusicService:
                     groups[key] = future.result()
             return {key: {"items": items} for key, items in groups.items()}
 
-        return self._cached(f"search:{cleaned.casefold()}", 900.0, produce)
+        # v2: results now include podcasts and episodes; skip older cached shapes.
+        return self._cached(f"search:v2:{cleaned.casefold()}", 900.0, produce)
 
     def get_library(self, section: str, max_items: int = 100) -> Dict[str, Any]:
         if not self._has_auth():
@@ -983,6 +1011,14 @@ class YouTubeMusicService:
                 elif section == "playlists":
                     raw = client.get_library_playlists(limit=limit)
                     forced = "playlist"
+                elif section == "podcasts":
+                    raw = client.get_library_podcasts(limit=limit)
+                    forced = "podcast"
+                elif section == "episodes":
+                    # "Episodes for Later" is the saved-episodes playlist (SE).
+                    saved = client.get_saved_episodes(limit=limit)
+                    raw = saved.get("tracks") if isinstance(saved, dict) else []
+                    forced = "episode"
                 else:
                     raw = []
                     forced = "track"

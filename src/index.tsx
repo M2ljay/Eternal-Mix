@@ -10,7 +10,8 @@ import type { PlayerSnapshot, Snapshot, SourceBehaviorSettings, SpotifyPlusSetti
 import { getSharedSpotifyPlaybackTimestamp, publishSpotifyPlaybackSnapshot, SPOTIFY_PLAYBACK_CHANGED_EVENT, SpotifyBigPicture, SpotifyBrowser, SpotifyPlusSettingsPanel } from "./spotify";
 import { FanartSettingsPanel, LocalMusicBigPicture, LocalMusicBrowser, LocalMusicSettingsPanel } from "./localMusic";
 import { SurroundUpmixControls } from "./surroundControls";
-import { localAudioPlayer } from "./localAudio";
+import { localAudioPlayer, useLocalAudioState } from "./localAudio";
+import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { CoreTranslation, SpotifyTranslation } from "./i18n";
@@ -616,6 +617,20 @@ function ProgressView(props: { current: PlayerSnapshot | null; snapshotAt: numbe
         <SmoothProgressTime position={basePosition} duration={length} playing={current?.status === "Playing"} sampledAt={snapshotAt} format={formatTime} />
         <span>{formatTime(length)}</span>
       </div>
+    </div>
+  );
+}
+
+// The in-plugin player (Your Music, YouTube Music) can seek; other sources keep
+// the read-only bar. Falls back to it when the local player has no track.
+function LocalPlaybackProgress(props: { current: PlayerSnapshot | null; snapshotAt: number }) {
+  const state = useLocalAudioState();
+  if (!state.track) return <ProgressView current={props.current} snapshotAt={props.snapshotAt} />;
+  return (
+    <div style={{ ...meterBoxStyle, marginTop: "6px" }}>
+      <LocalSeekBar accent="var(--np-accent, #66c0f4)" timeStyle={{ fontSize: "0.72em", opacity: 0.66, marginTop: "3px" }} />
+      <div style={{ height: "6px" }} />
+      <LocalSeekButtons buttonStyle={{ ...compactButtonStyle, fontSize: "0.8em" }} gap={CONTROL_GAP} />
     </div>
   );
 }
@@ -4230,7 +4245,7 @@ function Content() {
               </div>
             </div>
 
-            {spotifyPaused ? null : <ProgressView current={current} snapshotAt={snapshotAt} />}
+            {spotifyPaused ? null : isLocalMusicActive ? <LocalPlaybackProgress current={current} snapshotAt={snapshotAt} /> : <ProgressView current={current} snapshotAt={snapshotAt} />}
 
             <div style={{ height: "14px" }} />
 

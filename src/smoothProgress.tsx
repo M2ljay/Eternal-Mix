@@ -7,6 +7,8 @@ type SmoothProgressFillProps = {
   playing: boolean;
   sampledAt: number;
   style?: CSSProperties;
+  // Playback speed, so the bar keeps pace between samples at 1.5x or 2x.
+  rate?: number;
 };
 
 type SmoothProgressTimeProps = {
@@ -15,9 +17,10 @@ type SmoothProgressTimeProps = {
   playing: boolean;
   sampledAt: number;
   format: (value: number) => string;
+  rate?: number;
 };
 
-export function SmoothProgressFill({ position, duration, playing, sampledAt, style }: SmoothProgressFillProps) {
+export function SmoothProgressFill({ position, duration, playing, sampledAt, style, rate = 1 }: SmoothProgressFillProps) {
   const fillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export function SmoothProgressFill({ position, duration, playing, sampledAt, sty
     const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
 
     const draw = () => {
-      const elapsed = playing ? Math.max(0, Date.now() - receivedAt) : 0;
+      const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
       const ratio = Math.max(0, Math.min(1, (base + elapsed) / total));
       if (fillRef.current) fillRef.current.style.transform = `scaleX(${ratio})`;
       if (playing && ratio < 1) frame = window.requestAnimationFrame(draw);
@@ -37,7 +40,7 @@ export function SmoothProgressFill({ position, duration, playing, sampledAt, sty
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [duration, playing, position, sampledAt]);
+  }, [duration, playing, position, rate, sampledAt]);
 
   return (
     <div
@@ -48,7 +51,7 @@ export function SmoothProgressFill({ position, duration, playing, sampledAt, sty
   );
 }
 
-export function SmoothProgressTime({ position, duration, playing, sampledAt, format }: SmoothProgressTimeProps) {
+export function SmoothProgressTime({ position, duration, playing, sampledAt, format, rate = 1 }: SmoothProgressTimeProps) {
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export function SmoothProgressTime({ position, duration, playing, sampledAt, for
     const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
 
     const draw = () => {
-      const elapsed = playing ? Math.max(0, Date.now() - receivedAt) : 0;
+      const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
       const current = Math.min(total || Number.MAX_SAFE_INTEGER, base + elapsed);
       const label = format(current);
       if (labelRef.current && labelRef.current.textContent !== label) labelRef.current.textContent = label;
@@ -69,7 +72,7 @@ export function SmoothProgressTime({ position, duration, playing, sampledAt, for
     return () => {
       if (timer) window.clearTimeout(timer);
     };
-  }, [duration, format, playing, position, sampledAt]);
+  }, [duration, format, playing, position, rate, sampledAt]);
 
   return <span ref={labelRef}>{format(Math.max(0, Number(position || 0)))}</span>;
 }

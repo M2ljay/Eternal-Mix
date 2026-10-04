@@ -17,6 +17,7 @@ export type LocalAudioState = {
   canPrevious: boolean;
   canNext: boolean;
   error: string;
+  playbackRate: number;
 };
 
 export type LocalAudioLevels = {
@@ -39,9 +40,88 @@ const emptyState: LocalAudioState = {
   canPrevious: false,
   canNext: false,
   error: "",
+  playbackRate: 1,
 };
 const LEGACY_LOCAL_SESSION_STORAGE_KEY = "nowPlaying:lastLocalTrack:v1";
 
+// Podcast resume: per-episode positions for YouTube Music podcast episodes only.
+// Songs and local files are never saved, and nothing is restored when a view
+// mounts; a saved position is applied only when that episode is loaded.
+const PODCAST_RESUME_STORAGE_KEY = "nowPlaying:podcastResume:v1";
+const PODCAST_RESUME_MAX_ENTRIES = 300;
+const PODCAST_RESUME_MIN_MS = 10000;
+const PODCAST_RESUME_END_MARGIN_MS = 30000;
+function podcastResumeKey(track: any) {
+  if (!track || String(track.sourceKey ?? "") !== "youtubeMusic" || track.isPodcast !== true) return "";
+  return String(track.videoId ?? track.id ?? "");
+}
+function readPodcastResume(): Record<string, any> {
+  try {
+    const raw = window.localStorage?.getItem(PODCAST_RESUME_STORAGE_KEY);
+    const value = raw ? JSON.parse(raw) : {};
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  } catch {
+    return {};
+  }
+}
+function writePodcastResume(entries: Record<string, any>) {
+  try {
+    const keys = Object.keys(entries);
+    if (keys.length > PODCAST_RESUME_MAX_ENTRIES) {
+      keys.sort((left, right) => Number(entries[left]?.t || 0) - Number(entries[right]?.t || 0));
+      for (const key of keys.slice(0, keys.length - PODCAST_RESUME_MAX_ENTRIES)) delete entries[key];
+    }
+    window.localStorage?.setItem(PODCAST_RESUME_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+    // Storage can be unavailable in restricted Steam CEF contexts.
+  }
+}
+function clearPodcastPosition(key: string) {
+  if (!key) return;
+  const entries = readPodcastResume();
+  if (key in entries) {
+    delete entries[key];
+    writePodcastResume(entries);
+  }
+}
+function savePodcastPosition(key: string, positionMs: number, lengthMs: number) {
+  if (!key) return;
+  const position = Math.floor(Number(positionMs || 0));
+  const length = Math.floor(Number(lengthMs || 0));
+  if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS) {
+    clearPodcastPosition(key);
+    return;
+  }
+  if (position < PODCAST_RESUME_MIN_MS) return;
+  const entries = readPodcastResume();
+  entries[key] = { p: position, l: length, t: Date.now() };
+  writePodcastResume(entries);
+}
+function savedPodcastPosition(key: string, lengthMs: number): number {
+  if (!key) return 0;
+  const entry = readPodcastResume()[key];
+  const position = Number(entry?.p || 0);
+  const length = Number(lengthMs || entry?.l || 0);
+  if (position < PODCAST_RESUME_MIN_MS) return 0;
+  if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS) return 0;
+  return position;
+}
+
+export function isPodcastEpisode(track: any) {
+  return Boolean(podcastResumeKey(track));
+}
+
+// Playback speed for podcast episodes; music always plays at 1x.
+const PODCAST_SPEED_STORAGE_KEY = "nowPlaying:podcastSpeed:v1";
+export const PODCAST_SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2];
+function readPodcastSpeed(): number {
+  try {
+    const value = Number(window.localStorage?.getItem(PODCAST_SPEED_STORAGE_KEY));
+    return PODCAST_SPEEDS.includes(value) ? value : 1;
+  } catch {
+    return 1;
+  }
+}
 
 function normalizeTrack(entry: any) {
   return entry?.track ?? entry?.item ?? entry;
@@ -67,6 +147,10 @@ class LocalAudioEngine {
   private lastContextResumeAt = 0;
   private prefetchedVideoIds = new Set<string>();
   private failedYouTubeMusicIds = new Set<string>();
+  private audioTrackKey = "";
+  private pendingResumeMs = 0;
+  private lastResumeSaveAt = 0;
+  private podcastSpeed = typeof window === "undefined" ? 1 : readPodcastSpeed();
 
   constructor() {
     if (typeof window === "undefined") return;
@@ -109,6 +193,10 @@ class LocalAudioEngine {
       this.clearStallRecoveryTimer();
       this.patch({ position: Math.max(0, Math.floor((audio.currentTime || 0) * 1000)) });
       this.scheduleStallRecovery("progress-timeout");
+      if (this.audioTrackKey && Date.now() - this.lastResumeSaveAt >= 5000) {
+        this.lastResumeSaveAt = Date.now();
+        this.persistEpisodePosition();
+      }
     });
     audio.addEventListener("durationchange", () => {
       const duration = Number.isFinite(audio.duration) ? Math.max(0, Math.floor(audio.duration * 1000)) : 0;
@@ -117,6 +205,7 @@ class LocalAudioEngine {
     audio.addEventListener("loadedmetadata", () => {
       const duration = Number.isFinite(audio.duration) ? Math.max(0, Math.floor(audio.duration * 1000)) : 0;
       this.patch({ length: duration || Number(this.state.track?.duration_ms || 0), error: "" });
+      this.applyPendingResume(audio);
     });
     audio.addEventListener("play", () => {
       // `play` fires the instant play() is called, before the stream has buffered.
@@ -136,6 +225,7 @@ class LocalAudioEngine {
       this.prefetchNext();
     });
     audio.addEventListener("pause", () => {
+      this.persistEpisodePosition();
       this.clearStallRecoveryTimer();
       if (!audio.ended && !this.recoveryInFlight) this.patch({ status: this.state.track ? "Paused" : "Stopped" });
     });
@@ -469,6 +559,7 @@ class LocalAudioEngine {
     // never waiting for the remote stream to resolve. The old audio is paused so
     // its position can't tick under the new metadata; the progress bar stays at 0
     // until the real `playing` event fires with the new audio.
+    this.persistEpisodePosition();
     audio.pause();
     this.patch({ track, position: 0, length: Number(track?.duration_ms || 0), status: autoPlay ? "Paused" : "Stopped", error: "" });
     let streamUrl = "";
@@ -484,8 +575,12 @@ class LocalAudioEngine {
       throw error;
     }
     if (token !== this.loadingToken) return;
+    this.audioTrackKey = podcastResumeKey(track);
+    this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
+    this.lastResumeSaveAt = Date.now();
     audio.src = `${streamUrl}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
     audio.load();
+    this.applyPlaybackRate();
     if (autoPlay) {
       try {
         await audio.play();
@@ -606,6 +701,7 @@ class LocalAudioEngine {
   }
 
   stop() {
+    this.persistEpisodePosition();
     const audio = this.ensureAudio();
     if (audio) {
       audio.pause();
@@ -626,13 +722,46 @@ class LocalAudioEngine {
   seek(ms: number) {
     const audio = this.ensureAudio();
     if (!audio) return;
-    audio.currentTime = Math.max(0, ms / 1000);
+    const target = Math.max(0, Number(ms || 0));
+    // A deliberate seek wins over a resume position that has not applied yet.
+    this.pendingResumeMs = 0;
+    audio.currentTime = target / 1000;
+    this.lastProgressAt = Date.now();
+    this.patch({ position: Math.floor(target) });
+  }
+
+  seekBy(deltaMs: number) {
+    const audio = this.ensureAudio();
+    if (!audio || !this.state.track || !audio.src) return;
+    const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : Number(this.state.length || 0);
+    const target = (audio.currentTime || 0) * 1000 + deltaMs;
+    this.seek(length > 0 ? Math.min(target, Math.max(0, length - 1000)) : target);
+  }
+
+  setPodcastSpeed(rate: number) {
+    if (!PODCAST_SPEEDS.includes(rate)) return this.state;
+    this.podcastSpeed = rate;
+    try {
+      window.localStorage?.setItem(PODCAST_SPEED_STORAGE_KEY, String(rate));
+    } catch {
+      // Storage can be unavailable in restricted Steam CEF contexts.
+    }
+    this.applyPlaybackRate();
+    return this.state;
+  }
+
+  cyclePodcastSpeed() {
+    const index = PODCAST_SPEEDS.indexOf(this.podcastSpeed);
+    return this.setPodcastSpeed(PODCAST_SPEEDS[(index + 1) % PODCAST_SPEEDS.length]);
   }
 
   destroy() {
     if (this.syncTimer) window.clearTimeout(this.syncTimer);
     this.syncTimer = 0;
     this.lastBackendSyncAt = 0;
+    this.persistEpisodePosition();
+    this.audioTrackKey = "";
+    this.pendingResumeMs = 0;
     if (this.audio) {
       this.audio.pause();
       this.audio.removeAttribute("src");
@@ -652,6 +781,37 @@ class LocalAudioEngine {
     this.emit(false);
   }
 
+  // Save the position of the episode whose audio is loaded (not the track on
+  // screen, which switches before the old audio's pause event arrives).
+  private persistEpisodePosition() {
+    const audio = this.audio;
+    if (!audio || !this.audioTrackKey || this.pendingResumeMs || this.recoveryInFlight) return;
+    const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : Number(this.state.length || 0);
+    savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1000, length);
+  }
+
+  private applyPendingResume(audio: HTMLAudioElement) {
+    const target = this.pendingResumeMs;
+    this.pendingResumeMs = 0;
+    if (!target || !this.audioTrackKey) return;
+    const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 0;
+    if (duration && target >= duration - PODCAST_RESUME_END_MARGIN_MS) return;
+    audio.currentTime = target / 1000;
+    this.patch({ position: Math.floor(target) });
+  }
+
+  // load() resets the rate, so this runs after every source change.
+  private applyPlaybackRate() {
+    const rate = this.audioTrackKey ? this.podcastSpeed : 1;
+    const audio = this.audio;
+    if (audio) {
+      audio.defaultPlaybackRate = rate;
+      audio.playbackRate = rate;
+      (audio as any).preservesPitch = true;
+    }
+    if (this.state.playbackRate !== rate) this.patch({ playbackRate: rate });
+  }
+
   private async handleEnded() {
     const expectedLength = Math.max(Number(this.state.length || 0), Number(this.state.track?.duration_ms || 0));
     const actualPosition = Math.max(Number(this.state.position || 0), Math.floor((this.audio?.currentTime || 0) * 1000));
@@ -659,6 +819,7 @@ class LocalAudioEngine {
       await this.reloadAt(Math.min(expectedLength - 1000, actualPosition + 80), "premature-ended");
       return;
     }
+    clearPodcastPosition(this.audioTrackKey);
     if (this.state.repeatMode === "One") {
       await this.loadCurrent(true);
       return;
@@ -694,8 +855,10 @@ class LocalAudioEngine {
       const streamUrl = await this.streamUrl(track);
       if (token !== this.loadingToken) return;
       audio.pause();
+      this.pendingResumeMs = 0;
       audio.src = `${streamUrl}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? "track"))}&recover=${Date.now()}&reason=${encodeURIComponent(reason)}`;
       audio.load();
+      this.applyPlaybackRate();
       await new Promise<void>((resolve, reject) => {
         let settled = false;
         const finish = (error?: Error) => {

@@ -78,7 +78,11 @@
       "surroundUpmix": "Surround upmix",
       "surroundUpmixHint": "Expands stereo audio into surround. Works with Your Music, Spotify and YouTube Music.",
       "speakerVolumesShow": "Show speaker volumes",
-      "speakerVolumesHide": "Hide speaker volumes"
+      "speakerVolumesHide": "Hide speaker volumes",
+      "seekBackLabel": "Back {seconds} seconds",
+      "seekForwardLabel": "Forward {seconds} seconds",
+      "playbackSpeedLabel": "Playback speed",
+      "playbackPositionLabel": "Playback position"
     },
     "spotify": {
       "album": "Album",
@@ -534,7 +538,11 @@
       "surroundUpmix": "Upmix surround",
       "surroundUpmixHint": "Espande l'audio stereo in surround. Funziona con La tua musica, Spotify e YouTube Music.",
       "speakerVolumesShow": "Mostra volumi casse",
-      "speakerVolumesHide": "Nascondi volumi casse"
+      "speakerVolumesHide": "Nascondi volumi casse",
+      "seekBackLabel": "Indietro di {seconds} secondi",
+      "seekForwardLabel": "Avanti di {seconds} secondi",
+      "playbackSpeedLabel": "Velocità di riproduzione",
+      "playbackPositionLabel": "Posizione di riproduzione"
     },
     "spotify": {
       "album": "Album",
@@ -990,7 +998,11 @@
       "surroundUpmix": "Upmix envolvente",
       "surroundUpmixHint": "Expande el audio estéreo a sonido envolvente. Funciona con Mi música, Spotify y YouTube Music.",
       "speakerVolumesShow": "Mostrar volúmenes de altavoces",
-      "speakerVolumesHide": "Ocultar volúmenes de altavoces"
+      "speakerVolumesHide": "Ocultar volúmenes de altavoces",
+      "seekBackLabel": "Retroceder {seconds} segundos",
+      "seekForwardLabel": "Avanzar {seconds} segundos",
+      "playbackSpeedLabel": "Velocidad de reproducción",
+      "playbackPositionLabel": "Posición de reproducción"
     },
     "spotify": {
       "album": "Álbum",
@@ -1446,7 +1458,11 @@
       "surroundUpmix": "Upmix surround",
       "surroundUpmixHint": "Étend l'audio stéréo en surround. Fonctionne avec Ma musique, Spotify et YouTube Music.",
       "speakerVolumesShow": "Afficher les volumes des enceintes",
-      "speakerVolumesHide": "Masquer les volumes des enceintes"
+      "speakerVolumesHide": "Masquer les volumes des enceintes",
+      "seekBackLabel": "Reculer de {seconds} secondes",
+      "seekForwardLabel": "Avancer de {seconds} secondes",
+      "playbackSpeedLabel": "Vitesse de lecture",
+      "playbackPositionLabel": "Position de lecture"
     },
     "spotify": {
       "album": "Album",
@@ -1902,7 +1918,11 @@
       "surroundUpmix": "Surround-Upmix",
       "surroundUpmixHint": "Erweitert Stereo-Audio zu Surround. Funktioniert mit Meine Musik, Spotify und YouTube Music.",
       "speakerVolumesShow": "Lautsprecher-Lautstärken anzeigen",
-      "speakerVolumesHide": "Lautsprecher-Lautstärken ausblenden"
+      "speakerVolumesHide": "Lautsprecher-Lautstärken ausblenden",
+      "seekBackLabel": "{seconds} Sekunden zurück",
+      "seekForwardLabel": "{seconds} Sekunden vor",
+      "playbackSpeedLabel": "Wiedergabegeschwindigkeit",
+      "playbackPositionLabel": "Wiedergabeposition"
     },
     "spotify": {
       "album": "Album",
@@ -2358,7 +2378,11 @@
       "surroundUpmix": "Upmix surround",
       "surroundUpmixHint": "Expande o áudio estéreo em surround. Funciona com Minha música, Spotify e YouTube Music.",
       "speakerVolumesShow": "Mostrar volumes das caixas",
-      "speakerVolumesHide": "Ocultar volumes das caixas"
+      "speakerVolumesHide": "Ocultar volumes das caixas",
+      "seekBackLabel": "Voltar {seconds} segundos",
+      "seekForwardLabel": "Avançar {seconds} segundos",
+      "playbackSpeedLabel": "Velocidade de reprodução",
+      "playbackPositionLabel": "Posição da reprodução"
     },
     "spotify": {
       "album": "Álbum",
@@ -2814,7 +2838,11 @@
       "surroundUpmix": "Апмикс в surround",
       "surroundUpmixHint": "Расширяет стереозвук до объёмного. Работает с источниками «Моя музыка», Spotify и YouTube Music.",
       "speakerVolumesShow": "Показать громкость колонок",
-      "speakerVolumesHide": "Скрыть громкость колонок"
+      "speakerVolumesHide": "Скрыть громкость колонок",
+      "seekBackLabel": "Назад на {seconds} с",
+      "seekForwardLabel": "Вперёд на {seconds} с",
+      "playbackSpeedLabel": "Скорость воспроизведения",
+      "playbackPositionLabel": "Позиция воспроизведения"
     },
     "spotify": {
       "album": "Альбом",
@@ -3270,7 +3298,11 @@
       "surroundUpmix": "サラウンドアップミックス",
       "surroundUpmixHint": "ステレオ音声をサラウンドに拡張します。マイミュージック、Spotify、YouTube Musicで動作します。",
       "speakerVolumesShow": "スピーカー音量を表示",
-      "speakerVolumesHide": "スピーカー音量を隠す"
+      "speakerVolumesHide": "スピーカー音量を隠す",
+      "seekBackLabel": "{seconds}秒戻す",
+      "seekForwardLabel": "{seconds}秒進める",
+      "playbackSpeedLabel": "再生速度",
+      "playbackPositionLabel": "再生位置"
     },
     "spotify": {
       "album": "アルバム",
@@ -3726,7 +3758,11 @@
       "surroundUpmix": "서라운드 업믹스",
       "surroundUpmixHint": "스테레오 오디오를 서라운드로 확장합니다. 내 음악, Spotify 및 YouTube Music에서 작동합니다.",
       "speakerVolumesShow": "스피커 볼륨 표시",
-      "speakerVolumesHide": "스피커 볼륨 숨기기"
+      "speakerVolumesHide": "스피커 볼륨 숨기기",
+      "seekBackLabel": "{seconds}초 뒤로",
+      "seekForwardLabel": "{seconds}초 앞으로",
+      "playbackSpeedLabel": "재생 속도",
+      "playbackPositionLabel": "재생 위치"
     },
     "spotify": {
       "album": "앨범",
@@ -4182,7 +4218,11 @@
       "surroundUpmix": "环绕声上混",
       "surroundUpmixHint": "将立体声音频扩展为环绕声。适用于我的音乐、Spotify 和 YouTube Music。",
       "speakerVolumesShow": "显示扬声器音量",
-      "speakerVolumesHide": "隐藏扬声器音量"
+      "speakerVolumesHide": "隐藏扬声器音量",
+      "seekBackLabel": "后退 {seconds} 秒",
+      "seekForwardLabel": "前进 {seconds} 秒",
+      "playbackSpeedLabel": "播放速度",
+      "playbackPositionLabel": "播放位置"
     },
     "spotify": {
       "album": "专辑",

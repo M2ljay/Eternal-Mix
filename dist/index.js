@@ -538,6 +538,10 @@ function RepeatIcon$1({ one, size }) {
 
 var en = {
 	core: {
+		seekBackLabel: "Back {seconds} seconds",
+		seekForwardLabel: "Forward {seconds} seconds",
+		playbackSpeedLabel: "Playback speed",
+		playbackPositionLabel: "Playback position",
 		back: "Back",
 		coverFailed: "cover fetch failed",
 		coverSourceOnline: "Online | High resolution",
@@ -994,6 +998,10 @@ var en = {
 };
 var it = {
 	core: {
+		seekBackLabel: "Indietro di {seconds} secondi",
+		seekForwardLabel: "Avanti di {seconds} secondi",
+		playbackSpeedLabel: "Velocità di riproduzione",
+		playbackPositionLabel: "Posizione di riproduzione",
 		back: "Indietro",
 		coverFailed: "recupero copertina non riuscito",
 		coverSourceOnline: "Online | Alta risoluzione",
@@ -1450,6 +1458,10 @@ var it = {
 };
 var es = {
 	core: {
+		seekBackLabel: "Retroceder {seconds} segundos",
+		seekForwardLabel: "Avanzar {seconds} segundos",
+		playbackSpeedLabel: "Velocidad de reproducción",
+		playbackPositionLabel: "Posición de reproducción",
 		back: "Atrás",
 		coverFailed: "no se pudo cargar la portada",
 		coverSourceOnline: "En línea | Alta resolución",
@@ -1906,6 +1918,10 @@ var es = {
 };
 var fr = {
 	core: {
+		seekBackLabel: "Reculer de {seconds} secondes",
+		seekForwardLabel: "Avancer de {seconds} secondes",
+		playbackSpeedLabel: "Vitesse de lecture",
+		playbackPositionLabel: "Position de lecture",
 		back: "Retour",
 		coverFailed: "échec du chargement de la pochette",
 		coverSourceOnline: "En ligne | Haute résolution",
@@ -2362,6 +2378,10 @@ var fr = {
 };
 var de = {
 	core: {
+		seekBackLabel: "{seconds} Sekunden zurück",
+		seekForwardLabel: "{seconds} Sekunden vor",
+		playbackSpeedLabel: "Wiedergabegeschwindigkeit",
+		playbackPositionLabel: "Wiedergabeposition",
 		back: "Zurück",
 		coverFailed: "Cover konnte nicht geladen werden",
 		coverSourceOnline: "Online | Hohe Auflösung",
@@ -2818,6 +2838,10 @@ var de = {
 };
 var ru = {
 	core: {
+		seekBackLabel: "Назад на {seconds} с",
+		seekForwardLabel: "Вперёд на {seconds} с",
+		playbackSpeedLabel: "Скорость воспроизведения",
+		playbackPositionLabel: "Позиция воспроизведения",
 		back: "Назад",
 		coverFailed: "не удалось загрузить обложку",
 		coverSourceOnline: "Онлайн | Высокое разрешение",
@@ -3274,6 +3298,10 @@ var ru = {
 };
 var ja = {
 	core: {
+		seekBackLabel: "{seconds}秒戻す",
+		seekForwardLabel: "{seconds}秒進める",
+		playbackSpeedLabel: "再生速度",
+		playbackPositionLabel: "再生位置",
 		back: "戻る",
 		coverFailed: "カバー画像を取得できませんでした",
 		coverSourceOnline: "オンライン | 高解像度",
@@ -3730,6 +3758,10 @@ var ja = {
 };
 var ko = {
 	core: {
+		seekBackLabel: "{seconds}초 뒤로",
+		seekForwardLabel: "{seconds}초 앞으로",
+		playbackSpeedLabel: "재생 속도",
+		playbackPositionLabel: "재생 위치",
 		back: "뒤로",
 		coverFailed: "앨범 아트를 불러오지 못했습니다",
 		coverSourceOnline: "온라인 | 고해상도",
@@ -4186,6 +4218,10 @@ var ko = {
 };
 var zh = {
 	core: {
+		seekBackLabel: "后退 {seconds} 秒",
+		seekForwardLabel: "前进 {seconds} 秒",
+		playbackSpeedLabel: "播放速度",
+		playbackPositionLabel: "播放位置",
 		back: "返回",
 		coverFailed: "无法加载封面",
 		coverSourceOnline: "在线 | 高分辨率",
@@ -4648,6 +4684,10 @@ var catalogs = {
 	de: de,
 	"pt-br": {
 	core: {
+		seekBackLabel: "Voltar {seconds} segundos",
+		seekForwardLabel: "Avançar {seconds} segundos",
+		playbackSpeedLabel: "Velocidade de reprodução",
+		playbackPositionLabel: "Posição da reprodução",
 		back: "Voltar",
 		coverFailed: "não foi possível carregar a capa",
 		coverSourceOnline: "Online | Alta resolução",
@@ -5250,8 +5290,97 @@ const emptyState = {
     canPrevious: false,
     canNext: false,
     error: "",
+    playbackRate: 1,
 };
 const LEGACY_LOCAL_SESSION_STORAGE_KEY = "nowPlaying:lastLocalTrack:v1";
+
+// Podcast resume: per-episode positions for YouTube Music podcast episodes only.
+// Songs and local files are never saved, and nothing is restored when a view
+// mounts; a saved position is applied only when that episode is loaded.
+const PODCAST_RESUME_STORAGE_KEY = "nowPlaying:podcastResume:v1";
+const PODCAST_RESUME_MAX_ENTRIES = 300;
+const PODCAST_RESUME_MIN_MS = 10000;
+const PODCAST_RESUME_END_MARGIN_MS = 30000;
+function podcastResumeKey(track) {
+    if (!track || String(track.sourceKey ?? "") !== "youtubeMusic" || track.isPodcast !== true)
+        return "";
+    return String(track.videoId ?? track.id ?? "");
+}
+function readPodcastResume() {
+    try {
+        const raw = window.localStorage?.getItem(PODCAST_RESUME_STORAGE_KEY);
+        const value = raw ? JSON.parse(raw) : {};
+        return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    }
+    catch {
+        return {};
+    }
+}
+function writePodcastResume(entries) {
+    try {
+        const keys = Object.keys(entries);
+        if (keys.length > PODCAST_RESUME_MAX_ENTRIES) {
+            keys.sort((left, right) => Number(entries[left]?.t || 0) - Number(entries[right]?.t || 0));
+            for (const key of keys.slice(0, keys.length - PODCAST_RESUME_MAX_ENTRIES))
+                delete entries[key];
+        }
+        window.localStorage?.setItem(PODCAST_RESUME_STORAGE_KEY, JSON.stringify(entries));
+    }
+    catch {
+        // Storage can be unavailable in restricted Steam CEF contexts.
+    }
+}
+function clearPodcastPosition(key) {
+    if (!key)
+        return;
+    const entries = readPodcastResume();
+    if (key in entries) {
+        delete entries[key];
+        writePodcastResume(entries);
+    }
+}
+function savePodcastPosition(key, positionMs, lengthMs) {
+    if (!key)
+        return;
+    const position = Math.floor(Number(positionMs || 0));
+    const length = Math.floor(Number(lengthMs || 0));
+    if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS) {
+        clearPodcastPosition(key);
+        return;
+    }
+    if (position < PODCAST_RESUME_MIN_MS)
+        return;
+    const entries = readPodcastResume();
+    entries[key] = { p: position, l: length, t: Date.now() };
+    writePodcastResume(entries);
+}
+function savedPodcastPosition(key, lengthMs) {
+    if (!key)
+        return 0;
+    const entry = readPodcastResume()[key];
+    const position = Number(entry?.p || 0);
+    const length = Number(lengthMs || entry?.l || 0);
+    if (position < PODCAST_RESUME_MIN_MS)
+        return 0;
+    if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS)
+        return 0;
+    return position;
+}
+function isPodcastEpisode(track) {
+    return Boolean(podcastResumeKey(track));
+}
+// Playback speed for podcast episodes; music always plays at 1x.
+const PODCAST_SPEED_STORAGE_KEY = "nowPlaying:podcastSpeed:v1";
+const PODCAST_SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2];
+function readPodcastSpeed() {
+    try {
+        const value = Number(window.localStorage?.getItem(PODCAST_SPEED_STORAGE_KEY));
+        return PODCAST_SPEEDS.includes(value) ? value : 1;
+    }
+    catch {
+        return 1;
+    }
+}
 function normalizeTrack$2(entry) {
     return entry?.track ?? entry?.item ?? entry;
 }
@@ -5276,6 +5405,10 @@ class LocalAudioEngine {
         this.lastContextResumeAt = 0;
         this.prefetchedVideoIds = new Set();
         this.failedYouTubeMusicIds = new Set();
+        this.audioTrackKey = "";
+        this.pendingResumeMs = 0;
+        this.lastResumeSaveAt = 0;
+        this.podcastSpeed = typeof window === "undefined" ? 1 : readPodcastSpeed();
         this.surroundMode = (() => {
             try {
                 const stored = String(window.localStorage.getItem("nowPlaying.surroundMode") || "");
@@ -5349,6 +5482,10 @@ class LocalAudioEngine {
             this.clearStallRecoveryTimer();
             this.patch({ position: Math.max(0, Math.floor((audio.currentTime || 0) * 1000)) });
             this.scheduleStallRecovery("progress-timeout");
+            if (this.audioTrackKey && Date.now() - this.lastResumeSaveAt >= 5000) {
+                this.lastResumeSaveAt = Date.now();
+                this.persistEpisodePosition();
+            }
         });
         audio.addEventListener("durationchange", () => {
             const duration = Number.isFinite(audio.duration) ? Math.max(0, Math.floor(audio.duration * 1000)) : 0;
@@ -5357,6 +5494,7 @@ class LocalAudioEngine {
         audio.addEventListener("loadedmetadata", () => {
             const duration = Number.isFinite(audio.duration) ? Math.max(0, Math.floor(audio.duration * 1000)) : 0;
             this.patch({ length: duration || Number(this.state.track?.duration_ms || 0), error: "" });
+            this.applyPendingResume(audio);
         });
         audio.addEventListener("play", () => {
             // `play` fires the instant play() is called, before the stream has buffered.
@@ -5376,6 +5514,7 @@ class LocalAudioEngine {
             this.prefetchNext();
         });
         audio.addEventListener("pause", () => {
+            this.persistEpisodePosition();
             this.clearStallRecoveryTimer();
             if (!audio.ended && !this.recoveryInFlight)
                 this.patch({ status: this.state.track ? "Paused" : "Stopped" });
@@ -5711,6 +5850,7 @@ class LocalAudioEngine {
         // never waiting for the remote stream to resolve. The old audio is paused so
         // its position can't tick under the new metadata; the progress bar stays at 0
         // until the real `playing` event fires with the new audio.
+        this.persistEpisodePosition();
         audio.pause();
         this.patch({ track, position: 0, length: Number(track?.duration_ms || 0), status: autoPlay ? "Paused" : "Stopped", error: "" });
         let streamUrl = "";
@@ -5729,8 +5869,12 @@ class LocalAudioEngine {
         }
         if (token !== this.loadingToken)
             return;
+        this.audioTrackKey = podcastResumeKey(track);
+        this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
+        this.lastResumeSaveAt = Date.now();
         audio.src = `${streamUrl}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
         audio.load();
+        this.applyPlaybackRate();
         if (autoPlay) {
             try {
                 await audio.play();
@@ -5864,6 +6008,7 @@ class LocalAudioEngine {
         return this.state;
     }
     stop() {
+        this.persistEpisodePosition();
         const audio = this.ensureAudio();
         if (audio) {
             audio.pause();
@@ -5884,13 +6029,46 @@ class LocalAudioEngine {
         const audio = this.ensureAudio();
         if (!audio)
             return;
-        audio.currentTime = Math.max(0, ms / 1000);
+        const target = Math.max(0, Number(ms || 0));
+        // A deliberate seek wins over a resume position that has not applied yet.
+        this.pendingResumeMs = 0;
+        audio.currentTime = target / 1000;
+        this.lastProgressAt = Date.now();
+        this.patch({ position: Math.floor(target) });
+    }
+    seekBy(deltaMs) {
+        const audio = this.ensureAudio();
+        if (!audio || !this.state.track || !audio.src)
+            return;
+        const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : Number(this.state.length || 0);
+        const target = (audio.currentTime || 0) * 1000 + deltaMs;
+        this.seek(length > 0 ? Math.min(target, Math.max(0, length - 1000)) : target);
+    }
+    setPodcastSpeed(rate) {
+        if (!PODCAST_SPEEDS.includes(rate))
+            return this.state;
+        this.podcastSpeed = rate;
+        try {
+            window.localStorage?.setItem(PODCAST_SPEED_STORAGE_KEY, String(rate));
+        }
+        catch {
+            // Storage can be unavailable in restricted Steam CEF contexts.
+        }
+        this.applyPlaybackRate();
+        return this.state;
+    }
+    cyclePodcastSpeed() {
+        const index = PODCAST_SPEEDS.indexOf(this.podcastSpeed);
+        return this.setPodcastSpeed(PODCAST_SPEEDS[(index + 1) % PODCAST_SPEEDS.length]);
     }
     destroy() {
         if (this.syncTimer)
             window.clearTimeout(this.syncTimer);
         this.syncTimer = 0;
         this.lastBackendSyncAt = 0;
+        this.persistEpisodePosition();
+        this.audioTrackKey = "";
+        this.pendingResumeMs = 0;
         if (this.audio) {
             this.audio.pause();
             this.audio.removeAttribute("src");
@@ -5910,6 +6088,38 @@ class LocalAudioEngine {
         this.state = { ...emptyState };
         this.emit(false);
     }
+    // Save the position of the episode whose audio is loaded (not the track on
+    // screen, which switches before the old audio's pause event arrives).
+    persistEpisodePosition() {
+        const audio = this.audio;
+        if (!audio || !this.audioTrackKey || this.pendingResumeMs || this.recoveryInFlight)
+            return;
+        const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : Number(this.state.length || 0);
+        savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1000, length);
+    }
+    applyPendingResume(audio) {
+        const target = this.pendingResumeMs;
+        this.pendingResumeMs = 0;
+        if (!target || !this.audioTrackKey)
+            return;
+        const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 0;
+        if (duration && target >= duration - PODCAST_RESUME_END_MARGIN_MS)
+            return;
+        audio.currentTime = target / 1000;
+        this.patch({ position: Math.floor(target) });
+    }
+    // load() resets the rate, so this runs after every source change.
+    applyPlaybackRate() {
+        const rate = this.audioTrackKey ? this.podcastSpeed : 1;
+        const audio = this.audio;
+        if (audio) {
+            audio.defaultPlaybackRate = rate;
+            audio.playbackRate = rate;
+            audio.preservesPitch = true;
+        }
+        if (this.state.playbackRate !== rate)
+            this.patch({ playbackRate: rate });
+    }
     async handleEnded() {
         const expectedLength = Math.max(Number(this.state.length || 0), Number(this.state.track?.duration_ms || 0));
         const actualPosition = Math.max(Number(this.state.position || 0), Math.floor((this.audio?.currentTime || 0) * 1000));
@@ -5917,6 +6127,7 @@ class LocalAudioEngine {
             await this.reloadAt(Math.min(expectedLength - 1000, actualPosition + 80), "premature-ended");
             return;
         }
+        clearPodcastPosition(this.audioTrackKey);
         if (this.state.repeatMode === "One") {
             await this.loadCurrent(true);
             return;
@@ -5952,8 +6163,10 @@ class LocalAudioEngine {
             if (token !== this.loadingToken)
                 return;
             audio.pause();
+            this.pendingResumeMs = 0;
             audio.src = `${streamUrl}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? "track"))}&recover=${Date.now()}&reason=${encodeURIComponent(reason)}`;
             audio.load();
+            this.applyPlaybackRate();
             await new Promise((resolve, reject) => {
                 let settled = false;
                 const finish = (error) => {
@@ -6200,7 +6413,7 @@ function saveSourceVolume(source, value, origin = "plugin") {
     return volume;
 }
 
-function SmoothProgressFill({ position, duration, playing, sampledAt, style }) {
+function SmoothProgressFill({ position, duration, playing, sampledAt, style, rate = 1 }) {
     const fillRef = SP_REACT.useRef(null);
     SP_REACT.useEffect(() => {
         let frame = 0;
@@ -6208,7 +6421,7 @@ function SmoothProgressFill({ position, duration, playing, sampledAt, style }) {
         const total = Math.max(1, Number(duration || 1));
         const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
         const draw = () => {
-            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) : 0;
+            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
             const ratio = Math.max(0, Math.min(1, (base + elapsed) / total));
             if (fillRef.current)
                 fillRef.current.style.transform = `scaleX(${ratio})`;
@@ -6220,10 +6433,10 @@ function SmoothProgressFill({ position, duration, playing, sampledAt, style }) {
             if (frame)
                 window.cancelAnimationFrame(frame);
         };
-    }, [duration, playing, position, sampledAt]);
+    }, [duration, playing, position, rate, sampledAt]);
     return (SP_JSX.jsx("div", { ref: fillRef, "aria-hidden": "true", style: { width: "100%", transform: "scaleX(0)", transformOrigin: "left center", willChange: "transform", ...style } }));
 }
-function SmoothProgressTime({ position, duration, playing, sampledAt, format }) {
+function SmoothProgressTime({ position, duration, playing, sampledAt, format, rate = 1 }) {
     const labelRef = SP_REACT.useRef(null);
     SP_REACT.useEffect(() => {
         let timer = 0;
@@ -6231,7 +6444,7 @@ function SmoothProgressTime({ position, duration, playing, sampledAt, format }) 
         const total = Math.max(0, Number(duration || 0));
         const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
         const draw = () => {
-            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) : 0;
+            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
             const current = Math.min(total || Number.MAX_SAFE_INTEGER, base + elapsed);
             const label = format(current);
             if (labelRef.current && labelRef.current.textContent !== label)
@@ -6244,8 +6457,72 @@ function SmoothProgressTime({ position, duration, playing, sampledAt, format }) 
             if (timer)
                 window.clearTimeout(timer);
         };
-    }, [duration, format, playing, position, sampledAt]);
+    }, [duration, format, playing, position, rate, sampledAt]);
     return SP_JSX.jsx("span", { ref: labelRef, children: format(Math.max(0, Number(position || 0))) });
+}
+
+// Seek bar and skip/speed buttons for the in-plugin player (Your Music and
+// YouTube Music). Spotify and Windows media sessions keep their read-only bar.
+const SEEK_CSS = ".npSeekBar .npSeekTrack{transition:box-shadow 120ms ease}.npSeekBarFocused .npSeekTrack{box-shadow:0 0 0 2px rgba(255,255,255,.6)}";
+function formatClock(value) {
+    const total = Math.max(0, Math.floor(Number(value || 0) / 1000));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = String(total % 60).padStart(2, "0");
+    return hours ? `${hours}:${String(minutes).padStart(2, "0")}:${seconds}` : `${minutes}:${seconds}`;
+}
+// One D-pad press moves 1% of the track, between 10 s and 60 s.
+function seekStepMs(length) {
+    return Math.max(10000, Math.min(60000, Math.round(length / 100)));
+}
+function speedLabel(rate) {
+    return `${Number(Number(rate || 1).toFixed(2))}×`;
+}
+function directionOf(event) {
+    const key = String(event?.key ?? "");
+    const button = event?.detail?.button;
+    if (key === "ArrowLeft" || key === "Left" || button === DFL.GamepadButton.DIR_LEFT)
+        return -1;
+    if (key === "ArrowRight" || key === "Right" || button === DFL.GamepadButton.DIR_RIGHT)
+        return 1;
+    return 0;
+}
+function LocalSeekBar({ accent, trackHeight = 6, timeStyle }) {
+    const state = useLocalAudioState();
+    const core = getTranslations("core");
+    const length = Math.max(0, Number(state.length || state.track?.duration_ms || 0));
+    const hasTrack = Boolean(state.track) && length > 0;
+    const playing = state.status === "Playing";
+    const sampledAt = Date.now();
+    const nudge = (event) => {
+        const direction = directionOf(event);
+        if (!direction || !hasTrack)
+            return;
+        event.preventDefault?.();
+        event.stopPropagation?.();
+        localAudioPlayer.seekBy(direction * seekStepMs(length));
+    };
+    const jump = (event) => {
+        if (!hasTrack)
+            return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        if (!rect.width)
+            return;
+        const ratio = Math.max(0, Math.min(1, (Number(event.clientX) - rect.left) / rect.width));
+        localAudioPlayer.seek(ratio * length);
+    };
+    return (SP_JSX.jsxs(DFL.Focusable, { className: "npSeekBar", focusClassName: "npSeekBarFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudge, onKeyDown: nudge, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": core.playbackPositionLabel, "aria-valuemin": 0, "aria-valuemax": Math.round(length / 1000), "aria-valuenow": Math.round(Number(state.position || 0) / 1000), style: { width: "100%", padding: "6px 0", boxSizing: "border-box" }, children: [SP_JSX.jsx("style", { children: SEEK_CSS }), SP_JSX.jsx("div", { className: "npSeekTrack", onPointerDown: jump, style: { width: "100%", height: `${trackHeight}px`, borderRadius: "999px", background: "rgba(255,255,255,0.18)", overflow: "hidden", cursor: "pointer" }, children: SP_JSX.jsx(SmoothProgressFill, { position: state.position, duration: Math.max(1, length), playing: playing, sampledAt: sampledAt, rate: state.playbackRate, style: { height: "100%", borderRadius: "999px", background: accent } }) }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginTop: "6px", fontVariantNumeric: "tabular-nums", ...timeStyle }, children: [SP_JSX.jsx(SmoothProgressTime, { position: state.position, duration: length, playing: playing, sampledAt: sampledAt, rate: state.playbackRate, format: formatClock }), SP_JSX.jsx("span", { children: formatClock(length) })] })] }));
+}
+function LocalSeekButtons({ buttonStyle, gap = 8 }) {
+    const state = useLocalAudioState();
+    const core = getTranslations("core");
+    const episode = isPodcastEpisode(state.track);
+    const back = episode ? 15 : 10;
+    const forward = episode ? 30 : 10;
+    const disabled = !state.track;
+    const seconds = (text, value) => String(text).replace("{seconds}", String(value));
+    const content = { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontVariantNumeric: "tabular-nums" };
+    return (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: `${gap}px`, width: "100%" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: disabled, "aria-label": seconds(core.seekBackLabel, back), onClick: () => localAudioPlayer.seekBy(-back * 1000), children: SP_JSX.jsxs("span", { style: content, children: [SP_JSX.jsx(FaRedoAlt, { style: { transform: "scaleX(-1)" } }), back] }) }), episode ? (SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, "aria-label": core.playbackSpeedLabel, onClick: () => localAudioPlayer.cyclePodcastSpeed(), children: SP_JSX.jsx("span", { style: { ...content, fontWeight: 700 }, children: speedLabel(state.playbackRate) }) })) : null, SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: disabled, "aria-label": seconds(core.seekForwardLabel, forward), onClick: () => localAudioPlayer.seekBy(forward * 1000), children: SP_JSX.jsxs("span", { style: content, children: [forward, SP_JSX.jsx(FaRedoAlt, {})] }) })] }));
 }
 
 const SPOTIFY_GREEN = "#1DB954";
@@ -10345,7 +10622,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     const hasCurrent = Boolean(current?.name);
     const currentCover = imageUrl(current);
     const currentAlbum = current?.album;
-    const playerCard = () => SP_JSX.jsxs(DFL.Focusable, { className: "npYtmPlayerCard", "flow-children": "grid", style: { position: "relative", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", width: "100%", minHeight: "368px", padding: "24px", borderRadius: "20px", border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.28)", overflow: "hidden" }, children: [currentCover ? SP_JSX.jsx("div", { className: "npYtmPlayerGlow", "aria-hidden": "true", style: { position: "absolute", inset: "-40% -16% -70% -16%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.55)", opacity: .34, pointerEvents: "none" } }) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npYtmCoverButton", disabled: !currentAlbum?.id, onClick: () => currentAlbum?.id ? openDetail({ ...currentAlbum, type: "album" }) : undefined, style: { position: "relative", width: "320px", minWidth: "320px", height: "320px", minHeight: "320px", padding: 0, borderRadius: "14px", overflow: "hidden", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }, children: currentCover ? SP_JSX.jsx("img", { src: currentCover, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : SP_JSX.jsx("span", { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(FaMusic, { size: 64, style: { opacity: .3 } }) }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { display: "block", fontSize: "12px", textTransform: "uppercase", letterSpacing: ".14em", opacity: .58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }, children: String(current?.name ?? "") }), SP_JSX.jsx("div", { style: { marginTop: "12px", fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText(current) }), currentAlbum?.name ? SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: "16px", opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: currentAlbum.name }) : null, SP_JSX.jsxs("div", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("div", { style: { height: "5px", borderRadius: "999px", background: "rgba(255,255,255,.16)", overflow: "hidden" }, children: SP_JSX.jsx(SmoothProgressFill, { position: audio.position, duration: audio.length, playing: audio.status === "Playing", sampledAt: Date.now(), style: { height: "100%", background: YOUTUBE_RED, borderRadius: "999px" } }) }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginTop: "8px", fontSize: "13px", opacity: .48, fontVariantNumeric: "tabular-nums" }, children: [SP_JSX.jsx(SmoothProgressTime, { position: audio.position, duration: audio.length, playing: audio.status === "Playing", sampledAt: Date.now(), format: formatTime$1 }), SP_JSX.jsx("span", { children: formatTime$1(audio.length) })] })] })] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }, children: t.noPlayback }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "10px", alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("previous"), children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("play_pause"), children: audio.status === "Playing" ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("next"), children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.shuffle, onClick: () => void localAudioPlayer.command("shuffle"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), audio.shuffleActive ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.repeat, onClick: () => void localAudioPlayer.command("repeat"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.repeatMode !== "None" ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: audio.repeatMode === "One", size: 17 }), audio.repeatMode !== "None" ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] })] }), SP_JSX.jsx(DFL.DialogButton, { className: "npYtmMinimalButton", onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: "46px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), t.fullscreen] }) }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmAppVolume", focusClassName: "npYtmAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudgeVolume, onKeyDown: nudgeVolume, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volume, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", min: 0, max: 100, step: 1, value: volume, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [volume, "%"] })] })] }) })] });
+    const playerCard = () => SP_JSX.jsxs(DFL.Focusable, { className: "npYtmPlayerCard", "flow-children": "grid", style: { position: "relative", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", width: "100%", minHeight: "368px", padding: "24px", borderRadius: "20px", border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.28)", overflow: "hidden" }, children: [currentCover ? SP_JSX.jsx("div", { className: "npYtmPlayerGlow", "aria-hidden": "true", style: { position: "absolute", inset: "-40% -16% -70% -16%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.55)", opacity: .34, pointerEvents: "none" } }) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npYtmCoverButton", disabled: !currentAlbum?.id, onClick: () => currentAlbum?.id ? openDetail({ ...currentAlbum, type: "album" }) : undefined, style: { position: "relative", width: "320px", minWidth: "320px", height: "320px", minHeight: "320px", padding: 0, borderRadius: "14px", overflow: "hidden", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }, children: currentCover ? SP_JSX.jsx("img", { src: currentCover, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : SP_JSX.jsx("span", { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(FaMusic, { size: 64, style: { opacity: .3 } }) }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { display: "block", fontSize: "12px", textTransform: "uppercase", letterSpacing: ".14em", opacity: .58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }, children: String(current?.name ?? "") }), SP_JSX.jsx("div", { style: { marginTop: "12px", fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText(current) }), currentAlbum?.name ? SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: "16px", opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: currentAlbum.name }) : null, SP_JSX.jsxs("div", { style: { marginTop: "22px" }, children: [SP_JSX.jsx(LocalSeekBar, { accent: YOUTUBE_RED, trackHeight: 5, timeStyle: { marginTop: "8px", fontSize: "13px", opacity: .48 } }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(LocalSeekButtons, { buttonStyle: { flex: 1, minWidth: 0, height: "42px", minHeight: "42px", padding: 0 }, gap: 10 })] })] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }, children: t.noPlayback }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "10px", alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("previous"), children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("play_pause"), children: audio.status === "Playing" ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("next"), children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.shuffle, onClick: () => void localAudioPlayer.command("shuffle"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), audio.shuffleActive ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.repeat, onClick: () => void localAudioPlayer.command("repeat"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.repeatMode !== "None" ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: audio.repeatMode === "One", size: 17 }), audio.repeatMode !== "None" ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] })] }), SP_JSX.jsx(DFL.DialogButton, { className: "npYtmMinimalButton", onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: "46px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), t.fullscreen] }) }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmAppVolume", focusClassName: "npYtmAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudgeVolume, onKeyDown: nudgeVolume, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volume, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", min: 0, max: 100, step: 1, value: volume, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [volume, "%"] })] })] }) })] });
     const renderHome = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [playerCard(), cardRow(t.yourPlaylists, home?.playlists?.items ?? []), cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])] });
     const renderSearch = () => { const tracks = searchResults?.tracks?.items ?? []; const albums = searchResults?.albums?.items ?? []; const artists = searchResults?.artists?.items ?? []; const playlists = searchResults?.playlists?.items ?? []; const podcasts = searchResults?.podcasts?.items ?? []; const episodes = searchResults?.episodes?.items ?? []; return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.TextField, { label: t.searchSpotify, value: query, style: { width: "100%", minWidth: "100%" }, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
                     void run(() => youtubeMusicSearch(query), setSearchResults); } }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }, disabled: query.trim().length < 2 || loading, onClick: () => void run(() => youtubeMusicSearch(query), setSearchResults), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaSearch, {}), t.search] }) }), cardRow(t.artists, artists, true), cardRow(t.albums, albums), tracks.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.map((track, index) => SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onFocus: () => prefetchTrack(track), onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) })] }) : null, cardRow(t.playlists, playlists), cardRow(t.podcasts, podcasts), episodes.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.episodes }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => SP_JSX.jsx(SpotifyTvTrack, { track: episode, index: index, onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })] }) : null, searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? SP_JSX.jsx("div", { style: { marginTop: "38px", fontSize: "19px", opacity: .55 }, children: t.noResults }) : null] }); };
@@ -42706,6 +42983,14 @@ function ProgressView(props) {
     const basePosition = current?.position ?? 0;
     return (SP_JSX.jsxs("div", { style: { ...meterBoxStyle, marginTop: "12px" }, children: [SP_JSX.jsx("div", { style: meterTrackStyle, children: SP_JSX.jsx(SmoothProgressFill, { position: basePosition, duration: length, playing: current?.status === "Playing", sampledAt: snapshotAt, style: meterFillBaseStyle }) }), SP_JSX.jsxs("div", { style: subtleRowTextStyle, children: [SP_JSX.jsx(SmoothProgressTime, { position: basePosition, duration: length, playing: current?.status === "Playing", sampledAt: snapshotAt, format: formatTime }), SP_JSX.jsx("span", { children: formatTime(length) })] })] }));
 }
+// The in-plugin player (Your Music, YouTube Music) can seek; other sources keep
+// the read-only bar. Falls back to it when the local player has no track.
+function LocalPlaybackProgress(props) {
+    const state = useLocalAudioState();
+    if (!state.track)
+        return SP_JSX.jsx(ProgressView, { current: props.current, snapshotAt: props.snapshotAt });
+    return (SP_JSX.jsxs("div", { style: { ...meterBoxStyle, marginTop: "6px" }, children: [SP_JSX.jsx(LocalSeekBar, { accent: "var(--np-accent, #66c0f4)", timeStyle: { fontSize: "0.72em", opacity: 0.66, marginTop: "3px" } }), SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(LocalSeekButtons, { buttonStyle: { ...compactButtonStyle, fontSize: "0.8em" }, gap: CONTROL_GAP })] }));
+}
 let fullscreenChromeObservers = [];
 let fullscreenChromeFrame = 0;
 let fullscreenSuppressionLeaseCount = 0;
@@ -45870,7 +46155,7 @@ function Content() {
                                                         opacity: 0.62,
                                                         fontSize: "0.9em",
                                                         lineHeight: 1.2,
-                                                    } })] })] }), spotifyPaused ? null : SP_JSX.jsx(ProgressView, { current: current, snapshotAt: snapshotAt }), SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canPrevious, onClick: () => void runAction(() => previousAction()), children: SP_JSX.jsx(FaStepBackward, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current, onClick: () => void runAction(() => playPauseAction(), () => patchCurrentPlayer((player) => ({
+                                                    } })] })] }), spotifyPaused ? null : isLocalMusicActive ? SP_JSX.jsx(LocalPlaybackProgress, { current: current, snapshotAt: snapshotAt }) : SP_JSX.jsx(ProgressView, { current: current, snapshotAt: snapshotAt }), SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canPrevious, onClick: () => void runAction(() => previousAction()), children: SP_JSX.jsx(FaStepBackward, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current, onClick: () => void runAction(() => playPauseAction(), () => patchCurrentPlayer((player) => ({
                                                 ...player,
                                                 status: player.status === "Playing" ? "Paused" : "Playing",
                                             }))), children: isPlaying ? SP_JSX.jsx(FaPause, {}) : SP_JSX.jsx(FaPlay, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canNext, onClick: () => void runAction(() => nextAction()), children: SP_JSX.jsx(FaStepForward, {}) })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsxs(DFL.DialogButton, { style: { ...compactButtonStyle, position: "relative", opacity: isShuffleActive ? 1 : 0.58 }, disabled: controlsDisabled || !current?.canShuffle, onClick: () => void runAction(() => shuffleAction(), () => patchCurrentPlayer((player) => ({ ...player, shuffleActive: !player.shuffleActive })), [1200]), children: [SP_JSX.jsx(FaRandom, {}), isShuffleActive ? (SP_JSX.jsx("span", { "aria-hidden": "true", style: {

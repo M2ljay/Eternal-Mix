@@ -23,6 +23,12 @@ class _MissingStdlibFinder:
             "socketserver": os.path.join(base, "socketserver.py"),
             "mimetypes": os.path.join(base, "mimetypes.py"),
             "webbrowser": os.path.join(base, "webbrowser.py"),
+            # yt-dlp (and html.parser, for _markupbase) import these at module level; Decky's frozen runtime
+            # (PyInstaller, Python 3.11) does not bundle them.
+            "optparse": os.path.join(base, "optparse.py"),
+            "glob": os.path.join(base, "glob.py"),
+            "fileinput": os.path.join(base, "fileinput.py"),
+            "_markupbase": os.path.join(base, "_markupbase.py"),
             "html": os.path.join(html, "__init__.py"),
             "html.entities": os.path.join(html, "entities.py"),
         }

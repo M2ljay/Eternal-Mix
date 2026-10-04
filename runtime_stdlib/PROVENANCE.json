@@ -25,6 +25,34 @@
       "source_sha256": "b6bf0f5dd9cc863d535b711402cecd33cd0e9543f1879a4e81bee64928c92cac",
       "shipped_sha256": "b6bf0f5dd9cc863d535b711402cecd33cd0e9543f1879a4e81bee64928c92cac",
       "modification": "Unmodified"
+    },
+    "optparse.py": {
+      "upstream_path": "optparse.py",
+      "source": "CPython 3.11.17 standard library (/usr/lib/python3.11); PSF license",
+      "source_sha256": "07d224301cba312fa0697bff9cd5a4bb4f778a90629632091b3f4ae874d89af5",
+      "shipped_sha256": "07d224301cba312fa0697bff9cd5a4bb4f778a90629632091b3f4ae874d89af5",
+      "modification": "Unmodified; required by vendored yt-dlp"
+    },
+    "glob.py": {
+      "upstream_path": "glob.py",
+      "source": "CPython 3.11.17 standard library (/usr/lib/python3.11); PSF license",
+      "source_sha256": "c9e5f9ae0752660ede63328a456f58f87c29500b31f58c1b813458b00fceb6d5",
+      "shipped_sha256": "c9e5f9ae0752660ede63328a456f58f87c29500b31f58c1b813458b00fceb6d5",
+      "modification": "Unmodified; required by vendored yt-dlp"
+    },
+    "fileinput.py": {
+      "upstream_path": "fileinput.py",
+      "source": "CPython 3.11.17 standard library (/usr/lib/python3.11); PSF license",
+      "source_sha256": "b0cd2a3f01c96f594b6038e52bd83d489bfa081cc757103c70aab4e5b2c4fe1f",
+      "shipped_sha256": "b0cd2a3f01c96f594b6038e52bd83d489bfa081cc757103c70aab4e5b2c4fe1f",
+      "modification": "Unmodified; required by vendored yt-dlp"
+    },
+    "_markupbase.py": {
+      "upstream_path": "_markupbase.py",
+      "source": "CPython 3.11.17 standard library (/usr/lib/python3.11); PSF license",
+      "source_sha256": "cb14dd6f2e2439eb70b806cd49d19911363d424c2b6b9f4b73c9c08022d47030",
+      "shipped_sha256": "cb14dd6f2e2439eb70b806cd49d19911363d424c2b6b9f4b73c9c08022d47030",
+      "modification": "Unmodified; required by html.parser, which yt-dlp imports"
     }
   }
 }

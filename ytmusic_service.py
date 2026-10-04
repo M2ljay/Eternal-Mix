@@ -1333,10 +1333,14 @@ class YouTubeMusicService:
         self._ensure_imports()
         import yt_dlp
 
+        # The local proxy forwards one progressive HTTP resource to the WebView
+        # audio element, which cannot play HLS manifests. Restrict selection to
+        # direct HTTP(S) formats so yt-dlp never hands back an .m3u8 playlist;
+        # muxed itag 18 (mp4 with AAC audio) is the last progressive fallback.
         format_selector = {
-            "low": "bestaudio[abr<=96]/bestaudio/best",
-            "medium": "bestaudio[abr<=180]/bestaudio/best",
-            "high": "bestaudio/best",
+            "low": "bestaudio[abr<=96][protocol^=http]/bestaudio[protocol^=http]/best[acodec!=none][protocol^=http]",
+            "medium": "bestaudio[abr<=180][protocol^=http]/bestaudio[protocol^=http]/best[acodec!=none][protocol^=http]",
+            "high": "bestaudio[protocol^=http]/best[acodec!=none][protocol^=http]",
         }[quality]
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
         cookie = self._cookie_header()
@@ -1397,17 +1401,20 @@ class YouTubeMusicService:
         # `android_music`/`ios_music`, which yields metadata but no playable
         # formats. Try only clients supported by the bundled yt-dlp version and
         # fall back from the Music URL to the normal watch URL when necessary.
-        # Speed + reliability: the android_vr/ios/android clients need NO GVS PO
-        # token and NO cookie, and are the ones that actually resolved in the
-        # previous (working) build. Try them FIRST, merged into one yt-dlp call,
-        # so a non-Premium account no longer waits on the PO-token-gated web
-        # clients (which also fail with "The page needs to be reloaded"). The web
-        # clients stay only as a last-resort Premium fallback.
+        # Since 2026-08-17 YouTube answers 403 for every googlevideo URL issued
+        # to the android_vr client, and ios/android need a GVS PO token for
+        # direct HTTPS formats. Extraction still "succeeds" for those clients,
+        # so the dead URL used to be cached and handed to the player. yt-dlp
+        # 2026.08.19 replaced android_vr with the visionos client, which needs
+        # neither a JS runtime nor a PO token; try it first without cookies.
+        # The cookie-backed web clients remain a fallback: they only work when
+        # a JS runtime (deno) is installed for yt-dlp's challenge solver.
         attempts: List[Tuple[str, List[str], bool]] = [
-            (f"https://www.youtube.com/watch?v={clean_id}", ["android_vr", "ios", "android"], False),
-            (f"https://music.youtube.com/watch?v={clean_id}", ["web_music", "web_safari"], True),
+            (f"https://www.youtube.com/watch?v={clean_id}", ["visionos"], False),
+            (f"https://music.youtube.com/watch?v={clean_id}", ["web_music", "web_embedded", "tv_downgraded", "web"], True),
         ]
         info: Dict[str, Any] = {}
+        info_used_cookie = False
         errors: List[str] = []
         try:
             for source_url, player_clients, use_cookie in attempts:
@@ -1434,8 +1441,20 @@ class YouTubeMusicService:
                                         candidate["url"] = selected_url
                                         break
                         if selected_url.startswith("http"):
-                            info = candidate
-                            break
+                            # A resolved URL is not proof of a playable one: a
+                            # client YouTube has locked out still returns URLs
+                            # that 403 on the first byte. Probe before accepting
+                            # so the next client gets a chance.
+                            probe_headers = dict(candidate.get("http_headers") or {})
+                            if use_cookie and cookie:
+                                probe_headers["Cookie"] = cookie
+                            if self._probe_direct_stream({"url": selected_url, "headers": probe_headers}):
+                                info = candidate
+                                info_used_cookie = bool(use_cookie and cookie)
+                                break
+                            errors.append(f"{','.join(player_clients)}: stream URL rejected by server")
+                            self._log(f"YouTube Music stream probe failed ({','.join(player_clients)}) for {clean_id}")
+                            continue
                     errors.append(f"{','.join(player_clients)}: no audio URL")
                 except Exception as attempt_exc:
                     errors.append(f"{','.join(player_clients)}: {attempt_exc}")
@@ -1451,7 +1470,7 @@ class YouTubeMusicService:
             detail = errors[-1] if errors else "no playable formats"
             raise RuntimeError(f"YouTube Music did not return a playable audio stream ({detail})")
         remote_headers = dict(info.get("http_headers") or {})
-        if cookie:
+        if info_used_cookie:
             remote_headers["Cookie"] = cookie
         extension = str(info.get("ext") or "").lower()
         content_type = str(info.get("mime_type") or info.get("http_headers", {}).get("Content-Type") or "").strip()

@@ -82,7 +82,9 @@
       "seekBackLabel": "Back {seconds} seconds",
       "seekForwardLabel": "Forward {seconds} seconds",
       "playbackSpeedLabel": "Playback speed",
-      "playbackPositionLabel": "Playback position"
+      "playbackPositionLabel": "Playback position",
+      "appearanceSection": "Appearance",
+      "matchSteamTheme": "Match Steam theme in quick access"
     },
     "spotify": {
       "album": "Album",
@@ -542,7 +544,9 @@
       "seekBackLabel": "Indietro di {seconds} secondi",
       "seekForwardLabel": "Avanti di {seconds} secondi",
       "playbackSpeedLabel": "Velocità di riproduzione",
-      "playbackPositionLabel": "Posizione di riproduzione"
+      "playbackPositionLabel": "Posizione di riproduzione",
+      "appearanceSection": "Aspetto",
+      "matchSteamTheme": "Usa i colori del tema Steam nel menu rapido"
     },
     "spotify": {
       "album": "Album",
@@ -1002,7 +1006,9 @@
       "seekBackLabel": "Retroceder {seconds} segundos",
       "seekForwardLabel": "Avanzar {seconds} segundos",
       "playbackSpeedLabel": "Velocidad de reproducción",
-      "playbackPositionLabel": "Posición de reproducción"
+      "playbackPositionLabel": "Posición de reproducción",
+      "appearanceSection": "Apariencia",
+      "matchSteamTheme": "Usar los colores del tema de Steam en el menú rápido"
     },
     "spotify": {
       "album": "Álbum",
@@ -1462,7 +1468,9 @@
       "seekBackLabel": "Reculer de {seconds} secondes",
       "seekForwardLabel": "Avancer de {seconds} secondes",
       "playbackSpeedLabel": "Vitesse de lecture",
-      "playbackPositionLabel": "Position de lecture"
+      "playbackPositionLabel": "Position de lecture",
+      "appearanceSection": "Apparence",
+      "matchSteamTheme": "Suivre le thème Steam dans le menu rapide"
     },
     "spotify": {
       "album": "Album",
@@ -1922,7 +1930,9 @@
       "seekBackLabel": "{seconds} Sekunden zurück",
       "seekForwardLabel": "{seconds} Sekunden vor",
       "playbackSpeedLabel": "Wiedergabegeschwindigkeit",
-      "playbackPositionLabel": "Wiedergabeposition"
+      "playbackPositionLabel": "Wiedergabeposition",
+      "appearanceSection": "Darstellung",
+      "matchSteamTheme": "Steam-Design im Schnellzugriff übernehmen"
     },
     "spotify": {
       "album": "Album",
@@ -2382,7 +2392,9 @@
       "seekBackLabel": "Voltar {seconds} segundos",
       "seekForwardLabel": "Avançar {seconds} segundos",
       "playbackSpeedLabel": "Velocidade de reprodução",
-      "playbackPositionLabel": "Posição da reprodução"
+      "playbackPositionLabel": "Posição da reprodução",
+      "appearanceSection": "Aparência",
+      "matchSteamTheme": "Usar as cores do tema do Steam no menu rápido"
     },
     "spotify": {
       "album": "Álbum",
@@ -2842,7 +2854,9 @@
       "seekBackLabel": "Назад на {seconds} с",
       "seekForwardLabel": "Вперёд на {seconds} с",
       "playbackSpeedLabel": "Скорость воспроизведения",
-      "playbackPositionLabel": "Позиция воспроизведения"
+      "playbackPositionLabel": "Позиция воспроизведения",
+      "appearanceSection": "Оформление",
+      "matchSteamTheme": "Цвета темы Steam в меню быстрого доступа"
     },
     "spotify": {
       "album": "Альбом",
@@ -3302,7 +3316,9 @@
       "seekBackLabel": "{seconds}秒戻す",
       "seekForwardLabel": "{seconds}秒進める",
       "playbackSpeedLabel": "再生速度",
-      "playbackPositionLabel": "再生位置"
+      "playbackPositionLabel": "再生位置",
+      "appearanceSection": "外観",
+      "matchSteamTheme": "クイックアクセスで Steam テーマの色を使う"
     },
     "spotify": {
       "album": "アルバム",
@@ -3762,7 +3778,9 @@
       "seekBackLabel": "{seconds}초 뒤로",
       "seekForwardLabel": "{seconds}초 앞으로",
       "playbackSpeedLabel": "재생 속도",
-      "playbackPositionLabel": "재생 위치"
+      "playbackPositionLabel": "재생 위치",
+      "appearanceSection": "모양",
+      "matchSteamTheme": "빠른 메뉴에 Steam 테마 색상 사용"
     },
     "spotify": {
       "album": "앨범",
@@ -4222,7 +4240,9 @@
       "seekBackLabel": "后退 {seconds} 秒",
       "seekForwardLabel": "前进 {seconds} 秒",
       "playbackSpeedLabel": "播放速度",
-      "playbackPositionLabel": "播放位置"
+      "playbackPositionLabel": "播放位置",
+      "appearanceSection": "外观",
+      "matchSteamTheme": "快速访问菜单使用 Steam 主题配色"
     },
     "spotify": {
       "album": "专辑",

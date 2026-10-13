@@ -20,6 +20,7 @@ import { SmoothProgressFill, SmoothProgressTime } from "./smoothProgress";
 import { ReactiveParticlesLayer, PARTICLE_RESOLUTION_KEY, PARTICLE_RESOLUTION_EVENT, particlePixelRatio } from "./reactiveParticles";
 import { readVisualizerLevels, retainVisualizerAudio } from "./visualizerAudio";
 import { nudgeManualRotation, retainVisualizerControl } from "./visualizerControl";
+import { setQamThemeMatch, THEME_ACCENT, useQamThemeMatch } from "./themeMatch";
 
 const emptySnapshot: Snapshot = {
   selectedPlayer: "",
@@ -2667,6 +2668,7 @@ function SettingsView(props: {
   onToggleApp: (key: MusicAppKey) => void;
   onSpotifySettingsChanged: (settings: SpotifyPlusSettings) => void;
 }) {
+  const qamThemed = useQamThemeMatch();
   const t = useTranslations();
   const enabled = new Set(props.enabledAppKeys);
   const [topbar, setTopbar] = useState(false);
@@ -2832,6 +2834,19 @@ function SettingsView(props: {
             <div style={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}>{t.settingsFullscreenControls}</div>
             <FullscreenControlsLegend />
 
+            <div style={{ height: "12px" }} />
+            <div style={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}>{t.appearanceSection}</div>
+            <Focusable style={{ ...centeredColumnStyle, gap: "6px" }} flow-children="vertical">
+              <DialogButton
+                style={{ ...wideButtonStyle, opacity: qamThemed ? 1 : 0.58 }}
+                onClick={() => setQamThemeMatch(!qamThemed)}
+              >
+                <span style={settingsButtonContentStyle}>
+                  <span>{t.matchSteamTheme}</span>
+                  <span style={settingsCheckStyle}>{qamThemed ? <FaCheck /> : null}</span>
+                </span>
+              </DialogButton>
+            </Focusable>
             <div style={{ height: "12px" }} />
             <div style={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}>{t.topbarSection}</div>
             <Focusable style={{ ...centeredColumnStyle, gap: "6px" }} flow-children="vertical">
@@ -3022,6 +3037,7 @@ function Content() {
   const [mediaVisible, setMediaVisible] = useState<boolean>(true);
   const [bottomGlowFadeTop, setBottomGlowFadeTop] = useState<number>(520);
   const qamRootRef = useRef<HTMLDivElement>(null);
+  const qamThemed = useQamThemeMatch();
   const volumeWrapperRef = useRef<HTMLDivElement>(null);
   const refreshingRef = useRef<boolean>(false);
   const mediaKeyRef = useRef<string>("");
@@ -4143,7 +4159,7 @@ function Content() {
           border-radius: 6px;
           border: 1px solid transparent;
           background: rgba(255, 255, 255, 0.04);
-          color: rgba(255, 255, 255, 0.82);
+          ${qamThemed ? "color: inherit;" : "color: rgba(255, 255, 255, 0.82);"}
           font-size: 0.86em;
           line-height: 1.15;
           outline: none;
@@ -4188,7 +4204,7 @@ function Content() {
       <PanelSectionRow>
         <div
           ref={qamRootRef}
-          style={{ ...qamCenterRowStyle, ["--np-accent" as any]: accentForKey(enabledAppKeys[0]) }}
+          style={{ ...qamCenterRowStyle, ["--np-accent" as any]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }}
         >
           <QamGlowLayer artUrl={coverUrl || coverUrlRef.current} playing={isPlaying} bottomFadeTop={bottomGlowFadeTop} />
           <div style={{ ...centeredColumnStyle, position: "relative", zIndex: 3 }}>

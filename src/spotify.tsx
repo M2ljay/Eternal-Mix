@@ -36,6 +36,7 @@ import { ArtistBackgroundPicker } from "./artistBackground";
 import type { SpotifyTranslation } from "./i18n";
 import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } from "./sourceVolume";
 import { SmoothProgressFill, SmoothProgressTime } from "./smoothProgress";
+import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useQamThemeMatch } from "./themeMatch";
 
 const SPOTIFY_GREEN = "#1DB954";
 export const SPOTIFY_PLAYBACK_CHANGED_EVENT = "nowPlaying:spotify-playback-changed";
@@ -429,6 +430,7 @@ export function SpotifyPlusSettingsPanel({
   onSettingsChanged?: (settings: SpotifyPlusSettings) => void;
 }) {
   const t = useSpotifyTranslations();
+  const themed = useQamThemeMatch();
   const [settings, setSettings] = useState<SpotifyPlusSettings>({
     enabled: false,
     clientId: "",
@@ -805,15 +807,15 @@ export function SpotifyPlusSettingsPanel({
   return (
     <>
       <div style={sectionLabelStyle}>Spotify</div>
-      <div className="npSpotifySettingsCard" style={settingsCardStyle}>
+      <div className="npSpotifySettingsCard" style={{ ...settingsCardStyle, ...(themed ? { background: THEME_CARD_BG, border: THEME_CARD_BORDER } : {}) }}>
         <style>{`
-          .npSpotifySettingsCard button,.npSpotifySettingsCard button *{color:#fff!important;text-align:left!important}
+          .npSpotifySettingsCard button,.npSpotifySettingsCard button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}
           .npSpotifySettingsCard button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}
           .npSpotifySettingsCard button span{font-size:1em!important}
           .npSpotifySettingsCard button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}
-          .npSpotifySettingsCard button:hover,.npSpotifySettingsCard button:focus,.npSpotifySettingsCard button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(29,185,84,.28),0 0 18px rgba(29,185,84,.15)!important}
-          .npSpotifySettingsCard .npSpotifyConnectButton{color:#fff!important;background:rgba(29,185,84,.72)!important}
-          .npSpotifySettingsCard .npSpotifyConnectButton:hover,.npSpotifySettingsCard .npSpotifyConnectButton:focus,.npSpotifySettingsCard .npSpotifyConnectButton.gpfocus{background:#27d260!important;color:#fff!important;border-color:rgba(255,255,255,.34)!important;box-shadow:0 0 0 2px rgba(255,255,255,.62),0 0 22px rgba(29,185,84,.34)!important}
+          ${themed ? "" : `.npSpotifySettingsCard button:hover,.npSpotifySettingsCard button:focus,.npSpotifySettingsCard button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(29,185,84,.28),0 0 18px rgba(29,185,84,.15)!important}`}
+          ${themed ? "" : `.npSpotifySettingsCard .npSpotifyConnectButton{color:#fff!important;background:rgba(29,185,84,.72)!important}`}
+          ${themed ? "" : `.npSpotifySettingsCard .npSpotifyConnectButton:hover,.npSpotifySettingsCard .npSpotifyConnectButton:focus,.npSpotifySettingsCard .npSpotifyConnectButton.gpfocus{background:#27d260!important;color:#fff!important;border-color:rgba(255,255,255,.34)!important;box-shadow:0 0 0 2px rgba(255,255,255,.62),0 0 22px rgba(29,185,84,.34)!important}`}
         `}</style>
         <SpotifyLogoTitle subtitle={t.personalMode} />
         <p style={{ fontSize: "0.74em", lineHeight: 1.42, opacity: 0.74, margin: "10px 0" }}>
@@ -837,7 +839,7 @@ export function SpotifyPlusSettingsPanel({
             <p style={{ margin: "0 2px 8px", fontSize: "0.7em", lineHeight: 1.42, opacity: 0.7 }}>
               {t.finishPlaybackSetup}
             </p>
-            <DialogButton className="npSpotifyConnectButton" style={{ ...fullButtonStyle, background: SPOTIFY_GREEN, color: "#fff" }} disabled={busy} onClick={() => void connectPlayback()}>
+            <DialogButton className="npSpotifyConnectButton" style={{ ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }} disabled={busy} onClick={() => void connectPlayback()}>
               <span style={{ fontWeight: 800 }}><SiSpotify /> {t.connectPlayback}</span>
             </DialogButton>
           </div>
@@ -865,7 +867,7 @@ export function SpotifyPlusSettingsPanel({
                   ) : null}
                   {index === 5 ? setupValueField(t.redirectUri, settings.redirectUri, t.copyRedirectUri, t.redirectCopied) : null}
                   {index === 6 ? (
-                    <div style={{ marginTop: "6px", padding: "7px 8px", borderRadius: "7px", background: "rgba(29,185,84,0.10)", border: "1px solid rgba(29,185,84,0.2)", fontSize: "0.96em", fontWeight: 700 }}>
+                    <div style={{ marginTop: "6px", padding: "7px 8px", borderRadius: "7px", background: themed ? THEME_CARD_BG : "rgba(29,185,84,0.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(29,185,84,0.2)", fontSize: "0.96em", fontWeight: 700 }}>
                       {t.webApiOnly}
                     </div>
                   ) : null}
@@ -914,7 +916,7 @@ export function SpotifyPlusSettingsPanel({
                 <span><FaSignOutAlt /> {t.disconnect}</span>
               </DialogButton>
             ) : (
-              <DialogButton className="npSpotifyConnectButton" style={{ ...fullButtonStyle, background: SPOTIFY_GREEN, color: "#fff" }} disabled={busy || !clientId.trim()} onClick={() => void connect()}>
+              <DialogButton className="npSpotifyConnectButton" style={{ ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }} disabled={busy || !clientId.trim()} onClick={() => void connect()}>
                 <span style={{ fontWeight: 800 }}><SiSpotify /> {t.connect}</span>
               </DialogButton>
             )}
@@ -957,8 +959,8 @@ export function SpotifyPlusSettingsPanel({
                     ...fullButtonStyle,
                     minWidth: "100%",
                     maxWidth: "100%",
-                    background: active ? "rgba(29,185,84,.72)" : undefined,
-                    color: "#fff",
+                    background: active ? (themed ? "color-mix(in srgb, currentColor 18%, transparent)" : "rgba(29,185,84,.72)") : undefined,
+                    color: themed ? undefined : "#fff",
                   }}
                   onClick={() => void setAudioQuality(quality)}
                 >
@@ -974,7 +976,7 @@ export function SpotifyPlusSettingsPanel({
               <span style={{ fontVariantNumeric: "tabular-nums" }}>{(audioCacheStats.bytes / 1073741824).toFixed(2)} GB / {Math.round(audioCacheStats.limitBytes / 1073741824)} GB</span>
             </div>
             <div style={{ position: "relative", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
-              <div style={{ position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (audioCacheStats.bytes / Math.max(1, audioCacheStats.limitBytes)) * 100))}%`, background: SPOTIFY_GREEN, borderRadius: "999px" }} />
+              <div style={{ position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (audioCacheStats.bytes / Math.max(1, audioCacheStats.limitBytes)) * 100))}%`, background: themed ? THEME_ACCENT : SPOTIFY_GREEN, borderRadius: "999px" }} />
             </div>
           </div>
           <DialogButton style={fullButtonStyle} disabled={audioCacheBusy} onClick={() => void clearAudioCache()}>
@@ -988,7 +990,7 @@ export function SpotifyPlusSettingsPanel({
             <span style={{ width: "100%", display: "flex", alignItems: "center", padding: "0 10px", boxSizing: "border-box", gap: "8px" }}>
               <FaList />
               <span>{t.compactSavedTracks}</span>
-              <span style={{ marginLeft: "auto", color: settings.compactSavedTracks !== false ? SPOTIFY_GREEN : "inherit" }}>{settings.compactSavedTracks !== false ? <FaCheck /> : null}</span>
+              <span style={{ marginLeft: "auto", color: settings.compactSavedTracks !== false ? (themed ? THEME_ACCENT : SPOTIFY_GREEN) : "inherit" }}>{settings.compactSavedTracks !== false ? <FaCheck /> : null}</span>
             </span>
           </DialogButton>
           <p style={{ margin: "7px 2px 10px", fontSize: "0.67em", lineHeight: 1.4, opacity: 0.56 }}>{t.compactSavedTracksDescription}</p>
@@ -1019,7 +1021,7 @@ export function SpotifyPlusSettingsPanel({
                           : `${artistCacheProgress.phase === "clearing" ? t.artistCacheClearing : artistCacheProgress.phase === "clearing_manual" ? t.manualBackgroundsRemoving : t.artistCacheProgress}: ${artistCacheProgress.completed}/${artistCacheProgress.total}`}
                 </div>
                 <div style={{ height: "4px", marginTop: "6px", borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,.1)" }}>
-                  <div style={{ width: `${artistCacheProgress.total > 0 ? Math.min(100, (artistCacheProgress.completed / artistCacheProgress.total) * 100) : (artistCacheBusy ? 18 : 100)}%`, height: "100%", background: SPOTIFY_GREEN, transition: "width 180ms ease" }} />
+                  <div style={{ width: `${artistCacheProgress.total > 0 ? Math.min(100, (artistCacheProgress.completed / artistCacheProgress.total) * 100) : (artistCacheBusy ? 18 : 100)}%`, height: "100%", background: themed ? THEME_ACCENT : SPOTIFY_GREEN, transition: "width 180ms ease" }} />
                 </div>
               </div>
             ) : null}
@@ -1035,7 +1037,7 @@ export function SpotifyPlusSettingsPanel({
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <div style={{ position: "relative", flex: 1, height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
-                <div style={{ position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (apiUsage.perMinute / 60) * 100))}%`, background: apiUsage.rateLimited ? "#ff7777" : SPOTIFY_GREEN, borderRadius: "999px", transition: "width 240ms ease" }} />
+                <div style={{ position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (apiUsage.perMinute / 60) * 100))}%`, background: apiUsage.rateLimited ? "#ff7777" : (themed ? THEME_ACCENT : SPOTIFY_GREEN), borderRadius: "999px", transition: "width 240ms ease" }} />
               </div>
               <span style={{ fontSize: "0.68em", fontVariantNumeric: "tabular-nums", minWidth: "76px", textAlign: "right" }}>{apiUsage.perMinute} {t.apiUsagePerMinute}</span>
             </div>
@@ -1106,6 +1108,7 @@ type SpotifyBrowserProps = {
 
 function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSettings }: SpotifyBrowserProps) {
   const t = useSpotifyTranslations();
+  const themed = useQamThemeMatch();
   const [tab, setTab] = useState<BrowserTab>("home");
   const [home, setHome] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -1441,8 +1444,8 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
             gap: "10px",
             padding: "10px",
             borderRadius: "10px",
-            background: "linear-gradient(145deg, rgba(29,185,84,0.18), rgba(0,0,0,0.24))",
-            border: "1px solid rgba(29,185,84,0.25)",
+            background: themed ? THEME_CARD_BG : "linear-gradient(145deg, rgba(29,185,84,0.18), rgba(0,0,0,0.24))",
+            border: themed ? THEME_CARD_BORDER : "1px solid rgba(29,185,84,0.25)",
           }}
         >
           <SpotifyArtwork url={art} size={72} round={kind === "artist"} />
@@ -1456,7 +1459,7 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
         </div>
         <div style={{ height: "8px" }} />
         <DialogButton
-          style={{ ...fullButtonStyle, background: SPOTIFY_GREEN, color: "#fff" }}
+          style={{ ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }}
           onClick={() => void play(contextUri)}
         >
           <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }}>
@@ -1550,7 +1553,7 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
         />
         <div style={{ height: "6px" }} />
         <DialogButton
-          style={{ ...fullButtonStyle, background: SPOTIFY_GREEN, color: "#fff" }}
+          style={{ ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }}
           disabled={loading || searchTerm.trim().length < 2}
           onClick={executeSearch}
         >
@@ -1605,7 +1608,7 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
         <div style={sectionLabelStyle}>{sectionLabels[librarySection]}</div>
         {librarySection === "tracks" && items.length ? (
           <Focusable flow-children="horizontal" style={{ display: "flex", gap: "6px", marginBottom: "7px" }}>
-            <DialogButton style={{ ...fullButtonStyle, flex: 1, minWidth: 0, background: SPOTIFY_GREEN, color: "#050505" }} onClick={() => void playTrackList(items, 0)}>
+            <DialogButton style={{ ...fullButtonStyle, flex: 1, minWidth: 0, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#050505" }) }} onClick={() => void playTrackList(items, 0)}>
               <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }}><FaPlay /> {t.play}</span>
             </DialogButton>
             <DialogButton style={{ ...fullButtonStyle, flex: 1, minWidth: 0 }} onClick={() => { const shuffled = [...items].sort(() => Math.random() - .5); void playTrackList(shuffled, 0); }}>
@@ -1643,10 +1646,10 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
       <style>{`
         .npSpotifyBrowser button:focus,
         .npSpotifyBrowser button.gpfocus {
-          box-shadow: 0 0 0 1px rgba(29,185,84,0.55), 0 0 18px rgba(29,185,84,0.2) !important;
+          ${themed ? "" : `box-shadow: 0 0 0 1px rgba(29,185,84,0.55), 0 0 18px rgba(29,185,84,0.2) !important;`}
         }
         .npSpotifyBrowser input:focus {
-          border-color: ${SPOTIFY_GREEN} !important;
+          ${themed ? "" : `border-color: ${SPOTIFY_GREEN} !important;`}
         }
         .npSpotifyResultButton {
           scroll-margin-top: 64px;
@@ -1666,7 +1669,7 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
         .npSpotifyBigPictureButton:focus,
         .npSpotifyBigPictureButton.gpfocus,
         .npSpotifyBigPictureButton * {
-          color: #fff !important;
+          ${themed ? "" : `color: #fff !important;`}
         }
       `}</style>
       <Focusable
@@ -1683,8 +1686,8 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
             height: "2px",
             margin: "2px 4px 4px",
             borderRadius: "999px",
-            background: "linear-gradient(90deg, transparent, rgba(29,185,84,0.62), transparent)",
-            boxShadow: "0 0 14px rgba(29,185,84,0.24)",
+            background: themed ? THEME_DIVIDER : "linear-gradient(90deg, transparent, rgba(29,185,84,0.62), transparent)",
+            boxShadow: themed ? "none" : "0 0 14px rgba(29,185,84,0.24)",
           }}
         />
         {!detail ? (
@@ -1700,7 +1703,7 @@ function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSetti
                 }}
                 onClick={onOpenBigPicture}
               >
-                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "0.76em", fontWeight: 430, letterSpacing: "0.012em", color: "#fff" }}>
+                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "0.76em", fontWeight: 430, letterSpacing: "0.012em", color: themed ? undefined : "#fff" }}>
                   <FaTv size={12} /> {t.spotifyBigPicture}
                 </span>
               </DialogButton>

@@ -150,6 +150,7 @@ class LocalAudioEngine {
   private audioTrackKey = "";
   private pendingResumeMs = 0;
   private lastResumeSaveAt = 0;
+  private playRetryCleanup: (() => void) | null = null;
   private podcastSpeed = typeof window === "undefined" ? 1 : readPodcastSpeed();
 
   constructor() {
@@ -553,6 +554,7 @@ class LocalAudioEngine {
     this.recoveryAttempts = 0;
     this.recoveryInFlight = false;
     this.clearStallRecoveryTimer();
+    this.clearPlayRetry();
     this.lastProgressAt = Date.now();
     // Show the new track's title/cover IMMEDIATELY (like local music) so QAM and
     // Big Picture update the instant you press next/previous or pick a track —
@@ -562,36 +564,98 @@ class LocalAudioEngine {
     this.persistEpisodePosition();
     audio.pause();
     this.patch({ track, position: 0, length: Number(track?.duration_ms || 0), status: autoPlay ? "Paused" : "Stopped", error: "" });
+    // YouTube Music: start playback now, while the button press is still being
+    // handled, instead of after the 1-10 s stream lookup. The local relay
+    // address is fixed and the relay resolves the stream itself, so the audio
+    // simply begins once the first bytes arrive.
+    const isYouTube = String(track?.sourceKey ?? "") === "youtubeMusic";
+    const relayId = String(track?.videoId ?? track?.id ?? "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 32);
+    const earlyUrl = isYouTube && autoPlay && this.streamBase && relayId ? `${this.streamBase}/ytmusic-track/${encodeURIComponent(relayId)}` : "";
+    let playAttempt: Promise<void> | null = null;
+    if (earlyUrl) {
+      this.attachSource(audio, track, earlyUrl);
+      playAttempt = audio.play();
+      playAttempt.catch(() => {});
+    }
     let streamUrl = "";
     try {
       streamUrl = await this.streamUrl(track);
-      if (String(track?.sourceKey ?? "") === "youtubeMusic") {
+      if (isYouTube) {
         this.failedYouTubeMusicIds.delete(String(track?.videoId ?? track?.id ?? ""));
       }
     } catch (error: any) {
+      if (token !== this.loadingToken) return;
+      if (playAttempt) audio.pause();
       if (await this.skipUnavailableYouTubeMusicTrack(track, error, autoPlay)) return;
       const message = String(error?.message ?? error ?? getTranslations("runtime").localPlaybackStartFailed);
       this.patch({ status: "Stopped", error: message });
       throw error;
     }
     if (token !== this.loadingToken) return;
-    this.audioTrackKey = podcastResumeKey(track);
-    this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
-    this.lastResumeSaveAt = Date.now();
-    audio.src = `${streamUrl}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
-    audio.load();
-    this.applyPlaybackRate();
-    if (autoPlay) {
+    if (!playAttempt || streamUrl !== earlyUrl) {
+      this.attachSource(audio, track, streamUrl);
+      playAttempt = autoPlay ? audio.play() : null;
+    }
+    if (playAttempt) {
       try {
-        await audio.play();
+        await playAttempt;
       } catch (error: any) {
         if (token !== this.loadingToken) return;
+        // Refused or interrupted is not the track's fault: keep it loaded
+        // instead of skipping through the whole queue.
+        if (error?.name === "NotAllowedError") {
+          this.patch({ status: "Paused", error: "" });
+          this.schedulePlayRetry(token);
+          return;
+        }
+        if (error?.name === "AbortError") {
+          this.patch({ status: audio.paused ? "Paused" : this.state.status, error: "" });
+          return;
+        }
         if (await this.skipUnavailableYouTubeMusicTrack(track, error, autoPlay)) return;
         const message = String(error?.message ?? error ?? getTranslations("runtime").localPlaybackStartFailed);
         this.patch({ status: "Stopped", error: message });
         throw error;
       }
     }
+  }
+
+  private attachSource(audio: HTMLAudioElement, track: any, url: string) {
+    this.audioTrackKey = podcastResumeKey(track);
+    this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
+    this.lastResumeSaveAt = Date.now();
+    audio.src = `${url}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
+    audio.load();
+    this.applyPlaybackRate();
+  }
+
+  // Playback was refused (for example before Steam has registered any input
+  // after boot). Try again on the next button press or tap, and a few times
+  // on a timer in case the audio device was still starting up.
+  private schedulePlayRetry(token: number) {
+    this.clearPlayRetry();
+    if (typeof window === "undefined") return;
+    const attempt = () => {
+      const audio = this.audio;
+      if (token !== this.loadingToken || !audio || !audio.paused || !audio.src) {
+        this.clearPlayRetry();
+        return;
+      }
+      audio.play().then(() => this.clearPlayRetry()).catch(() => {});
+    };
+    const events = ["pointerdown", "keydown", "vgp_onbuttondown"];
+    for (const name of events) window.addEventListener(name, attempt, true);
+    const timers = [1500, 4000, 8000, 15000].map((delay) => window.setTimeout(attempt, delay));
+    this.playRetryCleanup = () => {
+      for (const name of events) window.removeEventListener(name, attempt, true);
+      for (const timer of timers) window.clearTimeout(timer);
+    };
+  }
+
+  private clearPlayRetry() {
+    const cleanup = this.playRetryCleanup;
+    this.playRetryCleanup = null;
+    cleanup?.();
   }
 
   private async skipUnavailableYouTubeMusicTrack(track: any, error: unknown, autoPlay: boolean) {
@@ -617,6 +681,7 @@ class LocalAudioEngine {
   }
 
   async playPause() {
+    this.clearPlayRetry();
     const audio = this.ensureAudio();
     if (!audio) return this.state;
     if ((!this.state.track && this.state.queue.length) || (this.state.track && !audio.src)) await this.loadCurrent(true);
@@ -701,6 +766,7 @@ class LocalAudioEngine {
   }
 
   stop() {
+    this.clearPlayRetry();
     this.persistEpisodePosition();
     const audio = this.ensureAudio();
     if (audio) {
@@ -759,6 +825,7 @@ class LocalAudioEngine {
     if (this.syncTimer) window.clearTimeout(this.syncTimer);
     this.syncTimer = 0;
     this.lastBackendSyncAt = 0;
+    this.clearPlayRetry();
     this.persistEpisodePosition();
     this.audioTrackKey = "";
     this.pendingResumeMs = 0;

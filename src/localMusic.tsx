@@ -33,6 +33,7 @@ import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } f
 import type { LocalMusicCacheProgress, LocalMusicSettings } from "./python";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { LocalMusicTranslation } from "./i18n";
+import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useQamThemeMatch } from "./themeMatch";
 
 const LOCAL_ACCENT = "#D9A337";
 const COVER_CACHE = new Map<string, string>();
@@ -367,6 +368,7 @@ export function FanartSettingsPanel() {
 
 export function LocalMusicSettingsPanel({ selectedService: _selectedService }: { selectedService: string }) {
   const t = useLocalTranslations();
+  const themed = useQamThemeMatch();
   const [settings, setSettings] = useState<LocalMusicSettings>({ folders: [], files: [], lastScan: 0, stats: { tracks: 0, albums: 0, artists: 0, playlists: 0, scannedAt: 0 } });
   const [busy, setBusy] = useState(false);
   const [cacheBusy, setCacheBusy] = useState(false);
@@ -578,15 +580,15 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
   return (
     <div ref={settingsPanelRef} className="npLocalSettingsPanel" style={{ width: "100%" }}>
       <style>{`
-        .npLocalSettingsPanel button,.npLocalSettingsPanel button *{color:#fff!important;text-align:left!important}
+        .npLocalSettingsPanel button,.npLocalSettingsPanel button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}
         .npLocalSettingsPanel button{font-size:.82em!important}
         .npLocalSettingsPanel button>span{justify-content:flex-start!important;font-size:1em!important}
         .npLocalSettingsPanel button.npLocalRemoveFolderButton>span{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important}
         .npLocalSettingsPanel button.npLocalRemoveFolderButton svg{margin:0!important}
-        .npLocalSettingsPanel button:hover,.npLocalSettingsPanel button:focus,.npLocalSettingsPanel button.gpfocus{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(217,163,55,.28),0 0 18px rgba(217,163,55,.15)!important}
+        ${themed ? "" : `.npLocalSettingsPanel button:hover,.npLocalSettingsPanel button:focus,.npLocalSettingsPanel button.gpfocus{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(217,163,55,.28),0 0 18px rgba(217,163,55,.15)!important}`}
       `}</style>
       <div style={{ marginTop: 14, padding: "0 4px", fontSize: ".72em", fontWeight: 700, opacity: .64 }}>{t.yourMusic}</div>
-      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: "1px solid rgba(217,163,55,.28)", background: "linear-gradient(145deg, rgba(217,163,55,.13), rgba(0,0,0,.22))" }}>
+      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.28)", background: themed ? THEME_CARD_BG : "linear-gradient(145deg, rgba(217,163,55,.13), rgba(0,0,0,.22))" }}>
         <p style={{ margin: "0 0 8px", fontSize: ".72em", lineHeight: 1.42, opacity: .74 }}>{t.settingsDescription}</p>
         <p style={{ margin: "0 0 10px", fontSize: ".66em", lineHeight: 1.38, opacity: .54 }}>{t.formats}</p>
         <DialogButton className="npLocalSettingsButton" style={{ width: "100%", minWidth: "100%", height: 38, padding: 0 }} disabled={busy} onClick={() => void chooseFolder()}>
@@ -619,7 +621,7 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
               {cacheProgress.total > 0 ? <span style={{ flex: "0 0 auto", opacity: .5 }}>{cacheProgress.completed}/{cacheProgress.total}</span> : null}
             </div>
             <div style={{ height: 3, marginTop: 6, borderRadius: 999, background: "rgba(255,255,255,.10)", overflow: "hidden" }}>
-              <div style={{ width: cacheProgress.total > 0 ? `${cacheProgressPercent}%` : "32%", height: "100%", borderRadius: 999, background: LOCAL_ACCENT, transition: "width 180ms ease" }} />
+              <div style={{ width: cacheProgress.total > 0 ? `${cacheProgressPercent}%` : "32%", height: "100%", borderRadius: 999, background: themed ? THEME_ACCENT : LOCAL_ACCENT, transition: "width 180ms ease" }} />
             </div>
           </div>
         ) : null}
@@ -678,6 +680,7 @@ function LocalItemRow({ item, onActivate }: { item: any; onActivate: () => void 
 
 export const LocalMusicBrowser = memo(function LocalMusicBrowser({ openAlbumRequest, onOpenBigPicture }: { openAlbumRequest?: LocalAlbumRequest | null; onOpenBigPicture: () => void }) {
   const t = useLocalTranslations();
+  const themed = useQamThemeMatch();
   const [tab, setTab] = useState<BrowserTab>("home");
   const [section, setSection] = useState<LibrarySection>("tracks");
   const [home, setHome] = useState<any>({ albums: [], artists: [] });
@@ -776,7 +779,7 @@ export const LocalMusicBrowser = memo(function LocalMusicBrowser({ openAlbumRequ
     return <>
       <DialogButton className="npLocalMinimalButton" style={{ ...qamButton, marginTop: 18 }} onClick={goBack}><span style={{ display: "flex", gap: 7, alignItems: "center", justifyContent: "center", fontSize: ".8em" }}><FaArrowLeft /> {t.back}</span></DialogButton>
       <div style={{ height: 8 }} />
-      <div style={{ display: "flex", gap: 10, padding: 10, borderRadius: 10, background: "rgba(217,163,55,.10)", border: "1px solid rgba(217,163,55,.20)" }}><LocalArtwork item={item} size={70} round={detail?.kind === "artist"} /><div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}><strong>{item?.name}</strong><span style={{ marginTop: 4, fontSize: ".7em", opacity: .58 }}>{artistText(item)}</span></div></div>
+      <div style={{ display: "flex", gap: 10, padding: 10, borderRadius: 10, background: themed ? THEME_CARD_BG : "rgba(217,163,55,.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.20)" }}><LocalArtwork item={item} size={70} round={detail?.kind === "artist"} /><div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}><strong>{item?.name}</strong><span style={{ marginTop: 4, fontSize: ".7em", opacity: .58 }}>{artistText(item)}</span></div></div>
       {detail?.kind === "album" && albumArtist?.id ? <><div style={{ height: 7 }} /><DialogButton style={qamButton} onClick={() => void openDetail({ ...albumArtist, type: "artist" })}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}><FaUser /> {t.artist}</span></DialogButton></> : null}
       {detail?.kind === "artist" && albums.length ? <><div style={{ margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }}>{t.albums}</div>{albums.map((album: any) => <LocalItemRow key={album.id} item={album} onActivate={() => void openDetail(album)} />)}</> : null}
       <div style={{ margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }}>{t.tracks}</div>
@@ -853,11 +856,11 @@ export const LocalMusicBrowser = memo(function LocalMusicBrowser({ openAlbumRequ
   return <div style={{ width: "100%" }}>
     <style>{`
       .npLocalSpin{animation:npLocalSpin 1s linear infinite}@keyframes npLocalSpin{to{transform:rotate(360deg)}}
-      .npLocalMinimalButton,.npLocalMinimalButton *{color:#fff!important}
-      .npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:rgba(255,255,255,.11)!important;border-color:rgba(255,255,255,.19)!important;box-shadow:0 0 0 1px rgba(217,163,55,.24),0 0 18px rgba(217,163,55,.14)!important}
+      ${themed ? "" : `.npLocalMinimalButton,.npLocalMinimalButton *{color:#fff!important}`}
+      ${themed ? "" : `.npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:rgba(255,255,255,.11)!important;border-color:rgba(255,255,255,.19)!important;box-shadow:0 0 0 1px rgba(217,163,55,.24),0 0 18px rgba(217,163,55,.14)!important}`}
       .npLocalSettingsButton,.npLocalSettingsButton *{text-align:left!important}
     `}</style>
-    <div aria-hidden="true" style={{ height: 2, margin: "2px 4px 4px", borderRadius: 999, background: "linear-gradient(90deg,transparent,rgba(217,163,55,.68),transparent)", boxShadow: "0 0 14px rgba(217,163,55,.24)" }} />
+    <div aria-hidden="true" style={{ height: 2, margin: "2px 4px 4px", borderRadius: 999, background: themed ? THEME_DIVIDER : "linear-gradient(90deg,transparent,rgba(217,163,55,.68),transparent)", boxShadow: themed ? "none" : "0 0 14px rgba(217,163,55,.24)" }} />
     <DialogButton className="npLocalMinimalButton" style={{ ...qamButton, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }} onClick={onOpenBigPicture}><span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "center", fontSize: ".76em", fontWeight: 430 }}><FaExpandArrowsAlt size={12} /> {t.bigPicture}</span></DialogButton>
     <div style={{ height: 7 }} />
     <Focusable flow-children="grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 6 }}>

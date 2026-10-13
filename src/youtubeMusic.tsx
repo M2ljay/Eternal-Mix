@@ -31,6 +31,7 @@ import type { YouTubeMusicTranslation } from "./i18n";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { SpotifyArtwork, SpotifyRow, SpotifyTvCard, SpotifyTvTrack } from "./spotify";
 import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } from "./sourceVolume";
+import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useQamThemeMatch } from "./themeMatch";
 
 const YOUTUBE_RED = "#ff0033";
 type BrowserTab = "home" | "search" | "library";
@@ -183,6 +184,7 @@ async function playItems(items: any[], index = 0) {
 
 export function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }: { selectedService?: string }) {
   const t = useMemo(translations, []);
+  const themed = useQamThemeMatch();
   const [settings, setSettings] = useState<python.YouTubeMusicSettings>({ authenticated: false, audioQuality: "high" });
   const [headers, setHeaders] = useState("");
   const [busy, setBusy] = useState(false);
@@ -336,8 +338,8 @@ export function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }: 
   return (
     <>
     <div style={{ padding: "0 4px", margin: "14px 0 6px", fontSize: "0.74em", fontWeight: 800, letterSpacing: "0.035em", textTransform: "uppercase", opacity: 0.62 }}>YouTube Music</div>
-    <div className="npYtmSettings" style={{ ...settingsCard, opacity: selectedService === "youtubeMusic" ? 1 : .86 }}>
-      <style>{`.npYtmSettings button,.npYtmSettings button *{color:#fff!important;text-align:left!important}.npYtmSettings button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}.npYtmSettings button span{font-size:1em!important}.npYtmSettings button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}.npYtmSettings button:hover,.npYtmSettings button:focus,.npYtmSettings button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,0,51,.28),0 0 18px rgba(255,0,51,.15)!important}.npYtmSettings input{box-sizing:border-box!important}`}</style>
+    <div className="npYtmSettings" style={{ ...settingsCard, ...(themed ? { background: THEME_CARD_BG, border: THEME_CARD_BORDER } : {}), opacity: selectedService === "youtubeMusic" ? 1 : .86 }}>
+      <style>{`.npYtmSettings button,.npYtmSettings button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}.npYtmSettings button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}.npYtmSettings button span{font-size:1em!important}.npYtmSettings button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}${themed ? "" : `.npYtmSettings button:hover,.npYtmSettings button:focus,.npYtmSettings button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,0,51,.28),0 0 18px rgba(255,0,51,.15)!important}`}.npYtmSettings input{box-sizing:border-box!important}`}</style>
       <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }}>
         <SiYoutubemusic size={24} color="#fff" style={{ flexShrink: 0 }} />
         <span style={{ minWidth: 0 }}><strong style={{ display: "block", fontSize: "1em", lineHeight: 1.1, fontWeight: 620 }}>YouTube Music</strong><span style={{ display: "block", fontSize: ".72em", opacity: .62, marginTop: "2px" }}>{settings.authenticated ? String(settings.displayName || t.connected) : t.yourMusicInsideSteam}</span></span>
@@ -356,7 +358,7 @@ export function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }: 
         </div> : null}
       </> : <DialogButton style={{ ...fullButton, marginTop: "7px" }} disabled={busy} onClick={() => void run(async () => { const result = await python.disconnectYouTubeMusic(); if (result.ok) clearYouTubeMusicLibrarySessionCache(); return result; }, t.disconnect)}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", textAlign: "center" }}><FaSignOutAlt />{t.disconnect}</span></DialogButton>}
       <div style={{ marginTop: "12px", fontSize: ".76em", fontWeight: 700, opacity: .72 }}>{t.audioQuality}</div>
-      {(["low", "medium", "high"] as const).map((quality) => <DialogButton key={quality} style={{ ...fullButton, marginTop: "6px", border: settings.audioQuality === quality ? `1px solid ${YOUTUBE_RED}` : undefined }} disabled={busy} onClick={() => void run(() => python.setYouTubeMusicAudioQuality(quality))}><span style={{ width: "100%", padding: "0 10px", boxSizing: "border-box", display: "flex", justifyContent: "space-between" }}><span>{{ low: t.qualityLow, medium: t.qualityMedium, high: t.qualityHigh }[quality]}</span>{settings.audioQuality === quality ? <span style={{ color: YOUTUBE_RED }}>{"\u25cf"}</span> : null}</span></DialogButton>)}
+      {(["low", "medium", "high"] as const).map((quality) => <DialogButton key={quality} style={{ ...fullButton, marginTop: "6px", border: settings.audioQuality === quality ? `1px solid ${themed ? THEME_ACCENT : YOUTUBE_RED}` : undefined }} disabled={busy} onClick={() => void run(() => python.setYouTubeMusicAudioQuality(quality))}><span style={{ width: "100%", padding: "0 10px", boxSizing: "border-box", display: "flex", justifyContent: "space-between" }}><span>{{ low: t.qualityLow, medium: t.qualityMedium, high: t.qualityHigh }[quality]}</span>{settings.audioQuality === quality ? <span style={{ color: themed ? THEME_ACCENT : YOUTUBE_RED }}>{"\u25cf"}</span> : null}</span></DialogButton>)}
       <DialogButton style={{ ...fullButton, marginTop: "10px" }} onClick={() => void python.refreshYouTubeMusicCache().then((result) => { if (!result.ok) throw new Error(result.error); clearYouTubeMusicLibrarySessionCache(); toaster.toast({ title: "YouTube Music", body: t.refresh, duration: 2000 }); }).catch(notifyError)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}><FaSyncAlt />{t.refresh}</span></DialogButton>
       <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div style={{ fontSize: "0.8em", fontWeight: 700, marginBottom: "5px" }}>{st.artistCacheTitle}</div>
@@ -369,7 +371,7 @@ export function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }: 
           <div style={{ marginTop: "9px" }}>
             <div style={{ fontSize: "0.66em", opacity: .7, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{artistCacheProgress.current || `${artistCacheProgress.completed}/${artistCacheProgress.total}`}</div>
             <div style={{ height: "4px", marginTop: "6px", borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,.1)" }}>
-              <div style={{ width: `${Math.min(100, (artistCacheProgress.completed / Math.max(1, artistCacheProgress.total)) * 100)}%`, height: "100%", background: YOUTUBE_RED, transition: "width 180ms ease" }} />
+              <div style={{ width: `${Math.min(100, (artistCacheProgress.completed / Math.max(1, artistCacheProgress.total)) * 100)}%`, height: "100%", background: themed ? THEME_ACCENT : YOUTUBE_RED, transition: "width 180ms ease" }} />
             </div>
           </div>
         ) : null}
@@ -387,6 +389,7 @@ type BrowserProps = { onOpenBigPicture?: () => void; onOpenSettings?: () => void
 
 function YouTubeMusicBrowserContent({ onOpenBigPicture }: BrowserProps) {
   const t = useMemo(translations, []);
+  const themed = useQamThemeMatch();
   const [tab, setTab] = useState<BrowserTab>("home");
   const [home, setHome] = useState<any>(null);
   const [searchResults, setSearchResults] = useState<any>(null);
@@ -464,12 +467,12 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }: BrowserProps) {
     return <>
       <DialogButton style={fullButton} onClick={() => setDetail(null)}><span style={{ display: "flex", gap: "7px", alignItems: "center", justifyContent: "center", fontSize: ".8em" }}><FaArrowLeft /> {t.back}</span></DialogButton>
       <div style={{ height: "10px" }} />
-      <div style={{ display: "flex", gap: "10px", padding: "10px", borderRadius: "10px", background: "linear-gradient(145deg,rgba(255,0,51,.18),rgba(0,0,0,.24))", border: "1px solid rgba(255,0,51,.25)" }}>
+      <div style={{ display: "flex", gap: "10px", padding: "10px", borderRadius: "10px", background: themed ? THEME_CARD_BG : "linear-gradient(145deg,rgba(255,0,51,.18),rgba(0,0,0,.24))", border: themed ? THEME_CARD_BORDER : "1px solid rgba(255,0,51,.25)" }}>
         <SpotifyArtwork url={imageUrl(item)} size={72} round={detail.kind === "artist"} />
         <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}><span style={{ fontSize: ".68em", opacity: .55, textTransform: "uppercase", fontWeight: 700 }}>{String(item?.isPodcast ? t.podcast : (t as any)[detail.kind] ?? detail.kind)}</span><strong style={{ marginTop: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(item?.name ?? detail.title)}</strong><span style={{ marginTop: "4px", fontSize: ".72em", opacity: .62 }}>{detail.kind === "artist" ? t.artist : artistText(item)}</span></div>
       </div>
       <div style={{ height: "8px" }} />
-      <DialogButton style={{ ...fullButton, background: YOUTUBE_RED, color: "#fff" }} disabled={!tracks.length} onClick={() => void playItems(tracks)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }}><FaPlay /> {t.play}</span></DialogButton>
+      <DialogButton style={{ ...fullButton, ...(themed ? {} : { background: YOUTUBE_RED, color: "#fff" }) }} disabled={!tracks.length} onClick={() => void playItems(tracks)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }}><FaPlay /> {t.play}</span></DialogButton>
       {detail.kind === "album" && primaryArtist ? <><div style={{ height: "6px" }} /><DialogButton style={fullButton} onClick={() => openDetail({ id: primaryArtist.id, name: primaryArtist.name, type: "artist" })}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: ".8em", fontWeight: 700 }}><FaUser /> {t.artist}</span></DialogButton></> : null}
       {tracks.length ? <><div style={sectionLabel}>{detail.kind === "artist" ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks}</div>{renderRows(tracks, true)}</> : null}
       {albums.length ? <><div style={sectionLabel}>{t.albumsAndSingles}</div>{renderRows(albums)}</> : null}
@@ -489,7 +492,7 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }: BrowserProps) {
     <div style={{ width: "100%", marginTop: "8px" }}>
       <TextField value={query} label={t.searchSpotify} onChange={(value: any) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? ""))} onKeyDown={(event: any) => { if (event?.key === "Enter") void run(() => python.youtubeMusicSearch(query), setSearchResults); }} />
       <div style={{ height: "6px" }} />
-      <DialogButton style={{ ...fullButton, background: YOUTUBE_RED, color: "#fff" }} disabled={query.trim().length < 2 || loading} onClick={() => void run(() => python.youtubeMusicSearch(query), setSearchResults)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }}><FaSearch /> {t.search}</span></DialogButton>
+      <DialogButton style={{ ...fullButton, ...(themed ? {} : { background: YOUTUBE_RED, color: "#fff" }) }} disabled={query.trim().length < 2 || loading} onClick={() => void run(() => python.youtubeMusicSearch(query), setSearchResults)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }}><FaSearch /> {t.search}</span></DialogButton>
     </div>
     {SEARCH_GROUPS.map((key) => { const items = searchResults?.[key]?.items ?? []; return items.length ? <div key={key}><div style={sectionLabel}>{String((t as any)[key])}</div>{renderRows(items, isTrackListSection(key))}</div> : null; })}
     {searchResults && !SEARCH_GROUPS.some((key) => searchResults?.[key]?.items?.length) && !loading ? <div style={{ padding: "14px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }}>{t.noResults}</div> : null}
@@ -501,17 +504,17 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }: BrowserProps) {
       <div style={{ height: "8px" }} />
       <Focusable flow-children="grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", width: "100%" }}>{LIBRARY_SECTIONS.map((section) => <DialogButton key={section} style={{ ...fullButton, minWidth: 0, opacity: librarySection === section ? 1 : .58 }} onClick={() => loadLibrary(section)}><span style={{ fontSize: ".74em", textTransform: "capitalize" }}>{String((t as any)[section])}</span></DialogButton>)}</Focusable>
       <div style={sectionLabel}>{String((t as any)[librarySection])}</div>
-      {isTrackListSection(librarySection) && items.length ? <Focusable flow-children="horizontal" style={{ display: "flex", gap: "6px", marginBottom: "7px" }}><DialogButton style={{ ...fullButton, flex: 1, minWidth: 0, background: YOUTUBE_RED }} onClick={() => void playItems(items)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }}><FaPlay />{t.play}</span></DialogButton><DialogButton style={{ ...fullButton, flex: 1, minWidth: 0 }} onClick={() => void playItems(shuffledCopy(items))}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 700, fontSize: ".8em" }}><FaRandom />{t.shuffle}</span></DialogButton></Focusable> : null}
+      {isTrackListSection(librarySection) && items.length ? <Focusable flow-children="horizontal" style={{ display: "flex", gap: "6px", marginBottom: "7px" }}><DialogButton style={{ ...fullButton, flex: 1, minWidth: 0, ...(themed ? {} : { background: YOUTUBE_RED }) }} onClick={() => void playItems(items)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }}><FaPlay />{t.play}</span></DialogButton><DialogButton style={{ ...fullButton, flex: 1, minWidth: 0 }} onClick={() => void playItems(shuffledCopy(items))}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 700, fontSize: ".8em" }}><FaRandom />{t.shuffle}</span></DialogButton></Focusable> : null}
       {renderRows(items, isTrackListSection(librarySection))}
       {!items.length && !loading ? <div style={{ padding: "12px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }}>{t.nothingHere}</div> : null}
     </>;
   };
 
   return <>
-    <style>{`.npYtmBrowser button:focus,.npYtmBrowser button.gpfocus{box-shadow:0 0 0 1px rgba(255,0,51,.55),0 0 18px rgba(255,0,51,.2)!important}.npYtmBrowser input:focus{border-color:${YOUTUBE_RED}!important}.npYtmBrowser .npSpotifyResultButton{scroll-margin-top:64px}.npYtmNavDock{position:sticky;top:-1px;z-index:4;width:calc(100% + 8px);box-sizing:border-box;margin:-2px -4px 0;padding:6px 4px 8px;background:transparent}.npYtmBigPictureButton,.npYtmBigPictureButton:hover,.npYtmBigPictureButton:focus,.npYtmBigPictureButton.gpfocus,.npYtmBigPictureButton *{color:#fff!important}`}</style>
+    <style>{`${themed ? "" : `.npYtmBrowser button:focus,.npYtmBrowser button.gpfocus{box-shadow:0 0 0 1px rgba(255,0,51,.55),0 0 18px rgba(255,0,51,.2)!important}.npYtmBrowser input:focus{border-color:${YOUTUBE_RED}!important}`}.npYtmBrowser .npSpotifyResultButton{scroll-margin-top:64px}.npYtmNavDock{position:sticky;top:-1px;z-index:4;width:calc(100% + 8px);box-sizing:border-box;margin:-2px -4px 0;padding:6px 4px 8px;background:transparent}${themed ? "" : `.npYtmBigPictureButton,.npYtmBigPictureButton:hover,.npYtmBigPictureButton:focus,.npYtmBigPictureButton.gpfocus,.npYtmBigPictureButton *{color:#fff!important}`}`}</style>
     <Focusable className="npYtmBrowser" flow-children="vertical" onCancel={detail ? () => { setDetail(null); return true; } : undefined} onCancelButton={detail ? () => { setDetail(null); return true; } : undefined} style={{ width: "100%", boxSizing: "border-box" }}>
-      <div aria-hidden="true" style={{ height: "2px", margin: "2px 4px 4px", borderRadius: "999px", background: "linear-gradient(90deg,transparent,rgba(255,0,51,.62),transparent)", boxShadow: "0 0 14px rgba(255,0,51,.24)" }} />
-      {!detail ? <div className="npYtmNavDock">{onOpenBigPicture ? <DialogButton className="npYtmBigPictureButton" style={{ ...fullButton, marginBottom: "6px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }} onClick={onOpenBigPicture}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".76em", fontWeight: 430, color: "#fff" }}><FaTv size={12} />{t.spotifyBigPicture}</span></DialogButton> : null}<Focusable flow-children="grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }}>{tabButton("home", t.home, <FaHome />)}{tabButton("search", t.search, <FaSearch />)}<div style={{ gridColumn: "1 / -1", minWidth: 0 }}>{tabButton("library", t.library, <FaList />)}</div></Focusable></div> : null}
+      <div aria-hidden="true" style={{ height: "2px", margin: "2px 4px 4px", borderRadius: "999px", background: themed ? THEME_DIVIDER : "linear-gradient(90deg,transparent,rgba(255,0,51,.62),transparent)", boxShadow: themed ? "none" : "0 0 14px rgba(255,0,51,.24)" }} />
+      {!detail ? <div className="npYtmNavDock">{onOpenBigPicture ? <DialogButton className="npYtmBigPictureButton" style={{ ...fullButton, marginBottom: "6px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }} onClick={onOpenBigPicture}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".76em", fontWeight: 430, color: themed ? undefined : "#fff" }}><FaTv size={12} />{t.spotifyBigPicture}</span></DialogButton> : null}<Focusable flow-children="grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }}>{tabButton("home", t.home, <FaHome />)}{tabButton("search", t.search, <FaSearch />)}<div style={{ gridColumn: "1 / -1", minWidth: 0 }}>{tabButton("library", t.library, <FaList />)}</div></Focusable></div> : null}
       {loading ? <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px", fontSize: ".72em", opacity: .62 }}><FaSyncAlt className="npYtmSpin" />{t.loadingSpotify}</div> : null}
       {detail ? renderDetail() : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary()}
     </Focusable>

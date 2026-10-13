@@ -4528,7 +4528,7 @@ export default definePlugin(() => {
   routerHook.addRoute(FULLSCREEN_SETTINGS_ROUTE, FullscreenSettingsRoute);
 
   return {
-    name: "Now playing",
+    name: "Now Playing Plus",
     titleView: <NowPlayingTitle />,
     content: <Content />,
     icon: <FaMusic />,

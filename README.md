@@ -11,6 +11,13 @@ Spotify, YouTube Music, local files, and Windows media sessions inside Steam Big
 
 </div>
 
+> **Now Playing Plus** is a fork of [Now Playing](https://github.com/LoZazaMastro/Now-Playing) by LoZazaMastro.
+> It installs as a separate Decky plugin (own folder, name and settings) and carries no Playhub release marker,
+> so Playhub updates of the original never overwrite it. Changes on top of 2.5.2: YouTube Music playback fix
+> (yt-dlp 2026.08.19, visionos client, stream probing), missing-stdlib fallbacks for Decky on Windows,
+> podcasts in search and library, podcast resume, seeking and playback speed, play-on-select, and an
+> optional "Match Steam theme" mode for the quick access panel.
+
 ## Music no longer interrupts your game
 
 Now Playing combines an instant QAM panel with a full-screen music application. Control your tracks from the quick access menu without leaving your game, or browse libraries, albums, playlists, and artists from the full page via a TV-friendly interface.

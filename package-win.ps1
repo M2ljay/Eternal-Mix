@@ -4,17 +4,15 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Parent = Split-Path -Parent $Root
 $Version = (Get-Content (Join-Path $Root "package.json") -Raw | ConvertFrom-Json).version
 $Release = Join-Path $Root "release"
-$Stage = Join-Path $Release "Now Playing"
-$ProjectStage = Join-Path $Release "Now-Playing-project-$Version"
-$Zip = Join-Path $Release "Now-Playing-decky_Installer-$Version.zip"
-$PublicZip = Join-Path $Parent "Now-Playing-decky_Installer-$Version.zip"
-$PublicProjectZip = Join-Path $Parent "Now-Playing-project-$Version.zip"
+$Stage = Join-Path $Release "Now Playing Plus"
+$ProjectStage = Join-Path $Release "Now-Playing-Plus-project-$Version"
+$Zip = Join-Path $Release "Now-Playing-Plus-decky_Installer-$Version.zip"
+$PublicZip = Join-Path $Parent "Now-Playing-Plus-decky_Installer-$Version.zip"
+$PublicProjectZip = Join-Path $Parent "Now-Playing-Plus-project-$Version.zip"
+# Now Playing Plus is not distributed through Playhub: no .playhub-release.json
+# marker is written, so Playhub never mistakes this fork for the original.
 $Marker = Join-Path $Root ".playhub-release.json"
-
-@{
-  repository = "Now-Playing"
-  version = $Version
-} | ConvertTo-Json | Set-Content -LiteralPath $Marker -Encoding utf8
+if (Test-Path -LiteralPath $Marker) { Remove-Item -LiteralPath $Marker -Force }
 
 $ResolvedRoot = [IO.Path]::GetFullPath($Root).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 $ResolvedRelease = [IO.Path]::GetFullPath($Release)

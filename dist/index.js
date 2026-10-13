@@ -1,4 +1,4 @@
-const manifest = {"name":"Now Playing"};
+const manifest = {"name":"Now Playing Plus"};
 const API_VERSION = 2;
 const internalAPIConnection = window.__DECKY_SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED_deckyLoaderAPIInit;
 if (!internalAPIConnection) {
@@ -46347,7 +46347,7 @@ var index = definePlugin(() => {
     routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
     routerHook.addRoute(FULLSCREEN_SETTINGS_ROUTE, FullscreenSettingsRoute);
     return {
-        name: "Now playing",
+        name: "Now Playing Plus",
         titleView: SP_JSX.jsx(NowPlayingTitle, {}),
         content: SP_JSX.jsx(Content, {}),
         icon: SP_JSX.jsx(FaMusic, {}),

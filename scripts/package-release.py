@@ -44,19 +44,19 @@ def main() -> None:
     output=args.output_dir.expanduser().resolve()
     output.mkdir(parents=True,exist_ok=True)
     version=json.loads((ROOT/'package.json').read_text())['version']
-    for filename in ('.playhub-release.json','package-lock.json'):
+    for filename in ('package-lock.json',):
         assert json.loads((ROOT/filename).read_text())['version']==version,filename
-    runtime_names={'plugin.json','package.json','.playhub-release.json','main.py','ytmusic_service.py','runtime_compat.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
+    runtime_names={'plugin.json','package.json','main.py','ytmusic_service.py','runtime_compat.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
     runtime_dirs={'dist','bin','vendor','licenses','runtime_stdlib'}
     required=[ROOT/name for name in runtime_names]+[ROOT/'dist/index.js',ROOT/'runtime_stdlib/http_server.py']
     for path in required:
         if not path.is_file():raise RuntimeError(f'Missing release file: {path}')
     project=sorted(p for p in ROOT.rglob('*') if included(p))
     runtime=[p for p in project if p.relative_to(ROOT).parts[0] in runtime_dirs or p.relative_to(ROOT).as_posix() in runtime_names]
-    installer_zip=output/f'Now-Playing-decky_Installer-{version}.zip'
-    project_zip=output/f'Now-Playing-project-{version}.zip'
-    write_zip(installer_zip,runtime,'Now Playing')
-    write_zip(project_zip,project,'Now-Playing')
+    installer_zip=output/f'Now-Playing-Plus-decky_Installer-{version}.zip'
+    project_zip=output/f'Now-Playing-Plus-project-{version}.zip'
+    write_zip(installer_zip,runtime,'Now Playing Plus')
+    write_zip(project_zip,project,'Now-Playing-Plus')
     with zipfile.ZipFile(installer_zip) as installer,zipfile.ZipFile(project_zip) as source:
         for archive in (installer,source):
             assert archive.testzip() is None,'ZIP CRC failure'
@@ -64,11 +64,11 @@ def main() -> None:
             for name in archive.namelist():
                 assert '..' not in Path(name).parts and not name.startswith('/'),name
         for name in installer.namelist():
-            rel=name.removeprefix('Now Playing/')
-            assert installer.read(name)==source.read('Now-Playing/'+rel),rel
-        for archive,prefix in ((installer,'Now Playing'),(source,'Now-Playing')):
+            rel=name.removeprefix('Now Playing Plus/')
+            assert installer.read(name)==source.read('Now-Playing-Plus/'+rel),rel
+        for archive,prefix in ((installer,'Now Playing Plus'),(source,'Now-Playing-Plus')):
             assert json.loads(archive.read(prefix+'/package.json'))['version']==version
-            assert json.loads(archive.read(prefix+'/.playhub-release.json'))['version']==version
+            assert prefix+'/.playhub-release.json' not in archive.namelist(),'fork must not ship a Playhub marker'
             assert 'runtime_compat' in archive.read(prefix+'/main.py').decode('utf-8')
     print(f'PASS: archive CRC, paths, metadata and {len(runtime)} identical runtime files; {len(project)} project files.')
     for path in (installer_zip,project_zip):

@@ -1,5 +1,5 @@
 {
-  "name": "Now Playing",
+  "name": "Now Playing Plus",
   "author": "LoZazaMastro",
   "api_version": 1,
   "flags": [],
@@ -9,7 +9,7 @@
       "media",
       "windows"
     ],
-    "description": "A console-style Windows music companion with Spotify, YouTube Music, local playback, SMTC controls and fullscreen visuals.",
+    "description": "Fork of Now Playing with YouTube Music fixes, podcasts, resume, seeking, playback speed and theme matching. A console-style Windows music companion with Spotify, YouTube Music, local playback, SMTC controls and fullscreen visuals.",
     "image": ""
   }
 }

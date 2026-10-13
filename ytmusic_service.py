@@ -34,6 +34,7 @@ class YouTubeMusicService:
         self.library_cache_path = os.path.join(settings_dir, "youtube-music-library-cache.json")
         self.response_cache_dir = os.path.join(settings_dir, "youtube-music-response-cache")
         self.browser_profile_dir = os.path.join(settings_dir, "youtube-music-browser-profile")
+        self.unavailable_path = os.path.join(settings_dir, "youtube-music-unavailable.json")
         self._logger = logger
         self._lock = threading.RLock()
         self._client: Any = None
@@ -43,6 +44,10 @@ class YouTubeMusicService:
         self._library_cache_memory: Optional[Dict[str, Any]] = None
         self._stream_cache: Dict[str, Dict[str, Any]] = {}
         self._stream_inflight: Dict[str, threading.Event] = {}
+        # Tracks YouTube refused to play (private, removed, age-gated, ...),
+        # remembered so they fail instantly instead of being looked up again
+        # by the player, the local relay and the prefetcher.
+        self._unavailable: Dict[str, Dict[str, Any]] = self._load_unavailable()
         self._browser_launcher = browser_launcher
         self._process_terminator = process_terminator
         self._browser_auth_lock = threading.RLock()
@@ -803,6 +808,10 @@ class YouTubeMusicService:
         if video_id or result_type in {"song", "video", "track", "episode"}:
             if not video_id or not title:
                 return None
+            # YouTube greys out private/removed uploads (isAvailable False);
+            # they cannot be played, so they are not listed.
+            if value.get("isAvailable") is False:
+                return None
             album_value = value.get("album") if isinstance(value.get("album"), dict) else {}
             if is_episode and not album_value and podcast_ref:
                 # Show the podcast name; no id, since the player opens album ids
@@ -922,7 +931,7 @@ class YouTubeMusicService:
                 "sections": normalized_shelves,
             }
 
-        return self._cached("home", 1800.0, produce)
+        return self._without_unavailable(self._cached("home", 1800.0, produce))
 
     def search(self, query: str) -> Dict[str, Any]:
         cleaned = str(query or "").strip()[:180]
@@ -965,7 +974,7 @@ class YouTubeMusicService:
             return {key: {"items": items} for key, items in groups.items()}
 
         # v2: results now include podcasts and episodes; skip older cached shapes.
-        return self._cached(f"search:v2:{cleaned.casefold()}", 900.0, produce)
+        return self._without_unavailable(self._cached(f"search:v2:{cleaned.casefold()}", 900.0, produce))
 
     def get_library(self, section: str, max_items: int = 100) -> Dict[str, Any]:
         if not self._has_auth():
@@ -1027,7 +1036,7 @@ class YouTubeMusicService:
             self._write_library_cache(section, payload, load_all, library_cache_generation)
             return payload
 
-        return self._cached(f"library:{section}:{'all' if load_all else limit}", 360.0, produce)
+        return self._without_unavailable(self._cached(f"library:{section}:{'all' if load_all else limit}", 360.0, produce))
 
     def get_detail(self, kind: str, item_id: str) -> Dict[str, Any]:
         kind = str(kind or "").lower()
@@ -1106,7 +1115,7 @@ class YouTubeMusicService:
                 "backgroundFallbackImage": (self._images(value) or [{"url": ""}])[-1]["url"],
             }
 
-        return self._cached(f"detail:{kind}:{item_id}", 600.0, produce)
+        return self._without_unavailable(self._cached(f"detail:{kind}:{item_id}", 600.0, produce))
 
     def _cookie_header(self) -> str:
         auth = self.settings.get("auth") if isinstance(self.settings.get("auth"), dict) else {}
@@ -1271,6 +1280,88 @@ class YouTubeMusicService:
             "resolver": "ytmusic-player",
         }
 
+    # Permanent refusals are kept for weeks; anything else (network trouble,
+    # rate limits) only long enough to stop the duplicate lookups.
+    _UNAVAILABLE_PERMANENT = (
+        "private video", "video unavailable", "this video is not available", "has been removed",
+        "no longer available", "account associated with this video has been terminated",
+        "copyright", "not available in your country", "not made this video available",
+    )
+    _UNAVAILABLE_AGE = ("confirm your age", "age-restricted", "inappropriate for some users")
+
+    def _load_unavailable(self) -> Dict[str, Dict[str, Any]]:
+        try:
+            with open(self.unavailable_path, "r", encoding="utf-8") as handle:
+                value = json.load(handle)
+            now = time.time()
+            return {
+                str(key): entry for key, entry in (value.items() if isinstance(value, dict) else [])
+                if isinstance(entry, dict) and float(entry.get("until") or 0) > now
+            }
+        except FileNotFoundError:
+            return {}
+        except Exception as exc:
+            self._log(f"YouTube Music unavailable-track list unreadable: {exc}")
+            return {}
+
+    def _save_unavailable(self) -> None:
+        try:
+            os.makedirs(self.settings_dir, exist_ok=True)
+            now = time.time()
+            with self._lock:
+                keep = {key: entry for key, entry in self._unavailable.items() if float(entry.get("until") or 0) > now and entry.get("permanent")}
+            temporary = self.unavailable_path + ".tmp"
+            with open(temporary, "w", encoding="utf-8") as handle:
+                json.dump(keep, handle)
+            os.replace(temporary, self.unavailable_path)
+        except Exception as exc:
+            self._log(f"YouTube Music unavailable-track list not saved: {exc}")
+
+    def _unavailable_reason(self, video_id: str) -> str:
+        with self._lock:
+            entry = self._unavailable.get(video_id)
+            if not entry:
+                return ""
+            if float(entry.get("until") or 0) <= time.time():
+                self._unavailable.pop(video_id, None)
+                return ""
+            return str(entry.get("reason") or "unavailable")
+
+    def _remember_unavailable(self, video_id: str, error: Exception) -> None:
+        message = str(error or "")
+        lowered = message.lower()
+        if any(marker in lowered for marker in self._UNAVAILABLE_PERMANENT):
+            ttl, permanent = 30 * 86400.0, True
+        elif any(marker in lowered for marker in self._UNAVAILABLE_AGE):
+            ttl, permanent = 7 * 86400.0, True
+        else:
+            ttl, permanent = 20.0, False
+        reason = message.split("ERROR: ", 1)[-1].split(". Use --cookies", 1)[0].strip()[:240] or "unavailable"
+        with self._lock:
+            self._unavailable[video_id] = {"reason": reason, "until": time.time() + ttl, "permanent": permanent}
+        if permanent:
+            self._save_unavailable()
+
+    def _without_unavailable(self, value: Any) -> Any:
+        """Copy of a list/detail/search payload without tracks YouTube refused."""
+        if isinstance(value, list):
+            result = []
+            for entry in value:
+                if isinstance(entry, dict) and str(entry.get("type") or "") == "track":
+                    track_id = str(entry.get("videoId") or entry.get("id") or "")
+                    if track_id and self._unavailable_reason(track_id):
+                        continue
+                result.append(self._without_unavailable(entry))
+            return result
+        if isinstance(value, dict):
+            copied = {key: self._without_unavailable(entry) for key, entry in value.items()}
+            items = copied.get("items")
+            original = value.get("items")
+            if isinstance(items, list) and isinstance(original, list) and isinstance(copied.get("total"), int):
+                copied["total"] = max(0, copied["total"] - (len(original) - len(items)))
+            return copied
+        return value
+
     def invalidate_stream(self, video_id: str) -> int:
         clean_id = re.sub(r"[^A-Za-z0-9_-]", "", str(video_id or ""))[:32]
         if not clean_id:
@@ -1293,6 +1384,9 @@ class YouTubeMusicService:
         clean_id = re.sub(r"[^A-Za-z0-9_-]", "", str(video_id or ""))[:32]
         if not clean_id:
             raise RuntimeError("Invalid YouTube Music track")
+        refused = self._unavailable_reason(clean_id)
+        if refused:
+            raise RuntimeError(f"YouTube Music did not return a playable audio stream ({refused})")
         quality = str(self.settings.get("audio_quality") or "high")
         cache_key = f"{clean_id}:{quality}"
         now = time.time()
@@ -1314,10 +1408,16 @@ class YouTubeMusicService:
                 cached = self._stream_cache.get(cache_key)
                 if cached and float(cached.get("expiresAt") or 0) > time.time() + 60:
                     return dict(cached)
-            # The first attempt failed or timed out. Retry once as the new owner
-            # rather than returning a stale generic error to the player.
+            refused = self._unavailable_reason(clean_id)
+            if refused:
+                raise RuntimeError(f"YouTube Music did not return a playable audio stream ({refused})")
+            # The first attempt timed out (it did not fail). Retry once as the
+            # new owner rather than returning a stale generic error to the player.
         try:
             return self._resolve_stream_uncached(clean_id)
+        except Exception as exc:
+            self._remember_unavailable(clean_id, exc)
+            raise
         finally:
             if owner:
                 with self._lock:

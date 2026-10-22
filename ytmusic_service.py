@@ -468,6 +468,20 @@ class YouTubeMusicService:
         except Exception as exc:
             self._log(f"YouTube Music: unable to activate vendored {probe_module}: {type(exc).__name__}: {exc}")
 
+    def warm_up(self) -> float:
+        """Load yt-dlp and ytmusicapi and build the client ahead of the first
+        song. On a cold start these imports alone take several seconds, which
+        is what made the first track after a boot slow."""
+        started = time.monotonic()
+        self._ensure_imports()
+        import yt_dlp
+        from yt_dlp.extractor.youtube import YoutubeIE  # noqa: F401  (the heavy extractor module)
+
+        with yt_dlp.YoutubeDL({"quiet": True, "no_warnings": True}):
+            pass
+        self._client_for_request()
+        return time.monotonic() - started
+
     def _client_for_request(self, authenticated: Optional[bool] = None):
         self._ensure_imports()
         from ytmusicapi import YTMusic

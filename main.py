@@ -384,6 +384,21 @@ class _LoopbackHTTPServer(http.server.ThreadingHTTPServer):
         super().handle_error(request, client_address)
 
 
+class _TopbarConnection:
+    """An open DevTools WebSocket plus bytes read past the last frame."""
+
+    __slots__ = ("sock", "buffer")
+
+    def __init__(self, sock, buffer: bytes = b"") -> None:
+        self.sock = sock
+        self.buffer = buffer
+
+
+# YouTube serves long audio files slowly (or cuts them off) when they are
+# requested in one piece; yt-dlp uses the same 10 MB piece size.
+REMOTE_CHUNK_BYTES = 10 * 1024 * 1024
+
+
 class LocalMusicStreamServer:
     """Small localhost HTTP server for CEF/HTMLAudioElement playback.
 
@@ -580,47 +595,154 @@ class LocalMusicStreamServer:
                 if not isinstance(stream, dict) or not str(stream.get("url") or "").startswith("http"):
                     self.send_error(404)
                     return
+                url = str(stream.get("url"))
                 headers = {
                     str(key): str(value)
                     for key, value in (stream.get("headers") or {}).items()
-                    if str(key).lower() not in {"host", "content-length", "connection", "accept-encoding"}
+                    if str(key).lower() not in {"host", "content-length", "connection", "accept-encoding", "range"}
                 }
                 range_header = str(self.headers.get("Range") or "").strip()
-                if range_header:
-                    headers["Range"] = range_header
-                request = urllib.request.Request(str(stream.get("url")), headers=headers, method="GET")
+                # YouTube throttles or cuts long single downloads, so audio is
+                # fetched from YouTube in REMOTE_CHUNK_BYTES pieces and handed to
+                # the player as one continuous response. Suffix ranges
+                # ("bytes=-N") and servers that ignore ranges use the old
+                # single-request path.
+                match = re.fullmatch(r"bytes=(\d+)-(\d*)", range_header) if range_header else None
+                if range_header and not match:
+                    self._serve_remote_passthrough(url, headers, range_header, include_body)
+                    return
+                start = int(match.group(1)) if match else 0
+                wanted_end = int(match.group(2)) if match and match.group(2) else None
+                first_end = start + REMOTE_CHUNK_BYTES - 1 if wanted_end is None else min(wanted_end, start + REMOTE_CHUNK_BYTES - 1)
                 remote = None
+                headers_sent = False
                 try:
-                    remote = urllib.request.urlopen(request, timeout=18)
+                    try:
+                        remote = self._open_remote_range(url, headers, start, first_end)
+                    except urllib.error.HTTPError as exc:
+                        self._send_remote_http_error(exc)
+                        return
                     status = int(getattr(remote, "status", 200) or 200)
-                    self.send_response(status)
+                    content_range = str(remote.headers.get("Content-Range") or "")
+                    total_match = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", content_range.strip())
+                    if status != 206 or not total_match or int(total_match.group(1)) != start:
+                        # The server ignored the range: relay its answer as-is.
+                        self._relay_response(remote, status, include_body)
+                        return
+                    total = int(total_match.group(3))
+                    last = total - 1 if wanted_end is None else min(wanted_end, total - 1)
+                    self.send_response(206 if range_header else 200)
                     self._cors("track")
-                    for name in ("Content-Type", "Content-Length", "Content-Range", "Accept-Ranges"):
-                        value = remote.headers.get(name)
-                        if value:
-                            self.send_header(name, value)
+                    content_type = remote.headers.get("Content-Type")
+                    if content_type:
+                        self.send_header("Content-Type", content_type)
+                    self.send_header("Accept-Ranges", "bytes")
+                    self.send_header("Content-Length", str(max(0, last - start + 1)))
+                    if range_header:
+                        self.send_header("Content-Range", f"bytes {start}-{last}/{total}")
                     self.send_header("Content-Disposition", "inline")
                     self.end_headers()
-                    if include_body:
+                    headers_sent = True
+                    if not include_body:
+                        return
+                    position = start
+                    while True:
                         while True:
                             chunk = remote.read(256 * 1024)
                             if not chunk:
                                 break
                             self.wfile.write(chunk)
-                except urllib.error.HTTPError as exc:
-                    status = int(getattr(exc, "code", 502) or 502)
-                    self.send_response(status)
-                    self._cors("track")
-                    content_range = str((getattr(exc, "headers", None) or {}).get("Content-Range") or "")
-                    if content_range:
-                        self.send_header("Content-Range", content_range)
-                    self.send_header("Content-Length", "0")
-                    self.end_headers()
+                            position += len(chunk)
+                        try:
+                            remote.close()
+                        except Exception:
+                            pass
+                        remote = None
+                        if position > last:
+                            break
+                        piece_end = min(last, position + REMOTE_CHUNK_BYTES - 1)
+                        remote = self._open_remote_range(url, headers, position, piece_end, attempts=3)
+                        piece_range = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", str(remote.headers.get("Content-Range") or "").strip())
+                        if int(getattr(remote, "status", 200) or 200) != 206 or not piece_range or int(piece_range.group(1)) != position:
+                            raise RuntimeError(f"YouTube returned an unexpected piece at byte {position}")
                 except (BrokenPipeError, ConnectionResetError):
                     return
                 except Exception as exc:
                     parent._log(f"YouTube Music stream proxy error: {exc}")
-                    self.send_error(502)
+                    if not headers_sent:
+                        # Once audio has started, an error page would corrupt the
+                        # stream; closing lets the player re-request from here.
+                        try:
+                            self.send_error(502)
+                        except Exception:
+                            pass
+                finally:
+                    if remote is not None:
+                        try:
+                            remote.close()
+                        except Exception:
+                            pass
+                    self.close_connection = True
+
+            def _open_remote_range(self, url: str, headers: Dict[str, str], start: int, end: int, attempts: int = 1):
+                request_headers = dict(headers)
+                request_headers["Range"] = f"bytes={start}-{end}"
+                last_error: Optional[BaseException] = None
+                for attempt in range(max(1, attempts)):
+                    try:
+                        return urllib.request.urlopen(urllib.request.Request(url, headers=request_headers, method="GET"), timeout=18)
+                    except urllib.error.HTTPError:
+                        raise
+                    except Exception as exc:
+                        last_error = exc
+                        if attempt + 1 < attempts:
+                            time.sleep(0.4 * (attempt + 1))
+                raise last_error if last_error else RuntimeError("remote range unavailable")
+
+            def _send_remote_http_error(self, exc: urllib.error.HTTPError) -> None:
+                status = int(getattr(exc, "code", 502) or 502)
+                self.send_response(status)
+                self._cors("track")
+                content_range = str((getattr(exc, "headers", None) or {}).get("Content-Range") or "")
+                if content_range:
+                    self.send_header("Content-Range", content_range)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                self.close_connection = True
+
+            def _relay_response(self, remote, status: int, include_body: bool) -> None:
+                self.send_response(status)
+                self._cors("track")
+                for name in ("Content-Type", "Content-Length", "Content-Range", "Accept-Ranges"):
+                    value = remote.headers.get(name)
+                    if value:
+                        self.send_header(name, value)
+                self.send_header("Content-Disposition", "inline")
+                self.end_headers()
+                if include_body:
+                    while True:
+                        chunk = remote.read(256 * 1024)
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk)
+
+            def _serve_remote_passthrough(self, url: str, headers: Dict[str, str], range_header: str, include_body: bool) -> None:
+                request_headers = dict(headers)
+                request_headers["Range"] = range_header
+                remote = None
+                try:
+                    remote = urllib.request.urlopen(urllib.request.Request(url, headers=request_headers, method="GET"), timeout=18)
+                    self._relay_response(remote, int(getattr(remote, "status", 200) or 200), include_body)
+                except urllib.error.HTTPError as exc:
+                    self._send_remote_http_error(exc)
+                except (BrokenPipeError, ConnectionResetError):
+                    return
+                except Exception as exc:
+                    parent._log(f"YouTube Music stream proxy error: {exc}")
+                    try:
+                        self.send_error(502)
+                    except Exception:
+                        pass
                 finally:
                     if remote is not None:
                         try:
@@ -10290,56 +10412,152 @@ class Plugin:
         frame.extend(byte ^ mask[index % 4] for index, byte in enumerate(payload))
         return bytes(frame)
 
-    def _evaluate_steam_target(self, websocket_url, script):
+    # One DevTools WebSocket per Steam page, reused for every badge update.
+    # Opening a fresh connection to every page every two seconds left
+    # thousands of sockets in TIME_WAIT and ran Windows out of ports
+    # ("Only one usage of each socket address", WinError 10048/10055).
+    TOPBAR_TARGETS_TTL = 15.0
+
+    def _topbar_state(self):
+        state = getattr(self, "_topbar_ws_state", None)
+        if state is None:
+            state = {"lock": threading.Lock(), "sockets": {}, "targets": [], "targets_at": 0.0}
+            self._topbar_ws_state = state
+        return state
+
+    def _topbar_targets_cached(self, refresh: bool = False):
+        state = self._topbar_state()
+        now = time.monotonic()
+        if refresh or not state["targets"] or now - state["targets_at"] > self.TOPBAR_TARGETS_TTL:
+            state["targets"] = self._steam_browser_targets()
+            state["targets_at"] = now
+            live = set(state["targets"])
+            for url in [url for url in state["sockets"] if url not in live]:
+                self._topbar_close_socket(url)
+        return list(state["targets"])
+
+    def _topbar_close_socket(self, websocket_url) -> None:
+        conn = self._topbar_state()["sockets"].pop(websocket_url, None)
+        if conn is not None:
+            try:
+                conn.sock.close()
+            except Exception:
+                pass
+
+    def _topbar_close_all_sockets(self) -> None:
+        state = self._topbar_state()
+        with state["lock"]:
+            for url in list(state["sockets"]):
+                self._topbar_close_socket(url)
+
+    def _topbar_open_socket(self, websocket_url):
+        parsed = urllib.parse.urlparse(websocket_url)
+        if parsed.scheme != "ws":
+            raise ValueError("unsupported DevTools URL")
+        host = parsed.hostname or "127.0.0.1"
+        port = parsed.port or TOPBAR_CEF_PORT
+        path = (parsed.path or "/") + (("?" + parsed.query) if parsed.query else "")
+        sock = socket.create_connection((host, port), timeout=3)
         try:
-            parsed = urllib.parse.urlparse(websocket_url)
-            if parsed.scheme != "ws":
-                return False
-            host = parsed.hostname or "127.0.0.1"
-            port = parsed.port or TOPBAR_CEF_PORT
-            path = parsed.path or "/"
-            if parsed.query:
-                path += "?" + parsed.query
-            with socket.create_connection((host, port), timeout=3) as sock:
-                sock.settimeout(3)
-                key = base64.b64encode(os.urandom(16)).decode("ascii")
-                request = (
-                    f"GET {path} HTTP/1.1\r\n"
-                    f"Host: {host}:{port}\r\n"
-                    "Upgrade: websocket\r\n"
-                    "Connection: Upgrade\r\n"
-                    f"Sec-WebSocket-Key: {key}\r\n"
-                    "Sec-WebSocket-Version: 13\r\n\r\n"
-                )
-                sock.sendall(request.encode("ascii"))
-                headers = b""
-                while b"\r\n\r\n" not in headers and len(headers) < 8192:
-                    chunk = sock.recv(1024)
-                    if not chunk:
-                        break
-                    headers += chunk
-                if b" 101 " not in headers.split(b"\r\n", 1)[0]:
-                    return False
-                command = {
-                    "id": random.randint(1, 2_000_000_000),
-                    "method": "Runtime.evaluate",
-                    "params": {"expression": script, "awaitPromise": False, "returnByValue": True},
-                }
-                payload = json.dumps(command, ensure_ascii=False).encode("utf-8")
-                sock.sendall(self._websocket_text_frame(payload))
+            sock.settimeout(3)
+            key = base64.b64encode(os.urandom(16)).decode("ascii")
+            sock.sendall((
+                f"GET {path} HTTP/1.1\r\nHost: {host}:{port}\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n"
+                f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n"
+            ).encode("ascii"))
+            response = b""
+            while b"\r\n\r\n" not in response and len(response) < 8192:
+                chunk = sock.recv(1024)
+                if not chunk:
+                    break
+                response += chunk
+            if b" 101 " not in response.split(b"\r\n", 1)[0]:
+                raise ConnectionError("DevTools refused the WebSocket upgrade")
+            # Bytes after the handshake belong to the first frame; keep them.
+            return _TopbarConnection(sock, response.split(b"\r\n\r\n", 1)[1])
+        except Exception:
+            sock.close()
+            raise
+
+    @staticmethod
+    def _topbar_recv_exact(conn, count: int) -> bytes:
+        buffered = conn.buffer
+        while len(buffered) < count:
+            chunk = conn.sock.recv(max(4096, count - len(buffered)))
+            if not chunk:
+                raise ConnectionError("DevTools closed the connection")
+            buffered += chunk
+        conn.buffer = buffered[count:]
+        return buffered[:count]
+
+    def _topbar_read_frame(self, sock):
+        head = self._topbar_recv_exact(sock, 2)
+        opcode = head[0] & 0x0F
+        length = head[1] & 0x7F
+        if length == 126:
+            length = struct.unpack("!H", self._topbar_recv_exact(sock, 2))[0]
+        elif length == 127:
+            length = struct.unpack("!Q", self._topbar_recv_exact(sock, 8))[0]
+        mask = self._topbar_recv_exact(sock, 4) if head[1] & 0x80 else b""
+        payload = self._topbar_recv_exact(sock, length) if length else b""
+        if mask:
+            payload = bytes(byte ^ mask[index % 4] for index, byte in enumerate(payload))
+        return opcode, payload
+
+    def _topbar_evaluate_on(self, sock, script) -> None:
+        command_id = random.randint(1, 2_000_000_000)
+        command = {
+            "id": command_id,
+            "method": "Runtime.evaluate",
+            "params": {"expression": script, "awaitPromise": False, "returnByValue": True},
+        }
+        sock.sock.sendall(self._websocket_text_frame(json.dumps(command, ensure_ascii=False).encode("utf-8")))
+        deadline = time.monotonic() + 3.0
+        while time.monotonic() < deadline:
+            opcode, payload = self._topbar_read_frame(sock)
+            if opcode == 0x8:
+                raise ConnectionError("DevTools closed the connection")
+            if opcode == 0x9:
+                pong = payload[:125]
+                sock.sock.sendall(bytes([0x8A, 0x80 | len(pong)]) + b"\x00\x00\x00\x00" + pong)  # zero mask
+                continue
+            if opcode == 0x1:
                 try:
-                    sock.recv(4096)
+                    if json.loads(payload.decode("utf-8", "replace")).get("id") == command_id:
+                        return
                 except Exception:
-                    pass
-                return True
-        except Exception as error:
-            self._log(f"topbar target injection failed: {error}")
+                    continue
+        raise TimeoutError("DevTools did not answer")
+
+    def _evaluate_steam_target(self, websocket_url, script):
+        state = self._topbar_state()
+        with state["lock"]:
+            for attempt in range(2):
+                sock = state["sockets"].get(websocket_url)
+                fresh = sock is None
+                try:
+                    if fresh:
+                        sock = self._topbar_open_socket(websocket_url)
+                        state["sockets"][websocket_url] = sock
+                    self._topbar_evaluate_on(sock, script)
+                    return True
+                except Exception as error:
+                    self._topbar_close_socket(websocket_url)
+                    # A reused connection may simply have gone stale (page
+                    # reloaded); retry once on a fresh one before reporting.
+                    if fresh or attempt:
+                        self._log(f"topbar target injection failed: {error}")
+                        return False
             return False
 
     def _inject_topbar_badge(self, label: str, enabled: bool) -> None:
         script = self._topbar_injection_script(label, enabled)
-        for websocket_url in self._steam_browser_targets():
-            self._evaluate_steam_target(websocket_url, script)
+        targets = self._topbar_targets_cached()
+        failed = [url for url in targets if not self._evaluate_steam_target(url, script)]
+        if failed:
+            # Pages come and go; refresh the list next time instead of
+            # retrying a closed one for TOPBAR_TARGETS_TTL seconds.
+            self._topbar_state()["targets_at"] = 0.0
 
     async def _refresh_topbar_once(self, force: bool = False) -> None:
         if self.topbar_enabled:
@@ -10529,9 +10747,28 @@ class Plugin:
             self._spotify_background_monitor_task = asyncio.create_task(self._monitor_spotify_session_background())
         except Exception as exc:
             self._log(f"Spotify background session scheduling error: {exc}")
+        try:
+            self._youtube_music_warmup_task = asyncio.create_task(self._warm_youtube_music_background())
+        except Exception as exc:
+            self._log(f"YouTube Music warm-up scheduling error: {exc}")
+
+    async def _warm_youtube_music_background(self) -> None:
+        # Let Steam, Decky and the network settle first, then load YouTube
+        # Music's libraries on the prefetch worker so a press on Play never
+        # waits behind it.
+        try:
+            await asyncio.sleep(6.0)
+            if not (self._youtube_music._has_auth() or self._normalized_active_service() == "youtubeMusic"):
+                return
+            seconds = await self._run_in_executor(self._youtube_music_prefetch_executor, self._youtube_music.warm_up)
+            self._log(f"YouTube Music warm-up done in {seconds:.1f}s")
+        except asyncio.CancelledError:
+            raise
+        except Exception as exc:
+            self._log(f"YouTube Music warm-up skipped: {type(exc).__name__}: {exc}")
     async def _unload(self) -> None:
         pending = []
-        for name in ("_topbar_task", "_source_retry_task", "_spotify_warmup_task", "_spotify_background_monitor_task"):
+        for name in ("_topbar_task", "_source_retry_task", "_spotify_warmup_task", "_spotify_background_monitor_task", "_youtube_music_warmup_task"):
             task = getattr(self, name, None)
             if task is not None and not task.done():
                 task.cancel()
@@ -10539,6 +10776,10 @@ class Plugin:
         if pending:
             await asyncio.gather(*pending, return_exceptions=True)
         self._shutdown_helper()
+        try:
+            self._topbar_close_all_sockets()
+        except Exception:
+            pass
         try:
             if self._spotify_warmup_task and not self._spotify_warmup_task.done():
                 self._spotify_warmup_task.cancel()

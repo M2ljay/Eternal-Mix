@@ -462,8 +462,8 @@ def test_youtube_music_search_runs_categories_in_parallel() -> None:
         service._independent_client_for_request = lambda *_args: Client()
         service._request_context = lambda _client: contextlib.nullcontext()
         result = service.search("parallel test")
-        assert set(result) == {"tracks", "albums", "artists", "playlists"}
-        assert maximum_active == 4
+        assert set(result) == {"tracks", "albums", "artists", "playlists", "podcasts", "episodes"}
+        assert maximum_active == 6
 
 
 def test_youtube_music_response_cache_survives_restart() -> None:

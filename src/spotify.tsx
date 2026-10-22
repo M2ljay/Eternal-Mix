@@ -1919,6 +1919,8 @@ export function SpotifyTvTrack({
   buttonRef,
   showArtwork = true,
   onFocus,
+  status,
+  progress,
 }: {
   track: any;
   index: number;
@@ -1927,6 +1929,10 @@ export function SpotifyTvTrack({
   buttonRef?: any;
   showArtwork?: boolean;
   onFocus?: () => void;
+  /** Replaces the duration, e.g. "Played" or "12 min left" for podcast episodes. */
+  status?: string;
+  /** Listened fraction (0–1), drawn as a thin bar under the subtitle. */
+  progress?: number;
 }) {
   const normalized = normalizeTrack(track);
   return (
@@ -1968,9 +1974,10 @@ export function SpotifyTvTrack({
           <span style={{ display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {artistText(normalized)}
           </span>
+          {progress && progress > 0 && progress < 1 ? <span className="npEpisodeProgress" style={{ display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "rgba(255,255,255,.14)", overflow: "hidden" }}><span style={{ display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 }} /></span> : null}
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: "14px", opacity: 0.62 }}>
-          {normalized?.duration_ms ? <span style={{ fontVariantNumeric: "tabular-nums", fontSize: "13px" }}>{formatTrackDuration(normalized.duration_ms)}</span> : null}
+          {status ? <span className="npEpisodeStatus" style={{ fontSize: "13px", whiteSpace: "nowrap" }}>{status}</span> : normalized?.duration_ms ? <span style={{ fontVariantNumeric: "tabular-nums", fontSize: "13px" }}>{formatTrackDuration(normalized.duration_ms)}</span> : null}
           <FaPlay size={13} />
         </span>
       </span>

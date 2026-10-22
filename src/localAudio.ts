@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import * as python from "./python";
 import { getTranslations } from "./i18n";
 
@@ -76,26 +76,123 @@ function writePodcastResume(entries: Record<string, any>) {
     // Storage can be unavailable in restricted Steam CEF contexts.
   }
 }
+// Finished episodes, for the "played" marks in episode lists.
+const PODCAST_PLAYED_STORAGE_KEY = "nowPlaying:podcastPlayed:v1";
+const PODCAST_PLAYED_MAX_ENTRIES = 2000;
+const PODCAST_PROGRESS_EVENT = "nowPlaying:podcastProgress";
+function readPodcastPlayed(): Record<string, number> {
+  try {
+    const raw = window.localStorage?.getItem(PODCAST_PLAYED_STORAGE_KEY);
+    const value = raw ? JSON.parse(raw) : {};
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  } catch {
+    return {};
+  }
+}
+function writePodcastPlayed(entries: Record<string, number>) {
+  try {
+    const keys = Object.keys(entries);
+    if (keys.length > PODCAST_PLAYED_MAX_ENTRIES) {
+      keys.sort((left, right) => Number(entries[left] || 0) - Number(entries[right] || 0));
+      for (const key of keys.slice(0, keys.length - PODCAST_PLAYED_MAX_ENTRIES)) delete entries[key];
+    }
+    window.localStorage?.setItem(PODCAST_PLAYED_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+    // Storage can be unavailable in restricted Steam CEF contexts.
+  }
+}
+let lastProgressNotice = 0;
+function notifyPodcastProgress(force: boolean) {
+  // Lists re-render on this; regular position saves are throttled.
+  const now = Date.now();
+  if (!force && now - lastProgressNotice < 15000) return;
+  lastProgressNotice = now;
+  try { window.dispatchEvent(new Event(PODCAST_PROGRESS_EVENT)); } catch { /* no window */ }
+}
+// Just enough of the episode to list it under "Continue listening".
+function episodeSummary(track: any) {
+  if (!track) return undefined;
+  const images = Array.isArray(track.images) ? track.images.filter((image: any) => image?.url).slice(-1) : [];
+  return {
+    id: String(track.id ?? track.videoId ?? ""),
+    videoId: String(track.videoId ?? track.id ?? ""),
+    name: String(track.name ?? ""),
+    artists: Array.isArray(track.artists) ? track.artists.slice(0, 2).map((artist: any) => ({ name: String(artist?.name ?? ""), id: String(artist?.id ?? "") })) : [],
+    album: track.album && typeof track.album === "object" ? { id: String(track.album.id ?? ""), name: String(track.album.name ?? ""), images } : undefined,
+    images,
+    duration_ms: Number(track.duration_ms || 0),
+  };
+}
+function markPodcastPlayed(key: string) {
+  if (!key) return;
+  const played = readPodcastPlayed();
+  played[key] = Date.now();
+  writePodcastPlayed(played);
+}
 function clearPodcastPosition(key: string) {
   if (!key) return;
   const entries = readPodcastResume();
   if (key in entries) {
     delete entries[key];
     writePodcastResume(entries);
+    notifyPodcastProgress(true);
   }
 }
-function savePodcastPosition(key: string, positionMs: number, lengthMs: number) {
+function finishPodcastEpisode(key: string) {
+  if (!key) return;
+  markPodcastPlayed(key);
+  clearPodcastPosition(key);
+  notifyPodcastProgress(true);
+}
+function savePodcastPosition(key: string, positionMs: number, lengthMs: number, track?: any) {
   if (!key) return;
   const position = Math.floor(Number(positionMs || 0));
   const length = Math.floor(Number(lengthMs || 0));
   if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS) {
-    clearPodcastPosition(key);
+    finishPodcastEpisode(key);
     return;
   }
   if (position < PODCAST_RESUME_MIN_MS) return;
   const entries = readPodcastResume();
-  entries[key] = { p: position, l: length, t: Date.now() };
+  const isNew = !(key in entries);
+  entries[key] = { p: position, l: length, t: Date.now(), m: episodeSummary(track) ?? entries[key]?.m };
   writePodcastResume(entries);
+  const played = readPodcastPlayed();
+  if (key in played) {
+    // Listening again: show progress instead of the played mark.
+    delete played[key];
+    writePodcastPlayed(played);
+  }
+  notifyPodcastProgress(isNew);
+}
+
+export type PodcastProgress = { played: boolean; positionMs: number; lengthMs: number };
+export function podcastProgress(track: any): PodcastProgress | null {
+  const key = String(track?.videoId ?? track?.id ?? "");
+  if (!key || track?.isPodcast !== true) return null;
+  const entry = readPodcastResume()[key];
+  if (entry && Number(entry.p) >= PODCAST_RESUME_MIN_MS) {
+    return { played: false, positionMs: Number(entry.p), lengthMs: Number(entry.l || track?.duration_ms || 0) };
+  }
+  return key in readPodcastPlayed() ? { played: true, positionMs: 0, lengthMs: 0 } : null;
+}
+// In-progress episodes, most recently listened first.
+export function continueListeningEpisodes(limit = 12): any[] {
+  const entries = readPodcastResume();
+  return Object.entries(entries)
+    .filter(([, entry]) => entry?.m?.name && Number(entry?.p) >= PODCAST_RESUME_MIN_MS)
+    .sort((left, right) => Number(right[1]?.t || 0) - Number(left[1]?.t || 0))
+    .slice(0, limit)
+    .map(([key, entry]) => ({ ...entry.m, id: entry.m.id || key, videoId: entry.m.videoId || key, type: "track", sourceKey: "youtubeMusic", isPodcast: true, duration_ms: Number(entry.m.duration_ms || entry.l || 0) }));
+}
+export function usePodcastProgressVersion() {
+  const [version, setVersion] = useState(0);
+  useEffect(() => {
+    const listener = () => setVersion((value) => value + 1);
+    window.addEventListener(PODCAST_PROGRESS_EVENT, listener);
+    return () => window.removeEventListener(PODCAST_PROGRESS_EVENT, listener);
+  }, []);
+  return version;
 }
 function savedPodcastPosition(key: string, lengthMs: number): number {
   if (!key) return 0;
@@ -159,6 +256,7 @@ class LocalAudioEngine {
   private prefetchedVideoIds = new Set<string>();
   private failedYouTubeMusicIds = new Set<string>();
   private audioTrackKey = "";
+  private audioTrackItem: any = null;
   private pendingResumeMs = 0;
   private lastResumeSaveAt = 0;
   private playRetryCleanup: (() => void) | null = null;
@@ -637,6 +735,7 @@ class LocalAudioEngine {
 
   private attachSource(audio: HTMLAudioElement, track: any, url: string) {
     this.audioTrackKey = podcastResumeKey(track);
+    this.audioTrackItem = this.audioTrackKey ? track : null;
     this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
     this.lastResumeSaveAt = Date.now();
     audio.src = `${url}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
@@ -872,7 +971,7 @@ class LocalAudioEngine {
     const audio = this.audio;
     if (!audio || !this.audioTrackKey || this.pendingResumeMs || this.recoveryInFlight) return;
     const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : Number(this.state.length || 0);
-    savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1000, length);
+    savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1000, length, this.audioTrackItem);
   }
 
   private applyPendingResume(audio: HTMLAudioElement) {
@@ -905,7 +1004,7 @@ class LocalAudioEngine {
       await this.reloadAt(Math.min(expectedLength - 1000, actualPosition + 80), "premature-ended");
       return;
     }
-    clearPodcastPosition(this.audioTrackKey);
+    finishPodcastEpisode(this.audioTrackKey);
     if (this.state.repeatMode === "One") {
       await this.loadCurrent(true);
       return;

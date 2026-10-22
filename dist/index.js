@@ -1200,7 +1200,13 @@ var locales_default = {
       qualityHigh: "High",
       podcasts: "Podcasts",
       episodes: "Episodes",
-      podcast: "Podcast"
+      podcast: "Podcast",
+      unavailableTracks: "{count} songs are no longer available on YouTube",
+      unavailableTrack: "1 song is no longer available on YouTube",
+      continueListening: "Continue listening",
+      played: "Played",
+      minutesLeft: "{count} min left",
+      inProgress: "In progress"
     }
   },
   it: {
@@ -1662,7 +1668,13 @@ var locales_default = {
       qualityHigh: "Alta",
       podcasts: "Podcast",
       episodes: "Episodi",
-      podcast: "Podcast"
+      podcast: "Podcast",
+      unavailableTracks: "{count} brani non sono più disponibili su YouTube",
+      unavailableTrack: "1 brano non è più disponibile su YouTube",
+      continueListening: "Continua ad ascoltare",
+      played: "Ascoltato",
+      minutesLeft: "{count} min rimanenti",
+      inProgress: "In corso"
     }
   },
   es: {
@@ -2124,7 +2136,13 @@ var locales_default = {
       qualityHigh: "Alta",
       podcasts: "Pódcasts",
       episodes: "Episodios",
-      podcast: "Pódcast"
+      podcast: "Pódcast",
+      unavailableTracks: "{count} canciones ya no están disponibles en YouTube",
+      unavailableTrack: "1 canción ya no está disponible en YouTube",
+      continueListening: "Seguir escuchando",
+      played: "Escuchado",
+      minutesLeft: "Quedan {count} min",
+      inProgress: "En curso"
     }
   },
   fr: {
@@ -2586,7 +2604,13 @@ var locales_default = {
       qualityHigh: "?lev?e",
       podcasts: "Podcasts",
       episodes: "Épisodes",
-      podcast: "Podcast"
+      podcast: "Podcast",
+      unavailableTracks: "{count} titres ne sont plus disponibles sur YouTube",
+      unavailableTrack: "1 titre n’est plus disponible sur YouTube",
+      continueListening: "Reprendre l’écoute",
+      played: "Écouté",
+      minutesLeft: "{count} min restantes",
+      inProgress: "En cours"
     }
   },
   de: {
@@ -3048,7 +3072,13 @@ var locales_default = {
       qualityHigh: "Hoch",
       podcasts: "Podcasts",
       episodes: "Folgen",
-      podcast: "Podcast"
+      podcast: "Podcast",
+      unavailableTracks: "{count} Titel sind auf YouTube nicht mehr verfügbar",
+      unavailableTrack: "1 Titel ist auf YouTube nicht mehr verfügbar",
+      continueListening: "Weiterhören",
+      played: "Gehört",
+      minutesLeft: "Noch {count} Min.",
+      inProgress: "Begonnen"
     }
   },
   "pt-br": {
@@ -3510,7 +3540,13 @@ var locales_default = {
       qualityHigh: "Alta",
       podcasts: "Podcasts",
       episodes: "Episódios",
-      podcast: "Podcast"
+      podcast: "Podcast",
+      unavailableTracks: "{count} músicas não estão mais disponíveis no YouTube",
+      unavailableTrack: "1 música não está mais disponível no YouTube",
+      continueListening: "Continuar ouvindo",
+      played: "Ouvido",
+      minutesLeft: "Faltam {count} min",
+      inProgress: "Em andamento"
     }
   },
   ru: {
@@ -3972,7 +4008,13 @@ var locales_default = {
       qualityHigh: "???????",
       podcasts: "Подкасты",
       episodes: "Выпуски",
-      podcast: "Подкаст"
+      podcast: "Подкаст",
+      unavailableTracks: "Недоступно на YouTube треков: {count}",
+      unavailableTrack: "Недоступно на YouTube треков: 1",
+      continueListening: "Продолжить прослушивание",
+      played: "Прослушано",
+      minutesLeft: "Осталось {count} мин",
+      inProgress: "Начато"
     }
   },
   ja: {
@@ -4434,7 +4476,13 @@ var locales_default = {
       qualityHigh: "?",
       podcasts: "ポッドキャスト",
       episodes: "エピソード",
-      podcast: "ポッドキャスト"
+      podcast: "ポッドキャスト",
+      unavailableTracks: "{count} 曲は YouTube で利用できなくなりました",
+      unavailableTrack: "1 曲は YouTube で利用できなくなりました",
+      continueListening: "続きを聴く",
+      played: "再生済み",
+      minutesLeft: "残り {count} 分",
+      inProgress: "再生途中"
     }
   },
   ko: {
@@ -4896,7 +4944,13 @@ var locales_default = {
       qualityHigh: "??",
       podcasts: "팟캐스트",
       episodes: "에피소드",
-      podcast: "팟캐스트"
+      podcast: "팟캐스트",
+      unavailableTracks: "{count}곡은 더 이상 YouTube에서 재생할 수 없습니다",
+      unavailableTrack: "1곡은 더 이상 YouTube에서 재생할 수 없습니다",
+      continueListening: "이어서 듣기",
+      played: "재생함",
+      minutesLeft: "{count}분 남음",
+      inProgress: "듣는 중"
     }
   },
   zh: {
@@ -5358,7 +5412,13 @@ var locales_default = {
       qualityHigh: "?",
       podcasts: "播客",
       episodes: "单集",
-      podcast: "播客"
+      podcast: "播客",
+      unavailableTracks: "{count} 首歌曲已无法在 YouTube 上播放",
+      unavailableTrack: "1 首歌曲已无法在 YouTube 上播放",
+      continueListening: "继续收听",
+      played: "已播放",
+      minutesLeft: "剩余 {count} 分钟",
+      inProgress: "收听中"
     }
   }
 };
@@ -5535,26 +5595,114 @@ function writePodcastResume(entries) {
   } catch {
   }
 }
+var PODCAST_PLAYED_STORAGE_KEY = "nowPlaying:podcastPlayed:v1";
+var PODCAST_PLAYED_MAX_ENTRIES = 2e3;
+var PODCAST_PROGRESS_EVENT = "nowPlaying:podcastProgress";
+function readPodcastPlayed() {
+  try {
+    const raw = window.localStorage?.getItem(PODCAST_PLAYED_STORAGE_KEY);
+    const value = raw ? JSON.parse(raw) : {};
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  } catch {
+    return {};
+  }
+}
+function writePodcastPlayed(entries) {
+  try {
+    const keys = Object.keys(entries);
+    if (keys.length > PODCAST_PLAYED_MAX_ENTRIES) {
+      keys.sort((left, right) => Number(entries[left] || 0) - Number(entries[right] || 0));
+      for (const key of keys.slice(0, keys.length - PODCAST_PLAYED_MAX_ENTRIES)) delete entries[key];
+    }
+    window.localStorage?.setItem(PODCAST_PLAYED_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+  }
+}
+var lastProgressNotice = 0;
+function notifyPodcastProgress(force) {
+  const now = Date.now();
+  if (!force && now - lastProgressNotice < 15e3) return;
+  lastProgressNotice = now;
+  try {
+    window.dispatchEvent(new Event(PODCAST_PROGRESS_EVENT));
+  } catch {
+  }
+}
+function episodeSummary(track) {
+  if (!track) return void 0;
+  const images = Array.isArray(track.images) ? track.images.filter((image) => image?.url).slice(-1) : [];
+  return {
+    id: String(track.id ?? track.videoId ?? ""),
+    videoId: String(track.videoId ?? track.id ?? ""),
+    name: String(track.name ?? ""),
+    artists: Array.isArray(track.artists) ? track.artists.slice(0, 2).map((artist) => ({ name: String(artist?.name ?? ""), id: String(artist?.id ?? "") })) : [],
+    album: track.album && typeof track.album === "object" ? { id: String(track.album.id ?? ""), name: String(track.album.name ?? ""), images } : void 0,
+    images,
+    duration_ms: Number(track.duration_ms || 0)
+  };
+}
+function markPodcastPlayed(key) {
+  if (!key) return;
+  const played = readPodcastPlayed();
+  played[key] = Date.now();
+  writePodcastPlayed(played);
+}
 function clearPodcastPosition(key) {
   if (!key) return;
   const entries = readPodcastResume();
   if (key in entries) {
     delete entries[key];
     writePodcastResume(entries);
+    notifyPodcastProgress(true);
   }
 }
-function savePodcastPosition(key, positionMs, lengthMs) {
+function finishPodcastEpisode(key) {
+  if (!key) return;
+  markPodcastPlayed(key);
+  clearPodcastPosition(key);
+  notifyPodcastProgress(true);
+}
+function savePodcastPosition(key, positionMs, lengthMs, track) {
   if (!key) return;
   const position = Math.floor(Number(positionMs || 0));
   const length = Math.floor(Number(lengthMs || 0));
   if (length > 0 && position >= length - PODCAST_RESUME_END_MARGIN_MS) {
-    clearPodcastPosition(key);
+    finishPodcastEpisode(key);
     return;
   }
   if (position < PODCAST_RESUME_MIN_MS) return;
   const entries = readPodcastResume();
-  entries[key] = { p: position, l: length, t: Date.now() };
+  const isNew = !(key in entries);
+  entries[key] = { p: position, l: length, t: Date.now(), m: episodeSummary(track) ?? entries[key]?.m };
   writePodcastResume(entries);
+  const played = readPodcastPlayed();
+  if (key in played) {
+    delete played[key];
+    writePodcastPlayed(played);
+  }
+  notifyPodcastProgress(isNew);
+}
+function podcastProgress(track) {
+  const key = String(track?.videoId ?? track?.id ?? "");
+  if (!key || track?.isPodcast !== true) return null;
+  const entry = readPodcastResume()[key];
+  if (entry && Number(entry.p) >= PODCAST_RESUME_MIN_MS) {
+    return { played: false, positionMs: Number(entry.p), lengthMs: Number(entry.l || track?.duration_ms || 0) };
+  }
+  return key in readPodcastPlayed() ? { played: true, positionMs: 0, lengthMs: 0 } : null;
+}
+function continueListeningEpisodes(limit = 12) {
+  const entries = readPodcastResume();
+  return Object.entries(entries).filter(([, entry]) => entry?.m?.name && Number(entry?.p) >= PODCAST_RESUME_MIN_MS).sort((left, right) => Number(right[1]?.t || 0) - Number(left[1]?.t || 0)).slice(0, limit).map(([key, entry]) => ({ ...entry.m, id: entry.m.id || key, videoId: entry.m.videoId || key, type: "track", sourceKey: "youtubeMusic", isPodcast: true, duration_ms: Number(entry.m.duration_ms || entry.l || 0) }));
+}
+function usePodcastProgressVersion() {
+  const [version, setVersion] = (0, import_react3.useState)(0);
+  (0, import_react3.useEffect)(() => {
+    const listener = () => setVersion((value) => value + 1);
+    window.addEventListener(PODCAST_PROGRESS_EVENT, listener);
+    return () => window.removeEventListener(PODCAST_PROGRESS_EVENT, listener);
+  }, []);
+  return version;
 }
 function savedPodcastPosition(key, lengthMs) {
   if (!key) return 0;
@@ -5613,6 +5761,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
     this.prefetchedVideoIds = /* @__PURE__ */ new Set();
     this.failedYouTubeMusicIds = /* @__PURE__ */ new Set();
     this.audioTrackKey = "";
+    this.audioTrackItem = null;
     this.pendingResumeMs = 0;
     this.lastResumeSaveAt = 0;
     this.playRetryCleanup = null;
@@ -6061,6 +6210,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
   }
   attachSource(audio, track, url) {
     this.audioTrackKey = podcastResumeKey(track);
+    this.audioTrackItem = this.audioTrackKey ? track : null;
     this.pendingResumeMs = savedPodcastPosition(this.audioTrackKey, Number(track?.duration_ms || 0));
     this.lastResumeSaveAt = Date.now();
     audio.src = `${url}?v=${encodeURIComponent(String(track?.modifiedAt ?? track?.id ?? Date.now()))}`;
@@ -6279,7 +6429,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
     const audio = this.audio;
     if (!audio || !this.audioTrackKey || this.pendingResumeMs || this.recoveryInFlight) return;
     const length = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1e3 : Number(this.state.length || 0);
-    savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1e3, length);
+    savePodcastPosition(this.audioTrackKey, (audio.currentTime || 0) * 1e3, length, this.audioTrackItem);
   }
   applyPendingResume(audio) {
     const target = this.pendingResumeMs;
@@ -6309,7 +6459,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
       await this.reloadAt(Math.min(expectedLength - 1e3, actualPosition + 80), "premature-ended");
       return;
     }
-    clearPodcastPosition(this.audioTrackKey);
+    finishPodcastEpisode(this.audioTrackKey);
     if (this.state.repeatMode === "One") {
       await this.loadCurrent(true);
       return;
@@ -8459,7 +8609,9 @@ function SpotifyTvTrack({
   preferredFocus = false,
   buttonRef,
   showArtwork = true,
-  onFocus
+  onFocus,
+  status,
+  progress
 }) {
   const normalized = normalizeTrack2(track);
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
@@ -8498,10 +8650,11 @@ function SpotifyTvTrack({
             showArtwork ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(SpotifyArtwork, { url: imageUrl(normalized), size: 44 }) : null,
             /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { style: { minWidth: 0 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("strong", { style: { display: "block", fontSize: "16px", fontWeight: 620, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(normalized?.name ?? "") }),
-              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { style: { display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText(normalized) })
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { style: { display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText(normalized) }),
+              progress && progress > 0 && progress < 1 ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "npEpisodeProgress", style: { display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "rgba(255,255,255,.14)", overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { style: { display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 } }) }) : null
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: "14px", opacity: 0.62 }, children: [
-              normalized?.duration_ms ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "13px" }, children: formatTrackDuration(normalized.duration_ms) }) : null,
+              status ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "npEpisodeStatus", style: { fontSize: "13px", whiteSpace: "nowrap" }, children: status }) : normalized?.duration_ms ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "13px" }, children: formatTrackDuration(normalized.duration_ms) }) : null,
               /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FaPlay, { size: 13 })
             ] })
           ]
@@ -11685,6 +11838,20 @@ async function playItems(items, index = 0) {
     notifyError(error);
   }
 }
+function episodeStatus(t, track) {
+  const progress = podcastProgress(track);
+  if (!progress) return null;
+  if (progress.played) return { label: String(t.played ?? "Played"), fraction: 1 };
+  const length = progress.lengthMs || Number(track?.duration_ms || 0);
+  if (!length) return { label: String(t.inProgress ?? ""), fraction: 0 };
+  const minutes = Math.max(1, Math.round((length - progress.positionMs) / 6e4));
+  return { label: String(t.minutesLeft ?? "{count} min left").replace("{count}", String(minutes)), fraction: Math.min(1, progress.positionMs / length) };
+}
+function unavailableNote(t, data) {
+  const count = Math.max(0, Number(data?.unavailableCount) || 0);
+  if (!count) return "";
+  return count === 1 ? String(t.unavailableTrack ?? "") : String(t.unavailableTracks ?? "").replace("{count}", String(count));
+}
 function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }) {
   const t = (0, import_react10.useMemo)(translations, []);
   const themed = useQamThemeMatch();
@@ -11947,6 +12114,7 @@ function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }) {
 function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
   const t = (0, import_react10.useMemo)(translations, []);
   const themed = useQamThemeMatch();
+  usePodcastProgressVersion();
   const [tab, setTab] = (0, import_react10.useState)("home");
   const [home, setHome] = (0, import_react10.useState)(null);
   const [searchResults, setSearchResults] = (0, import_react10.useState)(null);
@@ -12011,7 +12179,11 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
     const next = { kind, id: String(item.id), title: String(item.name ?? t.untitled) };
     void run(() => youtubeMusicGetDetail(kind, next.id), (data) => setDetail({ ...next, data }));
   };
-  const renderRows = (items, tracksAsQueue = false) => items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyRow, { item, subtitle: artistText3(item), roundImage: itemType3(item) === "artist", onFocus: () => prefetchTrack(item), onActivate: () => tracksAsQueue && itemType3(item) === "track" ? void playItems(items, index) : openDetail(item) }, `${item?.type}-${item?.id}-${index}`));
+  const rowSubtitle = (item) => {
+    const status = episodeStatus(t, item);
+    return status ? `${status.label} · ${artistText3(item)}` : artistText3(item);
+  };
+  const renderRows = (items, tracksAsQueue = false) => items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyRow, { item, subtitle: rowSubtitle(item), roundImage: itemType3(item) === "artist", onFocus: () => prefetchTrack(item), onActivate: () => tracksAsQueue && itemType3(item) === "track" ? void playItems(items, index) : openDetail(item) }, `${item?.type}-${item?.id}-${index}`));
   const renderDetail = () => {
     if (!detail) return null;
     if (!detail.data) return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { padding: "20px", textAlign: "center", opacity: 0.68 }, children: t.loadingSpotify });
@@ -12052,6 +12224,7 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
         /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: sectionLabel, children: detail.kind === "artist" ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }),
         renderRows(tracks, true)
       ] }) : null,
+      unavailableNote(t, detail.data) ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "npYtmUnavailableNote", style: { padding: "8px 8px 2px", textAlign: "center", opacity: 0.55, fontSize: ".7em" }, children: unavailableNote(t, detail.data) }) : null,
       albums.length ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: sectionLabel, children: t.albumsAndSingles }),
         renderRows(albums)
@@ -12070,7 +12243,12 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
     icon,
     label
   ] }) });
+  const continueItems = continueListeningEpisodes();
   const renderHome = () => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+    continueItems.length ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: sectionLabel, children: t.continueListening }),
+      renderRows(continueItems, true)
+    ] }) : null,
     /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: sectionLabel, children: t.yourPlaylists }),
     renderRows(home?.playlists?.items ?? []),
     /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: sectionLabel, children: t.newReleases }),
@@ -12150,6 +12328,7 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
 var YouTubeMusicBrowser = (0, import_react10.memo)(YouTubeMusicBrowserContent);
 function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
   const t = (0, import_react10.useMemo)(translations, []);
+  usePodcastProgressVersion();
   const coreT = (0, import_react10.useMemo)(() => getTranslations("core"), []);
   const audio = useLocalAudioState();
   const [tab, setTab] = (0, import_react10.useState)("home");
@@ -12365,8 +12544,18 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
       ] })
     ] }) })
   ] });
+  const statusProps = (track) => {
+    const status = episodeStatus(t, track);
+    return status ? { status: status.label, progress: status.fraction } : {};
+  };
+  const continueItems = continueListeningEpisodes();
+  const continueRow = () => continueItems.length ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { style: { marginTop: "28px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.continueListening }),
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.Focusable, { "flow-children": "vertical", children: continueItems.map((episode, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyTvTrack, { track: episode, index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(continueItems, index) }, `continue-${episode?.id}`)) })
+  ] }) : null;
   const renderHome = () => /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
     playerCard(),
+    continueRow(),
     cardRow(t.yourPlaylists, home?.playlists?.items ?? []),
     cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])
   ] });
@@ -12395,7 +12584,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
       cardRow(t.podcasts, podcasts),
       episodes.length ? /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { style: { marginTop: "28px" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.episodes }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyTvTrack, { track: episode, index, onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyTvTrack, { track: episode, index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })
       ] }) : null,
       searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { marginTop: "38px", fontSize: "19px", opacity: 0.55 }, children: t.noResults }) : null
     ] });
@@ -12509,12 +12698,13 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { style: { marginTop: "30px" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { style: { margin: "0 0 13px", fontSize: "27px", fontWeight: 650 }, children: isArtist ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.Focusable, { "flow-children": "vertical", children: tracks.slice(0, detailTrackVisibleCount).map((track, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyTvTrack, { track, index, showArtwork: detail.kind !== "album", onFocus: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.Focusable, { "flow-children": "vertical", children: tracks.slice(0, detailTrackVisibleCount).map((track, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(SpotifyTvTrack, { track, index, showArtwork: detail.kind !== "album", ...statusProps(track), onFocus: () => {
           prefetchTrack(track);
           const visible = Math.min(tracks.length, detailTrackVisibleCount);
           if (index >= visible - 18 && visible < tracks.length) setDetailTrackVisibleCount((current2) => Math.min(tracks.length, current2 + 120));
         }, onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) }),
-        !tracks.length && !loading ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { fontSize: "19px", opacity: 0.55 }, children: t.noTracks }) : null
+        !tracks.length && !loading ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { style: { fontSize: "19px", opacity: 0.55 }, children: t.noTracks }) : null,
+        unavailableNote(t, detail.data) ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "npYtmUnavailableNote", style: { marginTop: "14px", fontSize: "16px", opacity: 0.5 }, children: unavailableNote(t, detail.data) }) : null
       ] }),
       cardRow(t.albumsAndSingles, albums),
       isArtist ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_ui6.DialogButton, { className: "npYtmMinimalButton", style: { width: 250, minWidth: 250, height: 48, marginTop: 26, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, onClick: () => setBackgroundSettingsOpen(true), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [

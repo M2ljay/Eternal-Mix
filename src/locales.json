@@ -458,7 +458,13 @@
       "qualityHigh": "High",
       "podcasts": "Podcasts",
       "episodes": "Episodes",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "unavailableTracks": "{count} songs are no longer available on YouTube",
+      "unavailableTrack": "1 song is no longer available on YouTube",
+      "continueListening": "Continue listening",
+      "played": "Played",
+      "minutesLeft": "{count} min left",
+      "inProgress": "In progress"
     }
   },
   "it": {
@@ -920,7 +926,13 @@
       "qualityHigh": "Alta",
       "podcasts": "Podcast",
       "episodes": "Episodi",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "unavailableTracks": "{count} brani non sono più disponibili su YouTube",
+      "unavailableTrack": "1 brano non è più disponibile su YouTube",
+      "continueListening": "Continua ad ascoltare",
+      "played": "Ascoltato",
+      "minutesLeft": "{count} min rimanenti",
+      "inProgress": "In corso"
     }
   },
   "es": {
@@ -1382,7 +1394,13 @@
       "qualityHigh": "Alta",
       "podcasts": "Pódcasts",
       "episodes": "Episodios",
-      "podcast": "Pódcast"
+      "podcast": "Pódcast",
+      "unavailableTracks": "{count} canciones ya no están disponibles en YouTube",
+      "unavailableTrack": "1 canción ya no está disponible en YouTube",
+      "continueListening": "Seguir escuchando",
+      "played": "Escuchado",
+      "minutesLeft": "Quedan {count} min",
+      "inProgress": "En curso"
     }
   },
   "fr": {
@@ -1844,7 +1862,13 @@
       "qualityHigh": "?lev?e",
       "podcasts": "Podcasts",
       "episodes": "Épisodes",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "unavailableTracks": "{count} titres ne sont plus disponibles sur YouTube",
+      "unavailableTrack": "1 titre n’est plus disponible sur YouTube",
+      "continueListening": "Reprendre l’écoute",
+      "played": "Écouté",
+      "minutesLeft": "{count} min restantes",
+      "inProgress": "En cours"
     }
   },
   "de": {
@@ -2306,7 +2330,13 @@
       "qualityHigh": "Hoch",
       "podcasts": "Podcasts",
       "episodes": "Folgen",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "unavailableTracks": "{count} Titel sind auf YouTube nicht mehr verfügbar",
+      "unavailableTrack": "1 Titel ist auf YouTube nicht mehr verfügbar",
+      "continueListening": "Weiterhören",
+      "played": "Gehört",
+      "minutesLeft": "Noch {count} Min.",
+      "inProgress": "Begonnen"
     }
   },
   "pt-br": {
@@ -2768,7 +2798,13 @@
       "qualityHigh": "Alta",
       "podcasts": "Podcasts",
       "episodes": "Episódios",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "unavailableTracks": "{count} músicas não estão mais disponíveis no YouTube",
+      "unavailableTrack": "1 música não está mais disponível no YouTube",
+      "continueListening": "Continuar ouvindo",
+      "played": "Ouvido",
+      "minutesLeft": "Faltam {count} min",
+      "inProgress": "Em andamento"
     }
   },
   "ru": {
@@ -3230,7 +3266,13 @@
       "qualityHigh": "???????",
       "podcasts": "Подкасты",
       "episodes": "Выпуски",
-      "podcast": "Подкаст"
+      "podcast": "Подкаст",
+      "unavailableTracks": "Недоступно на YouTube треков: {count}",
+      "unavailableTrack": "Недоступно на YouTube треков: 1",
+      "continueListening": "Продолжить прослушивание",
+      "played": "Прослушано",
+      "minutesLeft": "Осталось {count} мин",
+      "inProgress": "Начато"
     }
   },
   "ja": {
@@ -3692,7 +3734,13 @@
       "qualityHigh": "?",
       "podcasts": "ポッドキャスト",
       "episodes": "エピソード",
-      "podcast": "ポッドキャスト"
+      "podcast": "ポッドキャスト",
+      "unavailableTracks": "{count} 曲は YouTube で利用できなくなりました",
+      "unavailableTrack": "1 曲は YouTube で利用できなくなりました",
+      "continueListening": "続きを聴く",
+      "played": "再生済み",
+      "minutesLeft": "残り {count} 分",
+      "inProgress": "再生途中"
     }
   },
   "ko": {
@@ -4154,7 +4202,13 @@
       "qualityHigh": "??",
       "podcasts": "팟캐스트",
       "episodes": "에피소드",
-      "podcast": "팟캐스트"
+      "podcast": "팟캐스트",
+      "unavailableTracks": "{count}곡은 더 이상 YouTube에서 재생할 수 없습니다",
+      "unavailableTrack": "1곡은 더 이상 YouTube에서 재생할 수 없습니다",
+      "continueListening": "이어서 듣기",
+      "played": "재생함",
+      "minutesLeft": "{count}분 남음",
+      "inProgress": "듣는 중"
     }
   },
   "zh": {
@@ -4616,7 +4670,13 @@
       "qualityHigh": "?",
       "podcasts": "播客",
       "episodes": "单集",
-      "podcast": "播客"
+      "podcast": "播客",
+      "unavailableTracks": "{count} 首歌曲已无法在 YouTube 上播放",
+      "unavailableTrack": "1 首歌曲已无法在 YouTube 上播放",
+      "continueListening": "继续收听",
+      "played": "已播放",
+      "minutesLeft": "剩余 {count} 分钟",
+      "inProgress": "收听中"
     }
   }
 }

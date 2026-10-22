@@ -1081,7 +1081,7 @@ class YouTubeMusicService:
                 item = self.normalize_item({**value, "browseId": item_id, "resultType": "album"})
                 cover = item.get("images") if isinstance(item, dict) else []
                 tracks = backfill_cover(self._normalize_many(value.get("tracks") if isinstance(value, dict) else [], "track"), cover or [])
-                return {"kind": kind, "item": item, "tracks": tracks, "albums": []}
+                return {"kind": kind, "item": item, "tracks": tracks, "albums": [], "unavailableCount": self._greyed_count(value.get("tracks") if isinstance(value, dict) else [])}
             if kind == "playlist":
                 stripped = item_id[2:] if item_id.startswith("VL") else item_id
                 is_podcast = stripped.startswith("MPSP") or item_id.startswith("MPSP")
@@ -1092,7 +1092,7 @@ class YouTubeMusicService:
                         item = self.normalize_item({**value, "playlistId": item_id, "resultType": "playlist"})
                         cover = item.get("images") if isinstance(item, dict) else []
                         tracks = backfill_cover(self._normalize_many(value.get("tracks") if isinstance(value, dict) else [], "track"), cover or [])
-                        return {"kind": kind, "item": item, "tracks": tracks, "albums": []}
+                        return {"kind": kind, "item": item, "tracks": tracks, "albums": [], "unavailableCount": self._greyed_count(value.get("tracks") if isinstance(value, dict) else [])}
                     except Exception as exc:
                         # Podcast shows are returned by the playlist endpoint but use a
                         # different renderer that get_playlist cannot parse; retry as a
@@ -1356,6 +1356,13 @@ class YouTubeMusicService:
         if permanent:
             self._save_unavailable()
 
+    @staticmethod
+    def _greyed_count(raw_tracks: Any) -> int:
+        """Tracks YouTube lists but greys out (private, removed or blocked)."""
+        if not isinstance(raw_tracks, list):
+            return 0
+        return sum(1 for entry in raw_tracks if isinstance(entry, dict) and entry.get("isAvailable") is False)
+
     def _without_unavailable(self, value: Any) -> Any:
         """Copy of a list/detail/search payload without tracks YouTube refused."""
         if isinstance(value, list):
@@ -1373,6 +1380,12 @@ class YouTubeMusicService:
             original = value.get("items")
             if isinstance(items, list) and isinstance(original, list) and isinstance(copied.get("total"), int):
                 copied["total"] = max(0, copied["total"] - (len(original) - len(items)))
+            tracks = copied.get("tracks")
+            original_tracks = value.get("tracks")
+            if "unavailableCount" in value and isinstance(tracks, list) and isinstance(original_tracks, list):
+                # Tracks that failed to play earlier are hidden too; count them
+                # so the page can say why the playlist looks shorter.
+                copied["unavailableCount"] = int(value.get("unavailableCount") or 0) + (len(original_tracks) - len(tracks))
             return copied
         return value
 

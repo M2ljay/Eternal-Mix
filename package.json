@@ -13,7 +13,9 @@
     "check:python": "python -m py_compile main.py ytmusic_service.py runtime_compat.py && python scripts/validate-frozen-runtime.py",
     "verify": "npm run check:i18n && npm run check:types && npm run check:python && npm run check:steam && node --check dist/index.js",
     "check:steam": "node scripts/validate-steam-bundle.mjs && python scripts/validate-steam-ui.py --node",
-    "check:steam:browser": "python scripts/validate-steam-ui.py"
+    "check:steam:browser": "python scripts/validate-steam-ui.py",
+    "build:offline": "node scripts/build-esbuild.mjs",
+    "check:types:offline": "node scripts/typecheck-offline.mjs"
   },
   "license": "MIT",
   "dependencies": {

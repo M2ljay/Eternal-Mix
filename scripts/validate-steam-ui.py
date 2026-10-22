@@ -25,9 +25,21 @@ def main():
     if not browser and not args.node:
         raise SystemExit('Chromium/Chrome not found; pass --browser with its full path.')
     bundle = (ROOT/'dist/index.js').read_text(encoding='utf-8')
-    start = bundle.index('let fullscreenChromeObservers =')
+    # rollup emits `let`, the esbuild build (scripts/build-esbuild.mjs) `var`.
+    start = next(bundle.index(marker) for marker in ('let fullscreenChromeObservers =', 'var fullscreenChromeObservers =') if marker in bundle)
     end = bundle.index('function OceanLayer()', start)
     section = bundle[start:end]
+    # esbuild reaches Steam's globals through module-level aliases
+    # (import_ui7 = __toESM(require_ui()), ...). The fixture runs this section
+    # on its own, so point any alias it uses at the global it stands for.
+    alias_globals = {}
+    for alias, module in re.findall(r'var (import_\w+) = __toESM\(require_(\w+)\(\)', bundle):
+        source = re.search(r'var require_' + re.escape(module) + r' = __commonJS\(\{\s*"[^"]*"\(exports, module\) \{\s*module\.exports = (\w+);', bundle)
+        if source and re.search(r'\b' + re.escape(alias) + r'\b', section):
+            alias_globals[alias] = source.group(1)
+    if alias_globals:
+        # Read the global lazily: the fixture defines DFL after this section.
+        section = ''.join(f'var {alias} = new Proxy({{}}, {{ get: (_, key) => {name}[key] }});\n' for alias, name in sorted(alias_globals.items())) + section
     sys.modules.setdefault('decky_plugin', types.ModuleType('decky_plugin'))
     spec = importlib.util.spec_from_file_location('np_browser_backend', ROOT/'main.py')
     backend = importlib.util.module_from_spec(spec)

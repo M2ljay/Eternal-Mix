@@ -96,6 +96,26 @@ python -m py_compile main.py ytmusic_service.py
 .\package-win.ps1
 ```
 
+### Building without npm
+
+When the npm registry is not reachable, the interface can still be built and
+type-checked from `src/` with packages fetched from GitHub:
+
+```sh
+# three.js r158 (build/three.module.js) and the pinned react-icons 5.7.0
+NP_THREE=/path/to/three.js NP_REACT_ICONS=/path/to/react-icons NODE_PATH=/path/with/esbuild \
+  node scripts/build-esbuild.mjs            # writes dist/index.js
+
+# DefinitelyTyped (types/react, types/react-dom), csstype, decky-frontend-lib v4.11.6, three-ts-types r158
+NP_TYPES_REACT=... NP_CSSTYPE=... NP_DECKY_UI_SRC=... NP_THREE_TYPES=... NP_REACT_ICONS=... \
+  node scripts/typecheck-offline.mjs
+```
+
+The esbuild output follows the same Decky conventions as the rollup build
+(Steam-provided `SP_REACT`, `SP_JSX`, `DFL`; bundled `@decky/api`; ES module
+default export). `@decky/api` falls back to `scripts/offline-shims/` when it is
+not installed.
+
 ## License
 
 Now Playing is distributed under the [MIT](LICENSE) license. Third-party components and tools are documented in [NOTICE](NOTICE) and inside the `licenses` folder.

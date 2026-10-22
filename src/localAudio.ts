@@ -253,6 +253,7 @@ class LocalAudioEngine {
   private analyser: AnalyserNode | null = null;
   private frequencyData: Uint8Array<ArrayBuffer> | null = null;
   private lastContextResumeAt = 0;
+  private bufferingSince = 0;
   private prefetchedVideoIds = new Set<string>();
   private failedYouTubeMusicIds = new Set<string>();
   private audioTrackKey = "";
@@ -273,6 +274,16 @@ class LocalAudioEngine {
     } catch {
       // Storage can be unavailable in restricted Steam CEF contexts.
     }
+  }
+
+  private bufferedAheadMs(audio: HTMLAudioElement) {
+    try {
+      const now = audio.currentTime || 0;
+      for (let index = 0; index < audio.buffered.length; index += 1) {
+        if (audio.buffered.start(index) <= now + 0.05 && audio.buffered.end(index) >= now) return Math.round((audio.buffered.end(index) - now) * 1000);
+      }
+    } catch { /* no buffered ranges */ }
+    return 0;
   }
 
   private clearStallRecoveryTimer() {
@@ -327,6 +338,10 @@ class LocalAudioEngine {
       this.patch({ error: "" });
     });
     audio.addEventListener("playing", () => {
+      if (this.bufferingSince) {
+        logPlayback("buffering_ended", this.state.track, { waitedMs: Date.now() - this.bufferingSince });
+        this.bufferingSince = 0;
+      }
       this.ensureAudioAnalysis();
       void this.audioContext?.resume().catch(() => {});
       this.lastProgressAt = Date.now();
@@ -341,7 +356,13 @@ class LocalAudioEngine {
     });
     audio.addEventListener("ended", () => void this.handleEnded());
     audio.addEventListener("stalled", () => this.scheduleStallRecovery("stalled"));
-    audio.addEventListener("waiting", () => this.scheduleStallRecovery("waiting"));
+    audio.addEventListener("waiting", () => {
+      if (this.state.status === "Playing" && !this.bufferingSince) {
+        this.bufferingSince = Date.now();
+        logPlayback("buffering", this.state.track, { positionMs: Math.round((audio.currentTime || 0) * 1000), bufferedAheadMs: this.bufferedAheadMs(audio), readyState: audio.readyState, networkState: audio.networkState });
+      }
+      this.scheduleStallRecovery("waiting");
+    });
     audio.addEventListener("error", () => {
       if (this.recoveryInFlight) return;
       logPlayback("media_error", this.state.track, { code: audio.error?.code ?? 0, status: this.state.status });
@@ -465,7 +486,11 @@ class LocalAudioEngine {
     const AudioContextConstructor = window.AudioContext;
     if (!AudioContextConstructor) return;
     try {
-      const context = new AudioContextConstructor();
+      // All playback is routed through this context. The default
+      // "interactive" hint asks for ~10 ms buffers, which crackle and drop out
+      // whenever Steam's UI is busy; "playback" uses larger buffers meant for
+      // music. The visualizer lags by a few tens of milliseconds at most.
+      const context = new AudioContextConstructor({ latencyHint: "playback" });
       const analyser = context.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = .78;
@@ -475,6 +500,12 @@ class LocalAudioEngine {
       this.analyser = analyser;
       this.frequencyData = new Uint8Array(analyser.frequencyBinCount);
       this.applyOutputRouting();
+      logPlayback("audio_output", this.state.track, {
+        sampleRate: context.sampleRate,
+        baseLatencyMs: Math.round(Number((context as any).baseLatency || 0) * 1000),
+        outputLatencyMs: Math.round(Number((context as any).outputLatency || 0) * 1000),
+        surround: this.surroundMode,
+      });
     } catch {
       this.audioContext = null;
       this.analyser = null;

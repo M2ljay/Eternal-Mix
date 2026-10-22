@@ -5758,6 +5758,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
     this.analyser = null;
     this.frequencyData = null;
     this.lastContextResumeAt = 0;
+    this.bufferingSince = 0;
     this.prefetchedVideoIds = /* @__PURE__ */ new Set();
     this.failedYouTubeMusicIds = /* @__PURE__ */ new Set();
     this.audioTrackKey = "";
@@ -5797,6 +5798,16 @@ var _LocalAudioEngine = class _LocalAudioEngine {
       window.localStorage?.removeItem(LEGACY_LOCAL_SESSION_STORAGE_KEY);
     } catch {
     }
+  }
+  bufferedAheadMs(audio) {
+    try {
+      const now = audio.currentTime || 0;
+      for (let index = 0; index < audio.buffered.length; index += 1) {
+        if (audio.buffered.start(index) <= now + 0.05 && audio.buffered.end(index) >= now) return Math.round((audio.buffered.end(index) - now) * 1e3);
+      }
+    } catch {
+    }
+    return 0;
   }
   clearStallRecoveryTimer() {
     if (this.stallRecoveryTimer) window.clearTimeout(this.stallRecoveryTimer);
@@ -5845,6 +5856,10 @@ var _LocalAudioEngine = class _LocalAudioEngine {
       this.patch({ error: "" });
     });
     audio.addEventListener("playing", () => {
+      if (this.bufferingSince) {
+        logPlayback("buffering_ended", this.state.track, { waitedMs: Date.now() - this.bufferingSince });
+        this.bufferingSince = 0;
+      }
       this.ensureAudioAnalysis();
       void this.audioContext?.resume().catch(() => {
       });
@@ -5860,7 +5875,13 @@ var _LocalAudioEngine = class _LocalAudioEngine {
     });
     audio.addEventListener("ended", () => void this.handleEnded());
     audio.addEventListener("stalled", () => this.scheduleStallRecovery("stalled"));
-    audio.addEventListener("waiting", () => this.scheduleStallRecovery("waiting"));
+    audio.addEventListener("waiting", () => {
+      if (this.state.status === "Playing" && !this.bufferingSince) {
+        this.bufferingSince = Date.now();
+        logPlayback("buffering", this.state.track, { positionMs: Math.round((audio.currentTime || 0) * 1e3), bufferedAheadMs: this.bufferedAheadMs(audio), readyState: audio.readyState, networkState: audio.networkState });
+      }
+      this.scheduleStallRecovery("waiting");
+    });
     audio.addEventListener("error", () => {
       if (this.recoveryInFlight) return;
       logPlayback("media_error", this.state.track, { code: audio.error?.code ?? 0, status: this.state.status });
@@ -5983,7 +6004,7 @@ var _LocalAudioEngine = class _LocalAudioEngine {
     const AudioContextConstructor = window.AudioContext;
     if (!AudioContextConstructor) return;
     try {
-      const context = new AudioContextConstructor();
+      const context = new AudioContextConstructor({ latencyHint: "playback" });
       const analyser = context.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.78;
@@ -5993,6 +6014,12 @@ var _LocalAudioEngine = class _LocalAudioEngine {
       this.analyser = analyser;
       this.frequencyData = new Uint8Array(analyser.frequencyBinCount);
       this.applyOutputRouting();
+      logPlayback("audio_output", this.state.track, {
+        sampleRate: context.sampleRate,
+        baseLatencyMs: Math.round(Number(context.baseLatency || 0) * 1e3),
+        outputLatencyMs: Math.round(Number(context.outputLatency || 0) * 1e3),
+        surround: this.surroundMode
+      });
     } catch {
       this.audioContext = null;
       this.analyser = null;

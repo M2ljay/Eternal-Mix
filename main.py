@@ -646,9 +646,14 @@ class LocalMusicStreamServer:
                     if not include_body:
                         return
                     position = start
+                    began = time.monotonic()
+                    slowest_read = 0.0
+                    pieces = 1
                     while True:
                         while True:
+                            read_started = time.monotonic()
                             chunk = remote.read(256 * 1024)
+                            slowest_read = max(slowest_read, time.monotonic() - read_started)
                             if not chunk:
                                 break
                             self.wfile.write(chunk)
@@ -661,11 +666,25 @@ class LocalMusicStreamServer:
                         if position > last:
                             break
                         piece_end = min(last, position + REMOTE_CHUNK_BYTES - 1)
+                        pieces += 1
+                        piece_started = time.monotonic()
                         remote = self._open_remote_range(url, headers, position, piece_end, attempts=3)
+                        slowest_read = max(slowest_read, time.monotonic() - piece_started)
                         piece_range = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", str(remote.headers.get("Content-Range") or "").strip())
                         if int(getattr(remote, "status", 200) or 200) != 206 or not piece_range or int(piece_range.group(1)) != position:
                             raise RuntimeError(f"YouTube returned an unexpected piece at byte {position}")
+                    elapsed = time.monotonic() - began
+                    # One line per stream, so stutter can be matched to slow
+                    # YouTube downloads (or ruled out).
+                    parent._log(
+                        f"relay: {resource_id} bytes {start}-{last} sent in {elapsed:.1f}s "
+                        f"({(position - start) / 1024 / max(elapsed, 0.001):.0f} KB/s, {pieces} piece(s), longest wait {slowest_read:.1f}s)"
+                    )
                 except (BrokenPipeError, ConnectionResetError):
+                    try:
+                        parent._log(f"relay: {resource_id} closed by player at byte {position} after {time.monotonic() - began:.1f}s (longest wait {slowest_read:.1f}s)")
+                    except Exception:
+                        pass
                     return
                 except Exception as exc:
                     parent._log(f"YouTube Music stream proxy error: {exc}")
@@ -824,7 +843,7 @@ class Plugin:
         self.port = 0
         self.base_url = ""
         self.player = ""
-        self.log_path = os.path.join(tempfile.gettempdir(), "NowPlaying.log")
+        self.log_path = self._runtime_log_path()
         self._log_file_lock = threading.RLock()
         self._diagnostic_lock = threading.RLock()
         self._diagnostic_snapshot_signature = ""
@@ -1200,6 +1219,23 @@ class Plugin:
             return runtime_dir
 
         return self.plugin_dir
+
+    @staticmethod
+    def _runtime_log_path() -> str:
+        # Decky's own log folder for this plugin (homebrew\logs\<plugin>). The
+        # temp folder is a fallback only: under some Decky hosts it points at a
+        # private directory the user cannot find.
+        log_dir = getattr(decky_plugin, "DECKY_PLUGIN_LOG_DIR", None) or os.environ.get("DECKY_PLUGIN_LOG_DIR")
+        if isinstance(log_dir, str) and log_dir.strip():
+            try:
+                os.makedirs(log_dir, exist_ok=True)
+                probe = os.path.join(log_dir, "NowPlaying.log")
+                with open(probe, "a", encoding="utf-8"):
+                    pass
+                return probe
+            except Exception:
+                pass
+        return os.path.join(tempfile.gettempdir(), "NowPlaying.log")
 
     def _rotate_runtime_log(self) -> None:
         try:

@@ -123,6 +123,17 @@ function readPodcastSpeed(): number {
   }
 }
 
+// Playback events are written to NowPlaying.log by the backend.
+function logPlayback(event: string, track: any, details: Record<string, unknown> = {}) {
+  const id = String(track?.videoId ?? track?.id ?? "");
+  void python.reportDiagnosticEvent("playback", event, {
+    track: String(track?.name ?? "").slice(0, 80),
+    id,
+    source: String(track?.sourceKey ?? "localMusic"),
+    ...details,
+  }).catch(() => {});
+}
+
 function normalizeTrack(entry: any) {
   return entry?.track ?? entry?.item ?? entry;
 }
@@ -235,6 +246,7 @@ class LocalAudioEngine {
     audio.addEventListener("waiting", () => this.scheduleStallRecovery("waiting"));
     audio.addEventListener("error", () => {
       if (this.recoveryInFlight) return;
+      logPlayback("media_error", this.state.track, { code: audio.error?.code ?? 0, status: this.state.status });
       if (this.state.track && this.state.status === "Playing" && this.recoveryAttempts < 2) {
         void this.reloadAt(this.state.position, "media-error");
         return;
@@ -585,6 +597,7 @@ class LocalAudioEngine {
       }
     } catch (error: any) {
       if (token !== this.loadingToken) return;
+      logPlayback("stream_lookup_failed", track, { error: String(error?.message ?? error).slice(0, 200) });
       if (playAttempt) audio.pause();
       if (await this.skipUnavailableYouTubeMusicTrack(track, error, autoPlay)) return;
       const message = String(error?.message ?? error ?? getTranslations("runtime").localPlaybackStartFailed);
@@ -604,11 +617,13 @@ class LocalAudioEngine {
         // Refused or interrupted is not the track's fault: keep it loaded
         // instead of skipping through the whole queue.
         if (error?.name === "NotAllowedError") {
+          logPlayback("play_refused", track, { retry: "next press or timer" });
           this.patch({ status: "Paused", error: "" });
           this.schedulePlayRetry(token);
           return;
         }
         if (error?.name === "AbortError") {
+          logPlayback("play_interrupted", track);
           this.patch({ status: audio.paused ? "Paused" : this.state.status, error: "" });
           return;
         }
@@ -641,7 +656,10 @@ class LocalAudioEngine {
         this.clearPlayRetry();
         return;
       }
-      audio.play().then(() => this.clearPlayRetry()).catch(() => {});
+      audio.play().then(() => {
+        logPlayback("play_retry_succeeded", this.state.track);
+        this.clearPlayRetry();
+      }).catch(() => {});
     };
     const events = ["pointerdown", "keydown", "vgp_onbuttondown"];
     for (const name of events) window.addEventListener(name, attempt, true);
@@ -865,6 +883,7 @@ class LocalAudioEngine {
     if (duration && target >= duration - PODCAST_RESUME_END_MARGIN_MS) return;
     audio.currentTime = target / 1000;
     this.patch({ position: Math.floor(target) });
+    logPlayback("episode_resumed", this.state.track, { positionMs: Math.round(target) });
   }
 
   // load() resets the rate, so this runs after every source change.
@@ -918,6 +937,7 @@ class LocalAudioEngine {
     const token = ++this.loadingToken;
     const shouldResume = this.state.status === "Playing";
     const resumeAt = Math.max(0, Number(positionMs || 0));
+    logPlayback("stall_recovery", track, { reason, positionMs: Math.round(resumeAt), attempt: this.recoveryAttempts });
     try {
       const streamUrl = await this.streamUrl(track);
       if (token !== this.loadingToken) return;

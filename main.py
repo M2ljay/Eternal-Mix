@@ -10163,6 +10163,11 @@ class Plugin:
     async def report_diagnostic_event(self, category: str, event: str, details: Optional[Dict[str, Any]] = None) -> bool:
         safe_details = details if isinstance(details, dict) else {}
         self._record_diagnostic_event(f"frontend:{str(category or 'ui')[:60]}", str(event or "")[:160], safe_details)
+        # Playback happens in the Steam UI, so without this its skips, refusals
+        # and recoveries never reached NowPlaying.log.
+        if str(category or "") in {"playback", "youtubeMusic"}:
+            summary = ", ".join(f"{key}={str(value)[:120]}" for key, value in list(safe_details.items())[:8])
+            self._log(f"player: {str(event or '')[:80]}" + (f" ({summary})" if summary else ""))
         return True
 
     def _load_topbar_setting(self) -> bool:

@@ -254,6 +254,10 @@ class LocalAudioEngine {
   private frequencyData: Uint8Array<ArrayBuffer> | null = null;
   private lastContextResumeAt = 0;
   private bufferingSince = 0;
+  private elementRouted = false;
+  private captureStream: any = null;
+  private captureSource: MediaStreamAudioSourceNode | null = null;
+  private captureTrackId = "";
   private prefetchedVideoIds = new Set<string>();
   private failedYouTubeMusicIds = new Set<string>();
   private audioTrackKey = "";
@@ -409,6 +413,8 @@ class LocalAudioEngine {
     const analyser = this.analyser;
     if (!context || !analyser) return;
     try { analyser.disconnect(); } catch { /* was not connected yet */ }
+    // Direct playback: the analyser only listens and must not output.
+    if (!this.elementRouted) return;
     for (const node of this.upmixNodes) { try { node.disconnect(); } catch { /* ignore */ } }
     this.upmixNodes = [];
     this.channelContribs = [];
@@ -459,6 +465,7 @@ class LocalAudioEngine {
   setSurroundMode(mode: "off" | "5.1" | "7.1") {
     this.surroundMode = mode === "5.1" || mode === "7.1" ? mode : "off";
     try { window.localStorage.setItem("nowPlaying.surroundMode", this.surroundMode); } catch { /* storage unavailable */ }
+    if (this.surroundMode !== "off" && this.audio) this.ensureElementRouting();
     this.applyOutputRouting();
   }
 
@@ -481,36 +488,99 @@ class LocalAudioEngine {
     }
   }
 
+  // Playback normally goes straight from the <audio> element to Windows, and
+  // the visualizer listens to a copy (captureStream). Routing the sound itself
+  // through Web Audio made it pause whenever Steam's interface was busy, for
+  // example while moving around menus. Only the 5.1/7.1 upmix needs the sound
+  // to pass through Web Audio, so that path is used only when it is turned on.
   private ensureAudioAnalysis() {
-    if (this.analyser || !this.audio || typeof window === "undefined") return;
+    if (!this.audio || typeof window === "undefined") return;
+    if (this.surroundMode !== "off" || this.elementRouted) {
+      this.ensureElementRouting();
+      return;
+    }
+    if (!this.createAnalysisContext()) return;
+    this.refreshCaptureSource();
+  }
+
+  private createAnalysisContext() {
+    if (this.audioContext && this.analyser) return true;
     const AudioContextConstructor = window.AudioContext;
-    if (!AudioContextConstructor) return;
+    if (!AudioContextConstructor) return false;
     try {
-      // All playback is routed through this context. The default
-      // "interactive" hint asks for ~10 ms buffers, which crackle and drop out
-      // whenever Steam's UI is busy; "playback" uses larger buffers meant for
-      // music. The visualizer lags by a few tens of milliseconds at most.
       const context = new AudioContextConstructor({ latencyHint: "playback" });
       const analyser = context.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = .78;
-      const source = context.createMediaElementSource(this.audio);
-      source.connect(analyser);
       this.audioContext = context;
       this.analyser = analyser;
       this.frequencyData = new Uint8Array(analyser.frequencyBinCount);
-      this.applyOutputRouting();
-      logPlayback("audio_output", this.state.track, {
-        sampleRate: context.sampleRate,
-        baseLatencyMs: Math.round(Number((context as any).baseLatency || 0) * 1000),
-        outputLatencyMs: Math.round(Number((context as any).outputLatency || 0) * 1000),
-        surround: this.surroundMode,
-      });
+      return true;
     } catch {
       this.audioContext = null;
       this.analyser = null;
       this.frequencyData = null;
+      return false;
     }
+  }
+
+  private refreshCaptureSource() {
+    const audio = this.audio as any;
+    const context = this.audioContext;
+    const analyser = this.analyser;
+    if (this.elementRouted || !audio || !context || !analyser) return;
+    if (!this.captureStream) {
+      const capture = typeof audio.captureStream === "function" ? audio.captureStream() : null;
+      if (!capture) {
+        // No way to listen without taking over the output; fall back.
+        this.ensureElementRouting();
+        return;
+      }
+      this.captureStream = capture;
+      // A new source (next track) replaces the stream's audio track.
+      capture.addEventListener?.("addtrack", () => this.refreshCaptureSource());
+      this.logAudioOutput("direct");
+    }
+    const track = this.captureStream.getAudioTracks?.()[0];
+    if (!track || (track.id === this.captureTrackId && this.captureSource)) return;
+    try { this.captureSource?.disconnect(); } catch { /* already gone */ }
+    try {
+      this.captureSource = context.createMediaStreamSource(new MediaStream([track]));
+      this.captureSource.connect(analyser);
+      this.captureTrackId = track.id;
+    } catch {
+      this.captureSource = null;
+      this.captureTrackId = "";
+    }
+  }
+
+  private ensureElementRouting() {
+    if (this.elementRouted || !this.audio) return;
+    if (!this.createAnalysisContext()) return;
+    const context = this.audioContext!;
+    try { this.captureSource?.disconnect(); } catch { /* already gone */ }
+    this.captureSource = null;
+    this.captureTrackId = "";
+    try {
+      const source = context.createMediaElementSource(this.audio);
+      source.connect(this.analyser!);
+      this.elementRouted = true;
+      this.applyOutputRouting();
+      this.logAudioOutput("web-audio");
+    } catch {
+      // Leave playback on the direct path.
+    }
+  }
+
+  private logAudioOutput(path: string) {
+    const context = this.audioContext;
+    if (!context) return;
+    logPlayback("audio_output", this.state.track, {
+      path,
+      sampleRate: context.sampleRate,
+      baseLatencyMs: Math.round(Number((context as any).baseLatency || 0) * 1000),
+      surround: this.surroundMode,
+    });
   }
 
   getAudioLevels(): LocalAudioLevels {
@@ -987,6 +1057,10 @@ class LocalAudioEngine {
     this.audioContext = null;
     this.analyser = null;
     this.frequencyData = null;
+    this.elementRouted = false;
+    this.captureStream = null;
+    this.captureSource = null;
+    this.captureTrackId = "";
     this.originalQueue = [];
     this.failedYouTubeMusicIds.clear();
     this.recoveryAttempts = 0;

@@ -1,22 +1,59 @@
 <div align="center">
 
-# Now Playing
+# Awesome Mix
 
-### All your music. Right where you play.
+### Eternal-Mix · Vol. 1
 
-Spotify, YouTube Music, local files, and Windows media sessions inside Steam Big Picture, with gamepad controls and full-screen visualizers.
+YouTube Music (with podcasts), your own music files and Windows media sessions inside Steam Big Picture, with gamepad controls and full-screen visualizers.
 
-[![Release](https://img.shields.io/github/v/release/LoZazaMastro/Now-Playing?style=for-the-badge&label=Release&labelColor=111111&color=ffffff)](https://github.com/LoZazaMastro/Now-Playing/releases/latest)
-[![Licenza MIT](https://img.shields.io/badge/Licenza-MIT-ffffff?style=for-the-badge&labelColor=111111)](LICENSE)
+**Based on [Now Playing](https://github.com/LoZazaMastro/Now-Playing) by Andrea Sgarro (LoZazaMastro).**
 
 </div>
 
-> **Now Playing Plus** is a fork of [Now Playing](https://github.com/LoZazaMastro/Now-Playing) by LoZazaMastro.
-> It installs as a separate Decky plugin (own folder, name and settings) and carries no Playhub release marker,
-> so Playhub updates of the original never overwrite it. Changes on top of 2.5.2: YouTube Music playback fix
-> (yt-dlp 2026.08.19, visionos client, stream probing), missing-stdlib fallbacks for Decky on Windows,
-> podcasts in search and library, podcast resume, seeking and playback speed, play-on-select, and an
-> optional "Match Steam theme" mode for the quick access panel.
+> **Awesome Mix** (repository: Eternal-Mix) is a fork of [Now Playing](https://github.com/LoZazaMastro/Now-Playing)
+> 2.5.2 by Andrea Sgarro (LoZazaMastro), formerly published as "Now Playing Plus". It installs as its own Decky
+> plugin (folder `Awesome Mix`) and carries no Playhub release marker, so Playhub updates of the original never
+> overwrite it. Changes on top of Now Playing 2.5.2: YouTube Music playback fix (yt-dlp 2026.08.19, visionos client,
+> stream probing), missing-stdlib fallbacks for Decky on Windows, podcasts in search and library with resume,
+> Continue listening and played marks, seeking and playback speed, play-on-select, an optional "Match Steam theme"
+> mode for the quick access panel, a chunked YouTube relay and steadier audio output.
+
+## Versions are volumes
+
+`package.json` holds the version and is the only place it is written. Decky shows it as is (`1.0.0`); the plugin
+shows the major version as a volume: 1.x.y is **Vol. 1**, 2.x.y is **Vol. 2**. The backend reads it through
+`mix_identity.py`, the interface through `src/version.ts`.
+
+## Moving from Now Playing Plus
+
+Decky names a plugin's settings folder after the plugin folder (`homebrew/settings/<plugin folder>`), so the new
+folder name starts with empty settings. The first time Awesome Mix starts it copies, once, these entries from
+`homebrew/settings/Now Playing Plus` to `homebrew/settings/Awesome Mix`:
+
+- files: `source-behavior.json`, `local-music.json`, `local-music-library.json`, `youtube-music.json`,
+  `youtube-music-library-cache.json`, `youtube-music-unavailable.json`, `artist-background-cache.json`,
+  `artist-background-selections.json`, `artist-background-providers.json`;
+- folders: `artist-backgrounds`, `local-music-covers`, `local-music-artist-profiles`,
+  `local-music-artist-backgrounds`, `youtube-music-artist-backgrounds`.
+
+`youtube-music.json` contains your YouTube Music sign-in and `artist-background-providers.json` your fanart.tv API
+key: they are copied as opaque files (never opened, parsed or logged) so you stay signed in. The copy never moves,
+changes or deletes anything in the old folder and never overwrites a file that already exists in the new one. A
+marker file (`.awesome-mix-migration.json`, listing the copied names) makes it run only once; if the copy fails it is
+retried at the next start.
+
+Not copied: Spotify settings, tokens and caches (`spotify-plus.json`, `spotify-*-cache`), the YouTube Music sign-in
+browser profile (`youtube-music-browser-profile`, a full browser profile with cookies that is only used while signing
+in), the YouTube Music response cache (rebuilt on demand), temporary files, and anything else.
+
+Settings kept by Steam's browser storage (podcast resume positions and played marks, playback speed, per-source
+volume, enabled sources, visualizer choice, "Match Steam theme") are not tied to the plugin folder and carry over by
+themselves, as do the top-bar and cover-source settings in the Windows temporary folder.
+
+After the first start of Awesome Mix, remove **Now Playing Plus** in Decky (Settings → Plugins → Uninstall). Running
+both at once makes them compete for the same media helpers and top-bar badge. Uninstalling it deletes its plugin folder
+(`homebrew/plugins/Now Playing Plus`, including any backup folders kept inside it) but not
+`homebrew/settings/Now Playing Plus`; delete that one yourself once you are happy.
 
 ## Music no longer interrupts your game
 
@@ -118,10 +155,10 @@ not installed.
 
 ## License
 
-Now Playing is distributed under the [MIT](LICENSE) license. Third-party components and tools are documented in [NOTICE](NOTICE) and inside the `licenses` folder.
+Awesome Mix, like Now Playing, is distributed under the [MIT](LICENSE) license (copyright LoZazaMastro). Third-party components and tools are documented in [NOTICE](NOTICE) and inside the `licenses` folder.
 
 <div align="center">
 
-Created and maintained by **[LoZazaMastro](https://github.com/LoZazaMastro)**.
+Now Playing was created and is maintained by **Andrea Sgarro ([LoZazaMastro](https://github.com/LoZazaMastro))**.<br>Awesome Mix is maintained by [M2ljay](https://github.com/M2ljay).
 
 </div>

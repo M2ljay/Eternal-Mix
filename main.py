@@ -49,6 +49,8 @@ from pathlib import Path
 import decky_plugin
 
 from ytmusic_service import YouTubeMusicService
+from legacy_migration import migrate_legacy_settings
+import mix_identity
 
 SPOTIFY_AUDIO_CACHE_LIMIT_BYTES = 5 * 1024 * 1024 * 1024
 TOPBAR_CEF_PORT = 8080
@@ -939,6 +941,9 @@ class Plugin:
         settings_root = getattr(decky_plugin, "DECKY_PLUGIN_SETTINGS_DIR", None)
         if not isinstance(settings_root, str) or not settings_root.strip():
             settings_root = os.path.join(tempfile.gettempdir(), "NowPlaying-settings")
+        # Decky names the settings folder after the plugin folder: bring the
+        # user's data over from "Now Playing Plus" once (copy only).
+        self._settings_migration = migrate_legacy_settings(settings_root, self._log)
         self.spotify_settings_dir = settings_root
         self._youtube_music = YouTubeMusicService(
             settings_root,
@@ -1283,7 +1288,7 @@ class Plugin:
     def _log(self, message: str) -> None:
         timestamp = datetime.now().isoformat(timespec="seconds")
         text = str(message or "")
-        line = f"[{timestamp}] [Now Playing] {text}"
+        line = f"[{timestamp}] [Awesome Mix] {text}"
         self._record_diagnostic_event("runtime", text, level="error" if any(token in text.lower() for token in (" error", " failed", " timeout", "non riuscito", "fallito")) else "info")
         try:
             stdout = getattr(sys, "stdout", None)
@@ -8338,7 +8343,7 @@ class Plugin:
         session = connection = request = None
         try:
             session = winhttp.WinHttpOpen(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) NowPlaying/2.5.2",
+                f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) EternalMix/{mix_identity.VERSION}",
                 WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
                 None,
                 None,
@@ -8529,7 +8534,7 @@ class Plugin:
         params = {"query": f'artist:"{name}"', "fmt": "json", "limit": max(8, min(25, int(limit) * 3))}
         request = urllib.request.Request(
             "https://musicbrainz.org/ws/2/artist/?" + urllib.parse.urlencode(params),
-            headers={"User-Agent": "NowPlayingDecky/2.5.2 (https://github.com/LoZazaMastro)", "Accept": "application/json"},
+            headers={"User-Agent": mix_identity.USER_AGENT, "Accept": "application/json"},
         )
         with urllib.request.urlopen(request, timeout=5) as response:
             payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8583,7 +8588,7 @@ class Plugin:
                 url = f"https://webservice.fanart.tv/{version}/music/{urllib.parse.quote(clean_mbid, safe='')}?" + urllib.parse.urlencode({"api_key": api_key})
                 request = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "NowPlayingDecky/2.5.2", "Accept": "application/json"},
+                    headers={"User-Agent": mix_identity.USER_AGENT, "Accept": "application/json"},
                 )
                 with urllib.request.urlopen(request, timeout=5) as response:
                     payload = json.loads(response.read().decode("utf-8", errors="replace"))
@@ -8631,7 +8636,7 @@ class Plugin:
             url = "https://www.theaudiodb.com/api/v1/json/2/search.php?" + urllib.parse.urlencode({"s": name})
             request = urllib.request.Request(
                 url,
-                headers={"User-Agent": "NowPlayingDecky/2.5.2", "Accept": "application/json"},
+                headers={"User-Agent": mix_identity.USER_AGENT, "Accept": "application/json"},
             )
             try:
                 with urllib.request.urlopen(request, timeout=8) as response:
@@ -10057,7 +10062,9 @@ class Plugin:
         now_mono = time.monotonic()
         report = {
             "generatedAt": datetime.now().isoformat(timespec="seconds"),
-            "pluginVersion": "2.5.2",
+            "pluginVersion": mix_identity.VERSION,
+            "pluginVolume": mix_identity.VOLUME,
+            "settingsMigration": getattr(self, "_settings_migration", {}),
             "python": sys.version,
             "platform": platform.platform(),
             "backend": {
@@ -10171,7 +10178,7 @@ class Plugin:
         operation_durations["totalBeforeWrite"] = round((time.monotonic() - diagnostic_started) * 1000, 1)
         runtime_logs = self._read_runtime_logs_for_diagnostics()
         content = (
-            "NOW PLAYING 2.5.2 DIAGNOSTICS\n"
+            f"AWESOME MIX {mix_identity.VERSION} ({mix_identity.VOLUME}) DIAGNOSTICS\n"
             + json.dumps(report, ensure_ascii=False, indent=2)
             + "\n\nSTRUCTURED EVENTS (oldest to newest)\n"
             + "\n".join(json.dumps(item, ensure_ascii=False, sort_keys=True) for item in structured_events)
@@ -10419,7 +10426,7 @@ class Plugin:
         try:
             request = urllib.request.Request(
                 f"http://127.0.0.1:{TOPBAR_CEF_PORT}/json/list",
-                headers={"User-Agent": "Decky Now Playing/2.5.2"},
+                headers={"User-Agent": mix_identity.USER_AGENT},
             )
             with urllib.request.urlopen(request, timeout=2) as response:
                 targets = json.loads(response.read().decode("utf-8"))
@@ -10759,7 +10766,7 @@ class Plugin:
         self.helper_path = self.bundled_helper_path
         self.thumbnail_bridge_path = self.bundled_thumbnail_bridge_path
         self.app_volume_bridge_path = self.bundled_app_volume_bridge_path
-        self._log("Now Playing 2.5.2 runtime fallbacks: " + (", ".join(active_stdlib_fallbacks()) or "native stdlib"))
+        self._log(f"{mix_identity.DISPLAY_NAME} {mix_identity.VERSION} ({mix_identity.VOLUME}) runtime fallbacks: " + (", ".join(active_stdlib_fallbacks()) or "native stdlib"))
         self._log(f"plugin_dir={self.plugin_dir}")
         self._log(f"bundled_helper_path={self.bundled_helper_path}")
         try:

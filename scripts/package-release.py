@@ -12,6 +12,10 @@ from pathlib import Path
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
+# The installer's top folder becomes the Decky plugin folder, which also names
+# the plugin's settings folder (homebrew/settings/<folder>).
+PLUGIN_FOLDER=json.loads((ROOT/'plugin.json').read_text(encoding='utf-8'))['name']
+PROJECT_FOLDER='Eternal-Mix'
 EXCLUDED_DIRS={'.git','release','node_modules','__pycache__','.pytest_cache','.pnpm-store','obj','target','publish','publish_tmp'}
 EXCLUDED_SUFFIXES={'.map','.pyc','.pyo','.tmp','.temp','.bak','.orig','.rej','.log'}
 FONTS={'.ttf','.otf','.woff','.woff2','.ttc'}
@@ -46,17 +50,17 @@ def main() -> None:
     version=json.loads((ROOT/'package.json').read_text())['version']
     for filename in ('package-lock.json',):
         assert json.loads((ROOT/filename).read_text())['version']==version,filename
-    runtime_names={'plugin.json','package.json','main.py','ytmusic_service.py','runtime_compat.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
+    runtime_names={'plugin.json','package.json','main.py','ytmusic_service.py','runtime_compat.py','legacy_migration.py','mix_identity.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
     runtime_dirs={'dist','bin','vendor','licenses','runtime_stdlib'}
     required=[ROOT/name for name in runtime_names]+[ROOT/'dist/index.js',ROOT/'runtime_stdlib/http_server.py']
     for path in required:
         if not path.is_file():raise RuntimeError(f'Missing release file: {path}')
     project=sorted(p for p in ROOT.rglob('*') if included(p))
     runtime=[p for p in project if p.relative_to(ROOT).parts[0] in runtime_dirs or p.relative_to(ROOT).as_posix() in runtime_names]
-    installer_zip=output/f'Now-Playing-Plus-decky_Installer-{version}.zip'
-    project_zip=output/f'Now-Playing-Plus-project-{version}.zip'
-    write_zip(installer_zip,runtime,'Now Playing Plus')
-    write_zip(project_zip,project,'Now-Playing-Plus')
+    installer_zip=output/f'Eternal-Mix-decky_Installer-{version}.zip'
+    project_zip=output/f'Eternal-Mix-project-{version}.zip'
+    write_zip(installer_zip,runtime,PLUGIN_FOLDER)
+    write_zip(project_zip,project,PROJECT_FOLDER)
     with zipfile.ZipFile(installer_zip) as installer,zipfile.ZipFile(project_zip) as source:
         for archive in (installer,source):
             assert archive.testzip() is None,'ZIP CRC failure'
@@ -64,9 +68,9 @@ def main() -> None:
             for name in archive.namelist():
                 assert '..' not in Path(name).parts and not name.startswith('/'),name
         for name in installer.namelist():
-            rel=name.removeprefix('Now Playing Plus/')
-            assert installer.read(name)==source.read('Now-Playing-Plus/'+rel),rel
-        for archive,prefix in ((installer,'Now Playing Plus'),(source,'Now-Playing-Plus')):
+            rel=name.removeprefix(PLUGIN_FOLDER+'/')
+            assert installer.read(name)==source.read(PROJECT_FOLDER+'/'+rel),rel
+        for archive,prefix in ((installer,PLUGIN_FOLDER),(source,PROJECT_FOLDER)):
             assert json.loads(archive.read(prefix+'/package.json'))['version']==version
             assert prefix+'/.playhub-release.json' not in archive.namelist(),'fork must not ship a Playhub marker'
             assert 'runtime_compat' in archive.read(prefix+'/main.py').decode('utf-8')

@@ -4,12 +4,12 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Parent = Split-Path -Parent $Root
 $Version = (Get-Content (Join-Path $Root "package.json") -Raw | ConvertFrom-Json).version
 $Release = Join-Path $Root "release"
-$Stage = Join-Path $Release "Now Playing Plus"
-$ProjectStage = Join-Path $Release "Now-Playing-Plus-project-$Version"
-$Zip = Join-Path $Release "Now-Playing-Plus-decky_Installer-$Version.zip"
-$PublicZip = Join-Path $Parent "Now-Playing-Plus-decky_Installer-$Version.zip"
-$PublicProjectZip = Join-Path $Parent "Now-Playing-Plus-project-$Version.zip"
-# Now Playing Plus is not distributed through Playhub: no .playhub-release.json
+$Stage = Join-Path $Release "Awesome Mix"
+$ProjectStage = Join-Path $Release "Eternal-Mix-project-$Version"
+$Zip = Join-Path $Release "Eternal-Mix-decky_Installer-$Version.zip"
+$PublicZip = Join-Path $Parent "Eternal-Mix-decky_Installer-$Version.zip"
+$PublicProjectZip = Join-Path $Parent "Eternal-Mix-project-$Version.zip"
+# Awesome Mix is not distributed through Playhub: no .playhub-release.json
 # marker is written, so Playhub never mistakes this fork for the original.
 $Marker = Join-Path $Root ".playhub-release.json"
 if (Test-Path -LiteralPath $Marker) { Remove-Item -LiteralPath $Marker -Force }
@@ -17,7 +17,7 @@ if (Test-Path -LiteralPath $Marker) { Remove-Item -LiteralPath $Marker -Force }
 $ResolvedRoot = [IO.Path]::GetFullPath($Root).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 $ResolvedRelease = [IO.Path]::GetFullPath($Release)
 if (-not $ResolvedRelease.StartsWith($ResolvedRoot, [StringComparison]::OrdinalIgnoreCase)) {
-  throw "Refusing to recreate a release directory outside the Now Playing project"
+  throw "Refusing to recreate a release directory outside the Eternal Mix project"
 }
 
 if (Test-Path $Release) { Remove-Item $Release -Recurse -Force }
@@ -28,7 +28,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Stage "vendor") | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $Stage "licenses") | Out-Null
 
 if (Test-Path (Join-Path $Root "bin/AppVolumeBridge.exe")) {
-  throw "AppVolumeBridge.exe must not be shipped. Now Playing uses direct Windows Core Audio."
+  throw "AppVolumeBridge.exe must not be shipped. Awesome Mix uses direct Windows Core Audio."
 }
 
 if (Test-Path (Join-Path $Root "node_modules")) {
@@ -53,9 +53,9 @@ $Python = Get-Command python -ErrorAction SilentlyContinue
 if (-not $Python) { $Python = Get-Command py -ErrorAction SilentlyContinue }
 if ($Python) {
   if ($Python.Name -eq "py.exe" -or $Python.Name -eq "py") {
-    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py")
+    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py")
   } else {
-    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py")
+    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py")
   }
   if ($LASTEXITCODE -ne 0) { throw "main.py failed Python syntax validation" }
 } else {
@@ -66,6 +66,8 @@ Copy-Item (Join-Path $Root "plugin.json") $Stage
 Copy-Item (Join-Path $Root "main.py") $Stage
 Copy-Item (Join-Path $Root "ytmusic_service.py") $Stage
 Copy-Item (Join-Path $Root "runtime_compat.py") $Stage
+Copy-Item (Join-Path $Root "legacy_migration.py") $Stage
+Copy-Item (Join-Path $Root "mix_identity.py") $Stage
 Copy-Item (Join-Path $Root "runtime_stdlib") $Stage -Recurse -Force
 Copy-Item (Join-Path $Root "CHANGELOG_$Version.md") $Stage
 Copy-Item (Join-Path $Root "dist/index.js") (Join-Path $Stage "dist")
@@ -75,7 +77,6 @@ Copy-Item (Join-Path $Root "bin/SpotifyPlaybackBridge.exe") (Join-Path $Stage "b
 Copy-Item (Join-Path $Root "vendor/*") (Join-Path $Stage "vendor") -Recurse -Force
 Copy-Item (Join-Path $Root "licenses/*") (Join-Path $Stage "licenses") -Recurse -Force
 Copy-Item (Join-Path $Root "package.json") $Stage
-Copy-Item $Marker $Stage
 Copy-Item (Join-Path $Root "LICENSE") $Stage
 Copy-Item (Join-Path $Root "NOTICE") $Stage
 

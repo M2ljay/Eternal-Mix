@@ -21,6 +21,7 @@ import { ReactiveParticlesLayer, PARTICLE_RESOLUTION_KEY, PARTICLE_RESOLUTION_EV
 import { readVisualizerLevels, retainVisualizerAudio } from "./visualizerAudio";
 import { nudgeManualRotation, retainVisualizerControl } from "./visualizerControl";
 import { setQamThemeMatch, THEME_ACCENT, useQamThemeMatch } from "./themeMatch";
+import { PLUGIN_CREDITS, PLUGIN_DISPLAY_NAME, PLUGIN_VOLUME } from "./version";
 
 const emptySnapshot: Snapshot = {
   selectedPlayer: "",
@@ -61,11 +62,11 @@ const BUTTON_HEIGHT = 28;
 const APP_SETTINGS_KEY = "nowPlaying.enabledApps";
 const APP_SETTINGS_CHANGED_EVENT = "nowPlaying:source-changed";
 const FULLSCREEN_EFFECT_SETTINGS_KEY = "nowPlaying.fullscreenEffect";
-const FULLSCREEN_ROUTE = "/now-playing/fullscreen";
-const SPOTIFY_BIG_PICTURE_ROUTE = "/now-playing/spotify-big-picture";
-const LOCAL_MUSIC_BIG_PICTURE_ROUTE = "/now-playing/local-music-big-picture";
-const YOUTUBE_MUSIC_BIG_PICTURE_ROUTE = "/now-playing/youtube-music-big-picture";
-const FULLSCREEN_SETTINGS_ROUTE = "/now-playing/settings-fullscreen";
+const FULLSCREEN_ROUTE = "/awesome-mix/fullscreen";
+const SPOTIFY_BIG_PICTURE_ROUTE = "/awesome-mix/spotify-big-picture";
+const LOCAL_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/local-music-big-picture";
+const YOUTUBE_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/youtube-music-big-picture";
+const FULLSCREEN_SETTINGS_ROUTE = "/awesome-mix/settings-fullscreen";
 const FULLSCREEN_CHROME_STYLE_ID = "np-fullscreen-chrome-style";
 const PLAYBACK_ACTIVITY_EVENT = "playhub:now-playing-activity";
 const PLAYBACK_ACTIVITY_GLOBAL = "__playhubNowPlayingActivity";
@@ -2481,11 +2482,11 @@ function FullscreenSettingsRoute() {
   const restartServices = async () => {
     if (restartingServices) return;
     setRestartingServices(true);
-    toaster.toast({ title: "Now Playing", body: t.restartServicesInProgress, duration: 1800 });
+    toaster.toast({ title: PLUGIN_DISPLAY_NAME, body: t.restartServicesInProgress, duration: 1800 });
     try {
       const result = await python.restartPluginServices();
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: result?.ok
           ? t.restartServicesSuccess
           : `${t.restartServicesFailed}${result?.message ? `: ${localizeRuntimeMessage(result.message)}` : ""}`,
@@ -2493,7 +2494,7 @@ function FullscreenSettingsRoute() {
       });
     } catch (error: any) {
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: `${t.restartServicesFailed}: ${localizeRuntimeMessage(error?.message ?? String(error))}`,
         duration: 3600,
       });
@@ -2508,14 +2509,14 @@ function FullscreenSettingsRoute() {
     try {
       const result = await python.exportDiagnosticLog();
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: result?.ok
           ? formatTranslation(t.diagnosticLogExported, { path: result.path || "Downloads" })
           : `${t.diagnosticLogExportFailed}${result?.error ? `: ${result.error}` : ""}`,
         duration: result?.ok ? 5200 : 3800,
       });
     } catch (error: any) {
-      toaster.toast({ title: "Now Playing", body: `${t.diagnosticLogExportFailed}: ${error?.message ?? String(error)}`, duration: 3800 });
+      toaster.toast({ title: PLUGIN_DISPLAY_NAME, body: `${t.diagnosticLogExportFailed}: ${error?.message ?? String(error)}`, duration: 3800 });
     } finally {
       setExportingDiagnostics(false);
     }
@@ -2573,7 +2574,8 @@ function FullscreenSettingsRoute() {
         </DialogButton>
         <div style={{ marginBottom: "26px" }}>
           <h1 style={{ margin: 0, fontSize: "42px", letterSpacing: "-.035em" }}>{settingsLabel}</h1>
-          <div style={{ marginTop: 4, opacity: .52 }}>Now Playing 2.2.0</div>
+          <div style={{ marginTop: 4, opacity: .52 }}>{PLUGIN_DISPLAY_NAME} · {PLUGIN_VOLUME}</div>
+          <div style={{ marginTop: 2, opacity: .42, fontSize: "14px" }}>{PLUGIN_CREDITS}</div>
         </div>
 
         <Focusable className="npSettingsGrid" flow-children="grid">
@@ -2707,11 +2709,11 @@ function SettingsView(props: {
   async function restartPluginServices() {
     if (restartingServices) return;
     setRestartingServices(true);
-    toaster.toast({ title: "Now Playing", body: t.restartServicesInProgress, duration: 1800 });
+    toaster.toast({ title: PLUGIN_DISPLAY_NAME, body: t.restartServicesInProgress, duration: 1800 });
     try {
       const result = await python.restartPluginServices();
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: result?.ok
           ? (t.restartServicesSuccess)
           : `${t.restartServicesFailed}${result?.message ? `: ${localizeRuntimeMessage(result.message)}` : ""}`,
@@ -2719,7 +2721,7 @@ function SettingsView(props: {
       });
     } catch (error: any) {
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: `${t.restartServicesFailed}: ${localizeRuntimeMessage(error?.message ?? String(error))}`,
         duration: 3500,
       });
@@ -2734,14 +2736,14 @@ function SettingsView(props: {
     try {
       const result = await python.exportDiagnosticLog();
       toaster.toast({
-        title: "Now Playing",
+        title: PLUGIN_DISPLAY_NAME,
         body: result?.ok
           ? formatTranslation(t.diagnosticLogExported, { path: result.path || "Downloads" })
           : `${t.diagnosticLogExportFailed}${result?.error ? `: ${result.error}` : ""}`,
         duration: result?.ok ? 5200 : 3800,
       });
     } catch (error: any) {
-      toaster.toast({ title: "Now Playing", body: `${t.diagnosticLogExportFailed}: ${error?.message ?? String(error)}`, duration: 3800 });
+      toaster.toast({ title: PLUGIN_DISPLAY_NAME, body: `${t.diagnosticLogExportFailed}: ${error?.message ?? String(error)}`, duration: 3800 });
     } finally {
       setExportingDiagnostics(false);
     }
@@ -2928,6 +2930,9 @@ function SettingsView(props: {
             <DialogButton style={wideButtonStyle} disabled={exportingDiagnostics} onClick={() => void exportDiagnostics()}>
               <span style={settingsButtonContentStyle}><FaFileAlt /><span>{t.exportDiagnosticLog}</span></span>
             </DialogButton>
+            <div style={{ width: "100%", margin: "14px 0 0", color: "rgba(255,255,255,0.52)", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }}>
+              {PLUGIN_DISPLAY_NAME} · {PLUGIN_VOLUME}<br />{PLUGIN_CREDITS}
+            </div>
             <style>{`
               @keyframes npRestartSpin { to { transform: rotate(360deg); } }
               .npRestartSpin { animation: npRestartSpin .8s linear infinite; }
@@ -4507,7 +4512,7 @@ function NowPlayingTitle() {
   const app = musicApps.find((a) => a.key === key);
   const Icon = app?.Icon ?? FaMusic;
   const t = resolveTranslations();
-  const label = app ? appDisplayLabel(app, t) : "Now Playing";
+  const label = app ? appDisplayLabel(app, t) : PLUGIN_DISPLAY_NAME;
   return (
     <div
       aria-label={label}
@@ -4528,7 +4533,7 @@ export default definePlugin(() => {
   routerHook.addRoute(FULLSCREEN_SETTINGS_ROUTE, FullscreenSettingsRoute);
 
   return {
-    name: "Now Playing Plus",
+    name: PLUGIN_DISPLAY_NAME,
     titleView: <NowPlayingTitle />,
     content: <Content />,
     icon: <FaMusic />,

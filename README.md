@@ -108,6 +108,26 @@ Install Apple Music from the Microsoft Store and sign in there. Select **Apple M
 
 Download the Eternal-Mix ZIP (top folder `Awesome Mix`) and choose **Decky → Settings → Developer → Install plugin from ZIP**. Awesome Mix is not distributed through the Playhub Plugin Store.
 
+## Updates
+
+Awesome Mix updates itself from the `release` branch of
+[M2ljay/Eternal-Mix](https://github.com/M2ljay/Eternal-Mix/tree/release); no other source is ever used. Open
+**Settings → Updates**: it shows the installed volume and version, and **Check for updates** looks right now (otherwise
+the plugin reads the release branch at most every 6 hours). When a newer version is out, **Install Vol. N** appears
+with its notes and size, and everything works with the controller.
+
+Installing asks for confirmation, then:
+
+1. The plugin downloads the installer and checks it against the published size and SHA-256, and checks that it installs
+   into the `Awesome Mix` folder. If anything differs, nothing is installed and you are told why; if the update was
+   published moments ago, try again in a few minutes.
+2. Decky shows its own *update* prompt. Confirm it and Decky replaces the plugin folder and reloads Awesome Mix. Cancel
+   it and nothing changes.
+
+Your settings (YouTube Music sign-in, music library, artist backgrounds, fanart.tv key) live in
+`homebrew/settings/Awesome Mix`, outside the plugin folder, and are kept. If your Decky Loader cannot install plugins
+from a plugin, the install button is greyed out; install the ZIP from the `release` branch by hand instead.
+
 ## Troubleshooting
 
 - VPNs and network filters may slow down the resolution of YouTube Music streams.
@@ -125,6 +145,30 @@ npm test               # node + python unit tests
 npm run check:python   # py_compile + frozen-runtime regression suite
 npm run check:steam    # source/bundle parity + Steam UI fixtures
 python scripts/package-release.py --output-dir release   # Decky installer ZIP + project ZIP
+```
+
+### Publishing an update
+
+1. Raise the version in `package.json` (`npm version patch --no-git-tag-version` also updates `package-lock.json`;
+   only `X.Y.Z` versions are offered as updates) and add `CHANGELOG_<version>.md`. Its text after the first line
+   becomes the notes shown in Settings.
+2. Commit, then build the update files:
+
+   ```sh
+   python scripts/make-update-release.py --output-dir release/update --release-clone ../Eternal-Mix-release
+   ```
+
+   This runs `npm run build` (skip with `--skip-build`) and `scripts/package-release.py`, writes `awesome-mix.zip` and
+   `update.json` (`version`, `sha256`, `size`, `notes`, `url`), checks both exactly as the plugin will, and copies them
+   into a clone checked out on the `release` branch.
+3. Publish: commit and push that clone's `release` branch. The push is the publish; installed copies see it at their
+   next check.
+
+The first time, create the branch as an orphan so it carries no source history:
+
+```sh
+git clone https://github.com/M2ljay/Eternal-Mix.git ../Eternal-Mix-release
+cd ../Eternal-Mix-release && git switch --orphan release
 ```
 
 ### Building without npm

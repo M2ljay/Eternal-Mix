@@ -31,6 +31,10 @@ podcasts), Your Music (local files), Apple Music (Windows media session only).
 - localStorage keys keep the upstream `nowPlaying` prefix on purpose: podcast resume, speed, volumes and theme
   carry over from Now Playing Plus without migration. Temp-folder files (`NowPlaying-*`) and the log name
   `NowPlaying.log` are also unchanged.
+- Self-update (`mix_update.py`, `src/updatePanel.tsx`) reads only the `release` branch of M2ljay/Eternal-Mix
+  (`awesome-mix.zip` + `update.json`, built by `scripts/make-update-release.py`) and installs through Decky's
+  `utilities/install_plugin` with the name `Awesome Mix`. Decky extracts the zip as is, so its top folder must stay
+  `Awesome Mix` (the layout check refuses anything else). Only `X.Y.Z` versions are offered.
 - GitHub push protection flags AWS-looking constants in `vendor/yt_dlp/extractor/shahid.py` (public yt-dlp code,
   upstream commit a6e033b). Do not rewrite upstream history to hide them.
 - `bin/MediaBridge.exe` (~89 MB) has no source in this repo (upstream binary). `AppVolumeBridge/` is source only

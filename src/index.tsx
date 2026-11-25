@@ -23,6 +23,7 @@ import { readVisualizerLevels } from "./visualizerAudio";
 import { nudgeManualRotation, retainVisualizerControl } from "./visualizerControl";
 import { setQamThemeMatch, THEME_ACCENT, useQamThemeMatch } from "./themeMatch";
 import { PLUGIN_CREDITS, PLUGIN_DISPLAY_NAME, PLUGIN_VOLUME } from "./version";
+import { steppedVolume } from "./volumeStep";
 
 const emptySnapshot: Snapshot = {
   selectedPlayer: "",
@@ -3571,7 +3572,7 @@ function Content() {
   }
 
   function nudgeAppVolume(delta: number) {
-    changeAppVolume(volumeValueRef.current + delta);
+    changeAppVolume(steppedVolume(volumeValueRef.current, delta));
   }
 
   function handleVolumeKeyDown(event: React.KeyboardEvent<HTMLElement>) {

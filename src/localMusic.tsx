@@ -34,6 +34,7 @@ import type { LocalMusicCacheProgress, LocalMusicSettings } from "./python";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { LocalMusicTranslation } from "./i18n";
 import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useQamThemeMatch } from "./themeMatch";
+import { steppedVolume } from "./volumeStep";
 
 const LOCAL_ACCENT = "#D9A337";
 const COVER_CACHE = new Map<string, string>();
@@ -1123,7 +1124,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
     if (!direction) return;
     event.preventDefault();
     event.stopPropagation();
-    changeVolume(volumeRef.current + direction);
+    changeVolume(steppedVolume(volumeRef.current, direction));
   }
 
   function volumeButton(event: any) {
@@ -1131,7 +1132,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
     if (!direction) return;
     event.preventDefault?.();
     event.stopPropagation?.();
-    changeVolume(volumeRef.current + direction);
+    changeVolume(steppedVolume(volumeRef.current, direction));
   }
 
   const current = state?.track;
@@ -1187,7 +1188,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
 
             <DialogButton className="npLocalMinimalButton" onClick={() => setQueueExpanded((value) => !value)} style={{ gridColumn: "1 / -1", width: "100%", minWidth: 0, height: 46, border: "1px solid rgba(255,255,255,.075)", background: queueExpanded ? "rgba(217,163,55,.16)" : "rgba(255,255,255,.025)" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }}><FaListOl size={12} /> {t.queue}</span></DialogButton>
             <Focusable className="npLocalAppVolume" focusClassName="npLocalAppVolumeFocused" noFocusRing onActivate={() => undefined} onButtonDown={volumeButton} onKeyDown={volumeKey} role="slider" tabIndex={0} {...({ focusable: true } as any)} aria-label={t.volume} aria-valuemin={0} aria-valuemax={100} aria-valuenow={volume} style={{ gridColumn: "1 / -1", marginTop: 0 }}>
-              <span>{t.volume}</span><input type="range" min={0} max={100} step={1} value={volume} tabIndex={-1} onChange={(event) => changeVolume(Number(event.currentTarget.value))} /><strong>{volume}%</strong>
+              <span>{t.volume}</span><input type="range" min={0} max={100} step={5} value={volume} tabIndex={-1} onChange={(event) => changeVolume(Number(event.currentTarget.value))} /><strong>{volume}%</strong>
             </Focusable>
           </Focusable>
         </div>

@@ -2,9 +2,9 @@
 
 # Awesome Mix
 
-### Eternal-Mix · Vol. 1
+### Eternal-Mix
 
-YouTube Music (with podcasts), your own music files and Windows media sessions inside Steam Big Picture, with gamepad controls and full-screen visualizers.
+YouTube Music (with podcasts), your own music files and Apple Music inside Steam Big Picture, with gamepad controls and full-screen visualizers.
 
 **Based on [Now Playing](https://github.com/LoZazaMastro/Now-Playing) by Andrea Sgarro (LoZazaMastro).**
 
@@ -16,7 +16,8 @@ YouTube Music (with podcasts), your own music files and Windows media sessions i
 > overwrite it. Changes on top of Now Playing 2.5.2: YouTube Music playback fix (yt-dlp 2026.08.19, visionos client,
 > stream probing), missing-stdlib fallbacks for Decky on Windows, podcasts in search and library with resume,
 > Continue listening and played marks, seeking and playback speed, play-on-select, an optional "Match Steam theme"
-> mode for the quick access panel, a chunked YouTube relay and steadier audio output.
+> mode for the quick access panel, a chunked YouTube relay and steadier audio output. Awesome Mix then removed Spotify
+> and every source other than YouTube Music, Your Music and Apple Music.
 
 ## Versions are volumes
 
@@ -31,10 +32,10 @@ folder name starts with empty settings. The first time Awesome Mix starts it cop
 `homebrew/settings/Now Playing Plus` to `homebrew/settings/Awesome Mix`:
 
 - files: `source-behavior.json`, `local-music.json`, `local-music-library.json`, `youtube-music.json`,
-  `youtube-music-library-cache.json`, `youtube-music-unavailable.json`, `artist-background-cache.json`,
-  `artist-background-selections.json`, `artist-background-providers.json`;
-- folders: `artist-backgrounds`, `local-music-covers`, `local-music-artist-profiles`,
-  `local-music-artist-backgrounds`, `youtube-music-artist-backgrounds`.
+  `youtube-music-library-cache.json`, `youtube-music-unavailable.json`, `artist-background-selections.json`,
+  `artist-background-providers.json`;
+- folders: `local-music-covers`, `local-music-artist-profiles`, `local-music-artist-backgrounds`,
+  `youtube-music-artist-backgrounds`.
 
 `youtube-music.json` contains your YouTube Music sign-in and `artist-background-providers.json` your fanart.tv API
 key: they are copied as opaque files (never opened, parsed or logged) so you stay signed in. The copy never moves,
@@ -42,7 +43,8 @@ changes or deletes anything in the old folder and never overwrites a file that a
 marker file (`.awesome-mix-migration.json`, listing the copied names) makes it run only once; if the copy fails it is
 retried at the next start.
 
-Not copied: Spotify settings, tokens and caches (`spotify-plus.json`, `spotify-*-cache`), the YouTube Music sign-in
+Not copied: Spotify settings, tokens and caches (`spotify-plus.json`, `spotify-*-cache`, and Spotify's
+artist-background store `artist-backgrounds`, `artist-background-cache.json`), the YouTube Music sign-in
 browser profile (`youtube-music-browser-profile`, a full browser profile with cookies that is only used while signing
 in), the YouTube Music response cache (rebuilt on demand), temporary files, and anything else.
 
@@ -57,20 +59,21 @@ both at once makes them compete for the same media helpers and top-bar badge. Un
 
 ## Music no longer interrupts your game
 
-Now Playing combines an instant QAM panel with a full-screen music application. Control your tracks from the quick access menu without leaving your game, or browse libraries, albums, playlists, and artists from the full page via a TV-friendly interface.
+Awesome Mix combines an instant QAM panel with a full-screen music application. Control your tracks from the quick access menu without leaving your game, or browse libraries, albums, playlists, podcasts and artists from the full page via a TV-friendly interface.
 
-Each source maintains its own separate volume and status. When you switch services, the plugin starts the new player and closes the previous one, preventing overlapping audio and unnecessary processes.
+Each source keeps its own volume and status. When you switch sources, the plugin starts the new player and closes the previous one, preventing overlapping audio and unnecessary processes.
 
-## Supported sources
+## Sources
 
-- **Your Music:** recursive scanning of local folders containing MP3, FLAC, M4A, AAC, OGG, and WAV files, complete with tags, cover art, search, and a live queue.
-- **Spotify:** library, playlists, albums, integrated playback, local audio cache up to 5 GB, and an API usage indicator.
-- **YouTube Music:** Home, Search, and Library, login via temporary window, playback, and next-track prefetching.
-- **Windows Media Sessions:** metadata and transport controls for TIDAL, Apple Music, Deezer, Amazon Music, SoundCloud, and other compatible players.
+- **YouTube Music** (the main source): Home, Search and Library, podcasts (search, library tabs, episodes, resume, Continue listening, played marks), sign-in through a temporary browser window, seeking, playback speed 0.75x to 2x for podcasts, and next-track prefetching.
+- **Your Music:** recursive scanning of local folders containing MP3, FLAC, M4A, AAC, OGG and WAV files, with tags, cover art, search and a live queue.
+- **Apple Music:** now playing and transport controls for the Apple Music app for Windows, through its Windows media session (System Media Transport Controls). Awesome Mix can open and close the app; browsing the Apple Music catalogue is not supported.
+
+Spotify, TIDAL, Deezer, Amazon Music and SoundCloud were removed, together with the Spotify playback helper (`SpotifyPlaybackBridge`, librespot) and the libraries only it used (`spotify_scraper`, `httpx`, `httpcore`, `anyio`, `h11`).
 
 ## Visualizers and full-screen listening
 
-The full-screen player features 3D particle fields, spheres, waves, rings, knots, cones, flowers, circles, cover blur, and glow effects. The responsiveness is balanced across Spotify, local files, and YouTube Music, ensuring visual energy remains consistent when switching sources.
+The full-screen player features 3D particle fields, spheres, waves, rings, knots, cones, flowers, circles, cover blur, and glow effects. Your Music and YouTube Music drive them from the live audio; Apple Music, whose audio the plugin cannot measure, uses a synthetic pulse.
 
 Main controls:
 
@@ -85,25 +88,9 @@ If the Weather plugin is installed, the visualizer can also display the forecast
 
 ## Surround upmix
 
-Stereo tracks from Spotify, Your Music, and YouTube Music can be distributed to 5.1 or 7.1 audio systems. Each channel features dedicated volume controls adjustable from the controller with immediate preview. On a stereo device, the system automatically downmixes the audio.
-
-## What's new in version 2.5.0
-
-- Spotify opens the audio output only when playback starts and automatically reopens it after a pause or device change.
-- A Spotify track is only marked as started once the decoded audio reaches an active output.
-- Spotify Home is prepared as a single cacheable payload, while independent calls run in parallel.
-- Large libraries display the first page instantly and complete loading in the background.
-- YouTube Music Home, Search, and Library utilize persistent caches; independent sections are requested in parallel.
-- **Play all**, shuffle, and progressive browsing continue to use the entire library, not just the currently visible elements.
+Stereo tracks from Your Music and YouTube Music can be distributed to 5.1 or 7.1 audio systems. Each channel features dedicated volume controls adjustable from the controller with immediate preview. On a stereo device, the system automatically downmixes the audio.
 
 ## Configuration
-
-### Spotify
-
-1. create an app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard);
-2. use `Playhub Now Playing` as the name and add exactly `http://127.0.0.1:43821/callback` to the Redirect URIs;
-3. select only **Web API**;
-4. copy the Client ID into the Now Playing settings and choose **Connect Spotify**.
 
 ### YouTube Music
 
@@ -113,24 +100,31 @@ Choose **Connect YouTube Music**. The plugin opens a temporary window for login 
 
 Add one or more folders in the settings and start **Scan library**. The indexing of tracks, tags, and covers will continue in the background.
 
+### Apple Music
+
+Install Apple Music from the Microsoft Store and sign in there. Select **Apple Music** as the source; Awesome Mix follows whatever the app plays.
+
 ## Installation
 
-Install and update Now Playing from the [Playhub](https://github.com/LoZazaMastro/Playhub) Plugin Store, or download the ZIP from the [latest release](https://github.com/LoZazaMastro/Now-Playing/releases/latest) and choose **Decky → Settings → Developer → Install plugin from ZIP**.
+Download the Eternal-Mix ZIP (top folder `Awesome Mix`) and choose **Decky → Settings → Developer → Install plugin from ZIP**. Awesome Mix is not distributed through the Playhub Plugin Store.
 
 ## Troubleshooting
 
 - VPNs and network filters may slow down the resolution of YouTube Music streams.
 - The first track of a new YouTube Music context may take a few seconds; subsequent tracks are prepared in advance.
 - Upmixing is only audible as multi-channel if Windows and the playback device natively expose 5.1 or 7.1 channels.
-- **Restart plugin services** remains available as a diagnostic tool, but normal Spotify initialization and output device changes should not require it.
+- **Restart plugin services** remains available as a diagnostic tool.
+- The plugin log is `homebrew/logs/Awesome Mix/NowPlaying.log` (the file keeps its upstream name).
 
 ## Development
 
-```powershell
-pnpm install
-pnpm run build
-python -m py_compile main.py ytmusic_service.py
-.\package-win.ps1
+```sh
+npm ci
+npm run build          # translations check, strict type check, rollup -> dist/index.js
+npm test               # node + python unit tests
+npm run check:python   # py_compile + frozen-runtime regression suite
+npm run check:steam    # source/bundle parity + Steam UI fixtures
+python scripts/package-release.py --output-dir release   # Decky installer ZIP + project ZIP
 ```
 
 ### Building without npm

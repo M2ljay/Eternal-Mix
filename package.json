@@ -1,7 +1,7 @@
 {
   "name": "eternal-mix",
   "version": "1.0.0",
-  "description": "Awesome Mix: console-style YouTube Music, local and Windows media playback with fullscreen visuals for Decky Loader. Based on Now Playing by LoZazaMastro.",
+  "description": "Awesome Mix: console-style YouTube Music, local music and Apple Music playback with fullscreen visuals for Decky Loader. Based on Now Playing by LoZazaMastro.",
   "author": "M2ljay",
   "type": "module",
   "scripts": {

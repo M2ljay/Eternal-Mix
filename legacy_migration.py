@@ -12,9 +12,10 @@ old settings directory into the new one:
 - a marker file records that the copy ran, so it runs once.
 
 Anything not on the allow-list is not copied: the Spotify settings, tokens and
-caches (Spotify was removed), the YouTube Music sign-in browser profile (a
-full browser profile with cookies, only used while signing in), temporary
-files, and any file this plugin does not know about.
+caches, including Spotify's artist-background cache (Spotify was removed), the
+YouTube Music sign-in browser profile (a full browser profile with cookies,
+only used while signing in), the YouTube Music response cache (rebuilt on
+demand), temporary files, and any file this plugin does not know about.
 """
 from __future__ import annotations
 
@@ -38,14 +39,12 @@ COPIED_FILES = (
     "youtube-music.json",
     "youtube-music-library-cache.json",
     "youtube-music-unavailable.json",
-    "artist-background-cache.json",
     "artist-background-selections.json",
     "artist-background-providers.json",
 )
 
 # Folders of images the plugin downloaded or the user picked.
 COPIED_DIRECTORIES = (
-    "artist-backgrounds",
     "local-music-covers",
     "local-music-artist-profiles",
     "local-music-artist-backgrounds",

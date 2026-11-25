@@ -6,7 +6,7 @@ import { isPodcastEpisode, localAudioPlayer, useLocalAudioState } from "./localA
 import { SmoothProgressFill, SmoothProgressTime } from "./smoothProgress";
 
 // Seek bar and skip/speed buttons for the in-plugin player (Your Music and
-// YouTube Music). Spotify and Windows media sessions keep their read-only bar.
+// YouTube Music). Windows media sessions (Apple Music) keep their read-only bar.
 
 const SEEK_CSS = ".npSeekBar .npSeekTrack{transition:box-shadow 120ms ease}.npSeekBarFocused .npSeekTrack{box-shadow:0 0 0 2px rgba(255,255,255,.6)}";
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Portable release smoke tests for Now Playing's backend invariants.
+"""Portable release smoke tests for Awesome Mix's backend invariants.
 
 The script deliberately avoids Windows-only APIs.  It validates the localhost
 streaming contract used by Steam Chromium and the source/session matching logic
@@ -9,7 +9,6 @@ that chooses the active media player.
 from __future__ import annotations
 
 import importlib.util
-import asyncio
 import contextlib
 import json
 import os
@@ -20,7 +19,6 @@ import time
 import types
 import urllib.error
 import urllib.request
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -93,12 +91,7 @@ def test_local_stream_ranges() -> None:
 def test_active_service_matching() -> None:
     plugin = backend.Plugin.__new__(backend.Plugin)
     examples = {
-        "spotify": {"id": "Spotify.exe", "name": "Spotify", "status": "Playing", "title": "Track"},
-        "tidal": {"appId": "TIDAL.TIDALDesktop", "processName": "TIDAL.exe", "status": "Playing", "title": "Track"},
-        "appleMusic": {"app_id": "AppleInc.AppleMusicWin", "process": "Music.UI.exe", "status": "Paused", "title": "Track"},
-        "deezer": {"source": "Deezer Desktop", "processName": "Deezer.exe", "status": "Playing", "title": "Track"},
-        "amazonMusic": {"appId": "AmazonMusic", "process": "Amazon Music.exe", "status": "Playing", "title": "Track"},
-        "soundCloud": {"name": "SoundCloud PWA", "processName": "msedge.exe", "status": "Playing", "title": "Track"},
+        "appleMusic": {"app_id": "AppleInc.AppleMusicWin_nzyj5cx40ttey!App", "process": "AppleMusic.exe", "status": "Paused", "title": "Track"},
     }
     for service, matching_player in examples.items():
         decoy = {"id": "UnrelatedPlayer", "status": "Playing", "title": "Other track"}
@@ -111,6 +104,23 @@ def test_active_service_matching() -> None:
         )
         selected = normalized.get("selected") or {}
         assert selected.get("title") == "Track", f"Failed to select {service} session"
+
+
+def test_only_supported_sources_remain() -> None:
+    assert backend.SUPPORTED_SERVICES == ("localMusic", "youtubeMusic", "appleMusic")
+    plugin = backend.Plugin.__new__(backend.Plugin)
+    for removed in ("spotify", "spotifyPlayer", "tidal", "deezer", "amazonMusic", "soundCloud"):
+        assert plugin._normalized_service_key(removed) not in backend.SUPPORTED_SERVICES, removed
+        assert plugin._music_app_key_for_service(removed) == "", removed
+    assert plugin._normalized_service_key("Apple Music") == "appleMusic"
+    assert set(plugin._music_app_launchers()) == {"apple_music"}
+    with tempfile.TemporaryDirectory(prefix="awesome-mix-sources-") as directory:
+        plugin.source_behavior_settings_path = os.path.join(directory, "source-behavior.json")
+        Path(plugin.source_behavior_settings_path).write_text(json.dumps({"active_service": "spotify"}), encoding="utf-8")
+        assert plugin._load_source_behavior_settings()["active_service"] == "localMusic"
+    backend_source = (ROOT / "main.py").read_text(encoding="utf-8").lower()
+    for word in ("spotify", "tidal", "deezer", "soundcloud", "amazon"):
+        assert word not in backend_source, word
 
 
 
@@ -133,105 +143,6 @@ def test_local_frontend_state_is_authoritative() -> None:
     assert snapshot["selected"]["position"] == 1200
     assert plugin._local_music_player is None, "Reading local state must not start the legacy COM player"
 
-
-
-def test_spotify_api_snapshot_is_authoritative() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    payload = {
-        "is_playing": True,
-        "progress_ms": 42000,
-        "shuffle_state": True,
-        "repeat_state": "context",
-        "device": {"volume_percent": 64},
-        "item": {
-            "name": "API track",
-            "duration_ms": 180000,
-            "artists": [{"name": "API artist"}],
-            "album": {
-                "name": "API album",
-                "images": [
-                    {"url": "https://example.invalid/small.jpg", "width": 64, "height": 64},
-                    {"url": "https://example.invalid/large.jpg", "width": 640, "height": 640},
-                ],
-            },
-        },
-    }
-    snapshot = plugin._spotify_snapshot_from_playback(payload)
-    selected = snapshot.get("selected") or {}
-    assert selected.get("id") == "spotify-api"
-    assert selected.get("title") == "API track"
-    assert selected.get("artist") == "API artist"
-    assert selected.get("artworkUrl") == "https://example.invalid/large.jpg"
-    assert selected.get("position") == 42000
-    assert selected.get("shuffleActive") is True
-    assert selected.get("repeatMode") == "List"
-    assert selected.get("volume") == 64
-
-    plugin.active_service = "spotify"
-    assert plugin._normalized_active_service() == "spotify"
-    plugin.active_service = "spotifyPlayer"
-    assert plugin._normalized_active_service() == "spotify"
-
-
-def test_ready_spotify_bridge_never_polls_web_playback() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    plugin.active_service = "spotify"
-    plugin.spotify_settings = {"refresh_token": "test"}
-    plugin._spotify_executor = None
-    plugin._spotify_playback_bridge_request_sync = lambda *_args: {
-        "ready": True,
-        "active": False,
-        "status": "Stopped",
-    }
-
-    async def immediate(_executor, function, *args):
-        return function(*args)
-
-    plugin._run_in_executor = immediate
-    plugin._spotify_playback_state_sync = lambda *_args: (_ for _ in ()).throw(
-        AssertionError("Spotify Web API playback fallback was called while the bridge was ready")
-    )
-    snapshot = asyncio.run(plugin.get_snapshot())
-    assert snapshot["players"] == []
-
-
-def test_spotify_volume_uses_integrated_mixer() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    plugin.active_service = "spotify"
-    plugin.spotify_settings = {"connect_volume": 61}
-    plugin._spotify_executor = None
-    plugin._volume_request_lock = threading.RLock()
-    plugin._volume_request_revisions = {}
-    requested_paths = []
-    plugin._save_spotify_settings = lambda: None
-
-    def bridge_request(path, *_args):
-        requested_paths.append(path)
-        return {"ok": True, "ready": True, "volume": 37}
-
-    async def immediate(_executor, function, *args):
-        return function(*args)
-
-    plugin._spotify_playback_bridge_request_sync = bridge_request
-    plugin._run_in_executor = immediate
-    result = asyncio.run(plugin.set_app_volume(37, "spotify", 1))
-    assert result["ok"] is True
-    assert result["volume"] == 37
-    assert result["transport"] == "integrated"
-    assert requested_paths == ["/action/volume?value=37"]
-
-
-def test_spotify_bridge_audio_level_is_forwarded() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    snapshot = plugin._spotify_snapshot_from_bridge({
-        "ready": True,
-        "active": True,
-        "status": "Playing",
-        "title": "Metered track",
-        "audioLevel": 0.625,
-    })
-    selected = snapshot.get("selected") or {}
-    assert selected.get("audioLevel") == 0.625
 
 
 def test_empty_snapshots_are_canonical() -> None:
@@ -276,7 +187,7 @@ def test_fanart_filename_payload_candidates() -> None:
 
 def test_generic_running_player_fallback() -> None:
     plugin = backend.Plugin.__new__(backend.Plugin)
-    plugin.active_service = "spotifyPlayer"
+    plugin.active_service = "appleMusic"
     plugin.player = ""
     plugin._is_music_app_running_sync = lambda _key, max_age=0.0: True
     plugin._log = lambda _message: None
@@ -324,121 +235,18 @@ def test_helper_recovery_architecture() -> None:
     assert "winrt.windows.media.control" in backend_source
 
 
-def test_spotify_playback_helper_is_owned_by_plugin() -> None:
+def test_media_helper_is_owned_by_plugin() -> None:
     plugin = backend.Plugin.__new__(backend.Plugin)
     with tempfile.TemporaryDirectory(prefix="now-playing-helper-roots-") as directory:
         plugin.helper_cache_root = os.path.join(directory, "NowPlaying-MediaBridge")
-        plugin.spotify_playback_bridge_cache_root = os.path.join(directory, "NowPlaying-SpotifyPlaybackBridge")
         plugin.bundled_helper_dir = os.path.join(directory, "plugin", "bin")
         plugin._is_windows = lambda: True
         plugin._native_process_entries = lambda: [
             {"pid": 11, "name": "MediaBridge.exe", "path": os.path.join(plugin.helper_cache_root, "hash", "MediaBridge.exe")},
-            {"pid": 12, "name": "SpotifyPlaybackBridge.exe", "path": os.path.join(plugin.spotify_playback_bridge_cache_root, "hash", "SpotifyPlaybackBridge.exe")},
-            {"pid": 13, "name": "SpotifyPlaybackBridge.exe", "path": os.path.join(directory, "unrelated", "SpotifyPlaybackBridge.exe")},
+            {"pid": 12, "name": "MediaBridge.exe", "path": os.path.join(plugin.bundled_helper_dir, "MediaBridge.exe")},
+            {"pid": 13, "name": "MediaBridge.exe", "path": os.path.join(directory, "unrelated", "MediaBridge.exe")},
         ]
-        assert plugin._plugin_helper_process_ids(["SpotifyPlaybackBridge.exe"]) == {12}
-
-
-def test_spotify_playback_requires_streaming_scope_without_spawning() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    plugin._spotify_playback_bridge_lock = __import__("threading").RLock()
-    plugin._spotify_playback_bridge_process = None
-    plugin._spotify_playback_bridge_port = 0
-    plugin._spotify_playback_bridge_secret = ""
-    plugin._spotify_playback_bridge_error = ""
-    plugin._spotify_playback_bridge_retry_at = 0.0
-    plugin.spotify_playback_bridge_path = str(ROOT / "bin" / "SpotifyPlaybackBridge.exe")
-    plugin.spotify_playback_bridge_cache_root = os.path.join(tempfile.gettempdir(), "NowPlaying-SpotifyPlaybackBridge-test")
-    plugin.spotify_settings = {"playback_scope": "user-read-playback-state user-modify-playback-state"}
-    assert plugin._spotify_playback_bridge_start_sync() is False
-    assert plugin._spotify_playback_bridge_process is None
-    assert "playback authorization" in plugin._spotify_playback_bridge_error
-    assert plugin._spotify_playback_bridge_retry_at > 0
-
-
-def test_spotify_surround_updates_without_restarting_playback() -> None:
-    backend_source = (ROOT / "main.py").read_text(encoding="utf-8")
-    method = backend_source.split("async def set_surround_settings", 1)[1].split("def _clear_spotify_audio_cache_sync", 1)[0]
-    bridge_source = (ROOT / "SpotifyPlaybackBridge" / "src" / "main.rs").read_text(encoding="utf-8")
-    assert "_spotify_playback_bridge_stop_sync" not in method
-    assert '"/action/surround"' in method
-    assert 'path == "/action/surround"' in bridge_source
-    assert "Arc<RwLock<SurroundConfig>>" in bridge_source
-
-
-def test_spotify_audio_output_is_lazy_and_self_healing() -> None:
-    backend_source = (ROOT / "main.py").read_text(encoding="utf-8")
-    bridge_source = (ROOT / "SpotifyPlaybackBridge" / "src" / "main.rs").read_text(encoding="utf-8")
-    assert "struct DynamicRodioSink" in bridge_source
-    assert "sink: None" in bridge_source
-    assert "fn ensure_output(&mut self)" in bridge_source
-    assert ".with_error_callback" in bridge_source
-    assert "snapshot.audio_recoveries" in bridge_source
-    assert "stream_generation" in bridge_source
-    assert "if self.stream_failed.load(Ordering::Acquire)" in bridge_source
-    assert "snapshot.get(\"audioReady\")" in backend_source
-    assert "snapshot.get(\"audioPackets\")" in backend_source
-
-
-def test_spotify_cached_library_pages_stay_bounded() -> None:
-    payload = {"items": [{"id": str(index)} for index in range(7640)], "total": 7640}
-    page = backend.Plugin._spotify_library_page(payload, "tracks", 0, 240)
-    assert len(page["items"]) == 240
-    assert page["total"] == 7640
-    assert page["next"] == "cached"
-    assert len(payload["items"]) == 7640, "Paging must not mutate the complete cache"
-    assert page["items"][0] is payload["items"][0], "Paging must not deep-copy thousands of entries"
-
-
-def test_spotify_network_round_trips_can_overlap() -> None:
-    plugin = backend.Plugin.__new__(backend.Plugin)
-    plugin._spotify_request_lock = threading.RLock()
-    plugin._spotify_cache_lock = threading.Lock()
-    plugin._spotify_api_cache_generation = 0
-    plugin._spotify_min_request_interval = 0.0
-    plugin._spotify_last_request_at = 0.0
-    plugin._spotify_api_call_total = 0
-    plugin._spotify_api_call_times = []
-    plugin._spotify_scraper_api_sync = lambda *_args: None
-    plugin._spotify_access_token = lambda *_args: "test-token"
-    plugin._spotify_rate_limit_status_sync = lambda: {"active": False}
-    plugin._spotify_store_cached_response = lambda *_args: None
-    plugin._spotify_cached_response = lambda *_args: None
-
-    active = 0
-    maximum_active = 0
-    counter_lock = threading.Lock()
-
-    class Response:
-        status = 200
-
-        def __enter__(self):
-            nonlocal active, maximum_active
-            with counter_lock:
-                active += 1
-                maximum_active = max(maximum_active, active)
-            time.sleep(0.08)
-            return self
-
-        def __exit__(self, *_args):
-            nonlocal active
-            with counter_lock:
-                active -= 1
-
-        @staticmethod
-        def read():
-            return b"{}"
-
-    original_urlopen = backend.urllib.request.urlopen
-    backend.urllib.request.urlopen = lambda *_args, **_kwargs: Response()
-    try:
-        with ThreadPoolExecutor(max_workers=3) as pool:
-            futures = [pool.submit(plugin._spotify_api_sync, f"/test/{index}") for index in range(3)]
-            for future in futures:
-                assert future.result() == {}
-    finally:
-        backend.urllib.request.urlopen = original_urlopen
-    assert maximum_active >= 2, "Independent Spotify Home requests must not be serialized by network latency"
+        assert plugin._plugin_helper_process_ids(["MediaBridge.exe"]) == {11, 12}
 
 
 def test_youtube_music_search_runs_categories_in_parallel() -> None:
@@ -481,24 +289,6 @@ def test_youtube_music_response_cache_survives_restart() -> None:
 
 def test_cache_invalidation_wins_over_inflight_results() -> None:
     with tempfile.TemporaryDirectory(prefix="now-playing-cache-generation-") as directory:
-        plugin = backend.Plugin.__new__(backend.Plugin)
-        plugin._spotify_cache_lock = threading.Lock()
-        plugin._spotify_api_cache = {}
-        plugin._spotify_api_cache_generation = 1
-        plugin._spotify_cache_max_entries = 16
-        plugin._spotify_disk_cache_dir = directory
-        plugin._log = lambda _message: None
-        plugin._spotify_store_cached_response("stale", {"old": True}, 0)
-        assert "stale" not in plugin._spotify_api_cache
-        assert not os.path.exists(plugin._spotify_disk_cache_path("stale"))
-
-        plugin._spotify_library_cache_lock = threading.RLock()
-        plugin._spotify_library_cache_memory = None
-        plugin._spotify_library_cache_generation = 1
-        plugin._spotify_library_cache_path = os.path.join(directory, "spotify-library.json")
-        plugin._spotify_write_library_cache("tracks", {"items": []}, True, 0)
-        assert not os.path.exists(plugin._spotify_library_cache_path)
-
         service = YouTubeMusicService(directory, str(ROOT / "vendor"), lambda _message: None)
 
         def cleared_during_request():
@@ -532,28 +322,20 @@ def test_youtube_music_chromium_header_normalization() -> None:
 def main() -> None:
     test_local_stream_ranges()
     test_active_service_matching()
+    test_only_supported_sources_remain()
     test_local_frontend_state_is_authoritative()
-    test_spotify_api_snapshot_is_authoritative()
-    test_ready_spotify_bridge_never_polls_web_playback()
-    test_spotify_volume_uses_integrated_mixer()
-    test_spotify_bridge_audio_level_is_forwarded()
     test_empty_snapshots_are_canonical()
     test_fanart_relative_asset_urls()
     test_fanart_filename_payload_candidates()
     test_generic_running_player_fallback()
     test_fanart_preview_url_and_no_external_curl()
     test_helper_recovery_architecture()
-    test_spotify_playback_helper_is_owned_by_plugin()
-    test_spotify_playback_requires_streaming_scope_without_spawning()
-    test_spotify_surround_updates_without_restarting_playback()
-    test_spotify_audio_output_is_lazy_and_self_healing()
-    test_spotify_cached_library_pages_stay_bounded()
-    test_spotify_network_round_trips_can_overlap()
+    test_media_helper_is_owned_by_plugin()
     test_youtube_music_search_runs_categories_in_parallel()
     test_youtube_music_response_cache_survives_restart()
     test_cache_invalidation_wins_over_inflight_results()
     test_youtube_music_chromium_header_normalization()
-    print("Runtime smoke tests OK: ranges, 6 external sources, SMTC fallbacks, canonical snapshots, local state, Spotify bridge authority, lazy self-healing audio output, bounded library pages, overlapping Spotify requests, parallel YouTube Music search, restart-persistent generation-safe caches, playback scope guard, helper ownership, Chromium headers, and in-process fanart.tv transports.")
+    print("Runtime smoke tests OK: ranges, Apple Music SMTC matching, removed sources rejected, SMTC fallbacks, canonical snapshots, local state, parallel YouTube Music search, restart-persistent generation-safe caches, helper ownership, Chromium headers, and in-process fanart.tv transports.")
 
 
 if __name__ == "__main__":

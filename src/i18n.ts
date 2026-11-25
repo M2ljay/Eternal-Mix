@@ -2,7 +2,6 @@ import catalogs from "./locales.json";
 
 export type TranslationSection = keyof typeof catalogs.en;
 export type CoreTranslation = typeof catalogs.en.core;
-export type SpotifyTranslation = typeof catalogs.en.spotify;
 export type YouTubeMusicTranslation = typeof catalogs.en.youtubeMusic;
 export type LocalMusicTranslation = typeof catalogs.en.localMusic;
 export type RuntimeTranslation = typeof catalogs.en.runtime;
@@ -97,28 +96,6 @@ const runtimeMessageKeys: Record<string, keyof RuntimeTranslation> = {
   "Helper C# non avviato correttamente": "helperStartFailed",
   "Folder not found": "folderNotFound",
   "Local music track not found": "localTrackNotFound",
-  "Spotify returned an invalid token response": "spotifyInvalidTokenResponse",
-  "Spotify authorization session expired": "spotifyAuthorizationExpired",
-  "Finishing Spotify connection": "spotifyFinishingConnection",
-  "Enter your Spotify Client ID first": "spotifyEnterClientId",
-  "Waiting for Spotify authorization": "spotifyWaitingAuthorization",
-  "Spotify is not connected": "spotifyNotConnected",
-  "Spotify did not return a new access token": "spotifyRefreshTokenFailed",
-  "Invalid Spotify API path": "spotifyInvalidApiPath",
-  "Spotify returned an invalid response": "spotifyInvalidResponse",
-  "Spotify denied this action. Premium or an additional permission may be required": "spotifyActionDenied",
-  "Spotify could not find an active playback device": "spotifyNoActiveDevice",
-  "Spotify is disabled": "spotifyDisabled",
-  "Connect Spotify in the plugin settings first": "spotifyConnectFirst",
-  "Unknown Spotify library section": "spotifyUnknownLibrarySection",
-  "Invalid Spotify item": "spotifyInvalidItem",
-  "No Spotify album is available for the current track": "spotifyNoCurrentAlbum",
-  "Spotify could not find the album for the current track": "spotifyAlbumLookupFailed",
-  "Open Spotify on this PC, start any song once, then try again": "spotifyOpenAppStartTrack",
-  "Unknown Spotify player command": "spotifyUnknownPlayerCommand",
-  "No playable Spotify items": "spotifyNoPlayableItems",
-  "Missing Spotify URI": "spotifyMissingUri",
-  "Invalid Spotify URI": "spotifyInvalidUri",
   "No playable local tracks": "noPlayableLocalTracks",
   "Background choice expired. Search again": "backgroundChoiceExpired",
   "Invalid background choice": "invalidBackgroundChoice",
@@ -126,8 +103,6 @@ const runtimeMessageKeys: Record<string, keyof RuntimeTranslation> = {
   "The selected image is not supported": "unsupportedBackgroundImage",
   "Invalid artist": "invalidArtist",
   "Artist name is required": "artistNameRequired",
-  "Spotify artist cache is already being created": "spotifyArtistCacheBusy",
-  "Spotify artist cache is busy": "spotifyArtistCacheInUse",
   "Plugin service restart timed out": "restartServicesTimedOut",
   "Plugin service restart is already running": "restartServicesAlreadyRunning",
   "MediaBridge did not restart correctly": "mediaBridgeRestartFailed",

@@ -407,7 +407,7 @@ class LocalAudioEngine {
   // a stereo→7.1 upmix matrix when the option is on and the output device
   // actually supports multichannel. Each output channel has an adjustable volume.
   // Used by Your Music and YouTube Music (both play through this in-browser
-  // player); Spotify plays through its own bridge and is unaffected.
+  // player); Windows media sessions (Apple Music) are unaffected.
   private applyOutputRouting() {
     const context = this.audioContext;
     const analyser = this.analyser;

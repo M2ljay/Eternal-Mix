@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { MutableRefObject } from "react";
 import * as THREE from "three";
-import { readVisualizerLevels, retainVisualizerAudio } from "./visualizerAudio";
+import { readVisualizerLevels } from "./visualizerAudio";
 import { getManualRotation } from "./visualizerControl";
 
 export const PARTICLE_RESOLUTION_KEY = "nowPlaying.particleResolution";
@@ -209,7 +209,6 @@ export function ReactiveParticlesLayer(props: {
   const [webglFailed, setWebglFailed] = useState(() => !supportsWebgl());
   const failWebgl = useCallback(() => setWebglFailed(true), []);
 
-  useEffect(() => retainVisualizerAudio(useLocalAudio), [useLocalAudio]);
 
   useEffect(() => {
     let cancelled = false;

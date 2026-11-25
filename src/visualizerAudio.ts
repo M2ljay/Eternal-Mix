@@ -1,78 +1,13 @@
 import { localAudioPlayer } from "./localAudio";
-import * as python from "./python";
 
 export type VisualLevels = { energy: number; bass: number; mid: number; treble: number };
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 /**
- * Shared live-level feed for the Spotify integrated player.
- *
- * The playback bridge refreshes its PCM RMS meter every 32 ms; this feed polls
- * a dedicated lightweight backend method at a visual rate while at least one
- * fullscreen visualizer is mounted, and interpolates between samples.
- */
-class SpotifyLevelFeed {
-  private users = 0;
-  private timer = 0;
-  private polling = false;
-  private level = 0;
-  private previousLevel = 0;
-  private sampleAt = 0;
-  private playing = false;
-  private lastSuccess = 0;
-
-  retain() {
-    this.users += 1;
-    if (this.users === 1) this.start();
-  }
-
-  release() {
-    this.users = Math.max(0, this.users - 1);
-    if (!this.users) this.stop();
-  }
-
-  private start() {
-    const poll = async () => {
-      if (this.polling) return;
-      this.polling = true;
-      try {
-        const result = await python.getSpotifyAudioLevel();
-        const value = Number(result?.level);
-        if (Number.isFinite(value) && value >= 0) {
-          this.previousLevel = this.level;
-          this.level = clamp01(value);
-          this.sampleAt = performance.now();
-          this.playing = Boolean(result?.playing);
-          this.lastSuccess = this.sampleAt;
-        }
-      } catch {
-        // Transient backend hiccups fall back to the synthetic pulse.
-      } finally {
-        this.polling = false;
-      }
-    };
-    void poll();
-    this.timer = window.setInterval(() => void poll(), 160);
-  }
-
-  private stop() {
-    if (this.timer) window.clearInterval(this.timer);
-    this.timer = 0;
-  }
-
-  read(): { level: number; playing: boolean } | null {
-    if (performance.now() - this.lastSuccess > 1600) return null;
-    const progress = clamp01((performance.now() - this.sampleAt) / 170);
-    return { level: this.previousLevel + (this.level - this.previousLevel) * progress, playing: this.playing };
-  }
-}
-
-const spotifyFeed = new SpotifyLevelFeed();
-
-/**
  * Musical fallback pulse so the visualizers never freeze, even when no live
- * measurement is available (analyser blocked, bridge briefly unreachable).
+ * measurement is available (analyser blocked, or a Windows media session such
+ * as Apple Music, whose audio the plugin cannot measure).
  */
 function syntheticLevels(seconds: number, intensity: number): VisualLevels {
   const beat = Math.pow(Math.max(0, Math.sin(seconds * Math.PI * 2 * 1.02)), 3);
@@ -86,15 +21,6 @@ function syntheticLevels(seconds: number, intensity: number): VisualLevels {
     treble: clamp01(treble),
     energy: clamp01(bass * 0.5 + mid * 0.34 + treble * 0.16),
   };
-}
-
-/** Mount-scoped retain of the live Spotify feed. Returns the release callback. */
-export function retainVisualizerAudio(useLocalAudio: boolean): () => void {
-  if (!useLocalAudio) {
-    spotifyFeed.retain();
-    return () => spotifyFeed.release();
-  }
-  return () => {};
 }
 
 // Per-band response weighting, in order of prominence: bass detection is
@@ -115,9 +41,8 @@ class AdaptiveSourceGain {
         ? this.peak * 0.72 + inputPeak * 0.28
         : Math.max(0.055, this.peak * 0.996);
     }
-    // Target a ~0.72 output peak so the local/YouTube Music analyser reaches the
-    // same visual intensity as Spotify's bridge PCM level (which drives bands up
-    // to ~1.0). The old 0.48 target left them visibly weaker.
+    // Target a ~0.72 output peak so the local/YouTube Music analyser drives the
+    // bands up to ~1.0. The old 0.48 target left them visibly weaker.
     const targetGain = Math.min(6, Math.max(1, 0.72 / Math.max(0.055, this.peak)));
     this.gain += (targetGain - this.gain) * (targetGain > this.gain ? 0.08 : 0.035);
     return {
@@ -136,7 +61,7 @@ class AdaptiveSourceGain {
 
 // One adaptive gain for every in-browser source (local files AND YouTube Music).
 // Local music previously used the raw analyser bands with no compensation, which
-// is why its effects looked weaker than Spotify's.
+// made its effects look weak.
 const localAudioGain = new AdaptiveSourceGain();
 
 function weighBands(levels: VisualLevels): VisualLevels {
@@ -149,19 +74,15 @@ function weighBands(levels: VisualLevels): VisualLevels {
 /**
  * Per-frame levels for a fullscreen visualizer.
  *
- * Priority: real Web Audio bands (local/YouTube Music), real bridge PCM level
- * (Spotify) expanded into bands, then the synthetic pulse — strong while
- * playing, gentle breathing while paused. Every path is passed through the
+ * Priority: real Web Audio bands (local/YouTube Music), then the synthetic
+ * pulse — strong while playing, gentle breathing while paused. Every path is passed through the
  * band weighting so the response order (bass > treble > mid) is consistent.
  */
 export function readVisualizerLevels(useLocalAudio: boolean, isPlayingHint: boolean, seconds: number): VisualLevels {
   if (useLocalAudio) {
     const measured = localAudioPlayer.getAudioLevels();
     // Normalise the analyser loudness with the adaptive gain, then derive the
-    // bands from the resulting ENERGY exactly the same way the Spotify path does
-    // below. Local music and YouTube Music therefore react with the same
-    // intensity as Spotify instead of looking weaker (their raw analyser bands
-    // read much lower than Spotify's bridge PCM level).
+    // bands from the resulting energy (raw analyser bands read low).
     const gained = localAudioGain.apply(measured);
     if (gained.energy > 0.006) {
       const shape = syntheticLevels(seconds, 1);
@@ -175,19 +96,8 @@ export function readVisualizerLevels(useLocalAudio: boolean, isPlayingHint: bool
     const playing = localAudioPlayer.getSnapshot().status === "Playing" || isPlayingHint;
     return weighBands(syntheticLevels(seconds, playing ? 0.8 : 0.16));
   }
-  // Spotify uses the bridge PCM feed, not the browser analyser: let the local
-  // adaptive gain drift back to neutral so it starts fresh next local/YTM track.
+  // Windows media sessions (Apple Music) cannot be measured: let the local
+  // adaptive gain drift back to neutral and show the synthetic pulse.
   localAudioGain.relax();
-  const feed = spotifyFeed.read();
-  if (feed && feed.playing && feed.level > 0.015) {
-    const shape = syntheticLevels(seconds, 1);
-    return weighBands({
-      energy: clamp01(feed.level),
-      bass: clamp01(feed.level * (0.75 + shape.bass * 0.5)),
-      mid: clamp01(feed.level * (0.7 + shape.mid * 0.5)),
-      treble: clamp01(feed.level * (0.6 + shape.treble * 0.55)),
-    });
-  }
-  const playing = feed ? feed.playing : isPlayingHint;
-  return weighBands(syntheticLevels(seconds, playing ? 0.8 : 0.16));
+  return weighBands(syntheticLevels(seconds, isPlayingHint ? 0.8 : 0.16));
 }

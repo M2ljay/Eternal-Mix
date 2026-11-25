@@ -25,7 +25,7 @@ class TopbarIdleTests(unittest.IsolatedAsyncioTestCase):
         obj._topbar_last_signature = ''
         obj._topbar_last_injected_at = 0.0
         obj._realtime_executor = obj._topbar_executor = None
-        obj.state = {'playing': False, 'title': '', 'service': 'spotify'}
+        obj.state = {'playing': False, 'title': '', 'service': 'youtubeMusic'}
         obj.injections = []
         obj.state_reads = 0
         def read():

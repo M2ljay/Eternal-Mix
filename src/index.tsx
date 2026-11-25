@@ -3,22 +3,21 @@ import { DialogButton, Focusable, GamepadButton, Navigation, PanelSection, Panel
 import { Component, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import type { IconType } from "react-icons";
-import { FaAmazon, FaArrowLeft, FaCheck, FaClock, FaCog, FaDeezer, FaExpandAlt, FaFileAlt, FaMusic, FaPause, FaPlay, FaRandom, FaRedoAlt, FaStepBackward, FaStepForward, FaSyncAlt } from "react-icons/fa";
-import { SiApplemusic, SiSoundcloud, SiSpotify, SiTidal, SiYoutubemusic } from "react-icons/si";
+import { FaArrowLeft, FaCheck, FaCog, FaExpandAlt, FaFileAlt, FaMusic, FaPause, FaPlay, FaRandom, FaRedoAlt, FaStepBackward, FaStepForward, FaSyncAlt } from "react-icons/fa";
+import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import * as python from "./python";
-import type { PlayerSnapshot, Snapshot, SourceBehaviorSettings, SpotifyPlusSettings } from "./python";
-import { getSharedSpotifyPlaybackTimestamp, publishSpotifyPlaybackSnapshot, SPOTIFY_PLAYBACK_CHANGED_EVENT, SpotifyBigPicture, SpotifyBrowser, SpotifyPlusSettingsPanel } from "./spotify";
+import type { PlayerSnapshot, Snapshot, SourceBehaviorSettings } from "./python";
 import { FanartSettingsPanel, LocalMusicBigPicture, LocalMusicBrowser, LocalMusicSettingsPanel } from "./localMusic";
 import { SurroundUpmixControls } from "./surroundControls";
 import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
-import type { CoreTranslation, SpotifyTranslation } from "./i18n";
+import type { CoreTranslation } from "./i18n";
 import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } from "./sourceVolume";
 import { SmoothProgressFill, SmoothProgressTime } from "./smoothProgress";
 import { ReactiveParticlesLayer, PARTICLE_RESOLUTION_KEY, PARTICLE_RESOLUTION_EVENT, particlePixelRatio } from "./reactiveParticles";
-import { readVisualizerLevels, retainVisualizerAudio } from "./visualizerAudio";
+import { readVisualizerLevels } from "./visualizerAudio";
 import { nudgeManualRotation, retainVisualizerControl } from "./visualizerControl";
 import { setQamThemeMatch, THEME_ACCENT, useQamThemeMatch } from "./themeMatch";
 import { PLUGIN_CREDITS, PLUGIN_DISPLAY_NAME, PLUGIN_VOLUME } from "./version";
@@ -63,7 +62,6 @@ const APP_SETTINGS_KEY = "nowPlaying.enabledApps";
 const APP_SETTINGS_CHANGED_EVENT = "nowPlaying:source-changed";
 const FULLSCREEN_EFFECT_SETTINGS_KEY = "nowPlaying.fullscreenEffect";
 const FULLSCREEN_ROUTE = "/awesome-mix/fullscreen";
-const SPOTIFY_BIG_PICTURE_ROUTE = "/awesome-mix/spotify-big-picture";
 const LOCAL_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/local-music-big-picture";
 const YOUTUBE_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/youtube-music-big-picture";
 const FULLSCREEN_SETTINGS_ROUTE = "/awesome-mix/settings-fullscreen";
@@ -264,7 +262,7 @@ function appProgramLabel(app: MusicAppButton) {
 }
 
 function sourceVolumeStorageKey(key: MusicAppKey | string) {
-  return key === "spotify" ? "spotify" : String(key || "");
+  return String(key || "");
 }
 
 function formatEffectLabel(t: CoreTranslation, effect: FullscreenEffectKey) {
@@ -306,34 +304,19 @@ type MusicAppButton = {
 };
 
 type MusicAppKey =
-  | "spotify"
   | "youtubeMusic"
-  | "tidal"
   | "appleMusic"
-  | "deezer"
-  | "amazonMusic"
-  | "soundCloud"
   | "localMusic";
 
 const musicApps: MusicAppButton[] = [
   { key: "localMusic", label: "Your Music", Icon: FaMusic, open: python.openLocalMusic },
-  { key: "spotify", label: "Spotify", Icon: SiSpotify, open: python.openSpotify },
   { key: "youtubeMusic", label: "YouTube Music", Icon: SiYoutubemusic, open: python.openYouTubeMusic },
-  { key: "tidal", label: "Tidal", Icon: SiTidal, open: python.openTidal },
   { key: "appleMusic", label: "Apple Music", Icon: SiApplemusic, open: python.openAppleMusic },
-  { key: "deezer", label: "Deezer", Icon: FaDeezer, open: python.openDeezer },
-  { key: "amazonMusic", label: "Amazon Music", Icon: FaAmazon, open: python.openAmazonMusic },
-  { key: "soundCloud", label: "SoundCloud", Icon: SiSoundcloud, open: python.openSoundCloud },
 ];
 
 const SERVICE_ACCENTS: Record<string, string> = {
-  spotify: "#1DB954",
   youtubeMusic: "#FF0033",
-  tidal: "#ffffff",
   appleMusic: "#FA243C",
-  deezer: "#A238FF",
-  amazonMusic: "#25D1DA",
-  soundCloud: "#FF5500",
   localMusic: "#D9A337",
 };
 function accentForKey(key?: string): string {
@@ -996,24 +979,6 @@ function navigateToFullscreen() {
   window.requestAnimationFrame(markAllFullscreenChrome);
 }
 
-function navigateToSpotifyBigPicture() {
-  holdFullscreenChromeSuppressionForTransition();
-  markAllFullscreenChrome();
-
-  try {
-    Navigation.CloseSideMenus();
-  } catch {
-    // Navigation still works on Steam builds where side-menu closing is unavailable.
-  }
-
-
-  if (!performSteamNavigation(SPOTIFY_BIG_PICTURE_ROUTE)) return;
-
-  markAllFullscreenChrome();
-  queueMicrotask(markAllFullscreenChrome);
-  window.requestAnimationFrame(markAllFullscreenChrome);
-}
-
 function navigateToLocalMusicBigPicture() {
   holdFullscreenChromeSuppressionForTransition();
   markAllFullscreenChrome();
@@ -1269,7 +1234,6 @@ function ParticleVisualizerLayer(props: {
   playingRef.current = isPlaying;
   localAudioRef.current = useLocalAudio;
 
-  useEffect(() => retainVisualizerAudio(useLocalAudio), [useLocalAudio]);
 
   useEffect(() => {
     let cancelled = false;
@@ -2293,15 +2257,6 @@ function FullscreenRoute() {
   );
 }
 
-function SpotifyBigPictureRoute() {
-  useLayoutEffect(() => {
-    retainFullscreenChromeSuppression();
-    return () => releaseFullscreenChromeSuppression();
-  }, []);
-
-  return <SpotifyBigPicture onExit={navigateBackFromBigPicture} onOpenVisualizer={navigateToFullscreen} onOpenSettings={navigateToFullscreenSettings} />;
-}
-
 function LocalMusicBigPictureRoute() {
   useLayoutEffect(() => {
     retainFullscreenChromeSuppression();
@@ -2627,7 +2582,6 @@ function FullscreenSettingsRoute() {
 
           <Focusable className="npSettingsColumn" flow-children="vertical">
             <section className="npSettingsCard" style={card}><LocalMusicSettingsPanel selectedService={enabledAppKeys[0] ?? "localMusic"} /></section>
-            <section className="npSettingsCard" style={card}><SpotifyPlusSettingsPanel selectedService={enabledAppKeys[0] ?? "localMusic"} onSettingsChanged={() => {}} /></section>
             <section className="npSettingsCard" style={card}><YouTubeMusicSettingsPanel selectedService={enabledAppKeys[0] ?? "localMusic"} /></section>
             <section className="npSettingsCard" style={card}><FanartSettingsPanel /></section>
           </Focusable>
@@ -2668,7 +2622,6 @@ function SettingsView(props: {
   onSelectCoverSource: (source: CoverSource) => void;
   onSelectFullscreenEffect: (effect: FullscreenEffectKey) => void;
   onToggleApp: (key: MusicAppKey) => void;
-  onSpotifySettingsChanged: (settings: SpotifyPlusSettings) => void;
 }) {
   const qamThemed = useQamThemeMatch();
   const t = useTranslations();
@@ -2892,10 +2845,6 @@ function SettingsView(props: {
 
             <div style={{ height: "12px" }} />
             <LocalMusicSettingsPanel selectedService={props.enabledAppKeys[0] ?? "localMusic"} />
-            <SpotifyPlusSettingsPanel
-              selectedService={props.enabledAppKeys[0] ?? "localMusic"}
-              onSettingsChanged={props.onSpotifySettingsChanged}
-            />
             <YouTubeMusicSettingsPanel selectedService={props.enabledAppKeys[0] ?? "localMusic"} />
             <FanartSettingsPanel />
 
@@ -2945,85 +2894,9 @@ function SettingsView(props: {
   );
 }
 
-function spotifyPlaybackToPlayer(payload: any): PlayerSnapshot | null {
-  const item = payload?.item;
-  if (!item || !item?.name) return null;
-  const artists = Array.isArray(item?.artists)
-    ? item.artists.map((artist: any) => artist?.name).filter(Boolean).join(", ")
-    : String(item?.show?.name ?? "");
-  const repeat = String(payload?.repeat_state ?? "off");
-  const images = item?.album?.images ?? item?.images ?? [];
-  const artworkUrl = Array.isArray(images)
-    ? String([...images].filter((entry: any) => entry?.url).sort((left: any, right: any) => {
-        const leftSize = Number(left?.width || 0) * Number(left?.height || 0);
-        const rightSize = Number(right?.width || 0) * Number(right?.height || 0);
-        return rightSize - leftSize;
-      })[0]?.url ?? "")
-    : "";
-  return {
-    id: "spotify-api",
-    name: "Spotify",
-    title: String(item?.name ?? ""),
-    artist: artists,
-    album: String(item?.album?.name ?? item?.show?.name ?? ""),
-    status: payload?.is_playing ? "Playing" : "Paused",
-    length: Number(item?.duration_ms ?? 0),
-    position: Number(payload?.progress_ms ?? 0),
-    canNext: true,
-    canPrevious: true,
-    canPlay: true,
-    canPause: true,
-    canTogglePlayPause: true,
-    isSelected: true,
-    isCurrent: true,
-    canShuffle: true,
-    canRepeat: true,
-    shuffleActive: Boolean(payload?.shuffle_state),
-    repeatMode: repeat === "context" ? "List" : repeat === "track" ? "Track" : "Off",
-    artworkUrl,
-    volume: Number(payload?.device?.volume_percent ?? 100),
-  };
-}
-
-function spotifyPausedPlayer(t: SpotifyTranslation): PlayerSnapshot {
-  return {
-    id: "spotify-api-paused",
-    name: "Spotify",
-    title: t.apiPausedTitle,
-    artist: t.apiPausedWait,
-    album: "",
-    status: "Paused",
-    length: 0,
-    position: 0,
-    canNext: false,
-    canPrevious: false,
-    canPlay: false,
-    canPause: false,
-    canTogglePlayPause: false,
-    isSelected: true,
-    isCurrent: true,
-    canShuffle: false,
-    canRepeat: false,
-    shuffleActive: false,
-    repeatMode: "Off",
-    artworkUrl: "",
-    volume: getSavedSourceVolume("spotify", 100),
-  };
-}
-
 function Content() {
   const t = useTranslations();
-  const spotifyT = useMemo(() => getTranslations("spotify"), []);
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const [spotifyPlus, setSpotifyPlus] = useState<SpotifyPlusSettings>({
-    enabled: false,
-    clientId: "",
-    redirectUri: "http://127.0.0.1:43821/callback",
-    authenticated: false,
-  });
-  const [spotifySettingsReady, setSpotifySettingsReady] = useState(false);
-  const [spotifyApiStatus, setSpotifyApiStatus] = useState<python.SpotifyApiStatus>({ active: false, remainingSeconds: 0, until: 0 });
-  const [spotifyAlbumRequest, setSpotifyAlbumRequest] = useState<{ id: string; title: string; nonce: number } | null>(null);
   const [localAlbumRequest, setLocalAlbumRequest] = useState<{ id: string; title: string; nonce: number } | null>(null);
   const [enabledAppKeys, setEnabledAppKeys] = useState<MusicAppKey[]>(loadEnabledAppKeys);
   const [activeServiceReady, setActiveServiceReady] = useState(false);
@@ -3058,8 +2931,6 @@ function Content() {
   const coverUrlRef = useRef<string>("");
   const coverIdentityRef = useRef<string>("");
   const volumeObservedRef = useRef<{ value: number; count: number }>({ value: -1, count: 0 });
-  const spotifyPlaybackCacheRef = useRef<{ at: number; player: PlayerSnapshot | null; lastValidAt: number }>({ at: 0, player: null, lastValidAt: 0 });
-  const spotifyApiPausedRef = useRef(false);
   const sourceRefreshTimersRef = useRef<number[]>([]);
   const volumeApplyTimersRef = useRef<number[]>([]);
   const volumeAppliedRef = useRef(false);
@@ -3219,7 +3090,6 @@ function Content() {
     volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
     volumeApplyTimersRef.current = [];
     coverRequestRef.current += 1;
-    spotifyPlaybackCacheRef.current = { at: 0, player: null, lastValidAt: 0 };
     stableCurrentRef.current = null;
     mediaKeyRef.current = "";
     setSnapshot(emptySnapshot);
@@ -3246,14 +3116,14 @@ function Content() {
       setMediaVisible(true);
       sourceRefreshTimersRef.current = [0, 220, 650, 1400, 2800].map((delay) =>
         window.setTimeout(() => {
-          if (!cancelled) void refresh(true);
+          if (!cancelled) void refresh();
         }, delay),
       );
     }).catch(() => {
       if (!cancelled) {
         setMediaVisible(true);
         setLoading(false);
-        void refresh(true);
+        void refresh();
       }
     });
 
@@ -3265,31 +3135,10 @@ function Content() {
   }, [activeServiceKey, activeServiceReady]);
 
   const mediaKey = `${current?.id ?? ""}|${current?.title ?? ""}|${current?.artist ?? ""}|${current?.album ?? ""}`;
-  const spotifyApiActive = activeServiceKey === "spotify" && spotifySettingsReady && spotifyPlus.enabled && spotifyPlus.authenticated;
-  const spotifyPaused = spotifyApiActive && spotifyApiStatus.active;
-  const stableMediaKey = spotifyPaused ? "spotify-api-paused" : mediaKey;
-  const spotifyCoverActive = spotifyApiActive && !spotifyPaused;
+  const stableMediaKey = mediaKey;
   const localCoverActive = (activeServiceKey === "localMusic" || activeServiceKey === "youtubeMusic") && Boolean(current?.title);
 
-  useEffect(() => {
-    const syncSharedSpotifyPlayback = (event: Event) => {
-      if (!spotifyApiActive) return;
-      const detail = event instanceof CustomEvent ? event.detail : null;
-      const player = detail && typeof detail === "object" ? detail as PlayerSnapshot : null;
-      if (!player) {
-        spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-        return;
-      }
-      const now = getSharedSpotifyPlaybackTimestamp() || Date.now();
-      spotifyPlaybackCacheRef.current = { at: now, player: { ...player }, lastValidAt: now };
-      setSnapshot({ selectedPlayer: player.id, currentPlayer: player.id, selected: { ...player }, players: [{ ...player }] });
-      setSnapshotAt(now);
-    };
-    window.addEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedSpotifyPlayback);
-    return () => window.removeEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedSpotifyPlayback);
-  }, [spotifyApiActive]);
-
-  async function refresh(force = false) {
+  async function refresh() {
     if (refreshingRef.current) return;
 
     refreshingRef.current = true;
@@ -3335,41 +3184,6 @@ function Content() {
           setSnapshot(nextSnapshot);
           setSnapshotAt(sampledAt);
         }
-      } else if (spotifyApiActive) {
-        if (spotifyApiPausedRef.current) {
-          const paused = spotifyPausedPlayer(spotifyT);
-          setSnapshot({ selectedPlayer: paused.id, currentPlayer: paused.id, selected: paused, players: [paused] });
-          setSnapshotAt(Date.now());
-          return;
-        }
-        const now = Date.now();
-        const shouldFetch = force || now - spotifyPlaybackCacheRef.current.at >= 5000;
-        if (!shouldFetch) return;
-
-        try {
-          const apiState = await python.spotifyGetPlaybackState();
-          if (spotifyApiPausedRef.current) return;
-          const apiPlayer = apiState?.ok ? spotifyPlaybackToPlayer(apiState.data) : null;
-          const previous = spotifyPlaybackCacheRef.current;
-          spotifyPlaybackCacheRef.current = apiPlayer
-            ? { at: now, player: apiPlayer, lastValidAt: now }
-            : { at: now, player: now - previous.lastValidAt <= 12000 ? previous.player : null, lastValidAt: previous.lastValidAt };
-
-          if (apiPlayer) {
-            // Publish a complete Spotify API payload atomically. Reusing the
-            // cached payload between polls avoids resetting progress to an old
-            // base position several times per second.
-            setSnapshot({ selectedPlayer: apiPlayer.id, currentPlayer: apiPlayer.id, selected: apiPlayer, players: [apiPlayer] });
-            setSnapshotAt(now);
-            publishSpotifyPlaybackSnapshot(apiPlayer);
-          } else if (!spotifyPlaybackCacheRef.current.player) {
-            setSnapshot((previousSnapshot) => previousSnapshot.selected?.id === "spotify-api" ? emptySnapshot : previousSnapshot);
-            setSnapshotAt(now);
-          }
-        } catch {
-          // Retain the latest complete API payload. Windows MediaBridge must
-          // never overwrite Spotify API metadata in API mode.
-        }
       } else {
         const nextSnapshot = await python.getSnapshot();
         const sampledAt = Date.now();
@@ -3395,54 +3209,46 @@ function Content() {
       const selected = previous.selected?.id === targetId
         ? update(previous.selected)
         : (players.find((player) => player.id === targetId) ?? previous.selected);
-      if (isSpotifyApiActive && selected) publishSpotifyPlaybackSnapshot(selected);
       return { ...previous, selected, players };
     });
     setSnapshotAt(Date.now());
   }
 
   const isLocalMusicActive = enabledAppKeys[0] === "localMusic" || enabledAppKeys[0] === "youtubeMusic";
-  const isSpotifyApiActive = spotifyApiActive;
 
   function previousAction(): Promise<unknown> {
-    return isLocalMusicActive ? localAudioPlayer.command("previous") : isSpotifyApiActive ? python.spotifyPlayerCommand("previous") : python.previousTrack();
+    return isLocalMusicActive ? localAudioPlayer.command("previous") : python.previousTrack();
   }
   function playPauseAction(): Promise<unknown> {
-    return isLocalMusicActive
-      ? localAudioPlayer.command("play_pause")
-      : isSpotifyApiActive
-        ? python.spotifyPlayerCommand(current?.status === "Playing" ? "pause" : "play")
-        : python.playPause();
+    return isLocalMusicActive ? localAudioPlayer.command("play_pause") : python.playPause();
   }
   function nextAction(): Promise<unknown> {
-    return isLocalMusicActive ? localAudioPlayer.command("next") : isSpotifyApiActive ? python.spotifyPlayerCommand("next") : python.nextTrack();
+    return isLocalMusicActive ? localAudioPlayer.command("next") : python.nextTrack();
   }
   function shuffleAction(): Promise<unknown> {
-    return isLocalMusicActive ? localAudioPlayer.command("shuffle") : isSpotifyApiActive ? python.spotifyPlayerCommand("shuffle") : python.shuffle();
+    return isLocalMusicActive ? localAudioPlayer.command("shuffle") : python.shuffle();
   }
   function repeatAction(): Promise<unknown> {
-    return isLocalMusicActive ? localAudioPlayer.command("repeat") : isSpotifyApiActive ? python.spotifyPlayerCommand("repeat") : python.repeat();
+    return isLocalMusicActive ? localAudioPlayer.command("repeat") : python.repeat();
   }
 
   async function runAction(
     action: () => Promise<unknown>,
     optimistic?: () => void,
-    spotifyRefreshDelays: number[] = [260]
   ) {
-    const blockUi = !isSpotifyApiActive;
-    if (blockUi) setBusy(true);
+    setBusy(true);
     optimistic?.();
 
     const pending = action();
-    const delays = isSpotifyApiActive ? spotifyRefreshDelays : isLocalMusicActive ? [30] : [45, 130, 320, 720, 1450];
+    const delays = isLocalMusicActive ? [30] : [45, 130, 320, 720, 1450];
     delays.forEach((delay) => {
-      window.setTimeout(() => void refresh(true), delay);
+      window.setTimeout(() => void refresh(), delay);
     });
 
     try {
       await pending;
     } finally {
-      if (blockUi) window.setTimeout(() => setBusy(false), 120);
+      window.setTimeout(() => setBusy(false), 120);
     }
   }
 
@@ -3458,7 +3264,7 @@ function Content() {
     try {
       await python.closeMusicApp(app.key);
       setActiveAppRunning(false);
-      window.setTimeout(() => void refresh(true), 180);
+      window.setTimeout(() => void refresh(), 180);
     } finally {
       window.setTimeout(() => setBusy(false), 120);
     }
@@ -3490,32 +3296,6 @@ function Content() {
     saveFullscreenEffect(effect);
   }
 
-  async function openCurrentSpotifyAlbum() {
-    if (enabledAppKeys[0] !== "spotify" || !spotifyPlus.enabled || !spotifyPlus.authenticated || !current) return;
-    try {
-      const result = await python.spotifyGetCurrentAlbum(
-        current.title?.trim() ?? "",
-        current.artist?.trim() ?? "",
-        current.album?.trim() ?? ""
-      );
-      if (!result?.ok) throw new Error(result?.error || getTranslations("runtime").openCurrentSpotifyAlbumFailed);
-      const albumItem = result.data?.album;
-      const albumId = String(albumItem?.id ?? "");
-      if (!albumId) throw new Error(getTranslations("runtime").currentSpotifyAlbumUnavailable);
-      setSpotifyAlbumRequest({
-        id: albumId,
-        title: String(albumItem?.name ?? current.album ?? t.unknownAlbum),
-        nonce: Date.now(),
-      });
-    } catch (error: any) {
-      toaster.toast({
-        title: "Spotify",
-        body: localizeRuntimeMessage(error?.message ?? String(error)),
-        duration: 3500,
-      });
-    }
-  }
-
   async function openCurrentLocalAlbum() {
     if (enabledAppKeys[0] !== "localMusic") return;
     try {
@@ -3538,67 +3318,6 @@ function Content() {
   }
 
   useEffect(() => {
-    let cancelled = false;
-    python.getSpotifySettings()
-      .then((settings) => {
-        if (!cancelled) {
-          setSpotifyPlus(settings);
-          setSpotifySettingsReady(true);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setSpotifySettingsReady(true);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!spotifyApiActive) {
-      spotifyApiPausedRef.current = false;
-      setSpotifyApiStatus({ active: false, remainingSeconds: 0, until: 0 });
-      return;
-    }
-    let cancelled = false;
-    const updateStatus = async () => {
-      try {
-        const status = await python.getSpotifyApiStatus();
-        if (cancelled) return;
-        const wasPaused = spotifyApiPausedRef.current;
-        spotifyApiPausedRef.current = Boolean(status.active);
-        setSpotifyApiStatus((previous) => (
-          previous.active === status.active
-          && previous.remainingSeconds === status.remainingSeconds
-          && previous.until === status.until
-            ? previous
-            : status
-        ));
-        if (status.active && !wasPaused) {
-          const paused = spotifyPausedPlayer(spotifyT);
-          spotifyPlaybackCacheRef.current = { at: Date.now(), player: null, lastValidAt: 0 };
-          setMediaVisible(true);
-          setLoading(false);
-          setSnapshot({ selectedPlayer: paused.id, currentPlayer: paused.id, selected: paused, players: [paused] });
-          setSnapshotAt(Date.now());
-        } else if (!status.active && wasPaused) {
-          spotifyPlaybackCacheRef.current = { at: 0, player: null, lastValidAt: 0 };
-          void refresh(true);
-        }
-      } catch {
-        // This is a local status read; preserve the previous state on a transient RPC error.
-      }
-    };
-    void updateStatus();
-    const timer = window.setInterval(() => void updateStatus(), 1000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, [spotifyApiActive]);
-
-  useEffect(() => {
-    if (!spotifySettingsReady && activeServiceKey === "spotify") return;
     let cancelled = false;
     volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
     volumeApplyTimersRef.current = [];
@@ -3637,7 +3356,7 @@ function Content() {
         // The player may still be creating its Windows audio session.
       }
 
-      if (cancelled || (spotifyApiActive && spotifyApiPausedRef.current)) return;
+      if (cancelled) return;
       try {
         const applied = await python.setAppVolume(volumeValueRef.current, activeServiceKey);
         if (!cancelled && applied?.ok && !applied.stale) {
@@ -3659,12 +3378,12 @@ function Content() {
       volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
       volumeApplyTimersRef.current = [];
     };
-  }, [activeServiceKey, isLocalMusicActive, spotifyApiActive, spotifySettingsReady]);
+  }, [activeServiceKey, isLocalMusicActive]);
 
   useEffect(() => {
     if (!isLocalMusicActive) return;
     return localAudioPlayer.subscribe(() => {
-      void refresh(true);
+      void refresh();
     });
   }, [activeServiceKey, isLocalMusicActive]);
 
@@ -3697,10 +3416,10 @@ function Content() {
   }, []);
 
   useEffect(() => {
-    void refresh(true);
+    void refresh();
 
     const timer = window.setInterval(() => {
-      void refresh(false);
+      void refresh();
     }, 900);
 
     return () => window.clearInterval(timer);
@@ -3722,7 +3441,7 @@ function Content() {
           const next = clamp(result.volume, 0, 100);
           const displayed = volumeValueRef.current;
           const differs = Math.abs(next - displayed) > 2;
-          if (result.origin !== "spotify-connect" && differs && Date.now() - volumeInteractionAtRef.current < 15000) {
+          if (differs && Date.now() - volumeInteractionAtRef.current < 15000) {
             if (!volumeCommitInFlightRef.current && !volumeCommitTimerRef.current) {
               volumeCommitRetryRef.current = 0;
               volumeCommitTimerRef.current = window.setTimeout(() => {
@@ -3761,7 +3480,7 @@ function Content() {
       window.clearTimeout(initialTimer);
       window.clearInterval(timer);
     };
-  }, [activeServiceKey, isLocalMusicActive, isSpotifyApiActive]);
+  }, [activeServiceKey, isLocalMusicActive]);
 
   function flushAppVolumeCommit() {
     if (volumeCommitInFlightRef.current) {
@@ -3870,7 +3589,7 @@ function Content() {
     setLoading(true);
     setMediaVisible(false);
     window.setTimeout(() => {
-      void refresh(true);
+      void refresh();
       setMediaVisible(true);
     }, 0);
   }
@@ -3922,7 +3641,6 @@ function Content() {
       return;
     }
 
-    const immediateArtwork = String(current?.artworkUrl ?? "");
     const requestId = coverRequestRef.current + 1;
     coverRequestRef.current = requestId;
     let cancelled = false;
@@ -3953,11 +3671,6 @@ function Content() {
       };
       image.src = url;
     };
-
-    if (spotifyCoverActive && immediateArtwork) {
-      commitPreloadedCover(immediateArtwork);
-      return () => { cancelled = true; };
-    }
 
     const cached = coverCacheRef.current.get(key);
     if (cached) {
@@ -3995,7 +3708,7 @@ function Content() {
     return () => {
       cancelled = true;
     };
-  }, [current?.title, current?.artist, current?.album, current?.artworkUrl, coverSource, spotifyCoverActive, activeServiceKey, isLocalMusicActive, t.coverFailed]);
+  }, [current?.title, current?.artist, current?.album, current?.artworkUrl, coverSource, activeServiceKey, isLocalMusicActive, t.coverFailed]);
 
   useEffect(() => () => {
     if (coverClearTimerRef.current) window.clearTimeout(coverClearTimerRef.current);
@@ -4032,14 +3745,12 @@ function Content() {
 
   const title = current?.title?.trim() ? current.title : t.notPlaying;
   const artist = current?.artist?.trim() ? current.artist : " ";
-  const album = spotifyPaused
-    ? formatTime(Math.max(0, Number(spotifyApiStatus.remainingSeconds || 0)) * 1000)
-    : current?.album?.trim() ? current.album : " ";
+  const album = current?.album?.trim() ? current.album : " ";
   const isPlaying = current?.status === "Playing";
   const isShuffleActive = current?.shuffleActive === true;
   const repeatMode = current?.repeatMode || "None";
   const repeatActive = !["", "None", "Off"].includes(repeatMode);
-  const controlsDisabled = loading || spotifyPaused;
+  const controlsDisabled = loading;
   const mediaTransitionStyle: CSSProperties = {
     opacity: mediaVisible ? 1 : 0.28,
     transform: mediaVisible ? "translateY(0)" : "translateY(2px)",
@@ -4056,7 +3767,6 @@ function Content() {
         onSelectCoverSource={selectCoverSource}
         onSelectFullscreenEffect={selectFullscreenEffect}
         onToggleApp={toggleEnabledApp}
-        onSpotifySettingsChanged={setSpotifyPlus}
       />
     );
   }
@@ -4216,14 +3926,9 @@ function Content() {
             <div style={mediaTransitionStyle}>
               <CoverBox
                 artUrl={coverUrl}
-                placeholderIcon={spotifyPaused ? <FaClock size={88} style={{ opacity: 0.88 }} /> : undefined}
-                showPlaceholder={!coverResolving || spotifyPaused}
+                showPlaceholder={!coverResolving}
                 ariaLabel={t.openCurrentAlbum}
-                onActivate={spotifyPaused ? undefined : spotifyCoverActive
-                  ? () => void openCurrentSpotifyAlbum()
-                  : localCoverActive
-                    ? () => void openCurrentLocalAlbum()
-                    : undefined}
+                onActivate={localCoverActive ? () => void openCurrentLocalAlbum() : undefined}
               />
 
               <div
@@ -4266,7 +3971,7 @@ function Content() {
               </div>
             </div>
 
-            {spotifyPaused ? null : isLocalMusicActive ? <LocalPlaybackProgress current={current} snapshotAt={snapshotAt} /> : <ProgressView current={current} snapshotAt={snapshotAt} />}
+            {isLocalMusicActive ? <LocalPlaybackProgress current={current} snapshotAt={snapshotAt} /> : <ProgressView current={current} snapshotAt={snapshotAt} />}
 
             <div style={{ height: "14px" }} />
 
@@ -4311,7 +4016,6 @@ function Content() {
                 onClick={() => void runAction(
                   () => shuffleAction(),
                   () => patchCurrentPlayer((player) => ({ ...player, shuffleActive: !player.shuffleActive })),
-                  [1200]
                 )}
               >
                 <FaRandom />
@@ -4346,7 +4050,6 @@ function Content() {
                         ? "Track"
                         : "Off",
                   })),
-                  [1200]
                 )}
               >
                 <RepeatIcon repeatMode={repeatMode} />
@@ -4393,7 +4096,7 @@ function Content() {
                 min={0}
                 max={100}
                 step={1}
-                disabled={!current || spotifyPaused}
+                disabled={!current}
                 tabIndex={-1}
                 onChange={(event) => changeAppVolume(Number(event.currentTarget.value))}
               />
@@ -4441,13 +4144,6 @@ function Content() {
               </DialogButton>
             </Focusable>
 
-            {enabledAppKeys[0] === "spotify" && spotifyPlus.enabled && spotifyPlus.authenticated ? (
-              <>
-                <div style={{ height: "10px" }} />
-                <SpotifyBrowser openAlbumRequest={spotifyAlbumRequest} onOpenBigPicture={navigateToSpotifyBigPicture} onOpenSettings={() => setShowSettings(true)} />
-              </>
-            ) : null}
-
             {enabledAppKeys[0] === "localMusic" ? (
               <>
                 <div style={{ height: "10px" }} />
@@ -4467,7 +4163,7 @@ function Content() {
                 <div style={{ height: "6px" }} />
 
                 <Focusable style={{ ...centeredColumnStyle, gap: "6px" }} flow-children="vertical">
-                  {enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "spotify" && app.key !== "youtubeMusic").map((app) => {
+                  {enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "youtubeMusic").map((app) => {
                     const Icon = app.Icon;
 
                     return (
@@ -4527,7 +4223,6 @@ function NowPlayingTitle() {
 export default definePlugin(() => {
   fullscreenUiDisposed = false;
   routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
-  routerHook.addRoute(SPOTIFY_BIG_PICTURE_ROUTE, SpotifyBigPictureRoute);
   routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
   routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
   routerHook.addRoute(FULLSCREEN_SETTINGS_ROUTE, FullscreenSettingsRoute);
@@ -4543,7 +4238,6 @@ export default definePlugin(() => {
       publishPlaybackActivity(false, "Stopped", "", "", "");
       localAudioPlayer.destroy();
       routerHook.removeRoute(FULLSCREEN_ROUTE);
-      routerHook.removeRoute(SPOTIFY_BIG_PICTURE_ROUTE);
       routerHook.removeRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE);
       routerHook.removeRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE);
       routerHook.removeRoute(FULLSCREEN_SETTINGS_ROUTE);

@@ -80,11 +80,7 @@ function IconBase(props) {
 }
 
 // THIS FILE IS AUTO GENERATED
-function FaDeezer (props) {
-  return GenIcon({"attr":{"viewBox":"0 0 576 512"},"child":[{"tag":"path","attr":{"d":"M451.46,244.71H576V172H451.46Zm0-173.89v72.67H576V70.82Zm0,275.06H576V273.2H451.46ZM0,447.09H124.54V374.42H0Zm150.47,0H275V374.42H150.47Zm150.52,0H425.53V374.42H301Zm150.47,0H576V374.42H451.46ZM301,345.88H425.53V273.2H301Zm-150.52,0H275V273.2H150.47Zm0-101.17H275V172H150.47Z"},"child":[]}]})(props);
-}function FaAmazon (props) {
-  return GenIcon({"attr":{"viewBox":"0 0 448 512"},"child":[{"tag":"path","attr":{"d":"M257.2 162.7c-48.7 1.8-169.5 15.5-169.5 117.5 0 109.5 138.3 114 183.5 43.2 6.5 10.2 35.4 37.5 45.3 46.8l56.8-56S341 288.9 341 261.4V114.3C341 89 316.5 32 228.7 32 140.7 32 94 87 94 136.3l73.5 6.8c16.3-49.5 54.2-49.5 54.2-49.5 40.7-.1 35.5 29.8 35.5 69.1zm0 86.8c0 80-84.2 68-84.2 17.2 0-47.2 50.5-56.7 84.2-57.8v40.6zm136 163.5c-7.7 10-70 67-174.5 67S34.2 408.5 9.7 379c-6.8-7.7 1-11.3 5.5-8.3C88.5 415.2 203 488.5 387.7 401c7.5-3.7 13.3 2 5.5 12zm39.8 2.2c-6.5 15.8-16 26.8-21.2 31-5.5 4.5-9.5 2.7-6.5-3.8s19.3-46.5 12.7-55c-6.5-8.3-37-4.3-48-3.2-10.8 1-13 2-14-.3-2.3-5.7 21.7-15.5 37.5-17.5 15.7-1.8 41-.8 46 5.7 3.7 5.1 0 27.1-6.5 43.1z"},"child":[]}]})(props);
-}function FaUser (props) {
+function FaUser (props) {
   return GenIcon({"attr":{"viewBox":"0 0 448 512"},"child":[{"tag":"path","attr":{"d":"M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"},"child":[]}]})(props);
 }function FaTv (props) {
   return GenIcon({"attr":{"viewBox":"0 0 640 512"},"child":[{"tag":"path","attr":{"d":"M592 0H48A48 48 0 0 0 0 48v320a48 48 0 0 0 48 48h240v32H112a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H352v-32h240a48 48 0 0 0 48-48V48a48 48 0 0 0-48-48zm-16 352H64V64h512z"},"child":[]}]})(props);
@@ -136,8 +132,6 @@ function FaDeezer (props) {
   return GenIcon({"attr":{"viewBox":"0 0 496 512"},"child":[{"tag":"path","attr":{"d":"M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zM88 256H56c0-105.9 86.1-192 192-192v32c-88.2 0-160 71.8-160 160zm160 96c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96zm0-128c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z"},"child":[]}]})(props);
 }function FaCog (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"},"child":[]}]})(props);
-}function FaClock (props) {
-  return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M256,8C119,8,8,119,8,256S119,504,256,504,504,393,504,256,393,8,256,8Zm92.49,313h0l-20,25a16,16,0,0,1-22.49,2.5h0l-67-49.72a40,40,0,0,1-15-31.23V112a16,16,0,0,1,16-16h32a16,16,0,0,1,16,16V256l58,42.5A16,16,0,0,1,348.49,321Z"},"child":[]}]})(props);
 }function FaChevronUp (props) {
   return GenIcon({"attr":{"viewBox":"0 0 448 512"},"child":[{"tag":"path","attr":{"d":"M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"},"child":[]}]})(props);
 }function FaChevronRight (props) {
@@ -153,12 +147,6 @@ function FaDeezer (props) {
 // THIS FILE IS AUTO GENERATED
 function SiYoutubemusic (props) {
   return GenIcon({"attr":{"role":"img","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"},"child":[]}]})(props);
-}function SiTidal (props) {
-  return GenIcon({"attr":{"role":"img","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996 4.004 12l4.004-4.004L12.012 12l-4.004 4.004 4.004 4.004 4.004-4.004L12.012 12l4.004-4.004-4.004-4.004zM16.042 7.996l3.979-3.979L24 7.996l-3.979 3.979z"},"child":[]}]})(props);
-}function SiSpotify (props) {
-  return GenIcon({"attr":{"role":"img","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"},"child":[]}]})(props);
-}function SiSoundcloud (props) {
-  return GenIcon({"attr":{"role":"img","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"},"child":[]}]})(props);
 }function SiApplemusic (props) {
   return GenIcon({"attr":{"role":"img","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.801.42.127.856.187 1.293.228.555.053 1.11.06 1.667.06h11.03a12.5 12.5 0 001.57-.1c.822-.106 1.596-.35 2.295-.81a5.046 5.046 0 001.88-2.207c.186-.42.293-.87.37-1.324.113-.675.138-1.358.137-2.04-.002-3.8 0-7.595-.003-11.393zm-6.423 3.99v5.712c0 .417-.058.827-.244 1.206-.29.59-.76.962-1.388 1.14-.35.1-.706.157-1.07.173-.95.045-1.773-.6-1.943-1.536a1.88 1.88 0 011.038-2.022c.323-.16.67-.25 1.018-.324.378-.082.758-.153 1.134-.24.274-.063.457-.23.51-.516a.904.904 0 00.02-.193c0-1.815 0-3.63-.002-5.443a.725.725 0 00-.026-.185c-.04-.15-.15-.243-.304-.234-.16.01-.318.035-.475.066-.76.15-1.52.303-2.28.456l-2.325.47-1.374.278c-.016.003-.032.01-.048.013-.277.077-.377.203-.39.49-.002.042 0 .086 0 .13-.002 2.602 0 5.204-.003 7.805 0 .42-.047.836-.215 1.227-.278.64-.77 1.04-1.434 1.233-.35.1-.71.16-1.075.172-.96.036-1.755-.6-1.92-1.544-.14-.812.23-1.685 1.154-2.075.357-.15.73-.232 1.108-.31.287-.06.575-.116.86-.177.383-.083.583-.323.6-.714v-.15c0-2.96 0-5.922.002-8.882 0-.123.013-.25.042-.37.07-.285.273-.448.546-.518.255-.066.515-.112.774-.165.733-.15 1.466-.296 2.2-.444l2.27-.46c.67-.134 1.34-.27 2.01-.403.22-.043.442-.088.663-.106.31-.025.523.17.554.482.008.073.012.148.012.223.002 1.91.002 3.822 0 5.732z"},"child":[]}]})(props);
 }
@@ -240,26 +228,11 @@ function nextTrack() {
 function previousTrack() {
     return call("previous");
 }
-function openSpotify() {
-    return call("open_spotify");
-}
 function openYouTubeMusic() {
     return call("open_youtube_music");
 }
-function openTidal() {
-    return call("open_tidal");
-}
 function openAppleMusic() {
     return call("open_apple_music");
-}
-function openDeezer() {
-    return call("open_deezer");
-}
-function openAmazonMusic() {
-    return call("open_amazon_music");
-}
-function openSoundCloud() {
-    return call("open_soundcloud");
 }
 function shuffle() {
     return call("shuffle");
@@ -300,9 +273,6 @@ function isMusicAppRunning(appKey) {
 function closeMusicApp(appKey) {
     return call("close_music_app", appKey);
 }
-function getSpotifyAudioLevel() {
-    return call("get_spotify_audio_level");
-}
 function getYouTubeMusicSettings() {
     return call("get_youtube_music_settings");
 }
@@ -342,101 +312,14 @@ function youtubeMusicPrepareStream(videoId) {
 function youtubeMusicPrefetchStream(videoId) {
     return call("youtube_music_prefetch_stream", videoId);
 }
-function getSpotifySettings() {
-    return call("get_spotify_settings");
-}
-function setSpotifyCompactSavedTracks(enabled) {
-    return call("set_spotify_compact_saved_tracks", enabled);
-}
-function refreshSpotifyCache() {
-    return call("refresh_spotify_cache");
-}
-function setSpotifyAudioQuality(quality) {
-    return call("set_spotify_audio_quality", quality);
-}
-function clearSpotifyAudioCache() {
-    return call("clear_spotify_audio_cache");
-}
-function getSpotifyAudioCacheStats() {
-    return call("get_spotify_audio_cache_stats");
-}
-function getSpotifyApiUsage() {
-    return call("get_spotify_api_usage");
-}
-function setSpotifyClientId(clientId) {
-    return call("set_spotify_client_id", clientId);
-}
-function beginSpotifyAuth() {
-    return call("begin_spotify_auth");
-}
-function beginSpotifyPlaybackAuth() {
-    return call("begin_spotify_playback_auth");
-}
-function getSurroundSettings() {
-    return call("get_surround_settings");
-}
-function setSurroundSettings(mode, speakerVolumes) {
-    return call("set_surround_settings", mode, speakerVolumes);
-}
-function getSpotifyAuthStatus() {
-    return call("get_spotify_auth_status");
-}
-function disconnectSpotify() {
-    return call("disconnect_spotify");
-}
-function openSpotifyDashboard() {
-    return call("open_spotify_dashboard");
-}
 function openExternalUrl(url) {
     return call("open_external_url", url);
-}
-function spotifyGetHome() {
-    return call("spotify_get_home");
-}
-function spotifySearch(query, offset = 0) {
-    return call("spotify_search", query, offset);
-}
-function spotifyGetLibrary(section, offset = 0, maxItems = 300) {
-    return call("spotify_get_library", section, offset, maxItems);
-}
-function spotifyGetDetail(kind, itemId) {
-    return call("spotify_get_detail", kind, itemId);
-}
-function spotifyGetCurrentAlbum(title, artist, album) {
-    return call("spotify_get_current_album", title, artist, album);
-}
-function getSpotifyApiStatus() {
-    return call("get_spotify_api_status");
-}
-function spotifyGetPlaybackState() {
-    return call("spotify_get_playback_state");
-}
-function spotifyPlayerCommand(command, value = -1) {
-    return call("spotify_player_command", command, value);
-}
-function spotifyPlay(uri, contextUri = "", offsetUri = "") {
-    return call("spotify_play", uri, contextUri, offsetUri);
-}
-function spotifyPlayItems(uris, startIndex = 0) {
-    return call("spotify_play_items", uris, startIndex);
 }
 function searchArtistBackgrounds(provider, artistId, artistName, source = "all") {
     return call("search_artist_backgrounds", provider, artistId, artistName, source);
 }
 function applyArtistBackground(provider, artistId, artistName, candidateId) {
     return call("apply_artist_background", provider, artistId, artistName, candidateId);
-}
-function buildSpotifyArtistCache() {
-    return call("build_spotify_artist_cache");
-}
-function getSpotifyArtistCacheProgress() {
-    return call("get_spotify_artist_cache_progress");
-}
-function getSpotifyArtistCacheStats() {
-    return call("get_spotify_artist_cache_stats");
-}
-function clearSpotifyArtistCache() {
-    return call("clear_spotify_artist_cache");
 }
 function getYouTubeMusicArtistBackground(artistName) {
     return call("get_youtube_music_artist_background", artistName);
@@ -586,7 +469,6 @@ var en = {
 		restartServicesInProgress: "Restarting plugin services…",
 		backgroundSource: "Background source",
 		allBackgroundSources: "All sources",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Export diagnostic log",
 		diagnosticLogDescription: "Creates a safe diagnostic file in Downloads with player, MediaBridge and artwork errors. API keys and tokens are removed.",
@@ -613,7 +495,7 @@ var en = {
 		fsLegendRotate: "Rotate the 3D effect",
 		settingsParticleResolution: "3D particle resolution",
 		surroundUpmix: "Surround upmix",
-		surroundUpmixHint: "Expands stereo audio into surround. Works with Your Music, Spotify and YouTube Music.",
+		surroundUpmixHint: "Expands stereo audio into surround. Works with Your Music and YouTube Music.",
 		speakerVolumesShow: "Show speaker volumes",
 		speakerVolumesHide: "Hide speaker volumes",
 		seekBackLabel: "Back {seconds} seconds",
@@ -622,132 +504,6 @@ var en = {
 		playbackPositionLabel: "Playback position",
 		appearanceSection: "Appearance",
 		matchSteamTheme: "Match Steam theme in quick access"
-	},
-	spotify: {
-		album: "Album",
-		albums: "Albums",
-		albumsAndSingles: "Albums and singles",
-		apiPaused: "API paused · {time}",
-		apiPausedTitle: "API paused",
-		apiPausedWait: "Wait a little longer",
-		apiPausedDetail: "Spotify API is temporarily paused. Try again in {time}. Local playback controls remain available.",
-		appDescriptionCopied: "App description copied",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Personal Spotify Web API connection for the Awesome Mix Decky Loader plugin on Windows.",
-		appNameCopied: "App name copied",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Artist",
-		artists: "Artists",
-		audioQuality: "Audio quality",
-		back: "Back",
-		cacheExplanation: "Spotify library data is cached locally. Use Refresh only when you want Awesome Mix to call Spotify again and update the cached content.",
-		clearMusicCache: "Clear Spotify music cache",
-		clearingMusicCache: "Clearing Spotify music cache...",
-		changeInSettings: "Change in Settings",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID saved",
-		compactSavedTracks: "Compact saved tracks view",
-		compactSavedTracksCard: "To reduce Spotify API usage, saved tracks are shown as Play and Shuffle actions by default instead of loading the entire list.",
-		compactSavedTracksDescription: "Enabled by default. Saved tracks show Play and Shuffle without loading the full list, reducing Spotify API requests.",
-		completeSignIn: "Complete the sign-in in your browser, then return to Steam.",
-		finishPlaybackSetup: "One final authorization enables playback directly through Playhub and is saved for future startups.",
-		connectPlayback: "Enable Spotify playback",
-		connect: "Connect Spotify",
-		connected: "Connected",
-		connectedAs: "Connected as {name}",
-		hideDetails: "Hide details",
-		showDetails: "Show details",
-		copyAppDescription: "Copy app description",
-		copyAppName: "Copy app name",
-		copyRedirectUri: "Copy redirect URI",
-		developerTerms: "Accept the Developer Terms of Service and Design Guidelines, then click Save.",
-		disconnect: "Disconnect Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artists",
-		fullscreen: "Fullscreen",
-		genericError: "Something went wrong",
-		home: "Home",
-		library: "Library",
-		limitedPlaylist: "Spotify only exposes track lists for playlists you own or collaborate on. You can still play this playlist.",
-		loadingSpotify: "Loading Spotify…",
-		noAlbums: "No albums available.",
-		noPlayback: "Play something",
-		noResults: "No results found.",
-		noTracks: "No tracks available.",
-		nothingHere: "Nothing here yet.",
-		nowPlaying: "Now playing",
-		openDashboard: "YouTube Music",
-		personalMode: "Personal Web API mode",
-		play: "Play",
-		playlist: "Playlist",
-		playlists: "Playlists",
-		popularTracks: "Popular tracks",
-		premiumNote: "Spotify Premium is required for playback control in Development Mode. Your Client ID and authorization tokens stay on this PC.",
-		queue: "Queue",
-		queueEmpty: "There are no upcoming tracks.",
-		redirectCopied: "Redirect URL copied",
-		redirectUri: "Redirect URL",
-		refresh: "Refresh",
-		repeat: "Repeat",
-		requestFailed: "Spotify request failed",
-		saveClientId: "Save Client ID",
-		savedAlbums: "Albums",
-		savedTracks: "Saved tracks",
-		search: "Search",
-		searchSpotify: "Search Spotify",
-		seeAll: "See all",
-		selectSpotifyHint: "Select Spotify in the Source section to show the Spotify browser in Awesome Mix.",
-		settings: "Settings",
-		settingsDescription: "Browse your Spotify library, search the catalog and play directly through Playhub Awesome Mix. Connect your own Spotify developer Client ID to continue.",
-		setupGuide: "Setup guide",
-		setupSteps: [
-			"Open the Spotify Developer site, click “Log in” in the top-right corner and sign in to your Spotify account.",
-			"After signing in, click your profile in the top-right corner, choose “Dashboard”, then click “Create app”.",
-			"In “App name* (required)”, enter the app name shown below.",
-			"In “App description* (required)”, enter the description shown below.",
-			"Leave “Website” empty.",
-			"In “Redirect URIs* (required)”, add the URL shown below exactly as written.",
-			"Under “Which API/SDKs are you planning to use?”, select both “Web API” and “Web Playback SDK”. Do not select Ads API, iOS or Android.",
-			"Accept the Developer Terms of Service and Design Guidelines, then click Save.",
-			"Open the new app, copy its Client ID, paste it below and connect Spotify. A Client Secret is not required."
-		],
-		showLess: "Show less",
-		shuffle: "Shuffle",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Tracks",
-		unableStartAuthorization: "Unable to start Spotify authorization",
-		unableStartPlayback: "Unable to start playback",
-		untitled: "Untitled",
-		volume: "Volume",
-		webApiOnly: "Select Web API and Web Playback SDK",
-		websiteOptional: "Website — optional",
-		welcomeBack: "Welcome back, {name}",
-		yourMusicInsideSteam: "Your music, inside Steam",
-		yourPlaylists: "Your playlists",
-		artistCacheTitle: "Artist background cache",
-		artistCacheDescription: "Downloads high-resolution backgrounds only for the artists you follow on Spotify.",
-		createArtistCache: "Create artist background cache",
-		artistCacheBuilding: "Creating artist background cache…",
-		artistCacheProgress: "Downloading background: {name}",
-		artistCacheCreated: "Spotify artist background cache created",
-		artistCacheNoFavorites: "No followed artists were found.",
-		clearArtistCache: "Clear artist background cache",
-		artistCacheClearing: "Clearing artist background cache…",
-		artistCacheCleared: "Spotify artist background cache cleared",
-		cacheSize: "Downloaded assets",
-		newForYou: "Recommended for you",
-		manualBackgrounds: "User-selected backgrounds",
-		musicCacheDescription: "Spotify audio is cached locally up to 1 GB. Older files are removed automatically when the limit is reached.",
-		musicCacheUsage: "Cache used",
-		manualBackgroundsDescription: "These artist backgrounds are kept when the image cache is cleared.",
-		removeManualBackgrounds: "Remove all selected artist backgrounds",
-		manualBackgroundsRemoving: "Removing selected artist backgrounds…",
-		manualBackgroundsRemoved: "Selected artist backgrounds removed",
-		apiUsageTitle: "Spotify API usage",
-		apiUsagePerMinute: "calls/min",
-		apiUsageTotal: "total",
-		apiUsagePaused: "Paused (rate limited)"
 	},
 	localMusic: {
 		albums: "Albums",
@@ -819,12 +575,10 @@ var en = {
 		noPlayableLocalTracks: "No playable local tracks",
 		localPlaybackStartFailed: "Unable to start local playback",
 		localAudioRecoveryFailed: "Local audio recovery failed",
-		openCurrentSpotifyAlbumFailed: "Unable to open the current Spotify album",
 		openCurrentLocalAlbumFailed: "Unable to open the current local album",
 		unsupportedLocalFormat: "This audio format is not supported by Steam Chromium",
 		localPlayerUnavailable: "The local audio player is unavailable",
 		currentLocalAlbumUnavailable: "The current local album is unavailable",
-		currentSpotifyAlbumUnavailable: "The current Spotify album is unavailable",
 		windowsOnly: "This plugin works only on Windows",
 		helperStartFailed: "The plugin helper could not be started correctly",
 		folderNotFound: "Folder not found",
@@ -832,36 +586,12 @@ var en = {
 		localFileUnavailable: "The local music file is unavailable",
 		localPlayerNotRunning: "The local music player is not running",
 		localPlayerNoResponse: "The local music player did not respond",
-		spotifyInvalidTokenResponse: "Spotify returned an invalid token response",
-		spotifyAuthorizationExpired: "The Spotify authorization session expired",
-		spotifyFinishingConnection: "Finishing the Spotify connection…",
-		spotifyEnterClientId: "Enter your Spotify Client ID first",
-		spotifyWaitingAuthorization: "Waiting for Spotify authorization…",
-		spotifyNotConnected: "Spotify is not connected",
-		spotifyRefreshTokenFailed: "Spotify did not return a new access token",
-		spotifyInvalidApiPath: "Invalid Spotify API path",
-		spotifyInvalidResponse: "Spotify returned an invalid response",
-		spotifyActionDenied: "Spotify denied this action. Premium or an additional permission may be required",
-		spotifyNoActiveDevice: "Spotify could not find an active playback device",
-		spotifyDisabled: "Spotify is disabled",
-		spotifyConnectFirst: "Connect Spotify in the plugin settings first",
-		spotifyUnknownLibrarySection: "Unknown Spotify library section",
-		spotifyInvalidItem: "Invalid Spotify item",
-		spotifyNoCurrentAlbum: "No Spotify album is available for the current track",
-		spotifyAlbumLookupFailed: "Spotify could not find the album for the current track",
-		spotifyOpenAppStartTrack: "Open Spotify on this PC, start any song once, then try again",
-		spotifyUnknownPlayerCommand: "Unknown Spotify player command",
-		spotifyNoPlayableItems: "No playable Spotify items",
-		spotifyMissingUri: "Missing Spotify URI",
-		spotifyInvalidUri: "Invalid Spotify URI",
 		backgroundChoiceExpired: "This background choice has expired. Search again.",
 		invalidBackgroundChoice: "This background choice is no longer valid.",
 		backgroundDownloadFailed: "The selected image could not be downloaded.",
 		unsupportedBackgroundImage: "The selected image format is not supported.",
 		invalidArtist: "The selected artist is not valid.",
 		artistNameRequired: "An artist name is required.",
-		spotifyArtistCacheBusy: "The Spotify artist cache is already being created.",
-		spotifyArtistCacheInUse: "The Spotify artist cache is busy.",
 		restartServicesTimedOut: "Plugin service restart timed out",
 		restartServicesAlreadyRunning: "A plugin service restart is already running",
 		mediaBridgeRestartFailed: "MediaBridge did not restart correctly",
@@ -871,119 +601,61 @@ var en = {
 		album: "Album",
 		albums: "Albums",
 		albumsAndSingles: "Albums and singles",
-		apiPaused: "API paused · {time}",
-		apiPausedTitle: "API paused",
-		apiPausedWait: "Wait a little longer",
-		apiPausedDetail: "Spotify API is temporarily paused. Try again in {time}. Local playback controls remain available.",
-		appDescriptionCopied: "App description copied",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Personal Spotify Web API connection for the Awesome Mix Decky Loader plugin on Windows.",
-		appNameCopied: "App name copied",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Artist",
 		artists: "Artists",
 		audioQuality: "Audio quality",
 		back: "Back",
-		cacheExplanation: "Spotify library data is cached locally. Use Refresh only when you want Awesome Mix to call Spotify again and update the cached content.",
-		clearMusicCache: "Clear Spotify music cache",
-		clearingMusicCache: "Clearing Spotify music cache...",
-		changeInSettings: "Change in Settings",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID saved",
-		compactSavedTracks: "Compact saved tracks view",
-		compactSavedTracksCard: "To reduce Spotify API usage, saved tracks are shown as Play and Shuffle actions by default instead of loading the entire list.",
-		compactSavedTracksDescription: "Enabled by default. Saved tracks show Play and Shuffle without loading the full list, reducing Spotify API requests.",
 		completeSignIn: "Choose your Google account, or sign in with the account you use for YouTube Music, in the temporary window. Leave it open until Awesome Mix closes it.",
 		automaticSignInDescription: "Select Connect YouTube Music. A temporary sign-in window will open above Steam. Choose your Google account, or sign in with the account you use for YouTube Music, then leave the window open. Awesome Mix will connect and close it automatically.",
 		connect: "Connect YouTube Music",
 		connected: "Connected",
-		connectedAs: "Connected as {name}",
 		hideDetails: "Hide details",
 		showDetails: "Show details",
-		copyAppDescription: "Copy app description",
-		copyAppName: "Copy app name",
-		copyRedirectUri: "Copy redirect URI",
-		developerTerms: "Accept the Developer Terms of Service and Design Guidelines, then click Save.",
 		disconnect: "Disconnect YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artists",
 		fullscreen: "Fullscreen",
 		genericError: "Something went wrong",
 		home: "Home",
 		library: "Library",
-		limitedPlaylist: "Spotify only exposes track lists for playlists you own or collaborate on. You can still play this playlist.",
-		loadingSpotify: "Loading YouTube Music…",
-		noAlbums: "No albums available.",
+		loadingYouTubeMusic: "Loading YouTube Music…",
 		noPlayback: "Play something",
 		noResults: "No results found.",
 		noTracks: "No tracks available.",
 		nothingHere: "Nothing here yet.",
 		nowPlaying: "Now playing",
-		openDashboard: "Open YouTube Music",
-		personalMode: "Personal Web API mode",
 		play: "Play",
 		playlist: "Playlist",
 		playlists: "Playlists",
 		popularTracks: "Popular tracks",
-		premiumNote: "Spotify Premium is required for playback control in Development Mode. Your Client ID and authorization tokens stay on this PC.",
 		queue: "Queue",
 		queueEmpty: "There are no upcoming tracks.",
-		redirectCopied: "Redirect URL copied",
-		redirectUri: "Redirect URL",
 		refresh: "Refresh",
 		repeat: "Repeat",
 		requestFailed: "YouTube Music request failed",
-		saveClientId: "Save Client ID",
-		savedAlbums: "Albums",
-		savedTracks: "Saved tracks",
 		search: "Search",
-		searchSpotify: "Search YouTube Music",
-		seeAll: "See all",
-		selectSpotifyHint: "Select Spotify in the Source section to show the Spotify browser in Awesome Mix.",
+		searchYouTubeMusic: "Search YouTube Music",
 		settings: "Settings",
-		settingsDescription: "Browse your Spotify library, search the catalog and play directly through Playhub Awesome Mix. Connect your own Spotify developer Client ID to continue.",
-		setupGuide: "Setup guide",
-		setupSteps: [
-			"Open the Spotify Developer site, click “Log in” in the top-right corner and sign in to your Spotify account.",
-			"After signing in, click your profile in the top-right corner, choose “Dashboard”, then click “Create app”.",
-			"In “App name* (required)”, enter the app name shown below.",
-			"In “App description* (required)”, enter the description shown below.",
-			"Leave “Website” empty.",
-			"In “Redirect URIs* (required)”, add the URL shown below exactly as written.",
-			"Under “Which API/SDKs are you planning to use?”, select both “Web API” and “Web Playback SDK”. Do not select Ads API, iOS or Android.",
-			"Accept the Developer Terms of Service and Design Guidelines, then click Save.",
-			"Open the new app, copy its Client ID, paste it below and connect Spotify. A Client Secret is not required."
-		],
-		showLess: "Show less",
+		settingsDescription: "Browse your YouTube Music library, search the catalog and play directly through Playhub Awesome Mix. Connect your own YouTube Music developer Client ID to continue.",
 		shuffle: "Shuffle",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Tracks",
-		unableStartAuthorization: "Unable to start Spotify authorization",
-		unableStartPlayback: "Unable to start playback",
 		untitled: "Untitled",
 		volume: "Volume",
-		webApiOnly: "Select Web API and Web Playback SDK",
-		websiteOptional: "Website — optional",
-		welcomeBack: "Welcome back, {name}",
 		yourMusicInsideSteam: "Your music, inside Steam",
 		yourPlaylists: "Your playlists",
 		artistCacheTitle: "Artist background cache",
-		artistCacheDescription: "Downloads high-resolution backgrounds only for the artists you follow on Spotify.",
+		artistCacheDescription: "Downloads high-resolution backgrounds only for the artists you follow on YouTube Music.",
 		createArtistCache: "Create artist background cache",
 		artistCacheBuilding: "Creating artist background cache…",
-		artistCacheProgress: "Downloading background: {name}",
-		artistCacheCreated: "Spotify artist background cache created",
+		artistCacheCreated: "YouTube Music artist background cache created",
 		artistCacheNoFavorites: "No followed artists were found.",
 		clearArtistCache: "Clear artist background cache",
 		artistCacheClearing: "Clearing artist background cache…",
-		artistCacheCleared: "Spotify artist background cache cleared",
+		artistCacheCleared: "YouTube Music artist background cache cleared",
 		cacheSize: "Downloaded assets",
 		newForYou: "Recommended for you",
 		newPodcastEpisodes: "New episodes from your podcasts",
 		newReleases: "New albums & singles",
 		manualBackgrounds: "User-selected backgrounds",
-		musicCacheDescription: "Spotify audio is cached locally up to 1 GB. Older files are removed automatically when the limit is reached.",
 		manualBackgroundsDescription: "These artist backgrounds are kept when the image cache is cleared.",
 		removeManualBackgrounds: "Remove all selected artist backgrounds",
 		manualBackgroundsRemoving: "Removing selected artist backgrounds…",
@@ -1054,7 +726,6 @@ var it = {
 		restartServicesInProgress: "Riavvio dei servizi del plugin…",
 		backgroundSource: "Fonte degli sfondi",
 		allBackgroundSources: "Tutte le fonti",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Esporta log diagnostico",
 		diagnosticLogDescription: "Crea in Download un file diagnostico sicuro con stato del player, MediaBridge ed errori degli artwork. Chiavi API e token vengono rimossi.",
@@ -1081,7 +752,7 @@ var it = {
 		fsLegendRotate: "Ruota l'effetto 3D",
 		settingsParticleResolution: "Risoluzione particellari 3D",
 		surroundUpmix: "Upmix surround",
-		surroundUpmixHint: "Espande l'audio stereo in surround. Funziona con La tua musica, Spotify e YouTube Music.",
+		surroundUpmixHint: "Espande l'audio stereo in surround. Funziona con La tua musica e YouTube Music.",
 		speakerVolumesShow: "Mostra volumi casse",
 		speakerVolumesHide: "Nascondi volumi casse",
 		seekBackLabel: "Indietro di {seconds} secondi",
@@ -1090,132 +761,6 @@ var it = {
 		playbackPositionLabel: "Posizione di riproduzione",
 		appearanceSection: "Aspetto",
 		matchSteamTheme: "Usa i colori del tema Steam nel menu rapido"
-	},
-	spotify: {
-		album: "Album",
-		albums: "Album",
-		albumsAndSingles: "Album e singoli",
-		apiPaused: "API in pausa · {time}",
-		apiPausedTitle: "API in pausa",
-		apiPausedWait: "Attendi ancora",
-		apiPausedDetail: "L’API Spotify è temporaneamente in pausa. Riprova tra {time}. I controlli locali del player restano disponibili.",
-		appDescriptionCopied: "Descrizione app copiata",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Connessione personale Spotify Web API per il plugin Awesome Mix di Decky Loader su Windows.",
-		appNameCopied: "Nome app copiato",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Artista",
-		artists: "Artisti",
-		back: "Indietro",
-		audioQuality: "Qualità audio",
-		cacheExplanation: "I dati della libreria Spotify vengono salvati in cache locale. Usa Aggiorna solo quando vuoi chiamare nuovamente Spotify e aggiornare i contenuti in cache.",
-		clearMusicCache: "Svuota la cache musicale di Spotify",
-		clearingMusicCache: "Svuotamento della cache musicale di Spotify…",
-		musicCacheDescription: "L’audio di Spotify viene salvato nella cache locale fino a 1 GB. I file più vecchi vengono rimossi automaticamente al raggiungimento del limite.",
-		musicCacheUsage: "Cache utilizzata",
-		changeInSettings: "Modifica nelle impostazioni",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID salvato",
-		compactSavedTracks: "Brani salvati compatti",
-		compactSavedTracksCard: "Per limitare l’utilizzo dell’API Spotify, i brani salvati mostrano per impostazione predefinita solo le azioni Riproduci e Casuale invece dell’elenco completo.",
-		compactSavedTracksDescription: "Attiva per impostazione predefinita. I brani salvati mostrano Riproduci e Casuale senza caricare l’elenco completo, riducendo le richieste all’API Spotify.",
-		completeSignIn: "Completa l'accesso nel browser, poi torna a Steam.",
-		finishPlaybackSetup: "Un'ultima autorizzazione abilita la riproduzione diretta tramite Playhub e viene salvata per gli avvii successivi.",
-		connectPlayback: "Abilita riproduzione Spotify",
-		connect: "Collega Spotify",
-		connected: "Collegato",
-		connectedAs: "Collegato come {name}",
-		hideDetails: "Nascondi dettagli",
-		showDetails: "Mostra dettagli",
-		copyAppDescription: "Copia descrizione app",
-		copyAppName: "Copia nome app",
-		copyRedirectUri: "Copia URI di reindirizzamento",
-		developerTerms: "Accetta i Developer Terms of Service e le Design Guidelines, poi clicca Save.",
-		disconnect: "Disconnetti Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artisti",
-		fullscreen: "Schermo intero",
-		genericError: "Qualcosa è andato storto",
-		home: "Home",
-		library: "Libreria",
-		limitedPlaylist: "Spotify mostra i brani solo per le playlist che possiedi o a cui collabori. Puoi comunque riprodurre questa playlist.",
-		loadingSpotify: "Caricamento di Spotify…",
-		noAlbums: "Nessun album disponibile.",
-		noPlayback: "Riproduci qualcosa",
-		noResults: "Nessun risultato.",
-		noTracks: "Nessun brano disponibile.",
-		nothingHere: "Non c'è ancora nulla qui.",
-		nowPlaying: "In riproduzione",
-		openDashboard: "YouTube Music",
-		personalMode: "Modalità Web API personale",
-		play: "Riproduci",
-		playlist: "Playlist",
-		playlists: "Playlist",
-		popularTracks: "Brani più popolari",
-		premiumNote: "Spotify Premium è necessario per controllare la riproduzione in Development Mode. Il Client ID e i token di autorizzazione restano su questo PC.",
-		queue: "Coda",
-		queueEmpty: "Non ci sono brani successivi in coda.",
-		redirectCopied: "URL di indirizzamento copiato",
-		redirectUri: "URL di indirizzamento",
-		refresh: "Aggiorna",
-		repeat: "Ripeti",
-		requestFailed: "Richiesta Spotify non riuscita",
-		saveClientId: "Salva Client ID",
-		savedAlbums: "Album",
-		savedTracks: "Brani salvati",
-		search: "Cerca",
-		searchSpotify: "Cerca su Spotify",
-		seeAll: "Vedi tutti",
-		selectSpotifyHint: "Seleziona Spotify nella sezione Sorgente per mostrare il browser Spotify in Awesome Mix.",
-		settings: "Impostazioni",
-		settingsDescription: "Sfoglia la tua libreria Spotify, cerca nel catalogo e avvia la riproduzione nell'app desktop di Spotify. Questa modalità opzionale usa il tuo Client ID sviluppatore Spotify.",
-		setupGuide: "Guida alla configurazione",
-		setupSteps: [
-			"Apri il sito Spotify Developer, clicca “Log in” in alto a destra ed effettua l'accesso al tuo account Spotify.",
-			"Dopo l'accesso, clicca il tuo profilo in alto a destra, seleziona “Dashboard” e poi clicca “Create app”.",
-			"Nel campo “App name* (required)” inserisci il nome mostrato qui sotto.",
-			"Nel campo “App description* (required)” inserisci la descrizione mostrata qui sotto.",
-			"Lascia “Website” vuoto.",
-			"Nel campo “Redirect URIs* (required)” aggiungi esattamente l'URL mostrato qui sotto.",
-			"In “Which API/SDKs are you planning to use?” seleziona sia “Web API” sia “Web Playback SDK”. Non selezionare Ads API, iOS o Android.",
-			"Accetta i Developer Terms of Service e le Design Guidelines, poi clicca Save.",
-			"Apri la nuova app, copia il Client ID, incollalo qui sotto e collega Spotify. Il Client Secret non è necessario."
-		],
-		showLess: "Mostra meno",
-		shuffle: "Casuale",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Brani",
-		unableStartAuthorization: "Impossibile avviare l’autorizzazione Spotify",
-		unableStartPlayback: "Impossibile avviare la riproduzione",
-		untitled: "Senza titolo",
-		volume: "Volume",
-		webApiOnly: "Seleziona Web API e Web Playback SDK",
-		websiteOptional: "Website — facoltativo",
-		welcomeBack: "Bentornato, {name}",
-		yourMusicInsideSteam: "La tua musica, dentro Steam",
-		yourPlaylists: "Le tue playlist",
-		artistCacheTitle: "Cache sfondi artisti",
-		artistCacheDescription: "Scarica sfondi in alta risoluzione soltanto per gli artisti che segui su Spotify.",
-		createArtistCache: "Crea cache sfondi artisti",
-		artistCacheBuilding: "Creazione cache sfondi artisti…",
-		artistCacheProgress: "Download sfondo: {name}",
-		artistCacheCreated: "Cache degli sfondi Spotify creata",
-		artistCacheNoFavorites: "Non è stato trovato alcun artista seguito.",
-		clearArtistCache: "Svuota cache sfondi artisti",
-		artistCacheClearing: "Svuotamento cache sfondi artisti…",
-		artistCacheCleared: "Cache sfondi artisti Spotify svuotata",
-		cacheSize: "Asset scaricati",
-		newForYou: "Consigliati per te",
-		manualBackgrounds: "Sfondi scelti dall’utente",
-		manualBackgroundsDescription: "Questi sfondi degli artisti vengono mantenuti quando svuoti la cache immagini.",
-		removeManualBackgrounds: "Rimuovi tutti gli sfondi scelti per gli artisti",
-		manualBackgroundsRemoving: "Rimozione degli sfondi scelti per gli artisti…",
-		manualBackgroundsRemoved: "Sfondi scelti per gli artisti rimossi",
-		apiUsageTitle: "Utilizzo API Spotify",
-		apiUsagePerMinute: "chiamate/min",
-		apiUsageTotal: "totali",
-		apiUsagePaused: "In pausa (limite raggiunto)"
 	},
 	localMusic: {
 		albums: "Album",
@@ -1287,12 +832,10 @@ var it = {
 		noPlayableLocalTracks: "Nessun brano locale riproducibile",
 		localPlaybackStartFailed: "Impossibile avviare la riproduzione locale",
 		localAudioRecoveryFailed: "Ripristino dell’audio locale non riuscito",
-		openCurrentSpotifyAlbumFailed: "Impossibile aprire l’album Spotify corrente",
 		openCurrentLocalAlbumFailed: "Impossibile aprire l’album locale corrente",
 		unsupportedLocalFormat: "Questo formato audio non è supportato da Chromium di Steam",
 		localPlayerUnavailable: "Il player audio locale non è disponibile",
 		currentLocalAlbumUnavailable: "L’album locale corrente non è disponibile",
-		currentSpotifyAlbumUnavailable: "L’album Spotify corrente non è disponibile",
 		windowsOnly: "Questo plugin funziona solo su Windows",
 		helperStartFailed: "Impossibile avviare correttamente l’helper del plugin",
 		folderNotFound: "Cartella non trovata",
@@ -1300,36 +843,12 @@ var it = {
 		localFileUnavailable: "Il file musicale locale non è disponibile",
 		localPlayerNotRunning: "Il player musicale locale non è in esecuzione",
 		localPlayerNoResponse: "Il player musicale locale non risponde",
-		spotifyInvalidTokenResponse: "Spotify ha restituito una risposta token non valida",
-		spotifyAuthorizationExpired: "La sessione di autorizzazione Spotify è scaduta",
-		spotifyFinishingConnection: "Completamento della connessione a Spotify…",
-		spotifyEnterClientId: "Inserisci prima il Client ID di Spotify",
-		spotifyWaitingAuthorization: "In attesa dell’autorizzazione Spotify…",
-		spotifyNotConnected: "Spotify non è collegato",
-		spotifyRefreshTokenFailed: "Spotify non ha restituito un nuovo token di accesso",
-		spotifyInvalidApiPath: "Percorso API Spotify non valido",
-		spotifyInvalidResponse: "Spotify ha restituito una risposta non valida",
-		spotifyActionDenied: "Spotify ha negato questa azione. Potrebbe essere richiesto Premium o un permesso aggiuntivo",
-		spotifyNoActiveDevice: "Spotify non ha trovato un dispositivo di riproduzione attivo",
-		spotifyDisabled: "Spotify è disabilitato",
-		spotifyConnectFirst: "Collega prima Spotify nelle impostazioni del plugin",
-		spotifyUnknownLibrarySection: "Sezione della libreria Spotify sconosciuta",
-		spotifyInvalidItem: "Elemento Spotify non valido",
-		spotifyNoCurrentAlbum: "Nessun album Spotify disponibile per il brano corrente",
-		spotifyAlbumLookupFailed: "Spotify non è riuscito a trovare l’album del brano corrente",
-		spotifyOpenAppStartTrack: "Apri Spotify su questo PC, avvia una canzone e riprova",
-		spotifyUnknownPlayerCommand: "Comando del player Spotify sconosciuto",
-		spotifyNoPlayableItems: "Nessun elemento Spotify riproducibile",
-		spotifyMissingUri: "URI Spotify mancante",
-		spotifyInvalidUri: "URI Spotify non valido",
 		backgroundChoiceExpired: "Questa scelta dello sfondo è scaduta. Esegui di nuovo la ricerca.",
 		invalidBackgroundChoice: "Questa scelta dello sfondo non è più valida.",
 		backgroundDownloadFailed: "Non è stato possibile scaricare l’immagine selezionata.",
 		unsupportedBackgroundImage: "Il formato dell’immagine selezionata non è supportato.",
 		invalidArtist: "L’artista selezionato non è valido.",
 		artistNameRequired: "È necessario specificare il nome dell’artista.",
-		spotifyArtistCacheBusy: "La cache degli artisti Spotify è già in fase di creazione.",
-		spotifyArtistCacheInUse: "La cache degli artisti Spotify è occupata.",
 		restartServicesTimedOut: "Il riavvio dei servizi del plugin ha superato il tempo limite",
 		restartServicesAlreadyRunning: "È già in corso un riavvio dei servizi del plugin",
 		mediaBridgeRestartFailed: "MediaBridge non si è riavviato correttamente",
@@ -1339,114 +858,56 @@ var it = {
 		album: "Album",
 		albums: "Album",
 		albumsAndSingles: "Album e singoli",
-		apiPaused: "API in pausa · {time}",
-		apiPausedTitle: "API in pausa",
-		apiPausedWait: "Attendi ancora",
-		apiPausedDetail: "L’API Spotify è temporaneamente in pausa. Riprova tra {time}. I controlli locali del player restano disponibili.",
-		appDescriptionCopied: "Descrizione app copiata",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Connessione personale Spotify Web API per il plugin Awesome Mix di Decky Loader su Windows.",
-		appNameCopied: "Nome app copiato",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Artista",
 		artists: "Artisti",
 		back: "Indietro",
 		audioQuality: "Qualità audio",
-		cacheExplanation: "I dati della libreria Spotify vengono salvati in cache locale. Usa Aggiorna solo quando vuoi chiamare nuovamente Spotify e aggiornare i contenuti in cache.",
-		clearMusicCache: "Svuota la cache musicale di Spotify",
-		clearingMusicCache: "Svuotamento della cache musicale di Spotify…",
-		musicCacheDescription: "L’audio di Spotify viene salvato nella cache locale fino a 1 GB. I file più vecchi vengono rimossi automaticamente al raggiungimento del limite.",
-		changeInSettings: "Modifica nelle impostazioni",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID salvato",
-		compactSavedTracks: "Brani salvati compatti",
-		compactSavedTracksCard: "Per limitare l’utilizzo dell’API Spotify, i brani salvati mostrano per impostazione predefinita solo le azioni Riproduci e Casuale invece dell’elenco completo.",
-		compactSavedTracksDescription: "Attiva per impostazione predefinita. I brani salvati mostrano Riproduci e Casuale senza caricare l’elenco completo, riducendo le richieste all’API Spotify.",
 		completeSignIn: "Nella finestra temporanea seleziona il tuo account Google, oppure accedi con l'account che usi per YouTube Music. Lasciala aperta finché Awesome Mix non la chiude.",
 		automaticSignInDescription: "Premi Collega YouTube Music. Sopra Steam si aprirà una finestra temporanea per l'accesso. Seleziona il tuo account Google, oppure accedi con l'account che usi per YouTube Music, quindi lascia aperta la finestra. Awesome Mix completerà il collegamento e la chiuderà automaticamente.",
 		connect: "Collega YouTube Music",
 		connected: "Collegato",
-		connectedAs: "Collegato come {name}",
 		hideDetails: "Nascondi dettagli",
 		showDetails: "Mostra dettagli",
-		copyAppDescription: "Copia descrizione app",
-		copyAppName: "Copia nome app",
-		copyRedirectUri: "Copia URI di reindirizzamento",
-		developerTerms: "Accetta i Developer Terms of Service e le Design Guidelines, poi clicca Save.",
 		disconnect: "Disconnetti YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artisti",
 		fullscreen: "Schermo intero",
 		genericError: "Qualcosa è andato storto",
 		home: "Home",
 		library: "Libreria",
-		limitedPlaylist: "Spotify mostra i brani solo per le playlist che possiedi o a cui collabori. Puoi comunque riprodurre questa playlist.",
-		loadingSpotify: "Caricamento di YouTube Music…",
-		noAlbums: "Nessun album disponibile.",
+		loadingYouTubeMusic: "Caricamento di YouTube Music…",
 		noPlayback: "Riproduci qualcosa",
 		noResults: "Nessun risultato.",
 		noTracks: "Nessun brano disponibile.",
 		nothingHere: "Non c'è ancora nulla qui.",
 		nowPlaying: "In riproduzione",
-		openDashboard: "Apri YouTube Music",
-		personalMode: "Modalità Web API personale",
 		play: "Riproduci",
 		playlist: "Playlist",
 		playlists: "Playlist",
 		popularTracks: "Brani più popolari",
-		premiumNote: "Spotify Premium è necessario per controllare la riproduzione in Development Mode. Il Client ID e i token di autorizzazione restano su questo PC.",
 		queue: "Coda",
 		queueEmpty: "Non ci sono brani successivi in coda.",
-		redirectCopied: "URL di indirizzamento copiato",
-		redirectUri: "URL di indirizzamento",
 		refresh: "Aggiorna",
 		repeat: "Ripeti",
 		requestFailed: "Richiesta YouTube Music non riuscita",
-		saveClientId: "Salva Client ID",
-		savedAlbums: "Album",
-		savedTracks: "Brani salvati",
 		search: "Cerca",
-		searchSpotify: "Cerca su YouTube Music",
-		seeAll: "Vedi tutti",
-		selectSpotifyHint: "Seleziona Spotify nella sezione Sorgente per mostrare il browser Spotify in Awesome Mix.",
+		searchYouTubeMusic: "Cerca su YouTube Music",
 		settings: "Impostazioni",
-		settingsDescription: "Sfoglia la tua libreria Spotify, cerca nel catalogo e avvia la riproduzione nell'app desktop di Spotify. Questa modalità opzionale usa il tuo Client ID sviluppatore Spotify.",
-		setupGuide: "Guida alla configurazione",
-		setupSteps: [
-			"Apri il sito Spotify Developer, clicca “Log in” in alto a destra ed effettua l'accesso al tuo account Spotify.",
-			"Dopo l'accesso, clicca il tuo profilo in alto a destra, seleziona “Dashboard” e poi clicca “Create app”.",
-			"Nel campo “App name* (required)” inserisci il nome mostrato qui sotto.",
-			"Nel campo “App description* (required)” inserisci la descrizione mostrata qui sotto.",
-			"Lascia “Website” vuoto.",
-			"Nel campo “Redirect URIs* (required)” aggiungi esattamente l'URL mostrato qui sotto.",
-			"In “Which API/SDKs are you planning to use?” seleziona sia “Web API” sia “Web Playback SDK”. Non selezionare Ads API, iOS o Android.",
-			"Accetta i Developer Terms of Service e le Design Guidelines, poi clicca Save.",
-			"Apri la nuova app, copia il Client ID, incollalo qui sotto e collega Spotify. Il Client Secret non è necessario."
-		],
-		showLess: "Mostra meno",
+		settingsDescription: "Sfoglia la tua libreria YouTube Music, cerca nel catalogo e avvia la riproduzione nell'app desktop di YouTube Music. Questa modalità opzionale usa il tuo Client ID sviluppatore YouTube Music.",
 		shuffle: "Casuale",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Brani",
-		unableStartAuthorization: "Impossibile avviare l’autorizzazione Spotify",
-		unableStartPlayback: "Impossibile avviare la riproduzione",
 		untitled: "Senza titolo",
 		volume: "Volume",
-		webApiOnly: "Seleziona Web API e Web Playback SDK",
-		websiteOptional: "Website — facoltativo",
-		welcomeBack: "Bentornato, {name}",
 		yourMusicInsideSteam: "La tua musica, dentro Steam",
 		yourPlaylists: "Le tue playlist",
 		artistCacheTitle: "Cache sfondi artisti",
-		artistCacheDescription: "Scarica sfondi in alta risoluzione soltanto per gli artisti che segui su Spotify.",
+		artistCacheDescription: "Scarica sfondi in alta risoluzione soltanto per gli artisti che segui su YouTube Music.",
 		createArtistCache: "Crea cache sfondi artisti",
 		artistCacheBuilding: "Creazione cache sfondi artisti…",
-		artistCacheProgress: "Download sfondo: {name}",
-		artistCacheCreated: "Cache degli sfondi Spotify creata",
+		artistCacheCreated: "Cache degli sfondi YouTube Music creata",
 		artistCacheNoFavorites: "Non è stato trovato alcun artista seguito.",
 		clearArtistCache: "Svuota cache sfondi artisti",
 		artistCacheClearing: "Svuotamento cache sfondi artisti…",
-		artistCacheCleared: "Cache sfondi artisti Spotify svuotata",
+		artistCacheCleared: "Cache sfondi artisti YouTube Music svuotata",
 		cacheSize: "Asset scaricati",
 		newForYou: "Consigliati per te",
 		newPodcastEpisodes: "Nuove puntate dai tuoi podcast",
@@ -1522,7 +983,6 @@ var es = {
 		restartServicesInProgress: "Reiniciando los servicios del plugin…",
 		backgroundSource: "Fuente de fondos",
 		allBackgroundSources: "Todas las fuentes",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Exportar registro de diagnóstico",
 		diagnosticLogDescription: "Crea en Descargas un archivo de diagnóstico seguro con el estado del reproductor, MediaBridge y los errores de las imágenes. Se eliminan claves API y tokens.",
@@ -1549,7 +1009,7 @@ var es = {
 		fsLegendRotate: "Girar el efecto 3D",
 		settingsParticleResolution: "Resolución de partículas 3D",
 		surroundUpmix: "Upmix envolvente",
-		surroundUpmixHint: "Expande el audio estéreo a sonido envolvente. Funciona con Mi música, Spotify y YouTube Music.",
+		surroundUpmixHint: "Expande el audio estéreo a sonido envolvente. Funciona con Mi música y YouTube Music.",
 		speakerVolumesShow: "Mostrar volúmenes de altavoces",
 		speakerVolumesHide: "Ocultar volúmenes de altavoces",
 		seekBackLabel: "Retroceder {seconds} segundos",
@@ -1558,132 +1018,6 @@ var es = {
 		playbackPositionLabel: "Posición de reproducción",
 		appearanceSection: "Apariencia",
 		matchSteamTheme: "Usar los colores del tema de Steam en el menú rápido"
-	},
-	spotify: {
-		album: "Álbum",
-		albums: "Álbumes",
-		albumsAndSingles: "Álbumes y sencillos",
-		apiPaused: "API en pausa · {time}",
-		apiPausedTitle: "API en pausa",
-		apiPausedWait: "Espera un poco más",
-		apiPausedDetail: "La API de Spotify está temporalmente en pausa. Vuelve a intentarlo en {time}. Los controles locales de reproducción siguen disponibles.",
-		appDescriptionCopied: "Descripción de la aplicación copiada",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Conexión personal a la API web de Spotify para el plugin Awesome Mix de Decky Loader en Windows.",
-		appNameCopied: "Nombre de la aplicación copiado",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Artista",
-		artists: "Artistas",
-		back: "Atrás",
-		audioQuality: "Calidad de audio",
-		cacheExplanation: "Los datos de la biblioteca de Spotify se guardan en caché local. Usa Actualizar solo cuando quieras consultar Spotify de nuevo y renovar el contenido en caché.",
-		clearMusicCache: "Borrar la caché de música de Spotify",
-		clearingMusicCache: "Borrando la caché de música de Spotify…",
-		musicCacheDescription: "El audio de Spotify se almacena en caché localmente hasta 1 GB. Los archivos más antiguos se eliminan automáticamente al alcanzar el límite.",
-		musicCacheUsage: "Caché utilizada",
-		changeInSettings: "Cambiar en Ajustes",
-		clientId: "Client ID de Spotify",
-		clientIdSaved: "Client ID guardado",
-		compactSavedTracks: "Vista compacta de canciones guardadas",
-		compactSavedTracksCard: "Para reducir el uso de la API de Spotify, las canciones guardadas muestran de forma predeterminada solo las acciones Reproducir y Aleatorio, en lugar de cargar la lista completa.",
-		compactSavedTracksDescription: "Activada de forma predeterminada. Las canciones guardadas muestran Reproducir y Aleatorio sin cargar la lista completa, lo que reduce las solicitudes a la API de Spotify.",
-		completeSignIn: "Completa el inicio de sesión en el navegador y vuelve a Steam.",
-		finishPlaybackSetup: "Una última autorización activa la reproducción directa mediante Playhub y se guarda para futuros inicios.",
-		connectPlayback: "Activar reproducción de Spotify",
-		connect: "Conectar Spotify",
-		connected: "Conectado",
-		connectedAs: "Conectado como {name}",
-		hideDetails: "Ocultar detalles",
-		showDetails: "Mostrar detalles",
-		copyAppDescription: "Copiar descripción de la aplicación",
-		copyAppName: "Copiar nombre de la aplicación",
-		copyRedirectUri: "Copiar URI de redirección",
-		developerTerms: "Acepta los Términos del servicio para desarrolladores y las Directrices de diseño y, después, pulsa Save.",
-		disconnect: "Desconectar Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistas",
-		fullscreen: "Pantalla completa",
-		genericError: "Algo ha salido mal",
-		home: "Inicio",
-		library: "Biblioteca",
-		limitedPlaylist: "Spotify solo muestra las listas de canciones de las playlists que posees o en las que colaboras. Aun así, puedes reproducir esta playlist.",
-		loadingSpotify: "Cargando Spotify…",
-		noAlbums: "No hay álbumes disponibles.",
-		noPlayback: "Reproduce algo",
-		noResults: "No se encontraron resultados.",
-		noTracks: "No hay canciones disponibles.",
-		nothingHere: "Todavía no hay nada aquí.",
-		nowPlaying: "En reproducción",
-		openDashboard: "YouTube Music",
-		personalMode: "Modo personal de Web API",
-		play: "Reproducir",
-		playlist: "Playlist",
-		playlists: "Playlists",
-		popularTracks: "Canciones populares",
-		premiumNote: "Se necesita Spotify Premium para controlar la reproducción en Development Mode. Tu Client ID y los tokens de autorización permanecen en este PC.",
-		queue: "Cola",
-		queueEmpty: "No hay próximas canciones en la cola.",
-		redirectCopied: "URL de redirección copiada",
-		redirectUri: "URL de redirección",
-		refresh: "Actualizar",
-		repeat: "Repetir",
-		requestFailed: "La solicitud a Spotify ha fallado",
-		saveClientId: "Guardar Client ID",
-		savedAlbums: "Álbumes",
-		savedTracks: "Canciones guardadas",
-		search: "Buscar",
-		searchSpotify: "Buscar en Spotify",
-		seeAll: "Ver todo",
-		selectSpotifyHint: "Selecciona Spotify en la sección Fuente para mostrar el navegador de Spotify en Awesome Mix.",
-		settings: "Ajustes",
-		settingsDescription: "Explora tu biblioteca de Spotify, busca en el catálogo e inicia la reproducción en la aplicación de escritorio de Spotify. Este modo opcional utiliza tu propio Client ID de desarrollador de Spotify.",
-		setupGuide: "Guía de configuración",
-		setupSteps: [
-			"Abre el sitio Spotify Developer, pulsa “Log in” en la esquina superior derecha e inicia sesión con tu cuenta de Spotify.",
-			"Tras iniciar sesión, pulsa tu perfil en la esquina superior derecha, elige “Dashboard” y después “Create app”.",
-			"En “App name* (required)”, introduce el nombre de la aplicación que aparece abajo.",
-			"En “App description* (required)”, introduce la descripción que aparece abajo.",
-			"Deja “Website” vacío.",
-			"En “Redirect URIs* (required)”, añade exactamente la URL que aparece abajo.",
-			"En “Which API/SDKs are you planning to use?”, selecciona “Web API” y “Web Playback SDK”. No selecciones Ads API, iOS ni Android.",
-			"Acepta los Términos del servicio para desarrolladores y las Directrices de diseño y, después, pulsa Save.",
-			"Abre la nueva aplicación, copia su Client ID, pégalo abajo y conecta Spotify. No se necesita un Client Secret."
-		],
-		showLess: "Ver menos",
-		shuffle: "Aleatorio",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Canciones",
-		unableStartAuthorization: "No se pudo iniciar la autorización de Spotify",
-		unableStartPlayback: "No se pudo iniciar la reproducción",
-		untitled: "Sin título",
-		volume: "Volumen",
-		webApiOnly: "Selecciona Web API y Web Playback SDK",
-		websiteOptional: "Website — opcional",
-		welcomeBack: "Te damos la bienvenida, {name}",
-		yourMusicInsideSteam: "Tu música dentro de Steam",
-		yourPlaylists: "Tus playlists",
-		artistCacheTitle: "Caché de fondos de artistas",
-		artistCacheDescription: "Descarga fondos de alta resolución solo para los artistas que sigues en Spotify.",
-		createArtistCache: "Crear caché de fondos de artistas",
-		artistCacheBuilding: "Creando la caché de fondos de artistas…",
-		artistCacheProgress: "Descargando fondo: {name}",
-		artistCacheCreated: "Se creó la caché de fondos de Spotify",
-		artistCacheNoFavorites: "No se encontraron artistas seguidos.",
-		clearArtistCache: "Vaciar caché de fondos de artistas",
-		artistCacheClearing: "Vaciando la caché de fondos de artistas…",
-		artistCacheCleared: "Caché de fondos de artistas de Spotify vaciada",
-		cacheSize: "Recursos descargados",
-		newForYou: "Recomendado para ti",
-		manualBackgrounds: "Fondos elegidos por el usuario",
-		manualBackgroundsDescription: "Estos fondos de artistas se conservan al vaciar la caché de imágenes.",
-		removeManualBackgrounds: "Eliminar todos los fondos de artista elegidos",
-		manualBackgroundsRemoving: "Eliminando los fondos de artista elegidos…",
-		manualBackgroundsRemoved: "Fondos de artista elegidos eliminados",
-		apiUsageTitle: "Uso de la API de Spotify",
-		apiUsagePerMinute: "llamadas/min",
-		apiUsageTotal: "en total",
-		apiUsagePaused: "En pausa (límite alcanzado)"
 	},
 	localMusic: {
 		albums: "Álbumes",
@@ -1755,12 +1089,10 @@ var es = {
 		noPlayableLocalTracks: "No hay canciones locales reproducibles",
 		localPlaybackStartFailed: "No se pudo iniciar la reproducción local",
 		localAudioRecoveryFailed: "No se pudo recuperar el audio local",
-		openCurrentSpotifyAlbumFailed: "No se pudo abrir el álbum actual de Spotify",
 		openCurrentLocalAlbumFailed: "No se pudo abrir el álbum local actual",
 		unsupportedLocalFormat: "Este formato de audio no es compatible con Chromium de Steam",
 		localPlayerUnavailable: "El reproductor de audio local no está disponible",
 		currentLocalAlbumUnavailable: "El álbum local actual no está disponible",
-		currentSpotifyAlbumUnavailable: "El álbum actual de Spotify no está disponible",
 		windowsOnly: "Este plugin solo funciona en Windows",
 		helperStartFailed: "No se pudo iniciar correctamente el componente auxiliar del plugin",
 		folderNotFound: "No se encontró la carpeta",
@@ -1768,36 +1100,12 @@ var es = {
 		localFileUnavailable: "El archivo de música local no está disponible",
 		localPlayerNotRunning: "El reproductor de música local no está en ejecución",
 		localPlayerNoResponse: "El reproductor de música local no responde",
-		spotifyInvalidTokenResponse: "Spotify devolvió una respuesta de token no válida",
-		spotifyAuthorizationExpired: "La sesión de autorización de Spotify ha caducado",
-		spotifyFinishingConnection: "Finalizando la conexión con Spotify…",
-		spotifyEnterClientId: "Introduce primero tu Client ID de Spotify",
-		spotifyWaitingAuthorization: "Esperando la autorización de Spotify…",
-		spotifyNotConnected: "Spotify no está conectado",
-		spotifyRefreshTokenFailed: "Spotify no devolvió un nuevo token de acceso",
-		spotifyInvalidApiPath: "Ruta de la API de Spotify no válida",
-		spotifyInvalidResponse: "Spotify devolvió una respuesta no válida",
-		spotifyActionDenied: "Spotify rechazó esta acción. Puede que necesites Premium o un permiso adicional",
-		spotifyNoActiveDevice: "Spotify no encontró ningún dispositivo de reproducción activo",
-		spotifyDisabled: "Spotify está desactivado",
-		spotifyConnectFirst: "Conecta Spotify primero en los ajustes del plugin",
-		spotifyUnknownLibrarySection: "Sección desconocida de la biblioteca de Spotify",
-		spotifyInvalidItem: "Elemento de Spotify no válido",
-		spotifyNoCurrentAlbum: "No hay ningún álbum de Spotify disponible para la pista actual",
-		spotifyAlbumLookupFailed: "Spotify no pudo encontrar el álbum de la pista actual",
-		spotifyOpenAppStartTrack: "Abre Spotify en este PC, reproduce una canción una vez y vuelve a intentarlo",
-		spotifyUnknownPlayerCommand: "Comando desconocido del reproductor de Spotify",
-		spotifyNoPlayableItems: "No hay elementos reproducibles en Spotify",
-		spotifyMissingUri: "Falta el URI de Spotify",
-		spotifyInvalidUri: "URI de Spotify no válido",
 		backgroundChoiceExpired: "Esta selección de fondo ha caducado. Vuelve a buscar.",
 		invalidBackgroundChoice: "Esta selección de fondo ya no es válida.",
 		backgroundDownloadFailed: "No se pudo descargar la imagen seleccionada.",
 		unsupportedBackgroundImage: "El formato de la imagen seleccionada no es compatible.",
 		invalidArtist: "El artista seleccionado no es válido.",
 		artistNameRequired: "Se necesita el nombre del artista.",
-		spotifyArtistCacheBusy: "La caché de artistas de Spotify ya se está creando.",
-		spotifyArtistCacheInUse: "La caché de artistas de Spotify está ocupada.",
 		restartServicesTimedOut: "El reinicio de los servicios del plugin superó el tiempo de espera",
 		restartServicesAlreadyRunning: "Ya hay un reinicio de los servicios del plugin en curso",
 		mediaBridgeRestartFailed: "MediaBridge no se reinició correctamente",
@@ -1807,114 +1115,56 @@ var es = {
 		album: "Álbum",
 		albums: "Álbumes",
 		albumsAndSingles: "Álbumes y sencillos",
-		apiPaused: "API en pausa · {time}",
-		apiPausedTitle: "API en pausa",
-		apiPausedWait: "Espera un poco más",
-		apiPausedDetail: "La API de Spotify está temporalmente en pausa. Vuelve a intentarlo en {time}. Los controles locales de reproducción siguen disponibles.",
-		appDescriptionCopied: "Descripción de la aplicación copiada",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Conexión personal a la API web de Spotify para el plugin Awesome Mix de Decky Loader en Windows.",
-		appNameCopied: "Nombre de la aplicación copiado",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Artista",
 		artists: "Artistas",
 		back: "Atrás",
 		audioQuality: "Calidad de audio",
-		cacheExplanation: "Los datos de la biblioteca de Spotify se guardan en caché local. Usa Actualizar solo cuando quieras consultar Spotify de nuevo y renovar el contenido en caché.",
-		clearMusicCache: "Borrar la caché de música de Spotify",
-		clearingMusicCache: "Borrando la caché de música de Spotify…",
-		musicCacheDescription: "El audio de Spotify se almacena en caché localmente hasta 1 GB. Los archivos más antiguos se eliminan automáticamente al alcanzar el límite.",
-		changeInSettings: "Cambiar en Ajustes",
-		clientId: "Client ID de Spotify",
-		clientIdSaved: "Client ID guardado",
-		compactSavedTracks: "Vista compacta de canciones guardadas",
-		compactSavedTracksCard: "Para reducir el uso de la API de Spotify, las canciones guardadas muestran de forma predeterminada solo las acciones Reproducir y Aleatorio, en lugar de cargar la lista completa.",
-		compactSavedTracksDescription: "Activada de forma predeterminada. Las canciones guardadas muestran Reproducir y Aleatorio sin cargar la lista completa, lo que reduce las solicitudes a la API de Spotify.",
 		completeSignIn: "Elige tu cuenta de Google o inicia sesión con la cuenta que usas para YouTube Music en la ventana temporal. Déjala abierta hasta que Awesome Mix la cierre.",
 		automaticSignInDescription: "Selecciona Conectar YouTube Music. Se abrirá sobre Steam una ventana temporal de inicio de sesión. Elige tu cuenta de Google o inicia sesión con la cuenta que usas para YouTube Music y deja la ventana abierta. Awesome Mix se conectará y la cerrará automáticamente.",
 		connect: "Conectar YouTube Music",
 		connected: "Conectado",
-		connectedAs: "Conectado como {name}",
 		hideDetails: "Ocultar detalles",
 		showDetails: "Mostrar detalles",
-		copyAppDescription: "Copiar descripción de la aplicación",
-		copyAppName: "Copiar nombre de la aplicación",
-		copyRedirectUri: "Copiar URI de redirección",
-		developerTerms: "Acepta los Términos del servicio para desarrolladores y las Directrices de diseño y, después, pulsa Save.",
 		disconnect: "Desconectar YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistas",
 		fullscreen: "Pantalla completa",
 		genericError: "Algo ha salido mal",
 		home: "Inicio",
 		library: "Biblioteca",
-		limitedPlaylist: "Spotify solo muestra las listas de canciones de las playlists que posees o en las que colaboras. Aun así, puedes reproducir esta playlist.",
-		loadingSpotify: "Cargando YouTube Music…",
-		noAlbums: "No hay álbumes disponibles.",
+		loadingYouTubeMusic: "Cargando YouTube Music…",
 		noPlayback: "Reproduce algo",
 		noResults: "No se encontraron resultados.",
 		noTracks: "No hay canciones disponibles.",
 		nothingHere: "Todavía no hay nada aquí.",
 		nowPlaying: "En reproducción",
-		openDashboard: "Abrir YouTube Music",
-		personalMode: "Modo personal de Web API",
 		play: "Reproducir",
 		playlist: "Playlist",
 		playlists: "Playlists",
 		popularTracks: "Canciones populares",
-		premiumNote: "Se necesita Spotify Premium para controlar la reproducción en Development Mode. Tu Client ID y los tokens de autorización permanecen en este PC.",
 		queue: "Cola",
 		queueEmpty: "No hay próximas canciones en la cola.",
-		redirectCopied: "URL de redirección copiada",
-		redirectUri: "URL de redirección",
 		refresh: "Actualizar",
 		repeat: "Repetir",
 		requestFailed: "La solicitud a YouTube Music ha fallado",
-		saveClientId: "Guardar Client ID",
-		savedAlbums: "Álbumes",
-		savedTracks: "Canciones guardadas",
 		search: "Buscar",
-		searchSpotify: "Buscar en YouTube Music",
-		seeAll: "Ver todo",
-		selectSpotifyHint: "Selecciona Spotify en la sección Fuente para mostrar el navegador de Spotify en Awesome Mix.",
+		searchYouTubeMusic: "Buscar en YouTube Music",
 		settings: "Ajustes",
-		settingsDescription: "Explora tu biblioteca de Spotify, busca en el catálogo e inicia la reproducción en la aplicación de escritorio de Spotify. Este modo opcional utiliza tu propio Client ID de desarrollador de Spotify.",
-		setupGuide: "Guía de configuración",
-		setupSteps: [
-			"Abre el sitio Spotify Developer, pulsa “Log in” en la esquina superior derecha e inicia sesión con tu cuenta de Spotify.",
-			"Tras iniciar sesión, pulsa tu perfil en la esquina superior derecha, elige “Dashboard” y después “Create app”.",
-			"En “App name* (required)”, introduce el nombre de la aplicación que aparece abajo.",
-			"En “App description* (required)”, introduce la descripción que aparece abajo.",
-			"Deja “Website” vacío.",
-			"En “Redirect URIs* (required)”, añade exactamente la URL que aparece abajo.",
-			"En “Which API/SDKs are you planning to use?”, selecciona “Web API” y “Web Playback SDK”. No selecciones Ads API, iOS ni Android.",
-			"Acepta los Términos del servicio para desarrolladores y las Directrices de diseño y, después, pulsa Save.",
-			"Abre la nueva aplicación, copia su Client ID, pégalo abajo y conecta Spotify. No se necesita un Client Secret."
-		],
-		showLess: "Ver menos",
+		settingsDescription: "Explora tu biblioteca de YouTube Music, busca en el catálogo e inicia la reproducción en la aplicación de escritorio de YouTube Music. Este modo opcional utiliza tu propio Client ID de desarrollador de YouTube Music.",
 		shuffle: "Aleatorio",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Canciones",
-		unableStartAuthorization: "No se pudo iniciar la autorización de Spotify",
-		unableStartPlayback: "No se pudo iniciar la reproducción",
 		untitled: "Sin título",
 		volume: "Volumen",
-		webApiOnly: "Selecciona Web API y Web Playback SDK",
-		websiteOptional: "Website — opcional",
-		welcomeBack: "Te damos la bienvenida, {name}",
 		yourMusicInsideSteam: "Tu música dentro de Steam",
 		yourPlaylists: "Tus playlists",
 		artistCacheTitle: "Caché de fondos de artistas",
-		artistCacheDescription: "Descarga fondos de alta resolución solo para los artistas que sigues en Spotify.",
+		artistCacheDescription: "Descarga fondos de alta resolución solo para los artistas que sigues en YouTube Music.",
 		createArtistCache: "Crear caché de fondos de artistas",
 		artistCacheBuilding: "Creando la caché de fondos de artistas…",
-		artistCacheProgress: "Descargando fondo: {name}",
-		artistCacheCreated: "Se creó la caché de fondos de Spotify",
+		artistCacheCreated: "Se creó la caché de fondos de YouTube Music",
 		artistCacheNoFavorites: "No se encontraron artistas seguidos.",
 		clearArtistCache: "Vaciar caché de fondos de artistas",
 		artistCacheClearing: "Vaciando la caché de fondos de artistas…",
-		artistCacheCleared: "Caché de fondos de artistas de Spotify vaciada",
+		artistCacheCleared: "Caché de fondos de artistas de YouTube Music vaciada",
 		cacheSize: "Recursos descargados",
 		newForYou: "Recomendado para ti",
 		newPodcastEpisodes: "Nuevos episodios de tus podcasts",
@@ -1990,7 +1240,6 @@ var fr = {
 		restartServicesInProgress: "Redémarrage des services du plugin…",
 		backgroundSource: "Source des arrière-plans",
 		allBackgroundSources: "Toutes les sources",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Exporter le journal de diagnostic",
 		diagnosticLogDescription: "Crée dans Téléchargements un fichier de diagnostic sécurisé avec l’état du lecteur, MediaBridge et les erreurs d’illustration. Les clés API et jetons sont supprimés.",
@@ -2017,7 +1266,7 @@ var fr = {
 		fsLegendRotate: "Faire pivoter l'effet 3D",
 		settingsParticleResolution: "Résolution des particules 3D",
 		surroundUpmix: "Upmix surround",
-		surroundUpmixHint: "Étend l'audio stéréo en surround. Fonctionne avec Ma musique, Spotify et YouTube Music.",
+		surroundUpmixHint: "Étend l'audio stéréo en surround. Fonctionne avec Ma musique et YouTube Music.",
 		speakerVolumesShow: "Afficher les volumes des enceintes",
 		speakerVolumesHide: "Masquer les volumes des enceintes",
 		seekBackLabel: "Reculer de {seconds} secondes",
@@ -2026,132 +1275,6 @@ var fr = {
 		playbackPositionLabel: "Position de lecture",
 		appearanceSection: "Apparence",
 		matchSteamTheme: "Suivre le thème Steam dans le menu rapide"
-	},
-	spotify: {
-		album: "Album",
-		albums: "Albums",
-		albumsAndSingles: "Albums et singles",
-		apiPaused: "API en pause · {time}",
-		apiPausedTitle: "API en pause",
-		apiPausedWait: "Patientez encore",
-		apiPausedDetail: "L’API Spotify est temporairement en pause. Réessayez dans {time}. Les commandes de lecture locales restent disponibles.",
-		appDescriptionCopied: "Description de l’application copiée",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Connexion personnelle à l’API Web Spotify pour le plugin Awesome Mix de Decky Loader sous Windows.",
-		appNameCopied: "Nom de l’application copié",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Artiste",
-		artists: "Artistes",
-		back: "Retour",
-		audioQuality: "Qualité audio",
-		cacheExplanation: "Les données de la bibliothèque Spotify sont mises en cache localement. Utilisez Actualiser uniquement lorsque vous souhaitez interroger de nouveau Spotify et mettre à jour le contenu en cache.",
-		clearMusicCache: "Vider le cache musical Spotify",
-		clearingMusicCache: "Suppression du cache musical Spotify…",
-		musicCacheDescription: "L’audio Spotify est mis en cache localement jusqu’à 1 Go. Les fichiers les plus anciens sont supprimés automatiquement lorsque la limite est atteinte.",
-		musicCacheUsage: "Cache utilisé",
-		changeInSettings: "Modifier dans les Paramètres",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID enregistré",
-		compactSavedTracks: "Affichage compact des titres enregistrés",
-		compactSavedTracksCard: "Pour réduire l’utilisation de l’API Spotify, les titres enregistrés affichent par défaut uniquement les actions Lire et Lecture aléatoire au lieu de charger la liste complète.",
-		compactSavedTracksDescription: "Activé par défaut. Les titres enregistrés affichent Lire et Lecture aléatoire sans charger la liste complète, ce qui réduit les requêtes à l’API Spotify.",
-		completeSignIn: "Terminez la connexion dans votre navigateur, puis revenez dans Steam.",
-		finishPlaybackSetup: "Une dernière autorisation active la lecture directe via Playhub et reste enregistrée pour les prochains démarrages.",
-		connectPlayback: "Activer la lecture Spotify",
-		connect: "Connecter Spotify",
-		connected: "Connecté",
-		connectedAs: "Connecté en tant que {name}",
-		hideDetails: "Masquer les détails",
-		showDetails: "Afficher les détails",
-		copyAppDescription: "Copier la description de l’application",
-		copyAppName: "Copier le nom de l’application",
-		copyRedirectUri: "Copier l’URI de redirection",
-		developerTerms: "Acceptez les Conditions d’utilisation pour les développeurs et les Directives de conception, puis cliquez sur Save.",
-		disconnect: "Déconnecter Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistes",
-		fullscreen: "Plein écran",
-		genericError: "Une erreur s’est produite",
-		home: "Accueil",
-		library: "Bibliothèque",
-		limitedPlaylist: "Spotify n’affiche la liste des titres que pour les playlists que vous possédez ou auxquelles vous collaborez. Vous pouvez tout de même lire cette playlist.",
-		loadingSpotify: "Chargement de Spotify…",
-		noAlbums: "Aucun album disponible.",
-		noPlayback: "Lancez une lecture",
-		noResults: "Aucun résultat.",
-		noTracks: "Aucun morceau disponible.",
-		nothingHere: "Il n’y a encore rien ici.",
-		nowPlaying: "Lecture en cours",
-		openDashboard: "YouTube Music",
-		personalMode: "Mode Web API personnel",
-		play: "Lire",
-		playlist: "Playlist",
-		playlists: "Playlists",
-		popularTracks: "Titres populaires",
-		premiumNote: "Spotify Premium est requis pour contrôler la lecture en Development Mode. Votre Client ID et vos jetons d’autorisation restent sur ce PC.",
-		queue: "File d’attente",
-		queueEmpty: "Aucun morceau à venir dans la file d’attente.",
-		redirectCopied: "URL de redirection copiée",
-		redirectUri: "URL de redirection",
-		refresh: "Actualiser",
-		repeat: "Répéter",
-		requestFailed: "Échec de la requête Spotify",
-		saveClientId: "Enregistrer le Client ID",
-		savedAlbums: "Albums",
-		savedTracks: "Titres enregistrés",
-		search: "Rechercher",
-		searchSpotify: "Rechercher sur Spotify",
-		seeAll: "Tout afficher",
-		selectSpotifyHint: "Sélectionnez Spotify dans la section Source pour afficher le navigateur Spotify dans Awesome Mix.",
-		settings: "Paramètres",
-		settingsDescription: "Parcourez votre bibliothèque Spotify, recherchez dans le catalogue et lancez la lecture dans l’application de bureau Spotify. Ce mode facultatif utilise votre propre Client ID de développeur Spotify.",
-		setupGuide: "Guide de configuration",
-		setupSteps: [
-			"Ouvrez le site Spotify Developer, cliquez sur « Log in » en haut à droite et connectez-vous à votre compte Spotify.",
-			"Une fois connecté, cliquez sur votre profil en haut à droite, choisissez « Dashboard », puis cliquez sur « Create app ».",
-			"Dans « App name* (required) », saisissez le nom de l’application indiqué ci-dessous.",
-			"Dans « App description* (required) », saisissez la description indiquée ci-dessous.",
-			"Laissez « Website » vide.",
-			"Dans « Redirect URIs* (required) », ajoutez exactement l’URL indiquée ci-dessous.",
-			"Sous « Which API/SDKs are you planning to use? », sélectionnez « Web API » et « Web Playback SDK ». Ne sélectionnez pas Ads API, iOS ou Android.",
-			"Acceptez les Conditions d’utilisation pour les développeurs et les Directives de conception, puis cliquez sur Save.",
-			"Ouvrez la nouvelle application, copiez son Client ID, collez-le ci-dessous et connectez Spotify. Aucun Client Secret n’est nécessaire."
-		],
-		showLess: "Afficher moins",
-		shuffle: "Lecture aléatoire",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Morceaux",
-		unableStartAuthorization: "Impossible de lancer l’autorisation Spotify",
-		unableStartPlayback: "Impossible de démarrer la lecture",
-		untitled: "Sans titre",
-		volume: "Volume",
-		webApiOnly: "Sélectionner Web API et Web Playback SDK",
-		websiteOptional: "Website — facultatif",
-		welcomeBack: "Bon retour, {name}",
-		yourMusicInsideSteam: "Votre musique dans Steam",
-		yourPlaylists: "Vos playlists",
-		artistCacheTitle: "Cache des arrière-plans d’artistes",
-		artistCacheDescription: "Télécharge des arrière-plans haute résolution uniquement pour les artistes que vous suivez sur Spotify.",
-		createArtistCache: "Créer le cache des arrière-plans",
-		artistCacheBuilding: "Création du cache des arrière-plans…",
-		artistCacheProgress: "Téléchargement de l’arrière-plan : {name}",
-		artistCacheCreated: "Cache des arrière-plans Spotify créé",
-		artistCacheNoFavorites: "Aucun artiste suivi n’a été trouvé.",
-		clearArtistCache: "Vider le cache des arrière-plans d’artistes",
-		artistCacheClearing: "Vidage du cache des arrière-plans d’artistes…",
-		artistCacheCleared: "Cache des arrière-plans d’artistes Spotify vidé",
-		cacheSize: "Ressources téléchargées",
-		newForYou: "Recommandé pour vous",
-		manualBackgrounds: "Arrière-plans choisis par l’utilisateur",
-		manualBackgroundsDescription: "Ces arrière-plans d’artistes sont conservés lorsque le cache d’images est vidé.",
-		removeManualBackgrounds: "Supprimer tous les arrière-plans d’artistes choisis",
-		manualBackgroundsRemoving: "Suppression des arrière-plans d’artistes choisis…",
-		manualBackgroundsRemoved: "Arrière-plans d’artistes choisis supprimés",
-		apiUsageTitle: "Utilisation de l'API Spotify",
-		apiUsagePerMinute: "appels/min",
-		apiUsageTotal: "au total",
-		apiUsagePaused: "En pause (limite atteinte)"
 	},
 	localMusic: {
 		albums: "Albums",
@@ -2223,12 +1346,10 @@ var fr = {
 		noPlayableLocalTracks: "Aucun morceau local lisible",
 		localPlaybackStartFailed: "Impossible de démarrer la lecture locale",
 		localAudioRecoveryFailed: "Échec de la récupération de l’audio local",
-		openCurrentSpotifyAlbumFailed: "Impossible d’ouvrir l’album Spotify actuel",
 		openCurrentLocalAlbumFailed: "Impossible d’ouvrir l’album local actuel",
 		unsupportedLocalFormat: "Ce format audio n’est pas pris en charge par Chromium de Steam",
 		localPlayerUnavailable: "Le lecteur audio local n’est pas disponible",
 		currentLocalAlbumUnavailable: "L’album local actuel n’est pas disponible",
-		currentSpotifyAlbumUnavailable: "L’album Spotify actuel n’est pas disponible",
 		windowsOnly: "Ce plugin fonctionne uniquement sous Windows",
 		helperStartFailed: "Le composant auxiliaire du plugin n’a pas pu démarrer correctement",
 		folderNotFound: "Dossier introuvable",
@@ -2236,36 +1357,12 @@ var fr = {
 		localFileUnavailable: "Le fichier musical local n’est pas disponible",
 		localPlayerNotRunning: "Le lecteur de musique local n’est pas en cours d’exécution",
 		localPlayerNoResponse: "Le lecteur de musique local ne répond pas",
-		spotifyInvalidTokenResponse: "Spotify a renvoyé une réponse de jeton non valide",
-		spotifyAuthorizationExpired: "La session d’autorisation Spotify a expiré",
-		spotifyFinishingConnection: "Finalisation de la connexion à Spotify…",
-		spotifyEnterClientId: "Saisissez d’abord votre Client ID Spotify",
-		spotifyWaitingAuthorization: "En attente de l’autorisation Spotify…",
-		spotifyNotConnected: "Spotify n’est pas connecté",
-		spotifyRefreshTokenFailed: "Spotify n’a pas renvoyé de nouveau jeton d’accès",
-		spotifyInvalidApiPath: "Chemin d’API Spotify non valide",
-		spotifyInvalidResponse: "Spotify a renvoyé une réponse non valide",
-		spotifyActionDenied: "Spotify a refusé cette action. Premium ou une autorisation supplémentaire peut être nécessaire",
-		spotifyNoActiveDevice: "Spotify n’a trouvé aucun appareil de lecture actif",
-		spotifyDisabled: "Spotify est désactivé",
-		spotifyConnectFirst: "Connectez d’abord Spotify dans les paramètres du plugin",
-		spotifyUnknownLibrarySection: "Section inconnue de la bibliothèque Spotify",
-		spotifyInvalidItem: "Élément Spotify non valide",
-		spotifyNoCurrentAlbum: "Aucun album Spotify n’est disponible pour le morceau actuel",
-		spotifyAlbumLookupFailed: "Spotify n’a pas trouvé l’album du morceau actuel",
-		spotifyOpenAppStartTrack: "Ouvrez Spotify sur ce PC, lancez une chanson, puis réessayez",
-		spotifyUnknownPlayerCommand: "Commande du lecteur Spotify inconnue",
-		spotifyNoPlayableItems: "Aucun élément Spotify lisible",
-		spotifyMissingUri: "URI Spotify manquant",
-		spotifyInvalidUri: "URI Spotify non valide",
 		backgroundChoiceExpired: "Ce choix d’arrière-plan a expiré. Relancez la recherche.",
 		invalidBackgroundChoice: "Ce choix d’arrière-plan n’est plus valide.",
 		backgroundDownloadFailed: "Impossible de télécharger l’image sélectionnée.",
 		unsupportedBackgroundImage: "Le format de l’image sélectionnée n’est pas pris en charge.",
 		invalidArtist: "L’artiste sélectionné n’est pas valide.",
 		artistNameRequired: "Le nom de l’artiste est requis.",
-		spotifyArtistCacheBusy: "Le cache des artistes Spotify est déjà en cours de création.",
-		spotifyArtistCacheInUse: "Le cache des artistes Spotify est occupé.",
 		restartServicesTimedOut: "Le redémarrage des services du plugin a dépassé le délai imparti",
 		restartServicesAlreadyRunning: "Un redémarrage des services du plugin est déjà en cours",
 		mediaBridgeRestartFailed: "MediaBridge ne s’est pas redémarré correctement",
@@ -2275,114 +1372,56 @@ var fr = {
 		album: "Album",
 		albums: "Albums",
 		albumsAndSingles: "Albums et singles",
-		apiPaused: "API en pause · {time}",
-		apiPausedTitle: "API en pause",
-		apiPausedWait: "Patientez encore",
-		apiPausedDetail: "L’API Spotify est temporairement en pause. Réessayez dans {time}. Les commandes de lecture locales restent disponibles.",
-		appDescriptionCopied: "Description de l’application copiée",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Connexion personnelle à l’API Web Spotify pour le plugin Awesome Mix de Decky Loader sous Windows.",
-		appNameCopied: "Nom de l’application copié",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Artiste",
 		artists: "Artistes",
 		back: "Retour",
 		audioQuality: "Qualité audio",
-		cacheExplanation: "Les données de la bibliothèque Spotify sont mises en cache localement. Utilisez Actualiser uniquement lorsque vous souhaitez interroger de nouveau Spotify et mettre à jour le contenu en cache.",
-		clearMusicCache: "Vider le cache musical Spotify",
-		clearingMusicCache: "Suppression du cache musical Spotify…",
-		musicCacheDescription: "L’audio Spotify est mis en cache localement jusqu’à 1 Go. Les fichiers les plus anciens sont supprimés automatiquement lorsque la limite est atteinte.",
-		changeInSettings: "Modifier dans les Paramètres",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID enregistré",
-		compactSavedTracks: "Affichage compact des titres enregistrés",
-		compactSavedTracksCard: "Pour réduire l’utilisation de l’API Spotify, les titres enregistrés affichent par défaut uniquement les actions Lire et Lecture aléatoire au lieu de charger la liste complète.",
-		compactSavedTracksDescription: "Activé par défaut. Les titres enregistrés affichent Lire et Lecture aléatoire sans charger la liste complète, ce qui réduit les requêtes à l’API Spotify.",
 		completeSignIn: "Choisissez votre compte Google ou connectez-vous avec le compte utilisé pour YouTube Music dans la fenêtre temporaire. Laissez-la ouverte jusqu'à ce que Awesome Mix la ferme.",
 		automaticSignInDescription: "Sélectionnez Connecter YouTube Music. Une fenêtre de connexion temporaire s'ouvrira au-dessus de Steam. Choisissez votre compte Google ou connectez-vous avec le compte utilisé pour YouTube Music, puis laissez la fenêtre ouverte. Awesome Mix effectuera la connexion et la fermera automatiquement.",
 		connect: "Connecter YouTube Music",
 		connected: "Connecté",
-		connectedAs: "Connecté en tant que {name}",
 		hideDetails: "Masquer les détails",
 		showDetails: "Afficher les détails",
-		copyAppDescription: "Copier la description de l’application",
-		copyAppName: "Copier le nom de l’application",
-		copyRedirectUri: "Copier l’URI de redirection",
-		developerTerms: "Acceptez les Conditions d’utilisation pour les développeurs et les Directives de conception, puis cliquez sur Save.",
 		disconnect: "Déconnecter YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistes",
 		fullscreen: "Plein écran",
 		genericError: "Une erreur s’est produite",
 		home: "Accueil",
 		library: "Bibliothèque",
-		limitedPlaylist: "Spotify n’affiche la liste des titres que pour les playlists que vous possédez ou auxquelles vous collaborez. Vous pouvez tout de même lire cette playlist.",
-		loadingSpotify: "Chargement de YouTube Music…",
-		noAlbums: "Aucun album disponible.",
+		loadingYouTubeMusic: "Chargement de YouTube Music…",
 		noPlayback: "Lancez une lecture",
 		noResults: "Aucun résultat.",
 		noTracks: "Aucun morceau disponible.",
 		nothingHere: "Il n’y a encore rien ici.",
 		nowPlaying: "Lecture en cours",
-		openDashboard: "Ouvrir YouTube Music",
-		personalMode: "Mode Web API personnel",
 		play: "Lire",
 		playlist: "Playlist",
 		playlists: "Playlists",
 		popularTracks: "Titres populaires",
-		premiumNote: "Spotify Premium est requis pour contrôler la lecture en Development Mode. Votre Client ID et vos jetons d’autorisation restent sur ce PC.",
 		queue: "File d’attente",
 		queueEmpty: "Aucun morceau à venir dans la file d’attente.",
-		redirectCopied: "URL de redirection copiée",
-		redirectUri: "URL de redirection",
 		refresh: "Actualiser",
 		repeat: "Répéter",
 		requestFailed: "Échec de la requête YouTube Music",
-		saveClientId: "Enregistrer le Client ID",
-		savedAlbums: "Albums",
-		savedTracks: "Titres enregistrés",
 		search: "Rechercher",
-		searchSpotify: "Rechercher sur YouTube Music",
-		seeAll: "Tout afficher",
-		selectSpotifyHint: "Sélectionnez Spotify dans la section Source pour afficher le navigateur Spotify dans Awesome Mix.",
+		searchYouTubeMusic: "Rechercher sur YouTube Music",
 		settings: "Paramètres",
-		settingsDescription: "Parcourez votre bibliothèque Spotify, recherchez dans le catalogue et lancez la lecture dans l’application de bureau Spotify. Ce mode facultatif utilise votre propre Client ID de développeur Spotify.",
-		setupGuide: "Guide de configuration",
-		setupSteps: [
-			"Ouvrez le site Spotify Developer, cliquez sur « Log in » en haut à droite et connectez-vous à votre compte Spotify.",
-			"Une fois connecté, cliquez sur votre profil en haut à droite, choisissez « Dashboard », puis cliquez sur « Create app ».",
-			"Dans « App name* (required) », saisissez le nom de l’application indiqué ci-dessous.",
-			"Dans « App description* (required) », saisissez la description indiquée ci-dessous.",
-			"Laissez « Website » vide.",
-			"Dans « Redirect URIs* (required) », ajoutez exactement l’URL indiquée ci-dessous.",
-			"Sous « Which API/SDKs are you planning to use? », sélectionnez « Web API » et « Web Playback SDK ». Ne sélectionnez pas Ads API, iOS ou Android.",
-			"Acceptez les Conditions d’utilisation pour les développeurs et les Directives de conception, puis cliquez sur Save.",
-			"Ouvrez la nouvelle application, copiez son Client ID, collez-le ci-dessous et connectez Spotify. Aucun Client Secret n’est nécessaire."
-		],
-		showLess: "Afficher moins",
+		settingsDescription: "Parcourez votre bibliothèque YouTube Music, recherchez dans le catalogue et lancez la lecture dans l’application de bureau YouTube Music. Ce mode facultatif utilise votre propre Client ID de développeur YouTube Music.",
 		shuffle: "Lecture aléatoire",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Morceaux",
-		unableStartAuthorization: "Impossible de lancer l’autorisation Spotify",
-		unableStartPlayback: "Impossible de démarrer la lecture",
 		untitled: "Sans titre",
 		volume: "Volume",
-		webApiOnly: "Sélectionner Web API et Web Playback SDK",
-		websiteOptional: "Website — facultatif",
-		welcomeBack: "Bon retour, {name}",
 		yourMusicInsideSteam: "Votre musique dans Steam",
 		yourPlaylists: "Vos playlists",
 		artistCacheTitle: "Cache des arrière-plans d’artistes",
-		artistCacheDescription: "Télécharge des arrière-plans haute résolution uniquement pour les artistes que vous suivez sur Spotify.",
+		artistCacheDescription: "Télécharge des arrière-plans haute résolution uniquement pour les artistes que vous suivez sur YouTube Music.",
 		createArtistCache: "Créer le cache des arrière-plans",
 		artistCacheBuilding: "Création du cache des arrière-plans…",
-		artistCacheProgress: "Téléchargement de l’arrière-plan : {name}",
-		artistCacheCreated: "Cache des arrière-plans Spotify créé",
+		artistCacheCreated: "Cache des arrière-plans YouTube Music créé",
 		artistCacheNoFavorites: "Aucun artiste suivi n’a été trouvé.",
 		clearArtistCache: "Vider le cache des arrière-plans d’artistes",
 		artistCacheClearing: "Vidage du cache des arrière-plans d’artistes…",
-		artistCacheCleared: "Cache des arrière-plans d’artistes Spotify vidé",
+		artistCacheCleared: "Cache des arrière-plans d’artistes YouTube Music vidé",
 		cacheSize: "Ressources téléchargées",
 		newForYou: "Recommandé pour vous",
 		newPodcastEpisodes: "Nouveaux épisodes de vos podcasts",
@@ -2458,7 +1497,6 @@ var de = {
 		restartServicesInProgress: "Plugin-Dienste werden neu gestartet…",
 		backgroundSource: "Hintergrundquelle",
 		allBackgroundSources: "Alle Quellen",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Diagnoseprotokoll exportieren",
 		diagnosticLogDescription: "Erstellt im Download-Ordner eine sichere Diagnosedatei mit Player-, MediaBridge- und Artwork-Fehlern. API-Schlüssel und Tokens werden entfernt.",
@@ -2485,7 +1523,7 @@ var de = {
 		fsLegendRotate: "3D-Effekt drehen",
 		settingsParticleResolution: "Auflösung der 3D-Partikel",
 		surroundUpmix: "Surround-Upmix",
-		surroundUpmixHint: "Erweitert Stereo-Audio zu Surround. Funktioniert mit Meine Musik, Spotify und YouTube Music.",
+		surroundUpmixHint: "Erweitert Stereo-Audio zu Surround. Funktioniert mit Meine Musik und YouTube Music.",
 		speakerVolumesShow: "Lautsprecher-Lautstärken anzeigen",
 		speakerVolumesHide: "Lautsprecher-Lautstärken ausblenden",
 		seekBackLabel: "{seconds} Sekunden zurück",
@@ -2494,132 +1532,6 @@ var de = {
 		playbackPositionLabel: "Wiedergabeposition",
 		appearanceSection: "Darstellung",
 		matchSteamTheme: "Steam-Design im Schnellzugriff übernehmen"
-	},
-	spotify: {
-		album: "Album",
-		albums: "Alben",
-		albumsAndSingles: "Alben und Singles",
-		apiPaused: "API pausiert · {time}",
-		apiPausedTitle: "API pausiert",
-		apiPausedWait: "Bitte noch etwas warten",
-		apiPausedDetail: "Die Spotify-API ist vorübergehend pausiert. Versuche es in {time} erneut. Lokale Wiedergabesteuerungen bleiben verfügbar.",
-		appDescriptionCopied: "App-Beschreibung kopiert",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Persönliche Spotify-Web-API-Verbindung für das Now-Playing-Plugin von Decky Loader unter Windows.",
-		appNameCopied: "App-Name kopiert",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Interpret",
-		artists: "Interpreten",
-		back: "Zurück",
-		audioQuality: "Audioqualität",
-		cacheExplanation: "Spotify-Bibliotheksdaten werden lokal zwischengespeichert. Verwende Aktualisieren nur, wenn Awesome Mix Spotify erneut abfragen und den Cache erneuern soll.",
-		clearMusicCache: "Spotify-Musikcache leeren",
-		clearingMusicCache: "Spotify-Musikcache wird geleert…",
-		musicCacheDescription: "Spotify-Audio wird lokal bis zu 1 GB zwischengespeichert. Ältere Dateien werden beim Erreichen des Limits automatisch entfernt.",
-		musicCacheUsage: "Cache belegt",
-		changeInSettings: "In den Einstellungen ändern",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID gespeichert",
-		compactSavedTracks: "Kompakte Ansicht gespeicherter Titel",
-		compactSavedTracksCard: "Um Spotify-API-Anfragen zu reduzieren, werden für gespeicherte Titel standardmäßig nur Abspielen und Zufallswiedergabe angezeigt, statt die vollständige Liste zu laden.",
-		compactSavedTracksDescription: "Standardmäßig aktiviert. Gespeicherte Titel zeigen Abspielen und Zufallswiedergabe, ohne die vollständige Liste zu laden. Dadurch werden Spotify-API-Anfragen reduziert.",
-		completeSignIn: "Schließe die Anmeldung im Browser ab und kehre dann zu Steam zurück.",
-		finishPlaybackSetup: "Eine letzte Autorisierung aktiviert die direkte Wiedergabe über Playhub und wird für künftige Starts gespeichert.",
-		connectPlayback: "Spotify-Wiedergabe aktivieren",
-		connect: "Spotify verbinden",
-		connected: "Verbunden",
-		connectedAs: "Verbunden als {name}",
-		hideDetails: "Details ausblenden",
-		showDetails: "Details anzeigen",
-		copyAppDescription: "App-Beschreibung kopieren",
-		copyAppName: "App-Namen kopieren",
-		copyRedirectUri: "Weiterleitungs-URI kopieren",
-		developerTerms: "Akzeptiere die Developer Terms of Service und Design Guidelines und klicke anschließend auf Save.",
-		disconnect: "Spotify trennen",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Interpreten",
-		fullscreen: "Vollbild",
-		genericError: "Etwas ist schiefgelaufen",
-		home: "Start",
-		library: "Bibliothek",
-		limitedPlaylist: "Spotify zeigt Titellisten nur für Playlists an, die dir gehören oder an denen du mitarbeitest. Du kannst diese Playlist trotzdem abspielen.",
-		loadingSpotify: "Spotify wird geladen…",
-		noAlbums: "Keine Alben verfügbar.",
-		noPlayback: "Spiele etwas ab",
-		noResults: "Keine Ergebnisse gefunden.",
-		noTracks: "Keine Titel verfügbar.",
-		nothingHere: "Hier ist noch nichts.",
-		nowPlaying: "Aktuelle Wiedergabe",
-		openDashboard: "YouTube Music",
-		personalMode: "Persönlicher Web-API-Modus",
-		play: "Abspielen",
-		playlist: "Playlist",
-		playlists: "Playlists",
-		popularTracks: "Beliebte Titel",
-		premiumNote: "Spotify Premium ist für die Wiedergabesteuerung im Development Mode erforderlich. Deine Client ID und Autorisierungstoken bleiben auf diesem PC.",
-		queue: "Warteschlange",
-		queueEmpty: "Keine weiteren Titel in der Warteschlange.",
-		redirectCopied: "Weiterleitungs-URL kopiert",
-		redirectUri: "Weiterleitungs-URL",
-		refresh: "Aktualisieren",
-		repeat: "Wiederholen",
-		requestFailed: "Spotify-Anfrage fehlgeschlagen",
-		saveClientId: "Client ID speichern",
-		savedAlbums: "Alben",
-		savedTracks: "Gespeicherte Titel",
-		search: "Suchen",
-		searchSpotify: "Spotify durchsuchen",
-		seeAll: "Alle anzeigen",
-		selectSpotifyHint: "Wähle Spotify im Bereich Quelle aus, um den Spotify-Browser in Awesome Mix anzuzeigen.",
-		settings: "Einstellungen",
-		settingsDescription: "Durchsuche deine Spotify-Bibliothek und den Katalog und starte die Wiedergabe in der Spotify-Desktop-App. Dieser optionale Modus verwendet deine eigene Spotify-Entwickler-Client-ID.",
-		setupGuide: "Einrichtungsanleitung",
-		setupSteps: [
-			"Öffne die Spotify-Developer-Website, klicke oben rechts auf „Log in“ und melde dich bei deinem Spotify-Konto an.",
-			"Klicke nach der Anmeldung oben rechts auf dein Profil, wähle „Dashboard“ und klicke dann auf „Create app“.",
-			"Gib unter „App name* (required)“ den unten angezeigten App-Namen ein.",
-			"Gib unter „App description* (required)“ die unten angezeigte Beschreibung ein.",
-			"Lasse „Website“ leer.",
-			"Füge unter „Redirect URIs* (required)“ die unten angezeigte URL exakt ein.",
-			"Wähle unter „Which API/SDKs are you planning to use?“ sowohl „Web API“ als auch „Web Playback SDK“. Wähle weder Ads API noch iOS oder Android.",
-			"Akzeptiere die Developer Terms of Service und Design Guidelines und klicke anschließend auf Save.",
-			"Öffne die neue App, kopiere ihre Client ID, füge sie unten ein und verbinde Spotify. Ein Client Secret ist nicht erforderlich."
-		],
-		showLess: "Weniger anzeigen",
-		shuffle: "Zufallswiedergabe",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Titel",
-		unableStartAuthorization: "Spotify-Autorisierung konnte nicht gestartet werden",
-		unableStartPlayback: "Wiedergabe konnte nicht gestartet werden",
-		untitled: "Ohne Titel",
-		volume: "Lautstärke",
-		webApiOnly: "Web API und Web Playback SDK auswählen",
-		websiteOptional: "Website — optional",
-		welcomeBack: "Willkommen zurück, {name}",
-		yourMusicInsideSteam: "Deine Musik in Steam",
-		yourPlaylists: "Deine Playlists",
-		artistCacheTitle: "Cache für Künstlerhintergründe",
-		artistCacheDescription: "Lädt hochauflösende Hintergründe nur für Künstler herunter, denen du auf Spotify folgst.",
-		createArtistCache: "Cache für Künstlerhintergründe erstellen",
-		artistCacheBuilding: "Cache für Künstlerhintergründe wird erstellt…",
-		artistCacheProgress: "Hintergrund wird heruntergeladen: {name}",
-		artistCacheCreated: "Spotify-Künstlerhintergründe wurden zwischengespeichert",
-		artistCacheNoFavorites: "Keine gefolgten Künstler gefunden.",
-		clearArtistCache: "Cache für Künstlerhintergründe leeren",
-		artistCacheClearing: "Cache für Künstlerhintergründe wird geleert…",
-		artistCacheCleared: "Spotify-Cache für Künstlerhintergründe geleert",
-		cacheSize: "Heruntergeladene Assets",
-		newForYou: "Für dich empfohlen",
-		manualBackgrounds: "Vom Benutzer ausgewählte Hintergründe",
-		manualBackgroundsDescription: "Diese Künstlerhintergründe bleiben beim Leeren des Bildcaches erhalten.",
-		removeManualBackgrounds: "Alle ausgewählten Künstlerhintergründe entfernen",
-		manualBackgroundsRemoving: "Ausgewählte Künstlerhintergründe werden entfernt…",
-		manualBackgroundsRemoved: "Ausgewählte Künstlerhintergründe entfernt",
-		apiUsageTitle: "Spotify-API-Nutzung",
-		apiUsagePerMinute: "Aufrufe/Min",
-		apiUsageTotal: "gesamt",
-		apiUsagePaused: "Pausiert (Limit erreicht)"
 	},
 	localMusic: {
 		albums: "Alben",
@@ -2691,12 +1603,10 @@ var de = {
 		noPlayableLocalTracks: "Keine abspielbaren lokalen Titel",
 		localPlaybackStartFailed: "Lokale Wiedergabe konnte nicht gestartet werden",
 		localAudioRecoveryFailed: "Lokale Audiowiedergabe konnte nicht wiederhergestellt werden",
-		openCurrentSpotifyAlbumFailed: "Das aktuelle Spotify-Album konnte nicht geöffnet werden",
 		openCurrentLocalAlbumFailed: "Das aktuelle lokale Album konnte nicht geöffnet werden",
 		unsupportedLocalFormat: "Dieses Audioformat wird von Steam Chromium nicht unterstützt",
 		localPlayerUnavailable: "Der lokale Audioplayer ist nicht verfügbar",
 		currentLocalAlbumUnavailable: "Das aktuelle lokale Album ist nicht verfügbar",
-		currentSpotifyAlbumUnavailable: "Das aktuelle Spotify-Album ist nicht verfügbar",
 		windowsOnly: "Dieses Plugin funktioniert nur unter Windows",
 		helperStartFailed: "Die Hilfskomponente des Plugins konnte nicht richtig gestartet werden",
 		folderNotFound: "Ordner nicht gefunden",
@@ -2704,36 +1614,12 @@ var de = {
 		localFileUnavailable: "Die lokale Musikdatei ist nicht verfügbar",
 		localPlayerNotRunning: "Der lokale Musikplayer wird nicht ausgeführt",
 		localPlayerNoResponse: "Der lokale Musikplayer antwortet nicht",
-		spotifyInvalidTokenResponse: "Spotify hat eine ungültige Token-Antwort zurückgegeben",
-		spotifyAuthorizationExpired: "Die Spotify-Autorisierungssitzung ist abgelaufen",
-		spotifyFinishingConnection: "Spotify-Verbindung wird abgeschlossen…",
-		spotifyEnterClientId: "Gib zuerst deine Spotify Client ID ein",
-		spotifyWaitingAuthorization: "Warten auf Spotify-Autorisierung…",
-		spotifyNotConnected: "Spotify ist nicht verbunden",
-		spotifyRefreshTokenFailed: "Spotify hat kein neues Zugriffstoken zurückgegeben",
-		spotifyInvalidApiPath: "Ungültiger Spotify-API-Pfad",
-		spotifyInvalidResponse: "Spotify hat eine ungültige Antwort zurückgegeben",
-		spotifyActionDenied: "Spotify hat diese Aktion abgelehnt. Premium oder eine zusätzliche Berechtigung kann erforderlich sein",
-		spotifyNoActiveDevice: "Spotify konnte kein aktives Wiedergabegerät finden",
-		spotifyDisabled: "Spotify ist deaktiviert",
-		spotifyConnectFirst: "Verbinde Spotify zuerst in den Plugin-Einstellungen",
-		spotifyUnknownLibrarySection: "Unbekannter Bereich der Spotify-Bibliothek",
-		spotifyInvalidItem: "Ungültiges Spotify-Element",
-		spotifyNoCurrentAlbum: "Für den aktuellen Titel ist kein Spotify-Album verfügbar",
-		spotifyAlbumLookupFailed: "Spotify konnte das Album des aktuellen Titels nicht finden",
-		spotifyOpenAppStartTrack: "Öffne Spotify auf diesem PC, starte einmal einen Titel und versuche es erneut",
-		spotifyUnknownPlayerCommand: "Unbekannter Spotify-Player-Befehl",
-		spotifyNoPlayableItems: "Keine abspielbaren Spotify-Elemente",
-		spotifyMissingUri: "Spotify-URI fehlt",
-		spotifyInvalidUri: "Ungültige Spotify-URI",
 		backgroundChoiceExpired: "Diese Hintergrundauswahl ist abgelaufen. Suche erneut.",
 		invalidBackgroundChoice: "Diese Hintergrundauswahl ist nicht mehr gültig.",
 		backgroundDownloadFailed: "Das ausgewählte Bild konnte nicht heruntergeladen werden.",
 		unsupportedBackgroundImage: "Das Format des ausgewählten Bildes wird nicht unterstützt.",
 		invalidArtist: "Der ausgewählte Künstler ist ungültig.",
 		artistNameRequired: "Ein Künstlername ist erforderlich.",
-		spotifyArtistCacheBusy: "Der Spotify-Künstlercache wird bereits erstellt.",
-		spotifyArtistCacheInUse: "Der Spotify-Künstlercache ist belegt.",
 		restartServicesTimedOut: "Zeitüberschreitung beim Neustart der Plugin-Dienste",
 		restartServicesAlreadyRunning: "Die Plugin-Dienste werden bereits neu gestartet",
 		mediaBridgeRestartFailed: "MediaBridge wurde nicht ordnungsgemäß neu gestartet",
@@ -2743,114 +1629,56 @@ var de = {
 		album: "Album",
 		albums: "Alben",
 		albumsAndSingles: "Alben und Singles",
-		apiPaused: "API pausiert · {time}",
-		apiPausedTitle: "API pausiert",
-		apiPausedWait: "Bitte noch etwas warten",
-		apiPausedDetail: "Die Spotify-API ist vorübergehend pausiert. Versuche es in {time} erneut. Lokale Wiedergabesteuerungen bleiben verfügbar.",
-		appDescriptionCopied: "App-Beschreibung kopiert",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Persönliche Spotify-Web-API-Verbindung für das Now-Playing-Plugin von Decky Loader unter Windows.",
-		appNameCopied: "App-Name kopiert",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Interpret",
 		artists: "Interpreten",
 		back: "Zurück",
 		audioQuality: "Audioqualität",
-		cacheExplanation: "Spotify-Bibliotheksdaten werden lokal zwischengespeichert. Verwende Aktualisieren nur, wenn Awesome Mix Spotify erneut abfragen und den Cache erneuern soll.",
-		clearMusicCache: "Spotify-Musikcache leeren",
-		clearingMusicCache: "Spotify-Musikcache wird geleert…",
-		musicCacheDescription: "Spotify-Audio wird lokal bis zu 1 GB zwischengespeichert. Ältere Dateien werden beim Erreichen des Limits automatisch entfernt.",
-		changeInSettings: "In den Einstellungen ändern",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID gespeichert",
-		compactSavedTracks: "Kompakte Ansicht gespeicherter Titel",
-		compactSavedTracksCard: "Um Spotify-API-Anfragen zu reduzieren, werden für gespeicherte Titel standardmäßig nur Abspielen und Zufallswiedergabe angezeigt, statt die vollständige Liste zu laden.",
-		compactSavedTracksDescription: "Standardmäßig aktiviert. Gespeicherte Titel zeigen Abspielen und Zufallswiedergabe, ohne die vollständige Liste zu laden. Dadurch werden Spotify-API-Anfragen reduziert.",
 		completeSignIn: "Wähle im temporären Fenster dein Google-Konto aus oder melde dich mit dem Konto an, das du für YouTube Music verwendest. Lasse es geöffnet, bis Awesome Mix es schließt.",
 		automaticSignInDescription: "Wähle YouTube Music verbinden. Über Steam öffnet sich ein temporäres Anmeldefenster. Wähle dein Google-Konto aus oder melde dich mit dem Konto an, das du für YouTube Music verwendest, und lasse das Fenster geöffnet. Awesome Mix stellt die Verbindung her und schließt es automatisch.",
 		connect: "YouTube Music verbinden",
 		connected: "Verbunden",
-		connectedAs: "Verbunden als {name}",
 		hideDetails: "Details ausblenden",
 		showDetails: "Details anzeigen",
-		copyAppDescription: "App-Beschreibung kopieren",
-		copyAppName: "App-Namen kopieren",
-		copyRedirectUri: "Weiterleitungs-URI kopieren",
-		developerTerms: "Akzeptiere die Developer Terms of Service und Design Guidelines und klicke anschließend auf Save.",
 		disconnect: "YouTube Music trennen",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Interpreten",
 		fullscreen: "Vollbild",
 		genericError: "Etwas ist schiefgelaufen",
 		home: "Start",
 		library: "Bibliothek",
-		limitedPlaylist: "Spotify zeigt Titellisten nur für Playlists an, die dir gehören oder an denen du mitarbeitest. Du kannst diese Playlist trotzdem abspielen.",
-		loadingSpotify: "YouTube Music wird geladen…",
-		noAlbums: "Keine Alben verfügbar.",
+		loadingYouTubeMusic: "YouTube Music wird geladen…",
 		noPlayback: "Spiele etwas ab",
 		noResults: "Keine Ergebnisse gefunden.",
 		noTracks: "Keine Titel verfügbar.",
 		nothingHere: "Hier ist noch nichts.",
 		nowPlaying: "Aktuelle Wiedergabe",
-		openDashboard: "YouTube Music öffnen",
-		personalMode: "Persönlicher Web-API-Modus",
 		play: "Abspielen",
 		playlist: "Playlist",
 		playlists: "Playlists",
 		popularTracks: "Beliebte Titel",
-		premiumNote: "Spotify Premium ist für die Wiedergabesteuerung im Development Mode erforderlich. Deine Client ID und Autorisierungstoken bleiben auf diesem PC.",
 		queue: "Warteschlange",
 		queueEmpty: "Keine weiteren Titel in der Warteschlange.",
-		redirectCopied: "Weiterleitungs-URL kopiert",
-		redirectUri: "Weiterleitungs-URL",
 		refresh: "Aktualisieren",
 		repeat: "Wiederholen",
 		requestFailed: "YouTube-Music-Anfrage fehlgeschlagen",
-		saveClientId: "Client ID speichern",
-		savedAlbums: "Alben",
-		savedTracks: "Gespeicherte Titel",
 		search: "Suchen",
-		searchSpotify: "YouTube Music durchsuchen",
-		seeAll: "Alle anzeigen",
-		selectSpotifyHint: "Wähle Spotify im Bereich Quelle aus, um den Spotify-Browser in Awesome Mix anzuzeigen.",
+		searchYouTubeMusic: "YouTube Music durchsuchen",
 		settings: "Einstellungen",
-		settingsDescription: "Durchsuche deine Spotify-Bibliothek und den Katalog und starte die Wiedergabe in der Spotify-Desktop-App. Dieser optionale Modus verwendet deine eigene Spotify-Entwickler-Client-ID.",
-		setupGuide: "Einrichtungsanleitung",
-		setupSteps: [
-			"Öffne die Spotify-Developer-Website, klicke oben rechts auf „Log in“ und melde dich bei deinem Spotify-Konto an.",
-			"Klicke nach der Anmeldung oben rechts auf dein Profil, wähle „Dashboard“ und klicke dann auf „Create app“.",
-			"Gib unter „App name* (required)“ den unten angezeigten App-Namen ein.",
-			"Gib unter „App description* (required)“ die unten angezeigte Beschreibung ein.",
-			"Lasse „Website“ leer.",
-			"Füge unter „Redirect URIs* (required)“ die unten angezeigte URL exakt ein.",
-			"Wähle unter „Which API/SDKs are you planning to use?“ sowohl „Web API“ als auch „Web Playback SDK“. Wähle weder Ads API noch iOS oder Android.",
-			"Akzeptiere die Developer Terms of Service und Design Guidelines und klicke anschließend auf Save.",
-			"Öffne die neue App, kopiere ihre Client ID, füge sie unten ein und verbinde Spotify. Ein Client Secret ist nicht erforderlich."
-		],
-		showLess: "Weniger anzeigen",
+		settingsDescription: "Durchsuche deine YouTube Music-Bibliothek und den Katalog und starte die Wiedergabe in der YouTube Music-Desktop-App. Dieser optionale Modus verwendet deine eigene YouTube Music-Entwickler-Client-ID.",
 		shuffle: "Zufallswiedergabe",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Titel",
-		unableStartAuthorization: "Spotify-Autorisierung konnte nicht gestartet werden",
-		unableStartPlayback: "Wiedergabe konnte nicht gestartet werden",
 		untitled: "Ohne Titel",
 		volume: "Lautstärke",
-		webApiOnly: "Web API und Web Playback SDK auswählen",
-		websiteOptional: "Website — optional",
-		welcomeBack: "Willkommen zurück, {name}",
 		yourMusicInsideSteam: "Deine Musik in Steam",
 		yourPlaylists: "Deine Playlists",
 		artistCacheTitle: "Cache für Künstlerhintergründe",
-		artistCacheDescription: "Lädt hochauflösende Hintergründe nur für Künstler herunter, denen du auf Spotify folgst.",
+		artistCacheDescription: "Lädt hochauflösende Hintergründe nur für Künstler herunter, denen du auf YouTube Music folgst.",
 		createArtistCache: "Cache für Künstlerhintergründe erstellen",
 		artistCacheBuilding: "Cache für Künstlerhintergründe wird erstellt…",
-		artistCacheProgress: "Hintergrund wird heruntergeladen: {name}",
-		artistCacheCreated: "Spotify-Künstlerhintergründe wurden zwischengespeichert",
+		artistCacheCreated: "YouTube Music-Künstlerhintergründe wurden zwischengespeichert",
 		artistCacheNoFavorites: "Keine gefolgten Künstler gefunden.",
 		clearArtistCache: "Cache für Künstlerhintergründe leeren",
 		artistCacheClearing: "Cache für Künstlerhintergründe wird geleert…",
-		artistCacheCleared: "Spotify-Cache für Künstlerhintergründe geleert",
+		artistCacheCleared: "YouTube Music-Cache für Künstlerhintergründe geleert",
 		cacheSize: "Heruntergeladene Assets",
 		newForYou: "Für dich empfohlen",
 		newPodcastEpisodes: "Neue Folgen deiner Podcasts",
@@ -2926,7 +1754,6 @@ var ru = {
 		restartServicesInProgress: "Перезапуск служб плагина…",
 		backgroundSource: "Источник фонов",
 		allBackgroundSources: "Все источники",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Экспортировать журнал диагностики",
 		diagnosticLogDescription: "Создаёт в папке «Загрузки» безопасный файл диагностики с состоянием проигрывателя, MediaBridge и ошибками изображений. Ключи API и токены удаляются.",
@@ -2953,7 +1780,7 @@ var ru = {
 		fsLegendRotate: "Вращать 3D-эффект",
 		settingsParticleResolution: "Разрешение 3D-частиц",
 		surroundUpmix: "Апмикс в surround",
-		surroundUpmixHint: "Расширяет стереозвук до объёмного. Работает с источниками «Моя музыка», Spotify и YouTube Music.",
+		surroundUpmixHint: "Расширяет стереозвук до объёмного. Работает с источниками «Моя музыка» и YouTube Music.",
 		speakerVolumesShow: "Показать громкость колонок",
 		speakerVolumesHide: "Скрыть громкость колонок",
 		seekBackLabel: "Назад на {seconds} с",
@@ -2962,132 +1789,6 @@ var ru = {
 		playbackPositionLabel: "Позиция воспроизведения",
 		appearanceSection: "Оформление",
 		matchSteamTheme: "Цвета темы Steam в меню быстрого доступа"
-	},
-	spotify: {
-		album: "Альбом",
-		albums: "Альбомы",
-		albumsAndSingles: "Альбомы и синглы",
-		apiPaused: "API приостановлен · {time}",
-		apiPausedTitle: "API приостановлен",
-		apiPausedWait: "Подождите ещё немного",
-		apiPausedDetail: "API Spotify временно приостановлен. Повторите попытку через {time}. Локальные элементы управления воспроизведением остаются доступными.",
-		appDescriptionCopied: "Описание приложения скопировано",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Персональное подключение к Spotify Web API для плагина Awesome Mix в Decky Loader на Windows.",
-		appNameCopied: "Название приложения скопировано",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Исполнитель",
-		artists: "Исполнители",
-		back: "Назад",
-		audioQuality: "Качество звука",
-		cacheExplanation: "Данные медиатеки Spotify сохраняются в локальном кэше. Используйте «Обновить» только тогда, когда нужно снова обратиться к Spotify и обновить кэш.",
-		clearMusicCache: "Очистить кэш музыки Spotify",
-		clearingMusicCache: "Очистка кэша музыки Spotify…",
-		musicCacheDescription: "Аудио Spotify хранится в локальном кэше объёмом до 1 ГБ. При достижении лимита самые старые файлы удаляются автоматически.",
-		musicCacheUsage: "Кэш занят",
-		changeInSettings: "Изменить в Настройках",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID сохранён",
-		compactSavedTracks: "Компактный вид сохранённых треков",
-		compactSavedTracksCard: "Чтобы сократить число запросов к API Spotify, для сохранённых треков по умолчанию отображаются только действия «Воспроизвести» и «Перемешать», без загрузки полного списка.",
-		compactSavedTracksDescription: "Включено по умолчанию. Для сохранённых треков показываются действия «Воспроизвести» и «Перемешать» без загрузки полного списка, что уменьшает число запросов к API Spotify.",
-		completeSignIn: "Завершите вход в браузере, затем вернитесь в Steam.",
-		finishPlaybackSetup: "Последняя авторизация включает прямое воспроизведение через Playhub и сохраняется для следующих запусков.",
-		connectPlayback: "Включить воспроизведение Spotify",
-		connect: "Подключить Spotify",
-		connected: "Подключено",
-		connectedAs: "Подключено как {name}",
-		hideDetails: "Скрыть подробности",
-		showDetails: "Показать подробности",
-		copyAppDescription: "Копировать описание приложения",
-		copyAppName: "Копировать название приложения",
-		copyRedirectUri: "Скопировать URI перенаправления",
-		developerTerms: "Примите Developer Terms of Service и Design Guidelines, затем нажмите Save.",
-		disconnect: "Отключить Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Исполнители",
-		fullscreen: "На весь экран",
-		genericError: "Что-то пошло не так",
-		home: "Главная",
-		library: "Медиатека",
-		limitedPlaylist: "Spotify показывает списки треков только для ваших плейлистов и плейлистов, где вы являетесь соавтором. При этом сам плейлист всё равно можно воспроизвести.",
-		loadingSpotify: "Загрузка Spotify…",
-		noAlbums: "Нет доступных альбомов.",
-		noPlayback: "Включите что-нибудь",
-		noResults: "Ничего не найдено.",
-		noTracks: "Нет доступных треков.",
-		nothingHere: "Здесь пока ничего нет.",
-		nowPlaying: "Сейчас играет",
-		openDashboard: "YouTube Music",
-		personalMode: "Персональный режим Web API",
-		play: "Воспроизвести",
-		playlist: "Плейлист",
-		playlists: "Плейлисты",
-		popularTracks: "Популярные треки",
-		premiumNote: "Для управления воспроизведением в Development Mode требуется Spotify Premium. Ваш Client ID и токены авторизации хранятся только на этом ПК.",
-		queue: "Очередь",
-		queueEmpty: "В очереди нет следующих треков.",
-		redirectCopied: "URL перенаправления скопирован",
-		redirectUri: "URL перенаправления",
-		refresh: "Обновить",
-		repeat: "Повтор",
-		requestFailed: "Ошибка запроса к Spotify",
-		saveClientId: "Сохранить Client ID",
-		savedAlbums: "Альбомы",
-		savedTracks: "Сохранённые треки",
-		search: "Поиск",
-		searchSpotify: "Поиск в Spotify",
-		seeAll: "Показать все",
-		selectSpotifyHint: "Выберите Spotify в разделе «Источник», чтобы открыть браузер Spotify в Awesome Mix.",
-		settings: "Настройки",
-		settingsDescription: "Просматривайте медиатеку Spotify, ищите музыку в каталоге и запускайте воспроизведение в настольном приложении Spotify. Этот необязательный режим использует ваш собственный Client ID разработчика Spotify.",
-		setupGuide: "Руководство по настройке",
-		setupSteps: [
-			"Откройте сайт Spotify Developer, нажмите «Log in» в правом верхнем углу и войдите в свою учётную запись Spotify.",
-			"После входа нажмите на профиль в правом верхнем углу, выберите «Dashboard», затем нажмите «Create app».",
-			"В поле «App name* (required)» введите название приложения, указанное ниже.",
-			"В поле «App description* (required)» введите описание, указанное ниже.",
-			"Оставьте поле «Website» пустым.",
-			"В поле «Redirect URIs* (required)» точно добавьте URL, указанный ниже.",
-			"В разделе «Which API/SDKs are you planning to use?» выберите «Web API» и «Web Playback SDK». Не выбирайте Ads API, iOS или Android.",
-			"Примите Developer Terms of Service и Design Guidelines, затем нажмите Save.",
-			"Откройте созданное приложение, скопируйте Client ID, вставьте его ниже и подключите Spotify. Client Secret не требуется."
-		],
-		showLess: "Показать меньше",
-		shuffle: "Перемешать",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Треки",
-		unableStartAuthorization: "Не удалось начать авторизацию Spotify",
-		unableStartPlayback: "Не удалось запустить воспроизведение",
-		untitled: "Без названия",
-		volume: "Громкость",
-		webApiOnly: "Выберите Web API и Web Playback SDK",
-		websiteOptional: "Website — необязательно",
-		welcomeBack: "С возвращением, {name}",
-		yourMusicInsideSteam: "Ваша музыка в Steam",
-		yourPlaylists: "Ваши плейлисты",
-		artistCacheTitle: "Кэш фонов исполнителей",
-		artistCacheDescription: "Загружает фоны высокого разрешения только для исполнителей, на которых вы подписаны в Spotify.",
-		createArtistCache: "Создать кэш фонов исполнителей",
-		artistCacheBuilding: "Создание кэша фонов исполнителей…",
-		artistCacheProgress: "Загрузка фона: {name}",
-		artistCacheCreated: "Кэш фонов исполнителей Spotify создан",
-		artistCacheNoFavorites: "Исполнители, на которых вы подписаны, не найдены.",
-		clearArtistCache: "Очистить кэш фонов исполнителей",
-		artistCacheClearing: "Очистка кэша фонов исполнителей…",
-		artistCacheCleared: "Кэш фонов исполнителей Spotify очищен",
-		cacheSize: "Загруженные ресурсы",
-		newForYou: "Рекомендовано для вас",
-		manualBackgrounds: "Фоны, выбранные пользователем",
-		manualBackgroundsDescription: "Эти фоны исполнителей сохраняются при очистке кэша изображений.",
-		removeManualBackgrounds: "Удалить все выбранные фоны исполнителей",
-		manualBackgroundsRemoving: "Удаление выбранных фонов исполнителей…",
-		manualBackgroundsRemoved: "Выбранные фоны исполнителей удалены",
-		apiUsageTitle: "Использование API Spotify",
-		apiUsagePerMinute: "запр./мин",
-		apiUsageTotal: "всего",
-		apiUsagePaused: "Пауза (лимит)"
 	},
 	localMusic: {
 		albums: "Альбомы",
@@ -3159,12 +1860,10 @@ var ru = {
 		noPlayableLocalTracks: "Нет доступных для воспроизведения локальных треков",
 		localPlaybackStartFailed: "Не удалось запустить локальное воспроизведение",
 		localAudioRecoveryFailed: "Не удалось восстановить локальное аудио",
-		openCurrentSpotifyAlbumFailed: "Не удалось открыть текущий альбом Spotify",
 		openCurrentLocalAlbumFailed: "Не удалось открыть текущий локальный альбом",
 		unsupportedLocalFormat: "Этот аудиоформат не поддерживается Chromium в Steam",
 		localPlayerUnavailable: "Локальный аудиопроигрыватель недоступен",
 		currentLocalAlbumUnavailable: "Текущий локальный альбом недоступен",
-		currentSpotifyAlbumUnavailable: "Текущий альбом Spotify недоступен",
 		windowsOnly: "Этот плагин работает только в Windows",
 		helperStartFailed: "Не удалось правильно запустить вспомогательный компонент плагина",
 		folderNotFound: "Папка не найдена",
@@ -3172,36 +1871,12 @@ var ru = {
 		localFileUnavailable: "Локальный музыкальный файл недоступен",
 		localPlayerNotRunning: "Локальный музыкальный проигрыватель не запущен",
 		localPlayerNoResponse: "Локальный музыкальный проигрыватель не отвечает",
-		spotifyInvalidTokenResponse: "Spotify вернул недопустимый ответ с токеном",
-		spotifyAuthorizationExpired: "Сеанс авторизации Spotify истёк",
-		spotifyFinishingConnection: "Завершение подключения к Spotify…",
-		spotifyEnterClientId: "Сначала введите Client ID Spotify",
-		spotifyWaitingAuthorization: "Ожидание авторизации Spotify…",
-		spotifyNotConnected: "Spotify не подключён",
-		spotifyRefreshTokenFailed: "Spotify не вернул новый токен доступа",
-		spotifyInvalidApiPath: "Недопустимый путь Spotify API",
-		spotifyInvalidResponse: "Spotify вернул недопустимый ответ",
-		spotifyActionDenied: "Spotify отклонил это действие. Может потребоваться Premium или дополнительное разрешение",
-		spotifyNoActiveDevice: "Spotify не нашёл активное устройство воспроизведения",
-		spotifyDisabled: "Spotify отключён",
-		spotifyConnectFirst: "Сначала подключите Spotify в настройках плагина",
-		spotifyUnknownLibrarySection: "Неизвестный раздел медиатеки Spotify",
-		spotifyInvalidItem: "Недопустимый элемент Spotify",
-		spotifyNoCurrentAlbum: "Для текущего трека нет доступного альбома Spotify",
-		spotifyAlbumLookupFailed: "Spotify не удалось найти альбом текущего трека",
-		spotifyOpenAppStartTrack: "Откройте Spotify на этом ПК, запустите любую песню и повторите попытку",
-		spotifyUnknownPlayerCommand: "Неизвестная команда проигрывателя Spotify",
-		spotifyNoPlayableItems: "Нет доступных для воспроизведения элементов Spotify",
-		spotifyMissingUri: "Отсутствует URI Spotify",
-		spotifyInvalidUri: "Недопустимый URI Spotify",
 		backgroundChoiceExpired: "Срок действия выбранного фона истёк. Выполните поиск снова.",
 		invalidBackgroundChoice: "Этот вариант фона больше недоступен.",
 		backgroundDownloadFailed: "Не удалось скачать выбранное изображение.",
 		unsupportedBackgroundImage: "Формат выбранного изображения не поддерживается.",
 		invalidArtist: "Выбран некорректный исполнитель.",
 		artistNameRequired: "Необходимо указать имя исполнителя.",
-		spotifyArtistCacheBusy: "Кэш исполнителей Spotify уже создаётся.",
-		spotifyArtistCacheInUse: "Кэш исполнителей Spotify занят.",
 		restartServicesTimedOut: "Превышено время ожидания перезапуска служб плагина",
 		restartServicesAlreadyRunning: "Перезапуск служб плагина уже выполняется",
 		mediaBridgeRestartFailed: "MediaBridge не удалось перезапустить корректно",
@@ -3211,114 +1886,56 @@ var ru = {
 		album: "Альбом",
 		albums: "Альбомы",
 		albumsAndSingles: "Альбомы и синглы",
-		apiPaused: "API приостановлен · {time}",
-		apiPausedTitle: "API приостановлен",
-		apiPausedWait: "Подождите ещё немного",
-		apiPausedDetail: "API Spotify временно приостановлен. Повторите попытку через {time}. Локальные элементы управления воспроизведением остаются доступными.",
-		appDescriptionCopied: "Описание приложения скопировано",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Персональное подключение к Spotify Web API для плагина Awesome Mix в Decky Loader на Windows.",
-		appNameCopied: "Название приложения скопировано",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Исполнитель",
 		artists: "Исполнители",
 		back: "Назад",
 		audioQuality: "Качество звука",
-		cacheExplanation: "Данные медиатеки Spotify сохраняются в локальном кэше. Используйте «Обновить» только тогда, когда нужно снова обратиться к Spotify и обновить кэш.",
-		clearMusicCache: "Очистить кэш музыки Spotify",
-		clearingMusicCache: "Очистка кэша музыки Spotify…",
-		musicCacheDescription: "Аудио Spotify хранится в локальном кэше объёмом до 1 ГБ. При достижении лимита самые старые файлы удаляются автоматически.",
-		changeInSettings: "Изменить в Настройках",
-		clientId: "Client ID Spotify",
-		clientIdSaved: "Client ID сохранён",
-		compactSavedTracks: "Компактный вид сохранённых треков",
-		compactSavedTracksCard: "Чтобы сократить число запросов к API Spotify, для сохранённых треков по умолчанию отображаются только действия «Воспроизвести» и «Перемешать», без загрузки полного списка.",
-		compactSavedTracksDescription: "Включено по умолчанию. Для сохранённых треков показываются действия «Воспроизвести» и «Перемешать» без загрузки полного списка, что уменьшает число запросов к API Spotify.",
 		completeSignIn: "Выберите аккаунт Google или войдите с аккаунтом, который используете для YouTube Music, во временном окне. Оставьте его открытым, пока Awesome Mix не закроет его.",
 		automaticSignInDescription: "Выберите «Подключить YouTube Music». Поверх Steam откроется временное окно входа. Выберите аккаунт Google или войдите с аккаунтом, который используете для YouTube Music, и оставьте окно открытым. Awesome Mix выполнит подключение и автоматически закроет его.",
 		connect: "Подключить YouTube Music",
 		connected: "Подключено",
-		connectedAs: "Подключено как {name}",
 		hideDetails: "Скрыть подробности",
 		showDetails: "Показать подробности",
-		copyAppDescription: "Копировать описание приложения",
-		copyAppName: "Копировать название приложения",
-		copyRedirectUri: "Скопировать URI перенаправления",
-		developerTerms: "Примите Developer Terms of Service и Design Guidelines, затем нажмите Save.",
 		disconnect: "Отключить YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Исполнители",
 		fullscreen: "На весь экран",
 		genericError: "Что-то пошло не так",
 		home: "Главная",
 		library: "Медиатека",
-		limitedPlaylist: "Spotify показывает списки треков только для ваших плейлистов и плейлистов, где вы являетесь соавтором. При этом сам плейлист всё равно можно воспроизвести.",
-		loadingSpotify: "Загрузка YouTube Music…",
-		noAlbums: "Нет доступных альбомов.",
+		loadingYouTubeMusic: "Загрузка YouTube Music…",
 		noPlayback: "Включите что-нибудь",
 		noResults: "Ничего не найдено.",
 		noTracks: "Нет доступных треков.",
 		nothingHere: "Здесь пока ничего нет.",
 		nowPlaying: "Сейчас играет",
-		openDashboard: "Открыть YouTube Music",
-		personalMode: "Персональный режим Web API",
 		play: "Воспроизвести",
 		playlist: "Плейлист",
 		playlists: "Плейлисты",
 		popularTracks: "Популярные треки",
-		premiumNote: "Для управления воспроизведением в Development Mode требуется Spotify Premium. Ваш Client ID и токены авторизации хранятся только на этом ПК.",
 		queue: "Очередь",
 		queueEmpty: "В очереди нет следующих треков.",
-		redirectCopied: "URL перенаправления скопирован",
-		redirectUri: "URL перенаправления",
 		refresh: "Обновить",
 		repeat: "Повтор",
 		requestFailed: "Ошибка запроса к YouTube Music",
-		saveClientId: "Сохранить Client ID",
-		savedAlbums: "Альбомы",
-		savedTracks: "Сохранённые треки",
 		search: "Поиск",
-		searchSpotify: "Поиск в YouTube Music",
-		seeAll: "Показать все",
-		selectSpotifyHint: "Выберите Spotify в разделе «Источник», чтобы открыть браузер Spotify в Awesome Mix.",
+		searchYouTubeMusic: "Поиск в YouTube Music",
 		settings: "Настройки",
-		settingsDescription: "Просматривайте медиатеку Spotify, ищите музыку в каталоге и запускайте воспроизведение в настольном приложении Spotify. Этот необязательный режим использует ваш собственный Client ID разработчика Spotify.",
-		setupGuide: "Руководство по настройке",
-		setupSteps: [
-			"Откройте сайт Spotify Developer, нажмите «Log in» в правом верхнем углу и войдите в свою учётную запись Spotify.",
-			"После входа нажмите на профиль в правом верхнем углу, выберите «Dashboard», затем нажмите «Create app».",
-			"В поле «App name* (required)» введите название приложения, указанное ниже.",
-			"В поле «App description* (required)» введите описание, указанное ниже.",
-			"Оставьте поле «Website» пустым.",
-			"В поле «Redirect URIs* (required)» точно добавьте URL, указанный ниже.",
-			"В разделе «Which API/SDKs are you planning to use?» выберите «Web API» и «Web Playback SDK». Не выбирайте Ads API, iOS или Android.",
-			"Примите Developer Terms of Service и Design Guidelines, затем нажмите Save.",
-			"Откройте созданное приложение, скопируйте Client ID, вставьте его ниже и подключите Spotify. Client Secret не требуется."
-		],
-		showLess: "Показать меньше",
+		settingsDescription: "Просматривайте медиатеку YouTube Music, ищите музыку в каталоге и запускайте воспроизведение в настольном приложении YouTube Music. Этот необязательный режим использует ваш собственный Client ID разработчика YouTube Music.",
 		shuffle: "Перемешать",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Треки",
-		unableStartAuthorization: "Не удалось начать авторизацию Spotify",
-		unableStartPlayback: "Не удалось запустить воспроизведение",
 		untitled: "Без названия",
 		volume: "Громкость",
-		webApiOnly: "Выберите Web API и Web Playback SDK",
-		websiteOptional: "Website — необязательно",
-		welcomeBack: "С возвращением, {name}",
 		yourMusicInsideSteam: "Ваша музыка в Steam",
 		yourPlaylists: "Ваши плейлисты",
 		artistCacheTitle: "Кэш фонов исполнителей",
-		artistCacheDescription: "Загружает фоны высокого разрешения только для исполнителей, на которых вы подписаны в Spotify.",
+		artistCacheDescription: "Загружает фоны высокого разрешения только для исполнителей, на которых вы подписаны в YouTube Music.",
 		createArtistCache: "Создать кэш фонов исполнителей",
 		artistCacheBuilding: "Создание кэша фонов исполнителей…",
-		artistCacheProgress: "Загрузка фона: {name}",
-		artistCacheCreated: "Кэш фонов исполнителей Spotify создан",
+		artistCacheCreated: "Кэш фонов исполнителей YouTube Music создан",
 		artistCacheNoFavorites: "Исполнители, на которых вы подписаны, не найдены.",
 		clearArtistCache: "Очистить кэш фонов исполнителей",
 		artistCacheClearing: "Очистка кэша фонов исполнителей…",
-		artistCacheCleared: "Кэш фонов исполнителей Spotify очищен",
+		artistCacheCleared: "Кэш фонов исполнителей YouTube Music очищен",
 		cacheSize: "Загруженные ресурсы",
 		newForYou: "Рекомендовано для вас",
 		newPodcastEpisodes: "Новые выпуски ваших подкастов",
@@ -3394,7 +2011,6 @@ var ja = {
 		restartServicesInProgress: "プラグインサービスを再起動しています…",
 		backgroundSource: "背景の取得元",
 		allBackgroundSources: "すべての取得元",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "診断ログをエクスポート",
 		diagnosticLogDescription: "プレイヤー、MediaBridge、アートワークのエラーを含む安全な診断ファイルをダウンロード フォルダーに作成します。API キーとトークンは削除されます。",
@@ -3421,7 +2037,7 @@ var ja = {
 		fsLegendRotate: "3Dエフェクトを回転",
 		settingsParticleResolution: "3D パーティクルの解像度",
 		surroundUpmix: "サラウンドアップミックス",
-		surroundUpmixHint: "ステレオ音声をサラウンドに拡張します。マイミュージック、Spotify、YouTube Musicで動作します。",
+		surroundUpmixHint: "ステレオ音声をサラウンドに拡張します。マイミュージックとYouTube Musicで動作します。",
 		speakerVolumesShow: "スピーカー音量を表示",
 		speakerVolumesHide: "スピーカー音量を隠す",
 		seekBackLabel: "{seconds}秒戻す",
@@ -3430,132 +2046,6 @@ var ja = {
 		playbackPositionLabel: "再生位置",
 		appearanceSection: "外観",
 		matchSteamTheme: "クイックアクセスで Steam テーマの色を使う"
-	},
-	spotify: {
-		album: "アルバム",
-		albums: "アルバム",
-		albumsAndSingles: "アルバムとシングル",
-		apiPaused: "API一時停止中 · {time}",
-		apiPausedTitle: "API一時停止中",
-		apiPausedWait: "もう少しお待ちください",
-		apiPausedDetail: "Spotify APIは一時的に停止しています。{time}後にもう一度お試しください。ローカルの再生操作は引き続き利用できます。",
-		appDescriptionCopied: "アプリの説明をコピーしました",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Windows版Decky LoaderのAwesome Mixプラグイン用の個人Spotify Web API接続。",
-		appNameCopied: "アプリ名をコピーしました",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "アーティスト",
-		artists: "アーティスト",
-		back: "戻る",
-		audioQuality: "音質",
-		cacheExplanation: "Spotifyライブラリのデータはローカルにキャッシュされます。Spotifyへ再度問い合わせてキャッシュを更新したい場合だけ「更新」を使用してください。",
-		clearMusicCache: "Spotify の音楽キャッシュを消去",
-		clearingMusicCache: "Spotify の音楽キャッシュを消去しています…",
-		musicCacheDescription: "Spotify の音声は最大 1 GB までローカルにキャッシュされます。上限に達すると、古いファイルから自動的に削除されます。",
-		musicCacheUsage: "使用中のキャッシュ",
-		changeInSettings: "設定で変更",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client IDを保存しました",
-		compactSavedTracks: "保存済み曲のコンパクト表示",
-		compactSavedTracksCard: "Spotify APIの使用量を抑えるため、保存済み曲は一覧全体を読み込まず、初期状態では「再生」と「シャッフル」だけを表示します。",
-		compactSavedTracksDescription: "初期状態で有効です。保存済み曲の一覧全体を読み込まずに「再生」と「シャッフル」を表示し、Spotify APIへのリクエストを減らします。",
-		completeSignIn: "ブラウザーでサインインを完了してからSteamに戻ってください。",
-		finishPlaybackSetup: "最後の認証でPlayhubからの直接再生が有効になり、次回以降の起動用に保存されます。",
-		connectPlayback: "Spotify再生を有効にする",
-		connect: "Spotifyに接続",
-		connected: "接続済み",
-		connectedAs: "{name} として接続中",
-		hideDetails: "詳細を非表示",
-		showDetails: "詳細を表示",
-		copyAppDescription: "アプリの説明をコピー",
-		copyAppName: "アプリ名をコピー",
-		copyRedirectUri: "リダイレクト URI をコピー",
-		developerTerms: "Developer Terms of ServiceとDesign Guidelinesに同意し、Saveをクリックしてください。",
-		disconnect: "Spotifyから切断",
-		enableSpotify: "YouTube Music",
-		followedArtists: "アーティスト",
-		fullscreen: "フルスクリーン",
-		genericError: "問題が発生しました",
-		home: "ホーム",
-		library: "ライブラリ",
-		limitedPlaylist: "Spotifyで曲一覧を表示できるのは、自分が所有または共同編集しているプレイリストだけです。このプレイリスト自体は再生できます。",
-		loadingSpotify: "Spotifyを読み込み中…",
-		noAlbums: "利用できるアルバムがありません。",
-		noPlayback: "何かを再生",
-		noResults: "結果が見つかりませんでした。",
-		noTracks: "利用できる曲がありません。",
-		nothingHere: "まだ何もありません。",
-		nowPlaying: "再生中",
-		openDashboard: "YouTube Music",
-		personalMode: "個人用Web APIモード",
-		play: "再生",
-		playlist: "プレイリスト",
-		playlists: "プレイリスト",
-		popularTracks: "人気の曲",
-		premiumNote: "Development Modeで再生を操作するにはSpotify Premiumが必要です。Client IDと認証トークンはこのPC内に保存されます。",
-		queue: "キュー",
-		queueEmpty: "次に再生する曲はありません。",
-		redirectCopied: "リダイレクトURLをコピーしました",
-		redirectUri: "リダイレクトURL",
-		refresh: "更新",
-		repeat: "リピート",
-		requestFailed: "Spotifyへのリクエストに失敗しました",
-		saveClientId: "Client IDを保存",
-		savedAlbums: "アルバム",
-		savedTracks: "保存済みの曲",
-		search: "検索",
-		searchSpotify: "Spotifyを検索",
-		seeAll: "すべて表示",
-		selectSpotifyHint: "ソースでSpotifyを選択すると、Awesome MixにSpotifyブラウザーが表示されます。",
-		settings: "設定",
-		settingsDescription: "Spotifyライブラリの閲覧、カタログ検索、Spotifyデスクトップアプリでの再生開始ができます。この任意機能では、自分のSpotify開発者Client IDを使用します。",
-		setupGuide: "設定ガイド",
-		setupSteps: [
-			"Spotify Developerサイトを開き、右上の「Log in」をクリックしてSpotifyアカウントにサインインします。",
-			"サインイン後、右上のプロフィールをクリックし、「Dashboard」を選んでから「Create app」をクリックします。",
-			"「App name* (required)」に、下に表示されているアプリ名を入力します。",
-			"「App description* (required)」に、下に表示されている説明を入力します。",
-			"「Website」は空欄のままにします。",
-			"「Redirect URIs* (required)」に、下に表示されているURLをそのまま追加します。",
-			"「Which API/SDKs are you planning to use?」では「Web API」と「Web Playback SDK」を選択します。Ads API、iOS、Androidは選択しないでください。",
-			"Developer Terms of ServiceとDesign Guidelinesに同意し、Saveをクリックします。",
-			"作成したアプリを開き、Client IDをコピーして下に貼り付け、Spotifyに接続します。Client Secretは不要です。"
-		],
-		showLess: "折りたたむ",
-		shuffle: "シャッフル",
-		spotifyBigPicture: "Big Picture",
-		tracks: "曲",
-		unableStartAuthorization: "Spotify認証を開始できませんでした",
-		unableStartPlayback: "再生を開始できませんでした",
-		untitled: "タイトルなし",
-		volume: "音量",
-		webApiOnly: "Web APIとWeb Playback SDKを選択",
-		websiteOptional: "Website — 任意",
-		welcomeBack: "おかえりなさい、{name}",
-		yourMusicInsideSteam: "Steamの中のあなたの音楽",
-		yourPlaylists: "あなたのプレイリスト",
-		artistCacheTitle: "アーティスト背景キャッシュ",
-		artistCacheDescription: "Spotifyでフォローしているアーティストだけ、高解像度の背景をダウンロードします。",
-		createArtistCache: "アーティスト背景キャッシュを作成",
-		artistCacheBuilding: "アーティスト背景キャッシュを作成しています…",
-		artistCacheProgress: "背景をダウンロード中: {name}",
-		artistCacheCreated: "Spotifyアーティスト背景キャッシュを作成しました",
-		artistCacheNoFavorites: "フォロー中のアーティストが見つかりませんでした。",
-		clearArtistCache: "アーティスト背景キャッシュを消去",
-		artistCacheClearing: "アーティスト背景キャッシュを消去中…",
-		artistCacheCleared: "Spotify のアーティスト背景キャッシュを消去しました",
-		cacheSize: "ダウンロード済みアセット",
-		newForYou: "あなたへのおすすめ",
-		manualBackgrounds: "ユーザーが選択した背景",
-		manualBackgroundsDescription: "これらのアーティスト背景は、画像キャッシュを消去しても保持されます。",
-		removeManualBackgrounds: "選択したアーティスト背景をすべて削除",
-		manualBackgroundsRemoving: "選択したアーティスト背景を削除しています…",
-		manualBackgroundsRemoved: "選択したアーティスト背景を削除しました",
-		apiUsageTitle: "Spotify API使用状況",
-		apiUsagePerMinute: "回/分",
-		apiUsageTotal: "合計",
-		apiUsagePaused: "一時停止（レート制限）"
 	},
 	localMusic: {
 		albums: "アルバム",
@@ -3627,12 +2117,10 @@ var ja = {
 		noPlayableLocalTracks: "再生できるローカル曲がありません",
 		localPlaybackStartFailed: "ローカル再生を開始できませんでした",
 		localAudioRecoveryFailed: "ローカル音声を復旧できませんでした",
-		openCurrentSpotifyAlbumFailed: "現在のSpotifyアルバムを開けませんでした",
 		openCurrentLocalAlbumFailed: "現在のローカルアルバムを開けませんでした",
 		unsupportedLocalFormat: "この音声形式はSteam Chromiumでサポートされていません",
 		localPlayerUnavailable: "ローカル音声プレイヤーを利用できません",
 		currentLocalAlbumUnavailable: "現在のローカルアルバムは利用できません",
-		currentSpotifyAlbumUnavailable: "現在のSpotifyアルバムは利用できません",
 		windowsOnly: "このプラグインはWindowsでのみ動作します",
 		helperStartFailed: "プラグインの補助コンポーネントを正しく起動できませんでした",
 		folderNotFound: "フォルダーが見つかりません",
@@ -3640,36 +2128,12 @@ var ja = {
 		localFileUnavailable: "ローカル音楽ファイルを利用できません",
 		localPlayerNotRunning: "ローカル音楽プレイヤーが起動していません",
 		localPlayerNoResponse: "ローカル音楽プレイヤーが応答しません",
-		spotifyInvalidTokenResponse: "Spotifyから無効なトークン応答が返されました",
-		spotifyAuthorizationExpired: "Spotifyの認証セッションが期限切れです",
-		spotifyFinishingConnection: "Spotifyへの接続を完了しています…",
-		spotifyEnterClientId: "先にSpotifyのClient IDを入力してください",
-		spotifyWaitingAuthorization: "Spotifyの認証を待っています…",
-		spotifyNotConnected: "Spotifyに接続されていません",
-		spotifyRefreshTokenFailed: "Spotifyから新しいアクセストークンが返されませんでした",
-		spotifyInvalidApiPath: "Spotify APIのパスが無効です",
-		spotifyInvalidResponse: "Spotifyから無効な応答が返されました",
-		spotifyActionDenied: "Spotifyがこの操作を拒否しました。Premiumまたは追加の権限が必要な場合があります",
-		spotifyNoActiveDevice: "Spotifyで再生中のデバイスが見つかりませんでした",
-		spotifyDisabled: "Spotifyは無効です",
-		spotifyConnectFirst: "先にプラグイン設定でSpotifyに接続してください",
-		spotifyUnknownLibrarySection: "不明なSpotifyライブラリセクションです",
-		spotifyInvalidItem: "Spotify項目が無効です",
-		spotifyNoCurrentAlbum: "現在の曲に利用できるSpotifyアルバムがありません",
-		spotifyAlbumLookupFailed: "現在の曲のアルバムをSpotifyで見つけられませんでした",
-		spotifyOpenAppStartTrack: "このPCでSpotifyを開き、曲を一度再生してから再試行してください",
-		spotifyUnknownPlayerCommand: "不明なSpotifyプレイヤーコマンドです",
-		spotifyNoPlayableItems: "再生できるSpotify項目がありません",
-		spotifyMissingUri: "Spotify URIがありません",
-		spotifyInvalidUri: "Spotify URIが無効です",
 		backgroundChoiceExpired: "この背景候補は期限切れです。もう一度検索してください。",
 		invalidBackgroundChoice: "この背景候補は無効になりました。",
 		backgroundDownloadFailed: "選択した画像をダウンロードできませんでした。",
 		unsupportedBackgroundImage: "選択した画像形式はサポートされていません。",
 		invalidArtist: "選択したアーティストは無効です。",
 		artistNameRequired: "アーティスト名が必要です。",
-		spotifyArtistCacheBusy: "Spotifyアーティストキャッシュはすでに作成中です。",
-		spotifyArtistCacheInUse: "Spotify のアーティストキャッシュは使用中です。",
 		restartServicesTimedOut: "プラグインサービスの再起動がタイムアウトしました",
 		restartServicesAlreadyRunning: "プラグインサービスはすでに再起動中です",
 		mediaBridgeRestartFailed: "MediaBridgeを正常に再起動できませんでした",
@@ -3679,114 +2143,56 @@ var ja = {
 		album: "アルバム",
 		albums: "アルバム",
 		albumsAndSingles: "アルバムとシングル",
-		apiPaused: "API一時停止中 · {time}",
-		apiPausedTitle: "API一時停止中",
-		apiPausedWait: "もう少しお待ちください",
-		apiPausedDetail: "Spotify APIは一時的に停止しています。{time}後にもう一度お試しください。ローカルの再生操作は引き続き利用できます。",
-		appDescriptionCopied: "アプリの説明をコピーしました",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Windows版Decky LoaderのAwesome Mixプラグイン用の個人Spotify Web API接続。",
-		appNameCopied: "アプリ名をコピーしました",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "アーティスト",
 		artists: "アーティスト",
 		back: "戻る",
 		audioQuality: "音質",
-		cacheExplanation: "Spotifyライブラリのデータはローカルにキャッシュされます。Spotifyへ再度問い合わせてキャッシュを更新したい場合だけ「更新」を使用してください。",
-		clearMusicCache: "Spotify の音楽キャッシュを消去",
-		clearingMusicCache: "Spotify の音楽キャッシュを消去しています…",
-		musicCacheDescription: "Spotify の音声は最大 1 GB までローカルにキャッシュされます。上限に達すると、古いファイルから自動的に削除されます。",
-		changeInSettings: "設定で変更",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client IDを保存しました",
-		compactSavedTracks: "保存済み曲のコンパクト表示",
-		compactSavedTracksCard: "Spotify APIの使用量を抑えるため、保存済み曲は一覧全体を読み込まず、初期状態では「再生」と「シャッフル」だけを表示します。",
-		compactSavedTracksDescription: "初期状態で有効です。保存済み曲の一覧全体を読み込まずに「再生」と「シャッフル」を表示し、Spotify APIへのリクエストを減らします。",
 		completeSignIn: "一時ウィンドウでGoogleアカウントを選ぶか、YouTube Musicで使うアカウントにログインしてください。Awesome Mixが閉じるまでウィンドウを開いたままにします。",
 		automaticSignInDescription: "「YouTube Musicに接続」を選択します。Steamの前面に一時的なログインウィンドウが開きます。Googleアカウントを選ぶか、YouTube Musicで使うアカウントにログインし、ウィンドウを開いたままにしてください。Awesome Mixが自動的に接続して閉じます。",
 		connect: "YouTube Musicに接続",
 		connected: "接続済み",
-		connectedAs: "{name} として接続中",
 		hideDetails: "詳細を非表示",
 		showDetails: "詳細を表示",
-		copyAppDescription: "アプリの説明をコピー",
-		copyAppName: "アプリ名をコピー",
-		copyRedirectUri: "リダイレクト URI をコピー",
-		developerTerms: "Developer Terms of ServiceとDesign Guidelinesに同意し、Saveをクリックしてください。",
 		disconnect: "YouTube Musicから切断",
-		enableSpotify: "YouTube Music",
-		followedArtists: "アーティスト",
 		fullscreen: "フルスクリーン",
 		genericError: "問題が発生しました",
 		home: "ホーム",
 		library: "ライブラリ",
-		limitedPlaylist: "Spotifyで曲一覧を表示できるのは、自分が所有または共同編集しているプレイリストだけです。このプレイリスト自体は再生できます。",
-		loadingSpotify: "YouTube Musicを読み込み中…",
-		noAlbums: "利用できるアルバムがありません。",
+		loadingYouTubeMusic: "YouTube Musicを読み込み中…",
 		noPlayback: "何かを再生",
 		noResults: "結果が見つかりませんでした。",
 		noTracks: "利用できる曲がありません。",
 		nothingHere: "まだ何もありません。",
 		nowPlaying: "再生中",
-		openDashboard: "YouTube Musicを開く",
-		personalMode: "個人用Web APIモード",
 		play: "再生",
 		playlist: "プレイリスト",
 		playlists: "プレイリスト",
 		popularTracks: "人気の曲",
-		premiumNote: "Development Modeで再生を操作するにはSpotify Premiumが必要です。Client IDと認証トークンはこのPC内に保存されます。",
 		queue: "キュー",
 		queueEmpty: "次に再生する曲はありません。",
-		redirectCopied: "リダイレクトURLをコピーしました",
-		redirectUri: "リダイレクトURL",
 		refresh: "更新",
 		repeat: "リピート",
 		requestFailed: "YouTube Musicへのリクエストに失敗しました",
-		saveClientId: "Client IDを保存",
-		savedAlbums: "アルバム",
-		savedTracks: "保存済みの曲",
 		search: "検索",
-		searchSpotify: "YouTube Musicを検索",
-		seeAll: "すべて表示",
-		selectSpotifyHint: "ソースでSpotifyを選択すると、Awesome MixにSpotifyブラウザーが表示されます。",
+		searchYouTubeMusic: "YouTube Musicを検索",
 		settings: "設定",
-		settingsDescription: "Spotifyライブラリの閲覧、カタログ検索、Spotifyデスクトップアプリでの再生開始ができます。この任意機能では、自分のSpotify開発者Client IDを使用します。",
-		setupGuide: "設定ガイド",
-		setupSteps: [
-			"Spotify Developerサイトを開き、右上の「Log in」をクリックしてSpotifyアカウントにサインインします。",
-			"サインイン後、右上のプロフィールをクリックし、「Dashboard」を選んでから「Create app」をクリックします。",
-			"「App name* (required)」に、下に表示されているアプリ名を入力します。",
-			"「App description* (required)」に、下に表示されている説明を入力します。",
-			"「Website」は空欄のままにします。",
-			"「Redirect URIs* (required)」に、下に表示されているURLをそのまま追加します。",
-			"「Which API/SDKs are you planning to use?」では「Web API」と「Web Playback SDK」を選択します。Ads API、iOS、Androidは選択しないでください。",
-			"Developer Terms of ServiceとDesign Guidelinesに同意し、Saveをクリックします。",
-			"作成したアプリを開き、Client IDをコピーして下に貼り付け、Spotifyに接続します。Client Secretは不要です。"
-		],
-		showLess: "折りたたむ",
+		settingsDescription: "YouTube Musicライブラリの閲覧、カタログ検索、YouTube Musicデスクトップアプリでの再生開始ができます。この任意機能では、自分のYouTube Music開発者Client IDを使用します。",
 		shuffle: "シャッフル",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "曲",
-		unableStartAuthorization: "Spotify認証を開始できませんでした",
-		unableStartPlayback: "再生を開始できませんでした",
 		untitled: "タイトルなし",
 		volume: "音量",
-		webApiOnly: "Web APIとWeb Playback SDKを選択",
-		websiteOptional: "Website — 任意",
-		welcomeBack: "おかえりなさい、{name}",
 		yourMusicInsideSteam: "Steamの中のあなたの音楽",
 		yourPlaylists: "あなたのプレイリスト",
 		artistCacheTitle: "アーティスト背景キャッシュ",
-		artistCacheDescription: "Spotifyでフォローしているアーティストだけ、高解像度の背景をダウンロードします。",
+		artistCacheDescription: "YouTube Musicでフォローしているアーティストだけ、高解像度の背景をダウンロードします。",
 		createArtistCache: "アーティスト背景キャッシュを作成",
 		artistCacheBuilding: "アーティスト背景キャッシュを作成しています…",
-		artistCacheProgress: "背景をダウンロード中: {name}",
-		artistCacheCreated: "Spotifyアーティスト背景キャッシュを作成しました",
+		artistCacheCreated: "YouTube Musicアーティスト背景キャッシュを作成しました",
 		artistCacheNoFavorites: "フォロー中のアーティストが見つかりませんでした。",
 		clearArtistCache: "アーティスト背景キャッシュを消去",
 		artistCacheClearing: "アーティスト背景キャッシュを消去中…",
-		artistCacheCleared: "Spotify のアーティスト背景キャッシュを消去しました",
+		artistCacheCleared: "YouTube Music のアーティスト背景キャッシュを消去しました",
 		cacheSize: "ダウンロード済みアセット",
 		newForYou: "あなたへのおすすめ",
 		newPodcastEpisodes: "ポッドキャストの新着エピソード",
@@ -3862,7 +2268,6 @@ var ko = {
 		restartServicesInProgress: "플러그인 서비스를 다시 시작하는 중…",
 		backgroundSource: "배경 소스",
 		allBackgroundSources: "모든 소스",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "진단 로그 내보내기",
 		diagnosticLogDescription: "플레이어, MediaBridge 및 아트워크 오류가 포함된 안전한 진단 파일을 다운로드 폴더에 만듭니다. API 키와 토큰은 제거됩니다.",
@@ -3889,7 +2294,7 @@ var ko = {
 		fsLegendRotate: "3D 효과 회전",
 		settingsParticleResolution: "3D 파티클 해상도",
 		surroundUpmix: "서라운드 업믹스",
-		surroundUpmixHint: "스테레오 오디오를 서라운드로 확장합니다. 내 음악, Spotify 및 YouTube Music에서 작동합니다.",
+		surroundUpmixHint: "스테레오 오디오를 서라운드로 확장합니다. 내 음악 및 YouTube Music에서 작동합니다.",
 		speakerVolumesShow: "스피커 볼륨 표시",
 		speakerVolumesHide: "스피커 볼륨 숨기기",
 		seekBackLabel: "{seconds}초 뒤로",
@@ -3898,132 +2303,6 @@ var ko = {
 		playbackPositionLabel: "재생 위치",
 		appearanceSection: "모양",
 		matchSteamTheme: "빠른 메뉴에 Steam 테마 색상 사용"
-	},
-	spotify: {
-		album: "앨범",
-		albums: "앨범",
-		albumsAndSingles: "앨범 및 싱글",
-		apiPaused: "API 일시 중지 · {time}",
-		apiPausedTitle: "API 일시 중지",
-		apiPausedWait: "잠시만 더 기다려 주세요",
-		apiPausedDetail: "Spotify API가 일시적으로 중지되었습니다. {time} 후 다시 시도하세요. 로컬 재생 컨트롤은 계속 사용할 수 있습니다.",
-		appDescriptionCopied: "앱 설명을 복사했습니다",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Windows용 Decky Loader의 Awesome Mix 플러그인을 위한 개인 Spotify Web API 연결입니다.",
-		appNameCopied: "앱 이름을 복사했습니다",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "아티스트",
-		artists: "아티스트",
-		back: "뒤로",
-		audioQuality: "오디오 품질",
-		cacheExplanation: "Spotify 라이브러리 데이터는 로컬에 캐시됩니다. Spotify에 다시 요청해 캐시를 갱신하려는 경우에만 새로 고침을 사용하세요.",
-		clearMusicCache: "Spotify 음악 캐시 지우기",
-		clearingMusicCache: "Spotify 음악 캐시를 지우는 중…",
-		musicCacheDescription: "Spotify 오디오는 최대 1GB까지 로컬에 캐시됩니다. 한도에 도달하면 오래된 파일부터 자동으로 삭제됩니다.",
-		musicCacheUsage: "사용 중인 캐시",
-		changeInSettings: "설정에서 변경",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID를 저장했습니다",
-		compactSavedTracks: "저장한 곡 간단히 보기",
-		compactSavedTracksCard: "Spotify API 사용량을 줄이기 위해 저장한 곡은 전체 목록을 불러오는 대신 기본적으로 재생 및 셔플 작업만 표시합니다.",
-		compactSavedTracksDescription: "기본적으로 켜져 있습니다. 저장한 곡의 전체 목록을 불러오지 않고 재생과 셔플을 표시해 Spotify API 요청을 줄입니다.",
-		completeSignIn: "브라우저에서 로그인을 완료한 뒤 Steam으로 돌아오세요.",
-		finishPlaybackSetup: "마지막 인증을 완료하면 Playhub에서 직접 재생할 수 있으며 다음 시작을 위해 저장됩니다.",
-		connectPlayback: "Spotify 재생 활성화",
-		connect: "Spotify 연결",
-		connected: "연결됨",
-		connectedAs: "{name}(으)로 연결됨",
-		hideDetails: "세부 정보 숨기기",
-		showDetails: "세부 정보 표시",
-		copyAppDescription: "앱 설명 복사",
-		copyAppName: "앱 이름 복사",
-		copyRedirectUri: "리디렉션 URI 복사",
-		developerTerms: "Developer Terms of Service와 Design Guidelines에 동의한 다음 Save를 클릭하세요.",
-		disconnect: "Spotify 연결 해제",
-		enableSpotify: "YouTube Music",
-		followedArtists: "아티스트",
-		fullscreen: "전체 화면",
-		genericError: "문제가 발생했습니다",
-		home: "홈",
-		library: "라이브러리",
-		limitedPlaylist: "Spotify는 내가 소유하거나 공동 작업 중인 플레이리스트에 대해서만 곡 목록을 제공합니다. 그래도 이 플레이리스트를 재생할 수는 있습니다.",
-		loadingSpotify: "Spotify 불러오는 중…",
-		noAlbums: "사용 가능한 앨범이 없습니다.",
-		noPlayback: "음악을 재생하세요",
-		noResults: "검색 결과가 없습니다.",
-		noTracks: "사용 가능한 곡이 없습니다.",
-		nothingHere: "아직 아무것도 없습니다.",
-		nowPlaying: "재생 중",
-		openDashboard: "YouTube Music",
-		personalMode: "개인 Web API 모드",
-		play: "재생",
-		playlist: "플레이리스트",
-		playlists: "플레이리스트",
-		popularTracks: "인기 곡",
-		premiumNote: "Development Mode에서 재생을 제어하려면 Spotify Premium이 필요합니다. Client ID와 인증 토큰은 이 PC에만 저장됩니다.",
-		queue: "대기열",
-		queueEmpty: "다음에 재생할 곡이 없습니다.",
-		redirectCopied: "리디렉션 URL을 복사했습니다",
-		redirectUri: "리디렉션 URL",
-		refresh: "새로 고침",
-		repeat: "반복",
-		requestFailed: "Spotify 요청에 실패했습니다",
-		saveClientId: "Client ID 저장",
-		savedAlbums: "앨범",
-		savedTracks: "저장한 곡",
-		search: "검색",
-		searchSpotify: "Spotify 검색",
-		seeAll: "모두 보기",
-		selectSpotifyHint: "소스 섹션에서 Spotify를 선택하면 Awesome Mix에 Spotify 브라우저가 표시됩니다.",
-		settings: "설정",
-		settingsDescription: "Spotify 라이브러리를 둘러보고 카탈로그를 검색한 뒤 Spotify 데스크톱 앱에서 재생을 시작할 수 있습니다. 이 선택 기능은 사용자의 Spotify 개발자 Client ID를 사용합니다.",
-		setupGuide: "설정 안내",
-		setupSteps: [
-			"Spotify Developer 사이트를 열고 오른쪽 위의 “Log in”을 클릭해 Spotify 계정에 로그인합니다.",
-			"로그인 후 오른쪽 위의 프로필을 클릭하고 “Dashboard”를 선택한 다음 “Create app”을 클릭합니다.",
-			"“App name* (required)”에 아래에 표시된 앱 이름을 입력합니다.",
-			"“App description* (required)”에 아래에 표시된 설명을 입력합니다.",
-			"“Website”는 비워 둡니다.",
-			"“Redirect URIs* (required)”에 아래 URL을 표시된 그대로 추가합니다.",
-			"“Which API/SDKs are you planning to use?”에서 “Web API”와 “Web Playback SDK”를 선택합니다. Ads API, iOS 또는 Android는 선택하지 마세요.",
-			"Developer Terms of Service와 Design Guidelines에 동의한 다음 Save를 클릭합니다.",
-			"새 앱을 열어 Client ID를 복사하고 아래에 붙여 넣은 뒤 Spotify를 연결합니다. Client Secret은 필요하지 않습니다."
-		],
-		showLess: "접기",
-		shuffle: "셔플",
-		spotifyBigPicture: "Big Picture",
-		tracks: "곡",
-		unableStartAuthorization: "Spotify 인증을 시작하지 못했습니다",
-		unableStartPlayback: "재생을 시작하지 못했습니다",
-		untitled: "제목 없음",
-		volume: "볼륨",
-		webApiOnly: "Web API와 Web Playback SDK 선택",
-		websiteOptional: "Website — 선택 사항",
-		welcomeBack: "다시 오신 것을 환영합니다, {name}",
-		yourMusicInsideSteam: "Steam 안의 내 음악",
-		yourPlaylists: "내 플레이리스트",
-		artistCacheTitle: "아티스트 배경 캐시",
-		artistCacheDescription: "Spotify에서 팔로우한 아티스트의 고해상도 배경만 다운로드합니다.",
-		createArtistCache: "아티스트 배경 캐시 만들기",
-		artistCacheBuilding: "아티스트 배경 캐시 만드는 중…",
-		artistCacheProgress: "배경 다운로드 중: {name}",
-		artistCacheCreated: "Spotify 아티스트 배경 캐시를 만들었습니다",
-		artistCacheNoFavorites: "팔로우한 아티스트를 찾지 못했습니다.",
-		clearArtistCache: "아티스트 배경 캐시 비우기",
-		artistCacheClearing: "아티스트 배경 캐시 비우는 중…",
-		artistCacheCleared: "Spotify 아티스트 배경 캐시를 비웠습니다",
-		cacheSize: "다운로드한 에셋",
-		newForYou: "회원님을 위한 추천",
-		manualBackgrounds: "사용자가 선택한 배경",
-		manualBackgroundsDescription: "이 아티스트 배경은 이미지 캐시를 비워도 유지됩니다.",
-		removeManualBackgrounds: "선택한 아티스트 배경 모두 제거",
-		manualBackgroundsRemoving: "선택한 아티스트 배경을 제거하는 중…",
-		manualBackgroundsRemoved: "선택한 아티스트 배경을 제거했습니다",
-		apiUsageTitle: "Spotify API 사용량",
-		apiUsagePerMinute: "호출/분",
-		apiUsageTotal: "총",
-		apiUsagePaused: "일시중지(속도 제한)"
 	},
 	localMusic: {
 		albums: "앨범",
@@ -4095,12 +2374,10 @@ var ko = {
 		noPlayableLocalTracks: "재생할 수 있는 로컬 곡이 없습니다",
 		localPlaybackStartFailed: "로컬 재생을 시작하지 못했습니다",
 		localAudioRecoveryFailed: "로컬 오디오를 복구하지 못했습니다",
-		openCurrentSpotifyAlbumFailed: "현재 Spotify 앨범을 열지 못했습니다",
 		openCurrentLocalAlbumFailed: "현재 로컬 앨범을 열지 못했습니다",
 		unsupportedLocalFormat: "이 오디오 형식은 Steam Chromium에서 지원되지 않습니다",
 		localPlayerUnavailable: "로컬 오디오 플레이어를 사용할 수 없습니다",
 		currentLocalAlbumUnavailable: "현재 로컬 앨범을 사용할 수 없습니다",
-		currentSpotifyAlbumUnavailable: "현재 Spotify 앨범을 사용할 수 없습니다",
 		windowsOnly: "이 플러그인은 Windows에서만 작동합니다",
 		helperStartFailed: "플러그인 보조 구성 요소를 올바르게 시작하지 못했습니다",
 		folderNotFound: "폴더를 찾을 수 없습니다",
@@ -4108,36 +2385,12 @@ var ko = {
 		localFileUnavailable: "로컬 음악 파일을 사용할 수 없습니다",
 		localPlayerNotRunning: "로컬 음악 플레이어가 실행 중이 아닙니다",
 		localPlayerNoResponse: "로컬 음악 플레이어가 응답하지 않습니다",
-		spotifyInvalidTokenResponse: "Spotify에서 잘못된 토큰 응답을 반환했습니다",
-		spotifyAuthorizationExpired: "Spotify 인증 세션이 만료되었습니다",
-		spotifyFinishingConnection: "Spotify 연결을 완료하는 중…",
-		spotifyEnterClientId: "먼저 Spotify Client ID를 입력하세요",
-		spotifyWaitingAuthorization: "Spotify 인증을 기다리는 중…",
-		spotifyNotConnected: "Spotify가 연결되어 있지 않습니다",
-		spotifyRefreshTokenFailed: "Spotify에서 새 액세스 토큰을 반환하지 않았습니다",
-		spotifyInvalidApiPath: "Spotify API 경로가 올바르지 않습니다",
-		spotifyInvalidResponse: "Spotify에서 잘못된 응답을 반환했습니다",
-		spotifyActionDenied: "Spotify에서 이 작업을 거부했습니다. Premium 또는 추가 권한이 필요할 수 있습니다",
-		spotifyNoActiveDevice: "Spotify에서 활성 재생 장치를 찾지 못했습니다",
-		spotifyDisabled: "Spotify가 비활성화되어 있습니다",
-		spotifyConnectFirst: "먼저 플러그인 설정에서 Spotify를 연결하세요",
-		spotifyUnknownLibrarySection: "알 수 없는 Spotify 라이브러리 섹션입니다",
-		spotifyInvalidItem: "잘못된 Spotify 항목입니다",
-		spotifyNoCurrentAlbum: "현재 곡에 사용할 수 있는 Spotify 앨범이 없습니다",
-		spotifyAlbumLookupFailed: "Spotify에서 현재 곡의 앨범을 찾지 못했습니다",
-		spotifyOpenAppStartTrack: "이 PC에서 Spotify를 열고 곡을 한 번 재생한 다음 다시 시도하세요",
-		spotifyUnknownPlayerCommand: "알 수 없는 Spotify 플레이어 명령입니다",
-		spotifyNoPlayableItems: "재생할 수 있는 Spotify 항목이 없습니다",
-		spotifyMissingUri: "Spotify URI가 없습니다",
-		spotifyInvalidUri: "Spotify URI가 올바르지 않습니다",
 		backgroundChoiceExpired: "이 배경 선택이 만료되었습니다. 다시 검색하세요.",
 		invalidBackgroundChoice: "이 배경 선택은 더 이상 유효하지 않습니다.",
 		backgroundDownloadFailed: "선택한 이미지를 다운로드할 수 없습니다.",
 		unsupportedBackgroundImage: "선택한 이미지 형식은 지원되지 않습니다.",
 		invalidArtist: "선택한 아티스트가 올바르지 않습니다.",
 		artistNameRequired: "아티스트 이름이 필요합니다.",
-		spotifyArtistCacheBusy: "Spotify 아티스트 캐시가 이미 생성 중입니다.",
-		spotifyArtistCacheInUse: "Spotify 아티스트 캐시가 사용 중입니다.",
 		restartServicesTimedOut: "플러그인 서비스 다시 시작 시간이 초과되었습니다",
 		restartServicesAlreadyRunning: "플러그인 서비스를 이미 다시 시작하고 있습니다",
 		mediaBridgeRestartFailed: "MediaBridge가 올바르게 다시 시작되지 않았습니다",
@@ -4147,114 +2400,56 @@ var ko = {
 		album: "앨범",
 		albums: "앨범",
 		albumsAndSingles: "앨범 및 싱글",
-		apiPaused: "API 일시 중지 · {time}",
-		apiPausedTitle: "API 일시 중지",
-		apiPausedWait: "잠시만 더 기다려 주세요",
-		apiPausedDetail: "Spotify API가 일시적으로 중지되었습니다. {time} 후 다시 시도하세요. 로컬 재생 컨트롤은 계속 사용할 수 있습니다.",
-		appDescriptionCopied: "앱 설명을 복사했습니다",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Windows용 Decky Loader의 Awesome Mix 플러그인을 위한 개인 Spotify Web API 연결입니다.",
-		appNameCopied: "앱 이름을 복사했습니다",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "아티스트",
 		artists: "아티스트",
 		back: "뒤로",
 		audioQuality: "오디오 품질",
-		cacheExplanation: "Spotify 라이브러리 데이터는 로컬에 캐시됩니다. Spotify에 다시 요청해 캐시를 갱신하려는 경우에만 새로 고침을 사용하세요.",
-		clearMusicCache: "Spotify 음악 캐시 지우기",
-		clearingMusicCache: "Spotify 음악 캐시를 지우는 중…",
-		musicCacheDescription: "Spotify 오디오는 최대 1GB까지 로컬에 캐시됩니다. 한도에 도달하면 오래된 파일부터 자동으로 삭제됩니다.",
-		changeInSettings: "설정에서 변경",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID를 저장했습니다",
-		compactSavedTracks: "저장한 곡 간단히 보기",
-		compactSavedTracksCard: "Spotify API 사용량을 줄이기 위해 저장한 곡은 전체 목록을 불러오는 대신 기본적으로 재생 및 셔플 작업만 표시합니다.",
-		compactSavedTracksDescription: "기본적으로 켜져 있습니다. 저장한 곡의 전체 목록을 불러오지 않고 재생과 셔플을 표시해 Spotify API 요청을 줄입니다.",
 		completeSignIn: "임시 창에서 Google 계정을 선택하거나 YouTube Music에 사용하는 계정으로 로그인하세요. Awesome Mix이 닫을 때까지 창을 열어 두세요.",
 		automaticSignInDescription: "YouTube Music 연결을 선택하세요. Steam 위에 임시 로그인 창이 열립니다. Google 계정을 선택하거나 YouTube Music에 사용하는 계정으로 로그인한 뒤 창을 열어 두세요. Awesome Mix이 자동으로 연결하고 창을 닫습니다.",
 		connect: "YouTube Music 연결",
 		connected: "연결됨",
-		connectedAs: "{name}(으)로 연결됨",
 		hideDetails: "세부 정보 숨기기",
 		showDetails: "세부 정보 표시",
-		copyAppDescription: "앱 설명 복사",
-		copyAppName: "앱 이름 복사",
-		copyRedirectUri: "리디렉션 URI 복사",
-		developerTerms: "Developer Terms of Service와 Design Guidelines에 동의한 다음 Save를 클릭하세요.",
 		disconnect: "YouTube Music 연결 해제",
-		enableSpotify: "YouTube Music",
-		followedArtists: "아티스트",
 		fullscreen: "전체 화면",
 		genericError: "문제가 발생했습니다",
 		home: "홈",
 		library: "라이브러리",
-		limitedPlaylist: "Spotify는 내가 소유하거나 공동 작업 중인 플레이리스트에 대해서만 곡 목록을 제공합니다. 그래도 이 플레이리스트를 재생할 수는 있습니다.",
-		loadingSpotify: "YouTube Music 불러오는 중…",
-		noAlbums: "사용 가능한 앨범이 없습니다.",
+		loadingYouTubeMusic: "YouTube Music 불러오는 중…",
 		noPlayback: "음악을 재생하세요",
 		noResults: "검색 결과가 없습니다.",
 		noTracks: "사용 가능한 곡이 없습니다.",
 		nothingHere: "아직 아무것도 없습니다.",
 		nowPlaying: "재생 중",
-		openDashboard: "YouTube Music 열기",
-		personalMode: "개인 Web API 모드",
 		play: "재생",
 		playlist: "플레이리스트",
 		playlists: "플레이리스트",
 		popularTracks: "인기 곡",
-		premiumNote: "Development Mode에서 재생을 제어하려면 Spotify Premium이 필요합니다. Client ID와 인증 토큰은 이 PC에만 저장됩니다.",
 		queue: "대기열",
 		queueEmpty: "다음에 재생할 곡이 없습니다.",
-		redirectCopied: "리디렉션 URL을 복사했습니다",
-		redirectUri: "리디렉션 URL",
 		refresh: "새로 고침",
 		repeat: "반복",
 		requestFailed: "YouTube Music 요청에 실패했습니다",
-		saveClientId: "Client ID 저장",
-		savedAlbums: "앨범",
-		savedTracks: "저장한 곡",
 		search: "검색",
-		searchSpotify: "YouTube Music 검색",
-		seeAll: "모두 보기",
-		selectSpotifyHint: "소스 섹션에서 Spotify를 선택하면 Awesome Mix에 Spotify 브라우저가 표시됩니다.",
+		searchYouTubeMusic: "YouTube Music 검색",
 		settings: "설정",
-		settingsDescription: "Spotify 라이브러리를 둘러보고 카탈로그를 검색한 뒤 Spotify 데스크톱 앱에서 재생을 시작할 수 있습니다. 이 선택 기능은 사용자의 Spotify 개발자 Client ID를 사용합니다.",
-		setupGuide: "설정 안내",
-		setupSteps: [
-			"Spotify Developer 사이트를 열고 오른쪽 위의 “Log in”을 클릭해 Spotify 계정에 로그인합니다.",
-			"로그인 후 오른쪽 위의 프로필을 클릭하고 “Dashboard”를 선택한 다음 “Create app”을 클릭합니다.",
-			"“App name* (required)”에 아래에 표시된 앱 이름을 입력합니다.",
-			"“App description* (required)”에 아래에 표시된 설명을 입력합니다.",
-			"“Website”는 비워 둡니다.",
-			"“Redirect URIs* (required)”에 아래 URL을 표시된 그대로 추가합니다.",
-			"“Which API/SDKs are you planning to use?”에서 “Web API”와 “Web Playback SDK”를 선택합니다. Ads API, iOS 또는 Android는 선택하지 마세요.",
-			"Developer Terms of Service와 Design Guidelines에 동의한 다음 Save를 클릭합니다.",
-			"새 앱을 열어 Client ID를 복사하고 아래에 붙여 넣은 뒤 Spotify를 연결합니다. Client Secret은 필요하지 않습니다."
-		],
-		showLess: "접기",
+		settingsDescription: "YouTube Music 라이브러리를 둘러보고 카탈로그를 검색한 뒤 YouTube Music 데스크톱 앱에서 재생을 시작할 수 있습니다. 이 선택 기능은 사용자의 YouTube Music 개발자 Client ID를 사용합니다.",
 		shuffle: "셔플",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "곡",
-		unableStartAuthorization: "Spotify 인증을 시작하지 못했습니다",
-		unableStartPlayback: "재생을 시작하지 못했습니다",
 		untitled: "제목 없음",
 		volume: "볼륨",
-		webApiOnly: "Web API와 Web Playback SDK 선택",
-		websiteOptional: "Website — 선택 사항",
-		welcomeBack: "다시 오신 것을 환영합니다, {name}",
 		yourMusicInsideSteam: "Steam 안의 내 음악",
 		yourPlaylists: "내 플레이리스트",
 		artistCacheTitle: "아티스트 배경 캐시",
-		artistCacheDescription: "Spotify에서 팔로우한 아티스트의 고해상도 배경만 다운로드합니다.",
+		artistCacheDescription: "YouTube Music에서 팔로우한 아티스트의 고해상도 배경만 다운로드합니다.",
 		createArtistCache: "아티스트 배경 캐시 만들기",
 		artistCacheBuilding: "아티스트 배경 캐시 만드는 중…",
-		artistCacheProgress: "배경 다운로드 중: {name}",
-		artistCacheCreated: "Spotify 아티스트 배경 캐시를 만들었습니다",
+		artistCacheCreated: "YouTube Music 아티스트 배경 캐시를 만들었습니다",
 		artistCacheNoFavorites: "팔로우한 아티스트를 찾지 못했습니다.",
 		clearArtistCache: "아티스트 배경 캐시 비우기",
 		artistCacheClearing: "아티스트 배경 캐시 비우는 중…",
-		artistCacheCleared: "Spotify 아티스트 배경 캐시를 비웠습니다",
+		artistCacheCleared: "YouTube Music 아티스트 배경 캐시를 비웠습니다",
 		cacheSize: "다운로드한 에셋",
 		newForYou: "회원님을 위한 추천",
 		newPodcastEpisodes: "팟캐스트의 새 에피소드",
@@ -4330,7 +2525,6 @@ var zh = {
 		restartServicesInProgress: "正在重启插件服务…",
 		backgroundSource: "背景来源",
 		allBackgroundSources: "所有来源",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "导出诊断日志",
 		diagnosticLogDescription: "在“下载”文件夹中创建安全的诊断文件，其中包含播放器、MediaBridge 和图片错误。API 密钥和令牌会被移除。",
@@ -4357,7 +2551,7 @@ var zh = {
 		fsLegendRotate: "旋转3D效果",
 		settingsParticleResolution: "3D 粒子分辨率",
 		surroundUpmix: "环绕声上混",
-		surroundUpmixHint: "将立体声音频扩展为环绕声。适用于我的音乐、Spotify 和 YouTube Music。",
+		surroundUpmixHint: "将立体声音频扩展为环绕声。适用于我的音乐和 YouTube Music。",
 		speakerVolumesShow: "显示扬声器音量",
 		speakerVolumesHide: "隐藏扬声器音量",
 		seekBackLabel: "后退 {seconds} 秒",
@@ -4366,132 +2560,6 @@ var zh = {
 		playbackPositionLabel: "播放位置",
 		appearanceSection: "外观",
 		matchSteamTheme: "快速访问菜单使用 Steam 主题配色"
-	},
-	spotify: {
-		album: "专辑",
-		albums: "专辑",
-		albumsAndSingles: "专辑和单曲",
-		apiPaused: "API 已暂停 · {time}",
-		apiPausedTitle: "API 已暂停",
-		apiPausedWait: "请再稍等片刻",
-		apiPausedDetail: "Spotify API 暂时处于暂停状态。请在 {time} 后重试。本地播放控制仍可使用。",
-		appDescriptionCopied: "已复制应用说明",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "用于 Windows 版 Decky Loader 的 Awesome Mix 插件的个人 Spotify Web API 连接。",
-		appNameCopied: "已复制应用名称",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "艺人",
-		artists: "艺人",
-		back: "返回",
-		audioQuality: "音质",
-		cacheExplanation: "Spotify 资料库数据会缓存在本地。只有需要再次请求 Spotify 并更新缓存内容时才使用“刷新”。",
-		clearMusicCache: "清除 Spotify 音乐缓存",
-		clearingMusicCache: "正在清除 Spotify 音乐缓存…",
-		musicCacheDescription: "Spotify 音频会在本地缓存，最多占用 1 GB。达到上限后会自动删除最旧的文件。",
-		musicCacheUsage: "已用缓存",
-		changeInSettings: "在设置中更改",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID 已保存",
-		compactSavedTracks: "精简显示已保存曲目",
-		compactSavedTracksCard: "为减少 Spotify API 的使用量，已保存曲目默认只显示“播放”和“随机播放”操作，而不会加载完整列表。",
-		compactSavedTracksDescription: "默认启用。已保存曲目无需加载完整列表即可显示“播放”和“随机播放”，从而减少对 Spotify API 的请求。",
-		completeSignIn: "请在浏览器中完成登录，然后返回 Steam。",
-		finishPlaybackSetup: "最后一次授权将启用通过 Playhub 直接播放，并为以后启动保存。",
-		connectPlayback: "启用 Spotify 播放",
-		connect: "连接 Spotify",
-		connected: "已连接",
-		connectedAs: "已作为 {name} 连接",
-		hideDetails: "隐藏详情",
-		showDetails: "显示详情",
-		copyAppDescription: "复制应用说明",
-		copyAppName: "复制应用名称",
-		copyRedirectUri: "复制重定向 URI",
-		developerTerms: "接受 Developer Terms of Service 和 Design Guidelines，然后点击 Save。",
-		disconnect: "断开 Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "艺人",
-		fullscreen: "全屏",
-		genericError: "出现了问题",
-		home: "主页",
-		library: "资料库",
-		limitedPlaylist: "Spotify 只会提供你拥有或参与协作的播放列表的曲目清单。你仍然可以播放此播放列表。",
-		loadingSpotify: "正在加载 Spotify…",
-		noAlbums: "没有可用专辑。",
-		noPlayback: "播放点什么",
-		noResults: "未找到结果。",
-		noTracks: "没有可用曲目。",
-		nothingHere: "这里还没有内容。",
-		nowPlaying: "正在播放",
-		openDashboard: "YouTube Music",
-		personalMode: "个人 Web API 模式",
-		play: "播放",
-		playlist: "播放列表",
-		playlists: "播放列表",
-		popularTracks: "热门曲目",
-		premiumNote: "在 Development Mode 中控制播放需要 Spotify Premium。你的 Client ID 和授权令牌会保留在这台电脑上。",
-		queue: "播放队列",
-		queueEmpty: "队列中没有接下来要播放的曲目。",
-		redirectCopied: "已复制重定向 URL",
-		redirectUri: "重定向 URL",
-		refresh: "刷新",
-		repeat: "重复",
-		requestFailed: "Spotify 请求失败",
-		saveClientId: "保存 Client ID",
-		savedAlbums: "专辑",
-		savedTracks: "已保存曲目",
-		search: "搜索",
-		searchSpotify: "搜索 Spotify",
-		seeAll: "查看全部",
-		selectSpotifyHint: "在“来源”中选择 Spotify，即可在 Awesome Mix 中显示 Spotify 浏览器。",
-		settings: "设置",
-		settingsDescription: "浏览你的 Spotify 资料库、搜索音乐目录，并在 Spotify 桌面应用中开始播放。此可选模式使用你自己的 Spotify 开发者 Client ID。",
-		setupGuide: "设置指南",
-		setupSteps: [
-			"打开 Spotify Developer 网站，点击右上角的“Log in”，然后登录你的 Spotify 帐户。",
-			"登录后，点击右上角的个人资料，选择“Dashboard”，再点击“Create app”。",
-			"在“App name* (required)”中输入下方显示的应用名称。",
-			"在“App description* (required)”中输入下方显示的说明。",
-			"将“Website”留空。",
-			"在“Redirect URIs* (required)”中严格按下方显示的内容添加 URL。",
-			"在“Which API/SDKs are you planning to use?”下选择“Web API”和“Web Playback SDK”。不要选择 Ads API、iOS 或 Android。",
-			"接受 Developer Terms of Service 和 Design Guidelines，然后点击 Save。",
-			"打开新建的应用，复制 Client ID，将其粘贴到下方并连接 Spotify。无需 Client Secret。"
-		],
-		showLess: "收起",
-		shuffle: "随机播放",
-		spotifyBigPicture: "Big Picture",
-		tracks: "曲目",
-		unableStartAuthorization: "无法开始 Spotify 授权",
-		unableStartPlayback: "无法开始播放",
-		untitled: "无标题",
-		volume: "音量",
-		webApiOnly: "选择 Web API 和 Web Playback SDK",
-		websiteOptional: "Website — 可选",
-		welcomeBack: "欢迎回来，{name}",
-		yourMusicInsideSteam: "在 Steam 中畅听你的音乐",
-		yourPlaylists: "你的播放列表",
-		artistCacheTitle: "艺人背景缓存",
-		artistCacheDescription: "仅为你在 Spotify 上关注的艺人下载高分辨率背景。",
-		createArtistCache: "创建艺人背景缓存",
-		artistCacheBuilding: "正在创建艺人背景缓存…",
-		artistCacheProgress: "正在下载背景：{name}",
-		artistCacheCreated: "Spotify 艺人背景缓存已创建",
-		artistCacheNoFavorites: "未找到已关注的艺人。",
-		clearArtistCache: "清除艺人背景缓存",
-		artistCacheClearing: "正在清除艺人背景缓存…",
-		artistCacheCleared: "已清除 Spotify 艺人背景缓存",
-		cacheSize: "已下载资源",
-		newForYou: "为你推荐",
-		manualBackgrounds: "用户选择的背景",
-		manualBackgroundsDescription: "清除图片缓存时会保留这些艺人背景。",
-		removeManualBackgrounds: "移除所有已选择的艺人背景",
-		manualBackgroundsRemoving: "正在移除已选择的艺人背景…",
-		manualBackgroundsRemoved: "已移除所选艺人背景",
-		apiUsageTitle: "Spotify API 使用情况",
-		apiUsagePerMinute: "次/分",
-		apiUsageTotal: "总计",
-		apiUsagePaused: "暂停（达到限制）"
 	},
 	localMusic: {
 		albums: "专辑",
@@ -4563,12 +2631,10 @@ var zh = {
 		noPlayableLocalTracks: "没有可播放的本地曲目",
 		localPlaybackStartFailed: "无法开始本地播放",
 		localAudioRecoveryFailed: "无法恢复本地音频",
-		openCurrentSpotifyAlbumFailed: "无法打开当前 Spotify 专辑",
 		openCurrentLocalAlbumFailed: "无法打开当前本地专辑",
 		unsupportedLocalFormat: "Steam Chromium 不支持此音频格式",
 		localPlayerUnavailable: "本地音频播放器不可用",
 		currentLocalAlbumUnavailable: "当前本地专辑不可用",
-		currentSpotifyAlbumUnavailable: "当前 Spotify 专辑不可用",
 		windowsOnly: "此插件仅支持 Windows",
 		helperStartFailed: "无法正确启动插件辅助组件",
 		folderNotFound: "找不到文件夹",
@@ -4576,36 +2642,12 @@ var zh = {
 		localFileUnavailable: "本地音乐文件不可用",
 		localPlayerNotRunning: "本地音乐播放器未运行",
 		localPlayerNoResponse: "本地音乐播放器没有响应",
-		spotifyInvalidTokenResponse: "Spotify 返回了无效的令牌响应",
-		spotifyAuthorizationExpired: "Spotify 授权会话已过期",
-		spotifyFinishingConnection: "正在完成 Spotify 连接…",
-		spotifyEnterClientId: "请先输入 Spotify Client ID",
-		spotifyWaitingAuthorization: "正在等待 Spotify 授权…",
-		spotifyNotConnected: "Spotify 尚未连接",
-		spotifyRefreshTokenFailed: "Spotify 未返回新的访问令牌",
-		spotifyInvalidApiPath: "Spotify API 路径无效",
-		spotifyInvalidResponse: "Spotify 返回了无效响应",
-		spotifyActionDenied: "Spotify 拒绝了此操作。可能需要 Premium 或额外权限",
-		spotifyNoActiveDevice: "Spotify 找不到正在播放的设备",
-		spotifyDisabled: "Spotify 已禁用",
-		spotifyConnectFirst: "请先在插件设置中连接 Spotify",
-		spotifyUnknownLibrarySection: "未知的 Spotify 音乐库分类",
-		spotifyInvalidItem: "Spotify 项目无效",
-		spotifyNoCurrentAlbum: "当前曲目没有可用的 Spotify 专辑",
-		spotifyAlbumLookupFailed: "Spotify 找不到当前曲目的专辑",
-		spotifyOpenAppStartTrack: "请在此电脑上打开 Spotify，播放任意歌曲后再试",
-		spotifyUnknownPlayerCommand: "未知的 Spotify 播放器命令",
-		spotifyNoPlayableItems: "没有可播放的 Spotify 项目",
-		spotifyMissingUri: "缺少 Spotify URI",
-		spotifyInvalidUri: "Spotify URI 无效",
 		backgroundChoiceExpired: "此背景选项已过期，请重新搜索。",
 		invalidBackgroundChoice: "此背景选项已失效。",
 		backgroundDownloadFailed: "无法下载所选图片。",
 		unsupportedBackgroundImage: "不支持所选图片的格式。",
 		invalidArtist: "所选艺人无效。",
 		artistNameRequired: "需要提供艺人名称。",
-		spotifyArtistCacheBusy: "Spotify 艺人缓存已在创建中。",
-		spotifyArtistCacheInUse: "Spotify 艺人缓存正忙。",
 		restartServicesTimedOut: "插件服务重启超时",
 		restartServicesAlreadyRunning: "插件服务已在重启中",
 		mediaBridgeRestartFailed: "MediaBridge 未能正确重启",
@@ -4615,114 +2657,56 @@ var zh = {
 		album: "专辑",
 		albums: "专辑",
 		albumsAndSingles: "专辑和单曲",
-		apiPaused: "API 已暂停 · {time}",
-		apiPausedTitle: "API 已暂停",
-		apiPausedWait: "请再稍等片刻",
-		apiPausedDetail: "Spotify API 暂时处于暂停状态。请在 {time} 后重试。本地播放控制仍可使用。",
-		appDescriptionCopied: "已复制应用说明",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "用于 Windows 版 Decky Loader 的 Awesome Mix 插件的个人 Spotify Web API 连接。",
-		appNameCopied: "已复制应用名称",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "艺人",
 		artists: "艺人",
 		back: "返回",
 		audioQuality: "音质",
-		cacheExplanation: "Spotify 资料库数据会缓存在本地。只有需要再次请求 Spotify 并更新缓存内容时才使用“刷新”。",
-		clearMusicCache: "清除 Spotify 音乐缓存",
-		clearingMusicCache: "正在清除 Spotify 音乐缓存…",
-		musicCacheDescription: "Spotify 音频会在本地缓存，最多占用 1 GB。达到上限后会自动删除最旧的文件。",
-		changeInSettings: "在设置中更改",
-		clientId: "Spotify Client ID",
-		clientIdSaved: "Client ID 已保存",
-		compactSavedTracks: "精简显示已保存曲目",
-		compactSavedTracksCard: "为减少 Spotify API 的使用量，已保存曲目默认只显示“播放”和“随机播放”操作，而不会加载完整列表。",
-		compactSavedTracksDescription: "默认启用。已保存曲目无需加载完整列表即可显示“播放”和“随机播放”，从而减少对 Spotify API 的请求。",
 		completeSignIn: "请在临时窗口中选择 Google 账号，或登录用于 YouTube Music 的账号。保持窗口打开，直到 Awesome Mix 将其关闭。",
 		automaticSignInDescription: "选择“连接 YouTube Music”。Steam 前方会打开一个临时登录窗口。选择 Google 账号，或登录用于 YouTube Music 的账号，然后保持窗口打开。Awesome Mix 会自动完成连接并关闭窗口。",
 		connect: "连接 YouTube Music",
 		connected: "已连接",
-		connectedAs: "已作为 {name} 连接",
 		hideDetails: "隐藏详情",
 		showDetails: "显示详情",
-		copyAppDescription: "复制应用说明",
-		copyAppName: "复制应用名称",
-		copyRedirectUri: "复制重定向 URI",
-		developerTerms: "接受 Developer Terms of Service 和 Design Guidelines，然后点击 Save。",
 		disconnect: "断开 YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "艺人",
 		fullscreen: "全屏",
 		genericError: "出现了问题",
 		home: "主页",
 		library: "资料库",
-		limitedPlaylist: "Spotify 只会提供你拥有或参与协作的播放列表的曲目清单。你仍然可以播放此播放列表。",
-		loadingSpotify: "正在加载 YouTube Music…",
-		noAlbums: "没有可用专辑。",
+		loadingYouTubeMusic: "正在加载 YouTube Music…",
 		noPlayback: "播放点什么",
 		noResults: "未找到结果。",
 		noTracks: "没有可用曲目。",
 		nothingHere: "这里还没有内容。",
 		nowPlaying: "正在播放",
-		openDashboard: "打开 YouTube Music",
-		personalMode: "个人 Web API 模式",
 		play: "播放",
 		playlist: "播放列表",
 		playlists: "播放列表",
 		popularTracks: "热门曲目",
-		premiumNote: "在 Development Mode 中控制播放需要 Spotify Premium。你的 Client ID 和授权令牌会保留在这台电脑上。",
 		queue: "播放队列",
 		queueEmpty: "队列中没有接下来要播放的曲目。",
-		redirectCopied: "已复制重定向 URL",
-		redirectUri: "重定向 URL",
 		refresh: "刷新",
 		repeat: "重复",
 		requestFailed: "YouTube Music 请求失败",
-		saveClientId: "保存 Client ID",
-		savedAlbums: "专辑",
-		savedTracks: "已保存曲目",
 		search: "搜索",
-		searchSpotify: "搜索 YouTube Music",
-		seeAll: "查看全部",
-		selectSpotifyHint: "在“来源”中选择 Spotify，即可在 Awesome Mix 中显示 Spotify 浏览器。",
+		searchYouTubeMusic: "搜索 YouTube Music",
 		settings: "设置",
-		settingsDescription: "浏览你的 Spotify 资料库、搜索音乐目录，并在 Spotify 桌面应用中开始播放。此可选模式使用你自己的 Spotify 开发者 Client ID。",
-		setupGuide: "设置指南",
-		setupSteps: [
-			"打开 Spotify Developer 网站，点击右上角的“Log in”，然后登录你的 Spotify 帐户。",
-			"登录后，点击右上角的个人资料，选择“Dashboard”，再点击“Create app”。",
-			"在“App name* (required)”中输入下方显示的应用名称。",
-			"在“App description* (required)”中输入下方显示的说明。",
-			"将“Website”留空。",
-			"在“Redirect URIs* (required)”中严格按下方显示的内容添加 URL。",
-			"在“Which API/SDKs are you planning to use?”下选择“Web API”和“Web Playback SDK”。不要选择 Ads API、iOS 或 Android。",
-			"接受 Developer Terms of Service 和 Design Guidelines，然后点击 Save。",
-			"打开新建的应用，复制 Client ID，将其粘贴到下方并连接 Spotify。无需 Client Secret。"
-		],
-		showLess: "收起",
+		settingsDescription: "浏览你的 YouTube Music 资料库、搜索音乐目录，并在 YouTube Music 桌面应用中开始播放。此可选模式使用你自己的 YouTube Music 开发者 Client ID。",
 		shuffle: "随机播放",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "曲目",
-		unableStartAuthorization: "无法开始 Spotify 授权",
-		unableStartPlayback: "无法开始播放",
 		untitled: "无标题",
 		volume: "音量",
-		webApiOnly: "选择 Web API 和 Web Playback SDK",
-		websiteOptional: "Website — 可选",
-		welcomeBack: "欢迎回来，{name}",
 		yourMusicInsideSteam: "在 Steam 中畅听你的音乐",
 		yourPlaylists: "你的播放列表",
 		artistCacheTitle: "艺人背景缓存",
-		artistCacheDescription: "仅为你在 Spotify 上关注的艺人下载高分辨率背景。",
+		artistCacheDescription: "仅为你在 YouTube Music 上关注的艺人下载高分辨率背景。",
 		createArtistCache: "创建艺人背景缓存",
 		artistCacheBuilding: "正在创建艺人背景缓存…",
-		artistCacheProgress: "正在下载背景：{name}",
-		artistCacheCreated: "Spotify 艺人背景缓存已创建",
+		artistCacheCreated: "YouTube Music 艺人背景缓存已创建",
 		artistCacheNoFavorites: "未找到已关注的艺人。",
 		clearArtistCache: "清除艺人背景缓存",
 		artistCacheClearing: "正在清除艺人背景缓存…",
-		artistCacheCleared: "已清除 Spotify 艺人背景缓存",
+		artistCacheCleared: "已清除 YouTube Music 艺人背景缓存",
 		cacheSize: "已下载资源",
 		newForYou: "为你推荐",
 		newPodcastEpisodes: "你的播客新单集",
@@ -4804,7 +2788,6 @@ var catalogs = {
 		restartServicesInProgress: "Reiniciando os serviços do plugin…",
 		backgroundSource: "Fonte dos planos de fundo",
 		allBackgroundSources: "Todas as fontes",
-		spotifyBackgroundSource: "Spotify",
 		fanartBackgroundSource: "fanart.tv",
 		exportDiagnosticLog: "Exportar log de diagnóstico",
 		diagnosticLogDescription: "Cria em Downloads um arquivo de diagnóstico seguro com o estado do player, MediaBridge e erros de imagens. Chaves de API e tokens são removidos.",
@@ -4831,7 +2814,7 @@ var catalogs = {
 		fsLegendRotate: "Girar o efeito 3D",
 		settingsParticleResolution: "Resolução das partículas 3D",
 		surroundUpmix: "Upmix surround",
-		surroundUpmixHint: "Expande o áudio estéreo em surround. Funciona com Minha música, Spotify e YouTube Music.",
+		surroundUpmixHint: "Expande o áudio estéreo em surround. Funciona com Minha música e YouTube Music.",
 		speakerVolumesShow: "Mostrar volumes das caixas",
 		speakerVolumesHide: "Ocultar volumes das caixas",
 		seekBackLabel: "Voltar {seconds} segundos",
@@ -4840,132 +2823,6 @@ var catalogs = {
 		playbackPositionLabel: "Posição da reprodução",
 		appearanceSection: "Aparência",
 		matchSteamTheme: "Usar as cores do tema do Steam no menu rápido"
-	},
-	spotify: {
-		album: "Álbum",
-		albums: "Álbuns",
-		albumsAndSingles: "Álbuns e singles",
-		apiPaused: "API pausada · {time}",
-		apiPausedTitle: "API pausada",
-		apiPausedWait: "Aguarde mais um pouco",
-		apiPausedDetail: "A API do Spotify está temporariamente pausada. Tente novamente em {time}. Os controles locais de reprodução continuam disponíveis.",
-		appDescriptionCopied: "Descrição do aplicativo copiada",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Conexão pessoal com a API Web do Spotify para o plugin Awesome Mix do Decky Loader no Windows.",
-		appNameCopied: "Nome do aplicativo copiado",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
-		artist: "Artista",
-		artists: "Artistas",
-		back: "Voltar",
-		audioQuality: "Qualidade do áudio",
-		cacheExplanation: "Os dados da biblioteca do Spotify ficam armazenados em cache local. Use Atualizar apenas quando quiser consultar o Spotify novamente e atualizar o conteúdo em cache.",
-		clearMusicCache: "Limpar cache de músicas do Spotify",
-		clearingMusicCache: "Limpando cache de músicas do Spotify…",
-		musicCacheDescription: "O áudio do Spotify é armazenado localmente em cache até 1 GB. Os arquivos mais antigos são removidos automaticamente quando o limite é atingido.",
-		musicCacheUsage: "Cache utilizado",
-		changeInSettings: "Alterar nas Configurações",
-		clientId: "Client ID do Spotify",
-		clientIdSaved: "Client ID salvo",
-		compactSavedTracks: "Visualização compacta de faixas salvas",
-		compactSavedTracksCard: "Para reduzir o uso da API do Spotify, as faixas salvas mostram por padrão apenas as ações Reproduzir e Aleatório em vez de carregar a lista completa.",
-		compactSavedTracksDescription: "Ativada por padrão. As faixas salvas mostram Reproduzir e Aleatório sem carregar a lista completa, reduzindo as solicitações à API do Spotify.",
-		completeSignIn: "Conclua o login no navegador e volte ao Steam.",
-		finishPlaybackSetup: "Uma última autorização ativa a reprodução direta pelo Playhub e fica guardada para os próximos arranques.",
-		connectPlayback: "Ativar reprodução do Spotify",
-		connect: "Conectar Spotify",
-		connected: "Conectado",
-		connectedAs: "Conectado como {name}",
-		hideDetails: "Ocultar detalhes",
-		showDetails: "Mostrar detalhes",
-		copyAppDescription: "Copiar descrição do aplicativo",
-		copyAppName: "Copiar nome do aplicativo",
-		copyRedirectUri: "Copiar URI de redirecionamento",
-		developerTerms: "Aceite os Termos de Serviço para Desenvolvedores e as Diretrizes de Design e clique em Save.",
-		disconnect: "Desconectar Spotify",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistas",
-		fullscreen: "Tela cheia",
-		genericError: "Algo deu errado",
-		home: "Início",
-		library: "Biblioteca",
-		limitedPlaylist: "O Spotify só mostra a lista de faixas de playlists que são suas ou das quais você é colaborador. Ainda assim, você pode reproduzir esta playlist.",
-		loadingSpotify: "Carregando Spotify…",
-		noAlbums: "Nenhum álbum disponível.",
-		noPlayback: "Reproduza algo",
-		noResults: "Nenhum resultado encontrado.",
-		noTracks: "Nenhuma faixa disponível.",
-		nothingHere: "Ainda não há nada aqui.",
-		nowPlaying: "Em reprodução",
-		openDashboard: "YouTube Music",
-		personalMode: "Modo pessoal da Web API",
-		play: "Reproduzir",
-		playlist: "Playlist",
-		playlists: "Playlists",
-		popularTracks: "Faixas populares",
-		premiumNote: "O Spotify Premium é necessário para controlar a reprodução no Development Mode. Seu Client ID e os tokens de autorização permanecem neste PC.",
-		queue: "Fila",
-		queueEmpty: "Não há próximas faixas na fila.",
-		redirectCopied: "URL de redirecionamento copiada",
-		redirectUri: "URL de redirecionamento",
-		refresh: "Atualizar",
-		repeat: "Repetir",
-		requestFailed: "Falha na solicitação ao Spotify",
-		saveClientId: "Salvar Client ID",
-		savedAlbums: "Álbuns",
-		savedTracks: "Faixas salvas",
-		search: "Pesquisar",
-		searchSpotify: "Pesquisar no Spotify",
-		seeAll: "Ver tudo",
-		selectSpotifyHint: "Selecione Spotify na seção Fonte para mostrar o navegador do Spotify no Awesome Mix.",
-		settings: "Configurações",
-		settingsDescription: "Navegue pela sua biblioteca do Spotify, pesquise no catálogo e inicie a reprodução no aplicativo do Spotify para desktop. Este modo opcional usa seu próprio Client ID de desenvolvedor do Spotify.",
-		setupGuide: "Guia de configuração",
-		setupSteps: [
-			"Abra o site Spotify Developer, clique em “Log in” no canto superior direito e entre na sua conta do Spotify.",
-			"Depois de entrar, clique no seu perfil no canto superior direito, escolha “Dashboard” e clique em “Create app”.",
-			"Em “App name* (required)”, digite o nome do aplicativo mostrado abaixo.",
-			"Em “App description* (required)”, digite a descrição mostrada abaixo.",
-			"Deixe “Website” em branco.",
-			"Em “Redirect URIs* (required)”, adicione exatamente a URL mostrada abaixo.",
-			"Em “Which API/SDKs are you planning to use?”, selecione “Web API” e “Web Playback SDK”. Não selecione Ads API, iOS ou Android.",
-			"Aceite os Termos de Serviço para Desenvolvedores e as Diretrizes de Design e clique em Save.",
-			"Abra o novo aplicativo, copie o Client ID, cole-o abaixo e conecte o Spotify. Não é necessário um Client Secret."
-		],
-		showLess: "Mostrar menos",
-		shuffle: "Aleatório",
-		spotifyBigPicture: "Big Picture",
-		tracks: "Faixas",
-		unableStartAuthorization: "Não foi possível iniciar a autorização do Spotify",
-		unableStartPlayback: "Não foi possível iniciar a reprodução",
-		untitled: "Sem título",
-		volume: "Volume",
-		webApiOnly: "Selecione Web API e Web Playback SDK",
-		websiteOptional: "Website — opcional",
-		welcomeBack: "Boas-vindas de volta, {name}",
-		yourMusicInsideSteam: "Sua música dentro do Steam",
-		yourPlaylists: "Suas playlists",
-		artistCacheTitle: "Cache de planos de fundo dos artistas",
-		artistCacheDescription: "Baixa planos de fundo em alta resolução somente para os artistas que você segue no Spotify.",
-		createArtistCache: "Criar cache de planos de fundo",
-		artistCacheBuilding: "Criando cache de planos de fundo…",
-		artistCacheProgress: "Baixando plano de fundo: {name}",
-		artistCacheCreated: "Cache de planos de fundo do Spotify criada",
-		artistCacheNoFavorites: "Nenhum artista seguido foi encontrado.",
-		clearArtistCache: "Limpar cache de fundos de artistas",
-		artistCacheClearing: "Limpando o cache de fundos de artistas…",
-		artistCacheCleared: "Cache de fundos de artistas do Spotify limpo",
-		cacheSize: "Recursos baixados",
-		newForYou: "Recomendado para você",
-		manualBackgrounds: "Fundos escolhidos pelo usuário",
-		manualBackgroundsDescription: "Esses fundos de artistas são mantidos ao limpar o cache de imagens.",
-		removeManualBackgrounds: "Remover todos os fundos de artistas escolhidos",
-		manualBackgroundsRemoving: "Removendo os fundos de artistas escolhidos…",
-		manualBackgroundsRemoved: "Fundos de artistas escolhidos removidos",
-		apiUsageTitle: "Uso da API do Spotify",
-		apiUsagePerMinute: "chamadas/min",
-		apiUsageTotal: "no total",
-		apiUsagePaused: "Em pausa (limite atingido)"
 	},
 	localMusic: {
 		albums: "Álbuns",
@@ -5037,12 +2894,10 @@ var catalogs = {
 		noPlayableLocalTracks: "Nenhuma faixa local pode ser reproduzida",
 		localPlaybackStartFailed: "Não foi possível iniciar a reprodução local",
 		localAudioRecoveryFailed: "Não foi possível recuperar o áudio local",
-		openCurrentSpotifyAlbumFailed: "Não foi possível abrir o álbum atual do Spotify",
 		openCurrentLocalAlbumFailed: "Não foi possível abrir o álbum local atual",
 		unsupportedLocalFormat: "Este formato de áudio não é compatível com o Chromium do Steam",
 		localPlayerUnavailable: "O player de áudio local não está disponível",
 		currentLocalAlbumUnavailable: "O álbum local atual não está disponível",
-		currentSpotifyAlbumUnavailable: "O álbum atual do Spotify não está disponível",
 		windowsOnly: "Este plugin funciona apenas no Windows",
 		helperStartFailed: "Não foi possível iniciar corretamente o componente auxiliar do plugin",
 		folderNotFound: "Pasta não encontrada",
@@ -5050,36 +2905,12 @@ var catalogs = {
 		localFileUnavailable: "O arquivo de música local não está disponível",
 		localPlayerNotRunning: "O player de música local não está em execução",
 		localPlayerNoResponse: "O player de música local não respondeu",
-		spotifyInvalidTokenResponse: "O Spotify retornou uma resposta de token inválida",
-		spotifyAuthorizationExpired: "A sessão de autorização do Spotify expirou",
-		spotifyFinishingConnection: "Finalizando a conexão com o Spotify…",
-		spotifyEnterClientId: "Digite primeiro o seu Client ID do Spotify",
-		spotifyWaitingAuthorization: "Aguardando a autorização do Spotify…",
-		spotifyNotConnected: "O Spotify não está conectado",
-		spotifyRefreshTokenFailed: "O Spotify não retornou um novo token de acesso",
-		spotifyInvalidApiPath: "Caminho da API do Spotify inválido",
-		spotifyInvalidResponse: "O Spotify retornou uma resposta inválida",
-		spotifyActionDenied: "O Spotify recusou esta ação. Pode ser necessário ter Premium ou uma permissão adicional",
-		spotifyNoActiveDevice: "O Spotify não encontrou nenhum dispositivo de reprodução ativo",
-		spotifyDisabled: "O Spotify está desativado",
-		spotifyConnectFirst: "Conecte o Spotify primeiro nas configurações do plugin",
-		spotifyUnknownLibrarySection: "Seção desconhecida da biblioteca do Spotify",
-		spotifyInvalidItem: "Item do Spotify inválido",
-		spotifyNoCurrentAlbum: "Nenhum álbum do Spotify está disponível para a faixa atual",
-		spotifyAlbumLookupFailed: "O Spotify não encontrou o álbum da faixa atual",
-		spotifyOpenAppStartTrack: "Abra o Spotify neste PC, reproduza uma música e tente novamente",
-		spotifyUnknownPlayerCommand: "Comando desconhecido do player do Spotify",
-		spotifyNoPlayableItems: "Não há itens reproduzíveis no Spotify",
-		spotifyMissingUri: "URI do Spotify ausente",
-		spotifyInvalidUri: "URI do Spotify inválido",
 		backgroundChoiceExpired: "Esta seleção de plano de fundo expirou. Pesquise novamente.",
 		invalidBackgroundChoice: "Esta seleção de plano de fundo não é mais válida.",
 		backgroundDownloadFailed: "Não foi possível baixar a imagem selecionada.",
 		unsupportedBackgroundImage: "O formato da imagem selecionada não é compatível.",
 		invalidArtist: "O artista selecionado não é válido.",
 		artistNameRequired: "É necessário informar o nome do artista.",
-		spotifyArtistCacheBusy: "O cache de artistas do Spotify já está sendo criado.",
-		spotifyArtistCacheInUse: "O cache de artistas do Spotify está ocupado.",
 		restartServicesTimedOut: "O reinício dos serviços do plugin excedeu o tempo limite",
 		restartServicesAlreadyRunning: "Já há um reinício dos serviços do plugin em andamento",
 		mediaBridgeRestartFailed: "O MediaBridge não reiniciou corretamente",
@@ -5089,114 +2920,56 @@ var catalogs = {
 		album: "Álbum",
 		albums: "Álbuns",
 		albumsAndSingles: "Álbuns e singles",
-		apiPaused: "API pausada · {time}",
-		apiPausedTitle: "API pausada",
-		apiPausedWait: "Aguarde mais um pouco",
-		apiPausedDetail: "A API do Spotify está temporariamente pausada. Tente novamente em {time}. Os controles locais de reprodução continuam disponíveis.",
-		appDescriptionCopied: "Descrição do aplicativo copiada",
-		appDescriptionLabel: "App description* (required)",
-		appDescriptionValue: "Conexão pessoal com a API Web do Spotify para o plugin Awesome Mix do Decky Loader no Windows.",
-		appNameCopied: "Nome do aplicativo copiado",
-		appNameLabel: "App name* (required)",
-		appNameValue: "Playhub Awesome Mix",
 		artist: "Artista",
 		artists: "Artistas",
 		back: "Voltar",
 		audioQuality: "Qualidade do áudio",
-		cacheExplanation: "Os dados da biblioteca do Spotify ficam armazenados em cache local. Use Atualizar apenas quando quiser consultar o Spotify novamente e atualizar o conteúdo em cache.",
-		clearMusicCache: "Limpar cache de músicas do Spotify",
-		clearingMusicCache: "Limpando cache de músicas do Spotify…",
-		musicCacheDescription: "O áudio do Spotify é armazenado localmente em cache até 1 GB. Os arquivos mais antigos são removidos automaticamente quando o limite é atingido.",
-		changeInSettings: "Alterar nas Configurações",
-		clientId: "Client ID do Spotify",
-		clientIdSaved: "Client ID salvo",
-		compactSavedTracks: "Visualização compacta de faixas salvas",
-		compactSavedTracksCard: "Para reduzir o uso da API do Spotify, as faixas salvas mostram por padrão apenas as ações Reproduzir e Aleatório em vez de carregar a lista completa.",
-		compactSavedTracksDescription: "Ativada por padrão. As faixas salvas mostram Reproduzir e Aleatório sem carregar a lista completa, reduzindo as solicitações à API do Spotify.",
 		completeSignIn: "Escolha sua conta do Google ou entre com a conta usada no YouTube Music na janela temporária. Deixe-a aberta até o Awesome Mix fechá-la.",
 		automaticSignInDescription: "Selecione Conectar YouTube Music. Uma janela temporária de login será aberta sobre o Steam. Escolha sua conta do Google ou entre com a conta usada no YouTube Music e deixe a janela aberta. O Awesome Mix fará a conexão e a fechará automaticamente.",
 		connect: "Conectar YouTube Music",
 		connected: "Conectado",
-		connectedAs: "Conectado como {name}",
 		hideDetails: "Ocultar detalhes",
 		showDetails: "Mostrar detalhes",
-		copyAppDescription: "Copiar descrição do aplicativo",
-		copyAppName: "Copiar nome do aplicativo",
-		copyRedirectUri: "Copiar URI de redirecionamento",
-		developerTerms: "Aceite os Termos de Serviço para Desenvolvedores e as Diretrizes de Design e clique em Save.",
 		disconnect: "Desconectar YouTube Music",
-		enableSpotify: "YouTube Music",
-		followedArtists: "Artistas",
 		fullscreen: "Tela cheia",
 		genericError: "Algo deu errado",
 		home: "Início",
 		library: "Biblioteca",
-		limitedPlaylist: "O Spotify só mostra a lista de faixas de playlists que são suas ou das quais você é colaborador. Ainda assim, você pode reproduzir esta playlist.",
-		loadingSpotify: "Carregando YouTube Music…",
-		noAlbums: "Nenhum álbum disponível.",
+		loadingYouTubeMusic: "Carregando YouTube Music…",
 		noPlayback: "Reproduza algo",
 		noResults: "Nenhum resultado encontrado.",
 		noTracks: "Nenhuma faixa disponível.",
 		nothingHere: "Ainda não há nada aqui.",
 		nowPlaying: "Em reprodução",
-		openDashboard: "Abrir YouTube Music",
-		personalMode: "Modo pessoal da Web API",
 		play: "Reproduzir",
 		playlist: "Playlist",
 		playlists: "Playlists",
 		popularTracks: "Faixas populares",
-		premiumNote: "O Spotify Premium é necessário para controlar a reprodução no Development Mode. Seu Client ID e os tokens de autorização permanecem neste PC.",
 		queue: "Fila",
 		queueEmpty: "Não há próximas faixas na fila.",
-		redirectCopied: "URL de redirecionamento copiada",
-		redirectUri: "URL de redirecionamento",
 		refresh: "Atualizar",
 		repeat: "Repetir",
 		requestFailed: "Falha na solicitação ao YouTube Music",
-		saveClientId: "Salvar Client ID",
-		savedAlbums: "Álbuns",
-		savedTracks: "Faixas salvas",
 		search: "Pesquisar",
-		searchSpotify: "Pesquisar no YouTube Music",
-		seeAll: "Ver tudo",
-		selectSpotifyHint: "Selecione Spotify na seção Fonte para mostrar o navegador do Spotify no Awesome Mix.",
+		searchYouTubeMusic: "Pesquisar no YouTube Music",
 		settings: "Configurações",
-		settingsDescription: "Navegue pela sua biblioteca do Spotify, pesquise no catálogo e inicie a reprodução no aplicativo do Spotify para desktop. Este modo opcional usa seu próprio Client ID de desenvolvedor do Spotify.",
-		setupGuide: "Guia de configuração",
-		setupSteps: [
-			"Abra o site Spotify Developer, clique em “Log in” no canto superior direito e entre na sua conta do Spotify.",
-			"Depois de entrar, clique no seu perfil no canto superior direito, escolha “Dashboard” e clique em “Create app”.",
-			"Em “App name* (required)”, digite o nome do aplicativo mostrado abaixo.",
-			"Em “App description* (required)”, digite a descrição mostrada abaixo.",
-			"Deixe “Website” em branco.",
-			"Em “Redirect URIs* (required)”, adicione exatamente a URL mostrada abaixo.",
-			"Em “Which API/SDKs are you planning to use?”, selecione “Web API” e “Web Playback SDK”. Não selecione Ads API, iOS ou Android.",
-			"Aceite os Termos de Serviço para Desenvolvedores e as Diretrizes de Design e clique em Save.",
-			"Abra o novo aplicativo, copie o Client ID, cole-o abaixo e conecte o Spotify. Não é necessário um Client Secret."
-		],
-		showLess: "Mostrar menos",
+		settingsDescription: "Navegue pela sua biblioteca do YouTube Music, pesquise no catálogo e inicie a reprodução no aplicativo do YouTube Music para desktop. Este modo opcional usa seu próprio Client ID de desenvolvedor do YouTube Music.",
 		shuffle: "Aleatório",
-		spotifyBigPicture: "Big Picture",
+		bigPicture: "Big Picture",
 		tracks: "Faixas",
-		unableStartAuthorization: "Não foi possível iniciar a autorização do Spotify",
-		unableStartPlayback: "Não foi possível iniciar a reprodução",
 		untitled: "Sem título",
 		volume: "Volume",
-		webApiOnly: "Selecione Web API e Web Playback SDK",
-		websiteOptional: "Website — opcional",
-		welcomeBack: "Boas-vindas de volta, {name}",
 		yourMusicInsideSteam: "Sua música dentro do Steam",
 		yourPlaylists: "Suas playlists",
 		artistCacheTitle: "Cache de planos de fundo dos artistas",
-		artistCacheDescription: "Baixa planos de fundo em alta resolução somente para os artistas que você segue no Spotify.",
+		artistCacheDescription: "Baixa planos de fundo em alta resolução somente para os artistas que você segue no YouTube Music.",
 		createArtistCache: "Criar cache de planos de fundo",
 		artistCacheBuilding: "Criando cache de planos de fundo…",
-		artistCacheProgress: "Baixando plano de fundo: {name}",
-		artistCacheCreated: "Cache de planos de fundo do Spotify criada",
+		artistCacheCreated: "Cache de planos de fundo do YouTube Music criada",
 		artistCacheNoFavorites: "Nenhum artista seguido foi encontrado.",
 		clearArtistCache: "Limpar cache de fundos de artistas",
 		artistCacheClearing: "Limpando o cache de fundos de artistas…",
-		artistCacheCleared: "Cache de fundos de artistas do Spotify limpo",
+		artistCacheCleared: "Cache de fundos de artistas do YouTube Music limpo",
 		cacheSize: "Recursos baixados",
 		newForYou: "Recomendado para você",
 		newPodcastEpisodes: "Novos episódios dos seus podcasts",
@@ -5311,28 +3084,6 @@ const runtimeMessageKeys = {
     "Helper C# non avviato correttamente": "helperStartFailed",
     "Folder not found": "folderNotFound",
     "Local music track not found": "localTrackNotFound",
-    "Spotify returned an invalid token response": "spotifyInvalidTokenResponse",
-    "Spotify authorization session expired": "spotifyAuthorizationExpired",
-    "Finishing Spotify connection": "spotifyFinishingConnection",
-    "Enter your Spotify Client ID first": "spotifyEnterClientId",
-    "Waiting for Spotify authorization": "spotifyWaitingAuthorization",
-    "Spotify is not connected": "spotifyNotConnected",
-    "Spotify did not return a new access token": "spotifyRefreshTokenFailed",
-    "Invalid Spotify API path": "spotifyInvalidApiPath",
-    "Spotify returned an invalid response": "spotifyInvalidResponse",
-    "Spotify denied this action. Premium or an additional permission may be required": "spotifyActionDenied",
-    "Spotify could not find an active playback device": "spotifyNoActiveDevice",
-    "Spotify is disabled": "spotifyDisabled",
-    "Connect Spotify in the plugin settings first": "spotifyConnectFirst",
-    "Unknown Spotify library section": "spotifyUnknownLibrarySection",
-    "Invalid Spotify item": "spotifyInvalidItem",
-    "No Spotify album is available for the current track": "spotifyNoCurrentAlbum",
-    "Spotify could not find the album for the current track": "spotifyAlbumLookupFailed",
-    "Open Spotify on this PC, start any song once, then try again": "spotifyOpenAppStartTrack",
-    "Unknown Spotify player command": "spotifyUnknownPlayerCommand",
-    "No playable Spotify items": "spotifyNoPlayableItems",
-    "Missing Spotify URI": "spotifyMissingUri",
-    "Invalid Spotify URI": "spotifyInvalidUri",
     "No playable local tracks": "noPlayableLocalTracks",
     "Background choice expired. Search again": "backgroundChoiceExpired",
     "Invalid background choice": "invalidBackgroundChoice",
@@ -5340,8 +3091,6 @@ const runtimeMessageKeys = {
     "The selected image is not supported": "unsupportedBackgroundImage",
     "Invalid artist": "invalidArtist",
     "Artist name is required": "artistNameRequired",
-    "Spotify artist cache is already being created": "spotifyArtistCacheBusy",
-    "Spotify artist cache is busy": "spotifyArtistCacheInUse",
     "Plugin service restart timed out": "restartServicesTimedOut",
     "Plugin service restart is already running": "restartServicesAlreadyRunning",
     "MediaBridge did not restart correctly": "mediaBridgeRestartFailed",
@@ -5765,7 +3514,7 @@ class LocalAudioEngine {
     // a stereo→7.1 upmix matrix when the option is on and the output device
     // actually supports multichannel. Each output channel has an adjustable volume.
     // Used by Your Music and YouTube Music (both play through this in-browser
-    // player); Spotify plays through its own bridge and is unaffected.
+    // player); Windows media sessions (Apple Music) are unaffected.
     applyOutputRouting() {
         const context = this.audioContext;
         const analyser = this.analyser;
@@ -6619,7 +4368,7 @@ function ArtistBackgroundPicker({ provider, artistId, artistName, onBack, onAppl
     const [failedPreviews, setFailedPreviews] = SP_REACT.useState({});
     const [loadedPreviews, setLoadedPreviews] = SP_REACT.useState({});
     const searchRevisionRef = SP_REACT.useRef(0);
-    const accent = provider === "spotify" ? "#1DB954" : provider === "youtubeMusic" ? "#ff0033" : "#D9A337";
+    const accent = provider === "youtubeMusic" ? "#ff0033" : "#D9A337";
     const search = SP_REACT.useCallback(async () => {
         const revision = ++searchRevisionRef.current;
         setLoading(true);
@@ -6808,54 +4557,6 @@ function saveSourceVolume(source, value, origin = "plugin") {
     return volume;
 }
 
-function SmoothProgressFill({ position, duration, playing, sampledAt, style, rate = 1 }) {
-    const fillRef = SP_REACT.useRef(null);
-    SP_REACT.useEffect(() => {
-        let frame = 0;
-        const base = Math.max(0, Number(position || 0));
-        const total = Math.max(1, Number(duration || 1));
-        const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
-        const draw = () => {
-            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
-            const ratio = Math.max(0, Math.min(1, (base + elapsed) / total));
-            if (fillRef.current)
-                fillRef.current.style.transform = `scaleX(${ratio})`;
-            if (playing && ratio < 1)
-                frame = window.requestAnimationFrame(draw);
-        };
-        draw();
-        return () => {
-            if (frame)
-                window.cancelAnimationFrame(frame);
-        };
-    }, [duration, playing, position, rate, sampledAt]);
-    return (SP_JSX.jsx("div", { ref: fillRef, "aria-hidden": "true", style: { width: "100%", transform: "scaleX(0)", transformOrigin: "left center", willChange: "transform", ...style } }));
-}
-function SmoothProgressTime({ position, duration, playing, sampledAt, format, rate = 1 }) {
-    const labelRef = SP_REACT.useRef(null);
-    SP_REACT.useEffect(() => {
-        let timer = 0;
-        const base = Math.max(0, Number(position || 0));
-        const total = Math.max(0, Number(duration || 0));
-        const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
-        const draw = () => {
-            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
-            const current = Math.min(total || Number.MAX_SAFE_INTEGER, base + elapsed);
-            const label = format(current);
-            if (labelRef.current && labelRef.current.textContent !== label)
-                labelRef.current.textContent = label;
-            if (playing && (!total || current < total))
-                timer = window.setTimeout(draw, 200);
-        };
-        draw();
-        return () => {
-            if (timer)
-                window.clearTimeout(timer);
-        };
-    }, [duration, format, playing, position, rate, sampledAt]);
-    return SP_JSX.jsx("span", { ref: labelRef, children: format(Math.max(0, Number(position || 0))) });
-}
-
 // "Match Steam theme" for the quick access panel. When on, the panel leaves
 // buttons, focus highlights and text to the active Steam/CSS Loader theme and
 // derives its accent from the theme instead of the service's brand colour.
@@ -6893,2322 +4594,6 @@ function useQamThemeMatch() {
     return SP_REACT.useSyncExternalStore(subscribe, getQamThemeMatch, getQamThemeMatch);
 }
 
-const SPOTIFY_GREEN = "#1DB954";
-const SPOTIFY_PLAYBACK_CHANGED_EVENT = "nowPlaying:spotify-playback-changed";
-let sharedSpotifyPlayback = null;
-let sharedSpotifyPlaybackAt = 0;
-function publishSpotifyPlaybackSnapshot(player) {
-    const now = Date.now();
-    let next = player ? { ...player } : null;
-    if (next && sharedSpotifyPlayback) {
-        const sameTrack = String(next.id ?? "") === String(sharedSpotifyPlayback.id ?? "")
-            && String(next.title ?? "") === String(sharedSpotifyPlayback.title ?? "")
-            && String(next.artist ?? "") === String(sharedSpotifyPlayback.artist ?? "")
-            && String(next.album ?? "") === String(sharedSpotifyPlayback.album ?? "");
-        if (sameTrack && next.status === "Playing" && sharedSpotifyPlayback.status === "Playing") {
-            const elapsed = Math.max(0, now - sharedSpotifyPlaybackAt);
-            const duration = Math.max(0, Number(next.length || sharedSpotifyPlayback.length || 0));
-            const projected = Math.max(0, Number(sharedSpotifyPlayback.position || 0) + elapsed);
-            const incoming = Math.max(0, Number(next.position || 0));
-            next.position = Math.min(duration || Number.MAX_SAFE_INTEGER, Math.max(incoming, projected - 250));
-        }
-    }
-    sharedSpotifyPlayback = next;
-    sharedSpotifyPlaybackAt = now;
-    if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent(SPOTIFY_PLAYBACK_CHANGED_EVENT, { detail: sharedSpotifyPlayback }));
-    }
-}
-function getSharedSpotifyPlaybackSnapshot() {
-    return sharedSpotifyPlayback ? { ...sharedSpotifyPlayback } : null;
-}
-function getSharedSpotifyPlaybackTimestamp() {
-    return sharedSpotifyPlaybackAt;
-}
-function notifySpotifyPlaybackChanged() {
-    window.dispatchEvent(new CustomEvent(SPOTIFY_PLAYBACK_CHANGED_EVENT));
-}
-const controlHeight = 34;
-const fullButtonStyle = {
-    width: "100%",
-    minWidth: "100%",
-    maxWidth: "100%",
-    minHeight: `${controlHeight}px`,
-    padding: 0,
-    lineHeight: 1,
-};
-const iconButtonStyle = {
-    width: `${controlHeight}px`,
-    minWidth: `${controlHeight}px`,
-    maxWidth: `${controlHeight}px`,
-    height: `${controlHeight}px`,
-    minHeight: `${controlHeight}px`,
-    padding: 0,
-};
-const sectionLabelStyle = {
-    padding: "0 4px",
-    margin: "14px 0 6px",
-    fontSize: "0.74em",
-    fontWeight: 800,
-    letterSpacing: "0.035em",
-    textTransform: "uppercase",
-    opacity: 0.62,
-};
-const settingsCardStyle = {
-    width: "100%",
-    boxSizing: "border-box",
-    borderRadius: "10px",
-    border: "1px solid rgba(29,185,84,0.28)",
-    background: "linear-gradient(145deg, rgba(29,185,84,0.12), rgba(0,0,0,0.22))",
-    padding: "12px",
-};
-function resolveSpotifyTranslations() {
-    return getTranslations("spotify");
-}
-function useSpotifyTranslations() {
-    return SP_REACT.useMemo(resolveSpotifyTranslations, []);
-}
-function formatSpotifyText(template, values) {
-    return formatTranslation(template, values);
-}
-function isSpotifyRateLimitMessage(message) {
-    return /rate limit|too many requests/i.test(String(message ?? ""));
-}
-function formatCountdown(totalSeconds) {
-    const value = Math.max(0, Math.floor(Number(totalSeconds || 0)));
-    const hours = Math.floor(value / 3600);
-    const minutes = Math.floor((value % 3600) / 60);
-    const seconds = value % 60;
-    return hours > 0
-        ? `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-        : `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-function spotifyPausedPlayer$1(t) {
-    return {
-        id: "spotify-api-paused",
-        name: "Spotify API",
-        title: t.apiPausedTitle,
-        artist: t.apiPausedWait,
-        album: "",
-        status: "Paused",
-        length: 0,
-        position: 0,
-        volume: 0,
-        canNext: false,
-        canPrevious: false,
-        canPlay: false,
-        canPause: false,
-        canTogglePlayPause: false,
-        canShuffle: false,
-        canRepeat: false,
-        shuffleActive: false,
-        repeatMode: "Off",
-        isSelected: true,
-        isCurrent: true,
-    };
-}
-function imageUrl$1(item) {
-    const images = item?.images ?? item?.album?.images ?? [];
-    if (!Array.isArray(images) || !images.length)
-        return "";
-    const medium = images.find((entry) => Number(entry?.width || 0) >= 160) ?? images[0];
-    return String(medium?.url ?? "");
-}
-function highestResolutionImageUrl(item) {
-    const images = item?.images ?? item?.album?.images ?? [];
-    if (!Array.isArray(images) || !images.length)
-        return "";
-    const sorted = [...images].filter((entry) => entry?.url).sort((left, right) => {
-        const leftSize = Number(left?.width || 0) * Number(left?.height || 0);
-        const rightSize = Number(right?.width || 0) * Number(right?.height || 0);
-        return rightSize - leftSize;
-    });
-    return String(sorted[0]?.url ?? "");
-}
-function spotifyPlaybackToSnapshot(payload) {
-    const item = payload?.item;
-    if (!item || !item?.name)
-        return null;
-    const artists = Array.isArray(item?.artists)
-        ? item.artists.map((artist) => artist?.name).filter(Boolean).join(", ")
-        : String(item?.show?.name ?? "");
-    const repeat = String(payload?.repeat_state ?? "off");
-    return {
-        id: "spotify-api",
-        name: "Spotify",
-        title: String(item?.name ?? ""),
-        artist: artists,
-        album: String(item?.album?.name ?? item?.show?.name ?? ""),
-        status: payload?.is_playing ? "Playing" : "Paused",
-        length: Number(item?.duration_ms ?? 0),
-        position: Number(payload?.progress_ms ?? 0),
-        canNext: true,
-        canPrevious: true,
-        canPlay: true,
-        canPause: true,
-        canTogglePlayPause: true,
-        isSelected: true,
-        isCurrent: true,
-        canShuffle: true,
-        canRepeat: true,
-        shuffleActive: Boolean(payload?.shuffle_state),
-        repeatMode: repeat === "context" ? "List" : repeat === "track" ? "Track" : "Off",
-        artworkUrl: highestResolutionImageUrl(item),
-    };
-}
-function artistText$2(item) {
-    const artists = item?.artists;
-    if (Array.isArray(artists) && artists.length) {
-        return artists.map((artist) => artist?.name).filter(Boolean).join(", ");
-    }
-    const singleArtist = typeof item?.artist === "string"
-        ? item.artist
-        : String(item?.artist?.name ?? "");
-    if (singleArtist.trim())
-        return singleArtist.trim();
-    if (String(item?.type ?? "").toLowerCase() === "album")
-        return "";
-    return String(item?.owner?.display_name ?? item?.publisher ?? "Spotify");
-}
-function normalizeTrack$1(entry) {
-    return entry?.track ?? entry?.item ?? entry;
-}
-function normalizeAlbum(entry) {
-    return entry?.album ?? entry;
-}
-// Build a now-playing snapshot straight from the track the user just started, so
-// QAM/Big Picture show the cover and metadata INSTANTLY (like local music)
-// instead of waiting several seconds for the bridge to report the new track.
-function optimisticSpotifySnapshotFromTrack(entry) {
-    const track = normalizeTrack$1(entry);
-    if (!track || !track.name)
-        return null;
-    const images = Array.isArray(track?.album?.images) ? track.album.images : Array.isArray(track?.images) ? track.images : [];
-    const artworkUrl = Array.isArray(images) && images.length
-        ? String([...images].filter((image) => image?.url).sort((left, right) => (Number(right?.width || 0) * Number(right?.height || 0)) - (Number(left?.width || 0) * Number(left?.height || 0)))[0]?.url ?? "")
-        : "";
-    const artist = Array.isArray(track?.artists) ? track.artists.map((value) => value?.name).filter(Boolean).join(", ") : String(track?.artist ?? "");
-    return {
-        id: "spotify-api", name: "Spotify",
-        title: String(track?.name ?? ""), artist, album: String(track?.album?.name ?? ""),
-        status: "Playing", length: Number(track?.duration_ms ?? 0), position: 0,
-        canNext: true, canPrevious: true, canPlay: true, canPause: true, canTogglePlayPause: true,
-        isSelected: true, isCurrent: true, canShuffle: true, canRepeat: true,
-        shuffleActive: false, repeatMode: "Off", artworkUrl, volume: 100,
-    };
-}
-function itemType$2(item) {
-    const type = String(item?.type ?? "").toLowerCase();
-    if (type === "track" || type === "album" || type === "artist" || type === "playlist")
-        return type;
-    const uri = String(item?.uri ?? "");
-    if (uri.startsWith("spotify:track:"))
-        return "track";
-    if (uri.startsWith("spotify:album:"))
-        return "album";
-    if (uri.startsWith("spotify:artist:"))
-        return "artist";
-    if (uri.startsWith("spotify:playlist:"))
-        return "playlist";
-    return "unknown";
-}
-function showError$1(message) {
-    const t = resolveSpotifyTranslations();
-    toaster.toast({ title: "Spotify", body: localizeRuntimeMessage(message, t.genericError), duration: 4500 });
-}
-function SpotifyLogoTitle({ subtitle }) {
-    return (SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }, children: [SP_JSX.jsx(SiSpotify, { size: 24, color: "#fff", style: { flexShrink: 0 } }), SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: "1em", lineHeight: 1.1, fontWeight: 620 }, children: "Spotify" }), subtitle ? SP_JSX.jsx("span", { style: { display: "block", fontSize: "0.72em", opacity: 0.62, marginTop: "2px" }, children: subtitle }) : null] })] }));
-}
-function SpotifyArtwork({ url, size = 42, round = false }) {
-    const radius = round ? "50%" : "5px";
-    return (SP_JSX.jsx("div", { style: {
-            width: `${size}px`,
-            height: `${size}px`,
-            minWidth: `${size}px`,
-            borderRadius: radius,
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.42)",
-        }, children: url ? (SP_JSX.jsx("img", { src: url, style: { width: "100%", height: "100%", objectFit: "cover" } })) : (SP_JSX.jsx(FaMusic, { size: Math.max(14, Math.round(size * 0.38)) })) }));
-}
-function SpotifyRow({ item, subtitle, onActivate, leadingImage, roundImage, sideAction, buttonRef, preferredFocus, onFocus, }) {
-    const t = resolveSpotifyTranslations();
-    const mainButton = (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npSpotifyResultButton", ...{ onFocus: (event) => {
-                event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" });
-                onFocus?.();
-            } }, style: {
-            ...fullButtonStyle,
-            width: sideAction ? "auto" : "100%",
-            minWidth: 0,
-            maxWidth: sideAction ? "none" : "100%",
-            flex: sideAction ? 1 : undefined,
-            height: "54px",
-            minHeight: "54px",
-            marginBottom: sideAction ? 0 : "6px",
-            overflow: "hidden",
-        }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: {
-                width: "100%",
-                minWidth: 0,
-                boxSizing: "border-box",
-                display: "flex",
-                alignItems: "center",
-                gap: "9px",
-                padding: "5px 8px",
-                textAlign: "left",
-            }, children: [SP_JSX.jsx(SpotifyArtwork, { url: leadingImage ?? imageUrl$1(item), size: 42, round: roundImage }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: {
-                                display: "block",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                                fontSize: "0.88em",
-                                lineHeight: 1.15,
-                            }, children: String(item?.name ?? t.untitled) }), SP_JSX.jsx("span", { style: {
-                                display: "block",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                                fontSize: "0.72em",
-                                lineHeight: 1.25,
-                                minHeight: "1.25em",
-                                paddingBottom: "2px",
-                                opacity: 0.62,
-                                marginTop: "3px",
-                            }, children: subtitle ?? artistText$2(item) })] }), !sideAction ? SP_JSX.jsx("span", { style: { display: "inline-flex", alignItems: "center", opacity: 0.68 }, children: SP_JSX.jsx(FaChevronRight, { size: 12 }) }) : null] }) }));
-    if (!sideAction)
-        return mainButton;
-    return (SP_JSX.jsxs(DFL.Focusable, { style: { display: "flex", alignItems: "stretch", gap: "6px", width: "100%", marginBottom: "6px" }, "flow-children": "horizontal", children: [mainButton, SP_JSX.jsx(DFL.DialogButton, { style: { ...iconButtonStyle, height: "54px", minHeight: "54px", width: "38px", minWidth: "38px", maxWidth: "38px" }, "aria-label": sideAction.label, onClick: sideAction.onActivate, children: sideAction.icon })] }));
-}
-function SpotifyPlusSettingsPanel({ selectedService, onSettingsChanged, }) {
-    const t = useSpotifyTranslations();
-    const themed = useQamThemeMatch();
-    const [settings, setSettings] = SP_REACT.useState({
-        enabled: false,
-        clientId: "",
-        redirectUri: "http://127.0.0.1:43821/callback",
-        authenticated: false,
-        playbackAuthenticated: false,
-        compactSavedTracks: true,
-        audioQuality: 320,
-    });
-    const [clientId, setClientId] = SP_REACT.useState("");
-    const [authState, setAuthState] = SP_REACT.useState("idle");
-    const [statusText, setStatusText] = SP_REACT.useState("");
-    const [busy, setBusy] = SP_REACT.useState(false);
-    const [settingsReady, setSettingsReady] = SP_REACT.useState(false);
-    const [setupDetailsOpen, setSetupDetailsOpen] = SP_REACT.useState(false);
-    const [audioCacheBusy, setAudioCacheBusy] = SP_REACT.useState(false);
-    const [artistCacheBusy, setArtistCacheBusy] = SP_REACT.useState(false);
-    const [refreshBusy, setRefreshBusy] = SP_REACT.useState(false);
-    const [artistCacheProgress, setArtistCacheProgress] = SP_REACT.useState({ active: false, phase: "idle", current: "", completed: 0, total: 0 });
-    const [artistCacheStats, setArtistCacheStats] = SP_REACT.useState({ bytes: 0, files: 0 });
-    const [audioCacheStats, setAudioCacheStats] = SP_REACT.useState({ bytes: 0, limitBytes: 5 * 1024 * 1024 * 1024 });
-    const [apiUsage, setApiUsage] = SP_REACT.useState({ total: 0, perMinute: 0, rateLimited: false, remainingSeconds: 0 });
-    const pollRef = SP_REACT.useRef(0);
-    const artistCachePollRef = SP_REACT.useRef(0);
-    const applySettings = SP_REACT.useCallback((next) => {
-        setSettings(next);
-        setClientId(next.clientId ?? "");
-        onSettingsChanged?.(next);
-    }, [onSettingsChanged]);
-    const reload = SP_REACT.useCallback(async () => {
-        try {
-            applySettings(await getSpotifySettings());
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setSettingsReady(true);
-        }
-    }, [applySettings]);
-    const reloadArtistCacheStats = SP_REACT.useCallback(async () => {
-        try {
-            setArtistCacheStats(await getSpotifyArtistCacheStats());
-        }
-        catch {
-            // Keep the last known size if the filesystem is momentarily unavailable.
-        }
-    }, []);
-    const reloadAudioCacheStats = SP_REACT.useCallback(async () => {
-        try {
-            const result = await getSpotifyAudioCacheStats();
-            if (result?.ok && result.data)
-                setAudioCacheStats({ bytes: Number(result.data.bytes || 0), limitBytes: Number(result.data.limitBytes || 5 * 1024 * 1024 * 1024) });
-        }
-        catch {
-            // Keep the last known size if the filesystem is momentarily unavailable.
-        }
-    }, []);
-    SP_REACT.useEffect(() => {
-        void reload();
-        void reloadArtistCacheStats();
-        void reloadAudioCacheStats();
-        return () => {
-            if (pollRef.current)
-                window.clearInterval(pollRef.current);
-            if (artistCachePollRef.current)
-                window.clearInterval(artistCachePollRef.current);
-        };
-    }, [reload, reloadArtistCacheStats, reloadAudioCacheStats]);
-    SP_REACT.useEffect(() => {
-        let cancelled = false;
-        const tick = async () => {
-            try {
-                const result = await getSpotifyApiUsage();
-                if (!cancelled && result?.ok && result.data)
-                    setApiUsage(result.data);
-            }
-            catch {
-                // Reading usage never makes a Spotify request; ignore transient errors.
-            }
-        };
-        void tick();
-        const id = window.setInterval(() => void tick(), 3000);
-        return () => { cancelled = true; window.clearInterval(id); };
-    }, []);
-    SP_REACT.useEffect(() => {
-        if (settings.authenticated)
-            setSetupDetailsOpen(false);
-    }, [settings.authenticated]);
-    const beginPolling = SP_REACT.useCallback(() => {
-        if (pollRef.current)
-            window.clearInterval(pollRef.current);
-        pollRef.current = window.setInterval(async () => {
-            try {
-                const status = await getSpotifyAuthStatus();
-                setAuthState(status.state);
-                setStatusText(localizeRuntimeMessage(status.message ?? ""));
-                if (status.state === "authenticated" || status.state === "error") {
-                    if (pollRef.current)
-                        window.clearInterval(pollRef.current);
-                    pollRef.current = 0;
-                    if (status.state === "authenticated")
-                        clearSpotifyLibrarySessionCaches();
-                    applySettings(status);
-                    setBusy(false);
-                }
-            }
-            catch {
-                // Keep waiting; the callback may still be in progress.
-            }
-        }, 900);
-    }, [applySettings]);
-    async function toggleCompactSavedTracks() {
-        try {
-            setBusy(true);
-            const next = await setSpotifyCompactSavedTracks(!settings.compactSavedTracks);
-            applySettings(next);
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setBusy(false);
-        }
-    }
-    async function setAudioQuality(quality) {
-        if ((settings.audioQuality ?? 320) === quality)
-            return;
-        try {
-            setBusy(true);
-            applySettings(await setSpotifyAudioQuality(quality));
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setBusy(false);
-        }
-    }
-    async function clearAudioCache() {
-        try {
-            setAudioCacheBusy(true);
-            const result = await clearSpotifyAudioCache();
-            if (!result.ok)
-                showError$1(result.error ?? t.genericError);
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setAudioCacheBusy(false);
-            void reloadAudioCacheStats();
-        }
-    }
-    async function saveClientId() {
-        try {
-            setBusy(true);
-            const changed = clientId.trim() !== settings.clientId;
-            const next = await setSpotifyClientId(clientId);
-            if (changed)
-                clearSpotifyLibrarySessionCaches();
-            applySettings(next);
-            toaster.toast({ title: "Spotify", body: t.clientIdSaved, duration: 2200 });
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setBusy(false);
-        }
-    }
-    async function connect() {
-        try {
-            setBusy(true);
-            if (clientId.trim() !== settings.clientId) {
-                const next = await setSpotifyClientId(clientId);
-                clearSpotifyLibrarySessionCaches();
-                applySettings(next);
-            }
-            const result = await beginSpotifyAuth();
-            if (!result.ok)
-                throw new Error(result.error || t.unableStartAuthorization);
-            setAuthState("waiting");
-            setStatusText(t.completeSignIn);
-            beginPolling();
-        }
-        catch (error) {
-            setBusy(false);
-            showError$1(error?.message ?? String(error));
-        }
-    }
-    async function connectPlayback() {
-        try {
-            setBusy(true);
-            const result = await beginSpotifyPlaybackAuth();
-            if (!result.ok)
-                throw new Error(result.error || t.unableStartAuthorization);
-            setAuthState("waiting");
-            setStatusText(t.completeSignIn);
-            beginPolling();
-        }
-        catch (error) {
-            setBusy(false);
-            showError$1(error?.message ?? String(error));
-        }
-    }
-    async function disconnect() {
-        try {
-            setBusy(true);
-            applySettings(await disconnectSpotify());
-            clearSpotifyLibrarySessionCaches();
-            setAuthState("idle");
-            setStatusText("");
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            setBusy(false);
-        }
-    }
-    const refreshArtistCacheProgress = SP_REACT.useCallback(async () => {
-        try {
-            const progress = await getSpotifyArtistCacheProgress();
-            setArtistCacheProgress(progress);
-            setArtistCacheBusy(Boolean(progress.active));
-            if (!progress.active && artistCachePollRef.current) {
-                window.clearInterval(artistCachePollRef.current);
-                artistCachePollRef.current = 0;
-                void reloadArtistCacheStats();
-            }
-        }
-        catch {
-            // Keep the last visible progress during a transient Decky call failure.
-        }
-    }, [reloadArtistCacheStats]);
-    SP_REACT.useEffect(() => {
-        let mounted = true;
-        void getSpotifyArtistCacheProgress().then((progress) => {
-            if (!mounted)
-                return;
-            setArtistCacheProgress(progress);
-            setArtistCacheBusy(Boolean(progress.active));
-            if (progress.active)
-                beginArtistCachePolling();
-        }).catch(() => { });
-        return () => { mounted = false; };
-    }, [refreshArtistCacheProgress]);
-    function beginArtistCachePolling() {
-        if (artistCachePollRef.current)
-            window.clearInterval(artistCachePollRef.current);
-        void refreshArtistCacheProgress();
-        artistCachePollRef.current = window.setInterval(() => void refreshArtistCacheProgress(), 400);
-    }
-    async function createArtistCache() {
-        if (artistCacheBusy || !settings.authenticated)
-            return;
-        setArtistCacheBusy(true);
-        setArtistCacheProgress({ active: true, phase: "loading", current: "", completed: 0, total: 0 });
-        beginArtistCachePolling();
-        try {
-            const result = await buildSpotifyArtistCache();
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            const artists = Number(result.data?.artists || 0);
-            toaster.toast({
-                title: "Spotify",
-                body: artists > 0 ? t.artistCacheCreated : t.artistCacheNoFavorites,
-                duration: 3000,
-            });
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            void refreshArtistCacheProgress();
-        }
-    }
-    async function clearArtistCache() {
-        if (artistCacheBusy)
-            return;
-        setArtistCacheBusy(true);
-        setArtistCacheProgress({ active: true, phase: "clearing", current: "", completed: 0, total: 0 });
-        beginArtistCachePolling();
-        try {
-            const result = await clearSpotifyArtistCache();
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            toaster.toast({ title: "Spotify", body: t.artistCacheCleared, duration: 2600 });
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            void refreshArtistCacheProgress();
-            void reloadArtistCacheStats();
-        }
-    }
-    async function clearManualBackgrounds() {
-        if (artistCacheBusy || Number(artistCacheStats.manualFiles || 0) <= 0)
-            return;
-        setArtistCacheBusy(true);
-        setArtistCacheProgress({ active: true, phase: "clearing_manual", current: "", completed: 0, total: Number(artistCacheStats.manualFiles || 0) });
-        beginArtistCachePolling();
-        try {
-            const result = await clearManualArtistBackgrounds("spotify");
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            toaster.toast({ title: "Spotify", body: t.manualBackgroundsRemoved, duration: 2600 });
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-        finally {
-            void refreshArtistCacheProgress();
-            void reloadArtistCacheStats();
-        }
-    }
-    async function copyText(value) {
-        const text = String(value ?? "");
-        if (!text)
-            return false;
-        try {
-            if (navigator.clipboard?.writeText) {
-                await navigator.clipboard.writeText(text);
-                return true;
-            }
-        }
-        catch {
-            // Steam CEF may expose Clipboard without granting write permission.
-        }
-        try {
-            const textarea = document.createElement("textarea");
-            textarea.value = text;
-            textarea.setAttribute("readonly", "true");
-            textarea.style.position = "fixed";
-            textarea.style.left = "-9999px";
-            textarea.style.opacity = "0";
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            const copied = document.execCommand("copy");
-            textarea.remove();
-            return copied;
-        }
-        catch {
-            return false;
-        }
-    }
-    async function copySetupValue(value, successMessage) {
-        const copied = await copyText(value);
-        toaster.toast({
-            title: "Spotify",
-            body: copied ? successMessage : value,
-            duration: copied ? 2000 : 5000,
-        });
-    }
-    function setupValueField(label, value, copyLabel, successMessage, multiline = false) {
-        return (SP_JSX.jsxs("div", { style: { marginTop: "7px", marginBottom: "10px" }, children: [SP_JSX.jsx("label", { style: { display: "block", fontSize: "0.68em", opacity: 0.62, marginBottom: "4px" }, children: label }), multiline ? (SP_JSX.jsx("textarea", { readOnly: true, value: value, onFocus: (event) => event.currentTarget.select(), onClick: (event) => event.currentTarget.select(), style: {
-                        width: "100%", minHeight: "58px", boxSizing: "border-box", resize: "none", padding: "8px",
-                        borderRadius: "7px", background: "rgba(0,0,0,0.28)", border: "1px solid rgba(255,255,255,0.1)",
-                        color: "inherit", fontFamily: "inherit", fontSize: "0.68em", lineHeight: 1.35, userSelect: "text",
-                        WebkitUserSelect: "text", cursor: "text",
-                    } })) : (SP_JSX.jsx("input", { readOnly: true, type: "text", value: value, onFocus: (event) => event.currentTarget.select(), onClick: (event) => event.currentTarget.select(), style: {
-                        width: "100%", boxSizing: "border-box", padding: "8px", borderRadius: "7px",
-                        background: "rgba(0,0,0,0.28)", border: "1px solid rgba(255,255,255,0.1)", color: "inherit",
-                        fontFamily: label === t.redirectUri ? "monospace" : "inherit", fontSize: "0.68em", userSelect: "text",
-                        WebkitUserSelect: "text", cursor: "text",
-                    } })), SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, onClick: () => void copySetupValue(value, successMessage), children: SP_JSX.jsx("span", { children: copyLabel }) })] }));
-    }
-    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: "Spotify" }), SP_JSX.jsxs("div", { className: "npSpotifySettingsCard", style: { ...settingsCardStyle, ...(themed ? { background: THEME_CARD_BG, border: THEME_CARD_BORDER } : {}) }, children: [SP_JSX.jsx("style", { children: `
-          .npSpotifySettingsCard button,.npSpotifySettingsCard button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}
-          .npSpotifySettingsCard button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}
-          .npSpotifySettingsCard button span{font-size:1em!important}
-          .npSpotifySettingsCard button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}
-          ${themed ? "" : `.npSpotifySettingsCard button:hover,.npSpotifySettingsCard button:focus,.npSpotifySettingsCard button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(29,185,84,.28),0 0 18px rgba(29,185,84,.15)!important}`}
-          ${themed ? "" : `.npSpotifySettingsCard .npSpotifyConnectButton{color:#fff!important;background:rgba(29,185,84,.72)!important}`}
-          ${themed ? "" : `.npSpotifySettingsCard .npSpotifyConnectButton:hover,.npSpotifySettingsCard .npSpotifyConnectButton:focus,.npSpotifySettingsCard .npSpotifyConnectButton.gpfocus{background:#27d260!important;color:#fff!important;border-color:rgba(255,255,255,.34)!important;box-shadow:0 0 0 2px rgba(255,255,255,.62),0 0 22px rgba(29,185,84,.34)!important}`}
-        ` }), SP_JSX.jsx(SpotifyLogoTitle, { subtitle: t.personalMode }), SP_JSX.jsx("p", { style: { fontSize: "0.74em", lineHeight: 1.42, opacity: 0.74, margin: "10px 0" }, children: t.settingsDescription }), selectedService !== "spotify" ? (SP_JSX.jsx("div", { style: { fontSize: "0.72em", opacity: 0.64, marginBottom: "9px" }, children: t.selectSpotifyHint })) : null, settingsReady && settings.authenticated ? (SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, marginTop: "12px" }, onClick: () => setSetupDetailsOpen((open) => !open), children: SP_JSX.jsx("span", { style: { justifyContent: "center", textAlign: "center" }, children: setupDetailsOpen ? t.hideDetails : t.showDetails }) })) : null, settingsReady && settings.authenticated && !settings.playbackAuthenticated ? (SP_JSX.jsxs("div", { style: { marginTop: "10px" }, children: [SP_JSX.jsx("p", { style: { margin: "0 2px 8px", fontSize: "0.7em", lineHeight: 1.42, opacity: 0.7 }, children: t.finishPlaybackSetup }), SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyConnectButton", style: { ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }, disabled: busy, onClick: () => void connectPlayback(), children: SP_JSX.jsxs("span", { style: { fontWeight: 800 }, children: [SP_JSX.jsx(SiSpotify, {}), " ", t.connectPlayback] }) })] })) : null, settingsReady && (!settings.authenticated || setupDetailsOpen) ? (SP_JSX.jsxs("div", { style: { marginTop: "12px" }, children: [SP_JSX.jsx("div", { style: { fontSize: "0.72em", fontWeight: 800, marginBottom: "8px" }, children: t.setupGuide }), SP_JSX.jsx("ol", { style: { margin: 0, padding: "0 0 0 20px", fontSize: "0.71em", lineHeight: 1.45 }, children: t.setupSteps.map((step, index) => (SP_JSX.jsxs("li", { style: { marginBottom: "10px", opacity: 0.82 }, children: [SP_JSX.jsx("span", { children: step }), index === 0 ? (SP_JSX.jsx("div", { style: { marginTop: "7px" }, children: SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, onClick: () => void openSpotifyDashboard(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaExternalLinkAlt, {}), " ", t.openDashboard] }) }) })) : null, index === 2 ? setupValueField(t.appNameLabel, t.appNameValue, t.copyAppName, t.appNameCopied) : null, index === 3 ? setupValueField(t.appDescriptionLabel, t.appDescriptionValue, t.copyAppDescription, t.appDescriptionCopied, true) : null, index === 4 ? (SP_JSX.jsx("div", { style: { marginTop: "6px", padding: "7px 8px", borderRadius: "7px", background: "rgba(255,255,255,0.045)", fontSize: "0.96em", opacity: 0.78 }, children: t.websiteOptional })) : null, index === 5 ? setupValueField(t.redirectUri, settings.redirectUri, t.copyRedirectUri, t.redirectCopied) : null, index === 6 ? (SP_JSX.jsx("div", { style: { marginTop: "6px", padding: "7px 8px", borderRadius: "7px", background: themed ? THEME_CARD_BG : "rgba(29,185,84,0.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(29,185,84,0.2)", fontSize: "0.96em", fontWeight: 700 }, children: t.webApiOnly })) : null, index === 7 ? (SP_JSX.jsx("div", { style: { marginTop: "6px", padding: "7px 8px", borderRadius: "7px", background: "rgba(255,255,255,0.045)", fontSize: "0.96em", opacity: 0.78 }, children: t.developerTerms })) : null] }, `${index}-${step}`))) }), SP_JSX.jsx("label", { style: { display: "block", fontSize: "0.68em", opacity: 0.58, marginBottom: "4px" }, children: t.clientId }), SP_JSX.jsx("input", { type: "text", value: clientId, spellCheck: false, autoComplete: "off", onChange: (event) => setClientId(event.currentTarget.value), onFocus: (event) => event.currentTarget.select(), style: {
-                                    width: "100%",
-                                    boxSizing: "border-box",
-                                    padding: "9px 10px",
-                                    borderRadius: "7px",
-                                    background: "rgba(0,0,0,0.28)",
-                                    border: "1px solid rgba(255,255,255,0.12)",
-                                    color: "inherit",
-                                    fontFamily: "monospace",
-                                    fontSize: "0.72em",
-                                    userSelect: "text",
-                                    WebkitUserSelect: "text",
-                                    cursor: "text",
-                                } }), SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, disabled: busy || !clientId.trim(), onClick: () => void saveClientId(), children: SP_JSX.jsx("span", { children: t.saveClientId }) }), SP_JSX.jsx("div", { style: { height: "8px" } }), settings.authenticated ? (SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, disabled: busy, onClick: () => void disconnect(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaSignOutAlt, {}), " ", t.disconnect] }) })) : (SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyConnectButton", style: { ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }, disabled: busy || !clientId.trim(), onClick: () => void connect(), children: SP_JSX.jsxs("span", { style: { fontWeight: 800 }, children: [SP_JSX.jsx(SiSpotify, {}), " ", t.connect] }) })), authState === "waiting" || statusText ? (SP_JSX.jsx("div", { style: { marginTop: "8px", fontSize: "0.7em", opacity: authState === "error" ? 1 : 0.68, color: authState === "error" ? "#ff7777" : "inherit" }, children: statusText })) : null, SP_JSX.jsx("p", { style: { margin: "10px 0 0", fontSize: "0.67em", lineHeight: 1.42, opacity: 0.54 }, children: t.premiumNote })] })) : null, SP_JSX.jsxs("div", { style: { marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.08)" }, children: [SP_JSX.jsx("p", { style: { margin: "0 2px 9px", fontSize: "0.67em", lineHeight: 1.42, opacity: 0.56 }, children: t.cacheExplanation }), SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, disabled: refreshBusy, onClick: () => {
-                                    setRefreshBusy(true);
-                                    void refreshSpotifyCache()
-                                        .then((result) => { if (result?.ok)
-                                        clearSpotifyLibrarySessionCaches(); })
-                                        .finally(() => setRefreshBusy(false));
-                                }, children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaSyncAlt, { className: refreshBusy ? "npRestartSpin" : undefined }), " ", t.refresh] }) }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { fontSize: "0.76em", fontWeight: 700, marginBottom: "7px" }, children: t.audioQuality }), SP_JSX.jsx(DFL.Focusable, { style: { display: "flex", flexDirection: "column", gap: "6px", width: "100%" }, "flow-children": "vertical", children: [96, 160, 320].map((quality) => {
-                                    const active = (settings.audioQuality ?? 320) === quality;
-                                    return (SP_JSX.jsx(DFL.DialogButton, { disabled: busy, style: {
-                                            ...fullButtonStyle,
-                                            minWidth: "100%",
-                                            maxWidth: "100%",
-                                            background: active ? (themed ? "color-mix(in srgb, currentColor 18%, transparent)" : "rgba(29,185,84,.72)") : undefined,
-                                            color: themed ? undefined : "#fff",
-                                        }, onClick: () => void setAudioQuality(quality), children: SP_JSX.jsxs("span", { style: { justifyContent: "center", textAlign: "center", width: "100%" }, children: [quality, " kbps"] }) }, quality));
-                                }) }), SP_JSX.jsx("p", { style: { margin: "7px 2px 10px", fontSize: "0.67em", lineHeight: 1.4, opacity: 0.56 }, children: t.musicCacheDescription }), SP_JSX.jsxs("div", { style: { margin: "0 2px 8px", display: "flex", flexDirection: "column", gap: "5px" }, children: [SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", fontSize: "0.72em", opacity: 0.82 }, children: [SP_JSX.jsx("span", { children: t.musicCacheUsage }), SP_JSX.jsxs("span", { style: { fontVariantNumeric: "tabular-nums" }, children: [(audioCacheStats.bytes / 1073741824).toFixed(2), " GB / ", Math.round(audioCacheStats.limitBytes / 1073741824), " GB"] })] }), SP_JSX.jsx("div", { style: { position: "relative", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (audioCacheStats.bytes / Math.max(1, audioCacheStats.limitBytes)) * 100))}%`, background: themed ? THEME_ACCENT : SPOTIFY_GREEN, borderRadius: "999px" } }) })] }), SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, disabled: audioCacheBusy, onClick: () => void clearAudioCache(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaTimes, {}), " ", audioCacheBusy ? t.clearingMusicCache : t.clearMusicCache] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, marginTop: "8px", opacity: settings.compactSavedTracks !== false ? 1 : 0.66 }, disabled: busy, onClick: () => void toggleCompactSavedTracks(), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", padding: "0 10px", boxSizing: "border-box", gap: "8px" }, children: [SP_JSX.jsx(FaList, {}), SP_JSX.jsx("span", { children: t.compactSavedTracks }), SP_JSX.jsx("span", { style: { marginLeft: "auto", color: settings.compactSavedTracks !== false ? (themed ? THEME_ACCENT : SPOTIFY_GREEN) : "inherit" }, children: settings.compactSavedTracks !== false ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("p", { style: { margin: "7px 2px 10px", fontSize: "0.67em", lineHeight: 1.4, opacity: 0.56 }, children: t.compactSavedTracksDescription }), SP_JSX.jsxs("div", { style: { marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.08)" }, children: [SP_JSX.jsx("div", { style: { fontSize: "0.76em", fontWeight: 700, marginBottom: "5px" }, children: t.artistCacheTitle }), SP_JSX.jsx("p", { style: { margin: "0 2px 9px", fontSize: "0.67em", lineHeight: 1.42, opacity: 0.56 }, children: t.artistCacheDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, opacity: settings.authenticated ? 1 : .5 }, disabled: !settings.authenticated || artistCacheBusy, onClick: () => void createArtistCache(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaSyncAlt, { className: artistCacheBusy && artistCacheProgress.phase !== "clearing" ? "npRestartSpin" : undefined }), " ", artistCacheBusy && artistCacheProgress.phase !== "clearing" ? t.artistCacheBuilding : t.createArtistCache] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, marginTop: "6px", opacity: artistCacheStats.files > 0 ? 1 : .58 }, disabled: artistCacheBusy || artistCacheStats.files <= 0, onClick: () => void clearArtistCache(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaTimes, {}), " ", artistCacheProgress.phase === "clearing" ? t.artistCacheClearing : t.clearArtistCache] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, marginTop: "6px", opacity: Number(artistCacheStats.manualFiles || 0) > 0 ? 1 : .58 }, disabled: artistCacheBusy || Number(artistCacheStats.manualFiles || 0) <= 0, onClick: () => void clearManualBackgrounds(), children: SP_JSX.jsxs("span", { children: [SP_JSX.jsx(FaTimes, {}), " ", artistCacheProgress.phase === "clearing_manual" ? t.manualBackgroundsRemoving : t.removeManualBackgrounds] }) }), SP_JSX.jsx("p", { style: { margin: "7px 2px 0", fontSize: "0.65em", lineHeight: 1.4, opacity: 0.52 }, children: t.manualBackgroundsDescription }), (artistCacheBusy || ["complete", "cleared", "manual_cleared", "error"].includes(artistCacheProgress.phase)) ? (SP_JSX.jsxs("div", { style: { marginTop: "9px", padding: "8px 9px", borderRadius: 7, background: "rgba(255,255,255,.045)", overflow: "hidden" }, children: [SP_JSX.jsx("div", { style: { fontSize: "0.67em", lineHeight: 1.35, opacity: artistCacheProgress.phase === "error" ? 1 : .68, color: artistCacheProgress.phase === "error" ? "#ff7777" : "inherit", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistCacheProgress.phase === "error"
-                                                    ? localizeRuntimeMessage(artistCacheProgress.error || t.requestFailed)
-                                                    : artistCacheProgress.phase === "cleared"
-                                                        ? t.artistCacheCleared
-                                                        : artistCacheProgress.phase === "manual_cleared"
-                                                            ? t.manualBackgroundsRemoved
-                                                            : artistCacheProgress.current
-                                                                ? `${artistCacheProgress.phase === "clearing" ? t.artistCacheClearing : artistCacheProgress.phase === "clearing_manual" ? t.manualBackgroundsRemoving : t.artistCacheProgress}: ${artistCacheProgress.current}`
-                                                                : `${artistCacheProgress.phase === "clearing" ? t.artistCacheClearing : artistCacheProgress.phase === "clearing_manual" ? t.manualBackgroundsRemoving : t.artistCacheProgress}: ${artistCacheProgress.completed}/${artistCacheProgress.total}` }), SP_JSX.jsx("div", { style: { height: "4px", marginTop: "6px", borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,.1)" }, children: SP_JSX.jsx("div", { style: { width: `${artistCacheProgress.total > 0 ? Math.min(100, (artistCacheProgress.completed / artistCacheProgress.total) * 100) : (artistCacheBusy ? 18 : 100)}%`, height: "100%", background: themed ? THEME_ACCENT : SPOTIFY_GREEN, transition: "width 180ms ease" } }) })] })) : null, SP_JSX.jsxs("div", { style: { marginTop: 7, padding: "7px 9px", borderRadius: 7, background: "rgba(255,255,255,.035)", display: "grid", gap: 5, fontSize: ".66em" }, children: [SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", gap: 8 }, children: [SP_JSX.jsx("span", { style: { opacity: .58 }, children: t.cacheSize }), SP_JSX.jsxs("strong", { children: [(Math.max(0, Number(artistCacheStats.bytes || 0)) / (1024 * 1024)).toFixed(2), " MB"] })] }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", gap: 8 }, children: [SP_JSX.jsx("span", { style: { opacity: .58 }, children: t.manualBackgrounds }), SP_JSX.jsxs("strong", { children: [(Math.max(0, Number(artistCacheStats.manualBytes || 0)) / (1024 * 1024)).toFixed(2), " MB"] })] })] })] }), SP_JSX.jsxs("div", { style: { marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.08)" }, children: [SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "6px" }, children: [SP_JSX.jsx("span", { style: { fontSize: "0.76em", fontWeight: 700 }, children: t.apiUsageTitle }), SP_JSX.jsxs("span", { style: { fontSize: "0.66em", opacity: 0.6, fontVariantNumeric: "tabular-nums" }, children: [apiUsage.total, " ", t.apiUsageTotal] })] }), SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "10px" }, children: [SP_JSX.jsx("div", { style: { position: "relative", flex: 1, height: "6px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, width: `${Math.max(0, Math.min(100, (apiUsage.perMinute / 60) * 100))}%`, background: apiUsage.rateLimited ? "#ff7777" : (themed ? THEME_ACCENT : SPOTIFY_GREEN), borderRadius: "999px", transition: "width 240ms ease" } }) }), SP_JSX.jsxs("span", { style: { fontSize: "0.68em", fontVariantNumeric: "tabular-nums", minWidth: "76px", textAlign: "right" }, children: [apiUsage.perMinute, " ", t.apiUsagePerMinute] })] }), apiUsage.rateLimited ? SP_JSX.jsxs("div", { style: { marginTop: "6px", fontSize: "0.64em", color: "#ff9a9a" }, children: [t.apiUsagePaused, apiUsage.remainingSeconds > 0 ? ` · ${apiUsage.remainingSeconds}s` : ""] }) : null] })] })] })] }));
-}
-const spotifyLibrarySessionCache = new Map();
-const spotifyLibraryHydrations = new Map();
-let spotifyLibraryCacheRevision = 0;
-function spotifyLibraryEntries(payload, section) {
-    const items = section === "artists" ? payload?.artists?.items : payload?.items;
-    return Array.isArray(items) ? items : [];
-}
-function spotifyLibraryNeedsHydration(payload, section) {
-    const container = section === "artists" ? payload?.artists : payload;
-    const items = spotifyLibraryEntries(payload, section);
-    const total = Math.max(0, Number(container?.total ?? items.length));
-    return Boolean(container?.next) || total > items.length;
-}
-function hydrateSpotifyLibrary(section, onReady) {
-    const revision = spotifyLibraryCacheRevision;
-    let request = spotifyLibraryHydrations.get(section);
-    if (!request) {
-        request = spotifyGetLibrary(section, 0, 0)
-            .then((result) => result?.ok ? (result.data ?? null) : null)
-            .catch(() => null);
-        spotifyLibraryHydrations.set(section, request);
-        void request.finally(() => {
-            if (spotifyLibraryHydrations.get(section) === request)
-                spotifyLibraryHydrations.delete(section);
-        });
-    }
-    void request.then((value) => {
-        if (!value || revision !== spotifyLibraryCacheRevision)
-            return;
-        spotifyLibrarySessionCache.set(section, value);
-        onReady(value);
-    });
-}
-function clearSpotifyLibrarySessionCaches() {
-    spotifyLibraryCacheRevision += 1;
-    spotifyLibrarySessionCache.clear();
-    spotifyLibraryHydrations.clear();
-}
-function SpotifyBrowserContent({ openAlbumRequest, onOpenBigPicture, onOpenSettings }) {
-    const t = useSpotifyTranslations();
-    const themed = useQamThemeMatch();
-    const [tab, setTab] = SP_REACT.useState("home");
-    const [home, setHome] = SP_REACT.useState(null);
-    const [searchTerm, setSearchTerm] = SP_REACT.useState("");
-    const [searchResults, setSearchResults] = SP_REACT.useState(null);
-    const [librarySection, setLibrarySection] = SP_REACT.useState("tracks");
-    const librarySectionRef = SP_REACT.useRef("tracks");
-    const [library, setLibrary] = SP_REACT.useState(null);
-    const [detail, setDetail] = SP_REACT.useState(null);
-    const [detailHistory, setDetailHistory] = SP_REACT.useState([]);
-    const [detailData, setDetailData] = SP_REACT.useState(null);
-    const [showAllArtistAlbums, setShowAllArtistAlbums] = SP_REACT.useState(false);
-    const [loading, setLoading] = SP_REACT.useState(false);
-    const [rateLimitStatus, setRateLimitStatus] = SP_REACT.useState({ active: false, remainingSeconds: 0, until: 0 });
-    const [settingsReady, setSettingsReady] = SP_REACT.useState(false);
-    const [compactSavedTracks, setCompactSavedTracks] = SP_REACT.useState(true);
-    const requestSerial = SP_REACT.useRef(0);
-    const browserRootRef = SP_REACT.useRef(null);
-    const firstTrackRef = SP_REACT.useRef(null);
-    const firstResultRef = SP_REACT.useRef(null);
-    const pendingFocusKeyRef = SP_REACT.useRef("");
-    const pendingListFocusRef = SP_REACT.useRef(false);
-    const lastExternalAlbumNonceRef = SP_REACT.useRef(0);
-    const requestListFocus = SP_REACT.useCallback(() => {
-        // Keep focus on the control the user activated.
-    }, []);
-    const run = SP_REACT.useCallback(async (work, onSuccess) => {
-        const serial = requestSerial.current + 1;
-        requestSerial.current = serial;
-        setLoading(true);
-        try {
-            const result = await work();
-            if (serial !== requestSerial.current)
-                return;
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            onSuccess(result.data);
-        }
-        catch (error) {
-            if (serial === requestSerial.current) {
-                const message = error?.message ?? String(error);
-                if (isSpotifyRateLimitMessage(message)) {
-                    void getSpotifyApiStatus().then(setRateLimitStatus).catch(() => { });
-                }
-                else {
-                    showError$1(message);
-                }
-            }
-        }
-        finally {
-            if (serial === requestSerial.current)
-                setLoading(false);
-        }
-    }, [t.requestFailed]);
-    const requestDetail = SP_REACT.useCallback((next) => {
-        setDetail(next);
-        setDetailData(null);
-        setShowAllArtistAlbums(false);
-        void run(() => spotifyGetDetail(next.kind, next.id), setDetailData);
-    }, [run]);
-    const loadHome = SP_REACT.useCallback(() => {
-        void run(() => spotifyGetHome(), setHome);
-    }, [run]);
-    const loadLibrary = SP_REACT.useCallback((section, focusItems = true, force = false) => {
-        if (focusItems)
-            requestListFocus();
-        librarySectionRef.current = section;
-        setLibrarySection(section);
-        setDetail(null);
-        setDetailHistory([]);
-        setShowAllArtistAlbums(false);
-        const cached = spotifyLibrarySessionCache.get(section);
-        if (!force && cached) {
-            setLibrary(cached);
-            setLoading(false);
-            if (!(section === "tracks" && compactSavedTracks) && spotifyLibraryNeedsHydration(cached, section)) {
-                hydrateSpotifyLibrary(section, (complete) => {
-                    if (librarySectionRef.current === section)
-                        setLibrary(complete);
-                });
-            }
-            return;
-        }
-        void run(() => spotifyGetLibrary(section, 0, section === "tracks" && compactSavedTracks ? 50 : 120), (value) => {
-            spotifyLibrarySessionCache.set(section, value);
-            setLibrary(value);
-            if (!(section === "tracks" && compactSavedTracks) && spotifyLibraryNeedsHydration(value, section)) {
-                hydrateSpotifyLibrary(section, (complete) => {
-                    if (librarySectionRef.current === section)
-                        setLibrary(complete);
-                });
-            }
-        });
-    }, [requestListFocus, run, compactSavedTracks]);
-    const compactInitRef = SP_REACT.useRef(true);
-    SP_REACT.useEffect(() => {
-        // When the saved-tracks compaction setting changes, drop the cached page and
-        // re-fetch so the list reflects the new limit (50 vs the whole library).
-        if (compactInitRef.current) {
-            compactInitRef.current = false;
-            return;
-        }
-        clearSpotifyLibrarySessionCaches();
-        if (librarySection === "tracks")
-            loadLibrary("tracks", false, true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [compactSavedTracks]);
-    const executeSearch = SP_REACT.useCallback(() => {
-        const query = searchTerm.trim();
-        if (query.length < 2 || loading)
-            return;
-        setDetail(null);
-        setDetailHistory([]);
-        setShowAllArtistAlbums(false);
-        requestListFocus();
-        void run(() => spotifySearch(query), setSearchResults);
-    }, [loading, requestListFocus, run, searchTerm]);
-    SP_REACT.useEffect(() => {
-        let cancelled = false;
-        void getSpotifySettings().then((value) => {
-            if (cancelled)
-                return;
-            setCompactSavedTracks(value.compactSavedTracks !== false);
-            setSettingsReady(true);
-        }).catch(() => {
-            if (!cancelled)
-                setSettingsReady(true);
-        });
-        return () => { cancelled = true; };
-    }, []);
-    SP_REACT.useEffect(() => {
-        if (!settingsReady)
-            return;
-        loadHome();
-    }, [loadHome, settingsReady]);
-    SP_REACT.useEffect(() => {
-        if (!settingsReady) {
-            setRateLimitStatus({ active: false, remainingSeconds: 0, until: 0 });
-            return;
-        }
-        let cancelled = false;
-        const refreshRateLimit = async () => {
-            try {
-                const status = await getSpotifyApiStatus();
-                if (!cancelled)
-                    setRateLimitStatus(status);
-            }
-            catch {
-                // Local status lookup only; keep the previous value on a transient Decky call failure.
-            }
-        };
-        void refreshRateLimit();
-        const timer = window.setInterval(() => void refreshRateLimit(), 1000);
-        return () => {
-            cancelled = true;
-            window.clearInterval(timer);
-        };
-    }, [settingsReady]);
-    SP_REACT.useEffect(() => {
-        if (!openAlbumRequest?.id || openAlbumRequest.nonce === lastExternalAlbumNonceRef.current)
-            return;
-        lastExternalAlbumNonceRef.current = openAlbumRequest.nonce;
-        setDetailHistory([]);
-        requestDetail({ kind: "album", id: openAlbumRequest.id, title: openAlbumRequest.title || t.album });
-    }, [openAlbumRequest?.id, openAlbumRequest?.nonce, openAlbumRequest?.title, requestDetail, t.album]);
-    const navigateBack = SP_REACT.useCallback((event) => {
-        if (!detail)
-            return false;
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
-        const previous = detailHistory[detailHistory.length - 1];
-        if (previous) {
-            setDetailHistory((history) => history.slice(0, -1));
-            requestDetail(previous);
-        }
-        else {
-            requestSerial.current += 1;
-            setLoading(false);
-            setDetail(null);
-            setDetailData(null);
-            setShowAllArtistAlbums(false);
-            pendingFocusKeyRef.current = "";
-            requestListFocus();
-        }
-        return true;
-    }, [detail, detailHistory, requestDetail, requestListFocus]);
-    SP_REACT.useEffect(() => {
-        if (!detail)
-            return;
-        const onKeyDown = (event) => {
-            if (event.key !== "Escape")
-                return;
-            navigateBack(event);
-        };
-        document.addEventListener("keydown", onKeyDown, true);
-        return () => document.removeEventListener("keydown", onKeyDown, true);
-    }, [detail, navigateBack]);
-    async function play(uri, contextUri = "", offsetUri = "") {
-        if (rateLimitStatus.active) {
-            toaster.toast({ title: "Spotify API", body: formatSpotifyText(t.apiPausedDetail, { time: formatCountdown(rateLimitStatus.remainingSeconds) }), duration: 5000 });
-            return;
-        }
-        localAudioPlayer.stop();
-        try {
-            const result = await spotifyPlay(uri, contextUri, offsetUri);
-            if (!result.ok)
-                throw new Error(result.error || t.unableStartPlayback);
-            notifySpotifyPlaybackChanged();
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-    }
-    async function playTrackList(entries, startIndex = 0) {
-        if (rateLimitStatus.active) {
-            toaster.toast({ title: "Spotify API", body: formatSpotifyText(t.apiPausedDetail, { time: formatCountdown(rateLimitStatus.remainingSeconds) }), duration: 5000 });
-            return;
-        }
-        localAudioPlayer.stop();
-        const uris = entries
-            .map(normalizeTrack$1)
-            .map((track) => String(track?.uri ?? ""))
-            .filter((uri) => uri.startsWith("spotify:track:") || uri.startsWith("spotify:episode:"));
-        if (!uris.length)
-            return;
-        try {
-            const result = await spotifyPlayItems(uris, Math.max(0, Math.min(startIndex, uris.length - 1)));
-            if (!result.ok)
-                throw new Error(result.error || t.unableStartPlayback);
-            const optimistic = optimisticSpotifySnapshotFromTrack(entries[Math.max(0, Math.min(startIndex, entries.length - 1))]);
-            if (optimistic)
-                publishSpotifyPlaybackSnapshot(optimistic);
-            notifySpotifyPlaybackChanged();
-        }
-        catch (error) {
-            showError$1(error?.message ?? String(error));
-        }
-    }
-    function toDetail(item) {
-        const type = itemType$2(item);
-        if (type !== "album" && type !== "playlist" && type !== "artist")
-            return null;
-        const id = String(item?.id ?? "");
-        if (!id)
-            return null;
-        return { kind: type, id, title: String(item?.name ?? type) };
-    }
-    function openDetail(item) {
-        const next = toDetail(item);
-        if (!next)
-            return;
-        if (detail)
-            setDetailHistory((history) => [...history, detail]);
-        else
-            setDetailHistory([]);
-        requestDetail(next);
-    }
-    function activateItem(item) {
-        const type = itemType$2(item);
-        if (type === "track") {
-            void play(String(item?.uri ?? ""));
-        }
-        else if (type === "album" || type === "playlist" || type === "artist") {
-            openDetail(item);
-        }
-    }
-    function renderTrackRows(entries, contextUri = "", albumImage = "", playAsList = false, focusFirst = false, focusRef = firstTrackRef) {
-        const playableEntries = entries.filter((entry) => Boolean(normalizeTrack$1(entry)?.uri));
-        return playableEntries.map((entry, index) => {
-            const track = normalizeTrack$1(entry);
-            const art = imageUrl$1(track) || albumImage;
-            return (SP_JSX.jsx(SpotifyRow, { item: track, buttonRef: focusFirst && index === 0 ? focusRef : undefined, preferredFocus: focusFirst && index === 0 && pendingListFocusRef.current, leadingImage: art, subtitle: artistText$2(track), onActivate: () => {
-                    if (playAsList)
-                        void playTrackList(playableEntries, index);
-                    else
-                        void play(String(track.uri), contextUri, String(track.uri));
-                } }, `${track.id ?? track.uri}-${index}`));
-        });
-    }
-    const homePlaylists = SP_REACT.useMemo(() => home?.playlists?.items ?? [], [home]);
-    function tabButton(key, label, icon) {
-        const selected = tab === key && !detail;
-        return (SP_JSX.jsx(DFL.DialogButton, { style: { flex: 1, minWidth: 0, height: "32px", minHeight: "32px", padding: 0, opacity: selected ? 1 : 0.58 }, onClick: () => {
-                requestSerial.current += 1;
-                requestListFocus();
-                setDetail(null);
-                setDetailData(null);
-                setDetailHistory([]);
-                setShowAllArtistAlbums(false);
-                setTab(key);
-                if (key === "home" && !home)
-                    loadHome();
-                if (key === "library" && !library)
-                    loadLibrary(librarySection);
-            }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", fontSize: "0.72em" }, children: [icon, label] }) }));
-    }
-    function renderDetail() {
-        if (!detail)
-            return null;
-        const payload = detailData;
-        const item = payload?.item;
-        const kind = detail.kind;
-        const contextUri = String(item?.uri ?? `spotify:${kind}:${detail.id}`);
-        const art = imageUrl$1(item);
-        const trackEntries = payload?.tracks?.items ?? [];
-        const popularTracks = payload?.topTracks?.tracks ?? [];
-        const albums = payload?.albums?.items ?? [];
-        const visibleAlbums = showAllArtistAlbums ? albums : albums.slice(0, 8);
-        const primaryArtist = Array.isArray(item?.artists) ? item.artists.find((artist) => artist?.id) : null;
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, onClick: (event) => navigateBack(event), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "7px", justifyContent: "center", fontSize: "0.8em" }, children: [SP_JSX.jsx(FaArrowLeft, {}), " ", t.back] }) }), SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs("div", { style: {
-                        display: "flex",
-                        gap: "10px",
-                        padding: "10px",
-                        borderRadius: "10px",
-                        background: themed ? THEME_CARD_BG : "linear-gradient(145deg, rgba(29,185,84,0.18), rgba(0,0,0,0.24))",
-                        border: themed ? THEME_CARD_BORDER : "1px solid rgba(29,185,84,0.25)",
-                    }, children: [SP_JSX.jsx(SpotifyArtwork, { url: art, size: 72, round: kind === "artist" }), SP_JSX.jsxs("div", { style: { minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: [SP_JSX.jsx("span", { style: { fontSize: "0.68em", opacity: 0.55, textTransform: "uppercase", fontWeight: 800 }, children: kind === "artist" ? t.artist : kind === "album" ? t.album : t.playlist }), SP_JSX.jsx("strong", { style: { fontSize: "1em", lineHeight: 1.16, marginTop: "4px" }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx("span", { style: { fontSize: "0.7em", opacity: 0.62, marginTop: "4px" }, children: kind === "artist" ? t.artist : artistText$2(item) })] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }, onClick: () => void play(contextUri), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), kind === "album" && primaryArtist ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, onClick: () => openDetail(primaryArtist), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.8em", fontWeight: 700 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })] })) : null, kind === "artist" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.popularTracks }), popularTracks.length ? renderTrackRows(popularTracks, "", art, true, true) : !loading ? (SP_JSX.jsx("div", { style: { fontSize: "0.74em", opacity: 0.58, padding: "8px" }, children: t.noTracks })) : null, SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.albumsAndSingles }), visibleAlbums.length ? visibleAlbums.map((album, index) => (SP_JSX.jsx(SpotifyRow, { item: album, onActivate: () => openDetail(album) }, `${album.id}-${index}`))) : !loading ? SP_JSX.jsx("div", { style: { fontSize: "0.74em", opacity: 0.58, padding: "8px" }, children: t.noAlbums }) : null, albums.length > 8 ? (SP_JSX.jsx(DFL.DialogButton, { style: fullButtonStyle, onClick: () => setShowAllArtistAlbums((value) => !value), children: SP_JSX.jsx("span", { style: { fontSize: "0.78em", fontWeight: 700 }, children: showAllArtistAlbums ? t.showLess : t.seeAll }) })) : null] })) : (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.tracks }), trackEntries.length ? renderTrackRows(trackEntries, contextUri, art, false, true) : !loading ? (SP_JSX.jsx("div", { style: { fontSize: "0.72em", lineHeight: 1.4, opacity: 0.58, padding: "8px" }, children: payload?.limited ? t.limitedPlaylist : t.noTracks })) : null] }))] }));
-    }
-    function renderHome() {
-        return (SP_JSX.jsx(SP_JSX.Fragment, { children: homePlaylists.length ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.yourPlaylists }), homePlaylists.map((item, index) => (SP_JSX.jsx(SpotifyRow, { item: item, buttonRef: index === 0 ? firstResultRef : undefined, preferredFocus: index === 0 && pendingListFocusRef.current, onActivate: () => activateItem(item), sideAction: { icon: SP_JSX.jsx(FaPlay, { size: 12 }), label: t.play, onActivate: () => void play(String(item?.uri ?? "")) } }, `${item.id}-${index}`)))] })) : null }));
-    }
-    function renderSearch() {
-        const tracks = (searchResults?.tracks?.items ?? []).slice(0, 10);
-        const albums = (searchResults?.albums?.items ?? []).slice(0, 10);
-        const artists = (searchResults?.artists?.items ?? []).slice(0, 10);
-        const playlists = (searchResults?.playlists?.items ?? []).slice(0, 10);
-        const firstCategory = artists.length ? "artists" : albums.length ? "albums" : tracks.length ? "tracks" : playlists.length ? "playlists" : "";
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.TextField, { label: t.searchSpotify, value: searchTerm, onChange: (value) => setSearchTerm(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => {
-                        if (event?.key === "Enter" || event?.keyCode === 13) {
-                            event?.preventDefault?.();
-                            executeSearch();
-                        }
-                    } }), SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#fff" }) }, disabled: loading || searchTerm.trim().length < 2, onClick: executeSearch, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }, children: [SP_JSX.jsx(FaSearch, {}), " ", t.search] }) }), artists.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.artists }), artists.map((item, index) => SP_JSX.jsx(SpotifyRow, { item: item, buttonRef: firstCategory === "artists" && index === 0 ? firstResultRef : undefined, preferredFocus: firstCategory === "artists" && index === 0 && pendingListFocusRef.current, roundImage: true, onActivate: () => openDetail(item) }, `${item.id}-${index}`))] }) : null, albums.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.albums }), albums.map((item, index) => SP_JSX.jsx(SpotifyRow, { item: item, buttonRef: firstCategory === "albums" && index === 0 ? firstResultRef : undefined, preferredFocus: firstCategory === "albums" && index === 0 && pendingListFocusRef.current, onActivate: () => openDetail(item) }, `${item.id}-${index}`))] }) : null, tracks.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.tracks }), renderTrackRows(tracks, "", "", false, firstCategory === "tracks", firstResultRef)] }) : null, playlists.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabelStyle, children: t.playlists }), playlists.filter(Boolean).map((item, index) => SP_JSX.jsx(SpotifyRow, { item: item, buttonRef: firstCategory === "playlists" && index === 0 ? firstResultRef : undefined, preferredFocus: firstCategory === "playlists" && index === 0 && pendingListFocusRef.current, onActivate: () => openDetail(item), sideAction: { icon: SP_JSX.jsx(FaPlay, { size: 12 }), label: t.play, onActivate: () => void play(String(item?.uri ?? "")) } }, `${item.id}-${index}`))] }) : null, searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !loading ? (SP_JSX.jsx("div", { style: { fontSize: "0.74em", opacity: 0.58, padding: "14px 8px", textAlign: "center" }, children: t.noResults })) : null] }));
-    }
-    function renderLibrary() {
-        const sectionIcons = {
-            tracks: SP_JSX.jsx(FaMusic, {}),
-            albums: SP_JSX.jsx(FaCompactDisc, {}),
-            playlists: SP_JSX.jsx(FaList, {}),
-            artists: SP_JSX.jsx(FaUser, {}),
-        };
-        const sectionLabels = {
-            tracks: t.savedTracks,
-            albums: t.savedAlbums,
-            playlists: t.playlists,
-            artists: t.followedArtists,
-        };
-        const items = librarySection === "artists"
-            ? (library?.artists?.items ?? [])
-            : (library?.items ?? []);
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.Focusable, { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", width: "100%" }, "flow-children": "grid", children: ["tracks", "albums", "playlists", "artists"].map((section) => (SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, minWidth: 0, opacity: librarySection === section ? 1 : 0.58 }, onClick: () => loadLibrary(section, false), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.74em", textTransform: "capitalize" }, children: [sectionIcons[section], " ", sectionLabels[section]] }) }, section))) }), SP_JSX.jsx("div", { style: sectionLabelStyle, children: sectionLabels[librarySection] }), librarySection === "tracks" && items.length ? (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "6px", marginBottom: "7px" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, flex: 1, minWidth: 0, ...(themed ? {} : { background: SPOTIFY_GREEN, color: "#050505" }) }, onClick: () => void playTrackList(items, 0), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, flex: 1, minWidth: 0 }, onClick: () => { const shuffled = [...items].sort(() => Math.random() - .5); void playTrackList(shuffled, 0); }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 700, fontSize: "0.8em" }, children: [SP_JSX.jsx(FaRandom, {}), " ", t.shuffle] }) })] })) : null, librarySection === "tracks" && compactSavedTracks ? (SP_JSX.jsxs("div", { style: { ...settingsCardStyle, marginTop: "8px", padding: "10px", fontSize: "0.7em", lineHeight: 1.42, opacity: 0.82 }, children: [SP_JSX.jsx("div", { children: t.compactSavedTracksCard }), onOpenSettings ? SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButtonStyle, marginTop: "8px" }, onClick: onOpenSettings, children: SP_JSX.jsx("span", { style: { fontSize: "0.82em" }, children: t.changeInSettings }) }) : null] })) : null, librarySection === "tracks" ? (compactSavedTracks ? null : renderTrackRows(items.slice(0, 100), "", "", true, true, firstResultRef)) : items.map((entry, index) => {
-                    const item = librarySection === "albums" ? normalizeAlbum(entry) : entry;
-                    return (SP_JSX.jsx(SpotifyRow, { item: item, buttonRef: index === 0 ? firstResultRef : undefined, preferredFocus: index === 0 && pendingListFocusRef.current, roundImage: librarySection === "artists", onActivate: () => activateItem(item), sideAction: librarySection === "playlists" ? { icon: SP_JSX.jsx(FaPlay, { size: 12 }), label: t.play, onActivate: () => void play(String(item?.uri ?? "")) } : undefined }, `${item?.id ?? index}-${index}`));
-                }), !items.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "0.74em", opacity: 0.58, padding: "12px 8px", textAlign: "center" }, children: t.nothingHere }) : null] }));
-    }
-    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("style", { children: `
-        .npSpotifyBrowser button:focus,
-        .npSpotifyBrowser button.gpfocus {
-          ${themed ? "" : `box-shadow: 0 0 0 1px rgba(29,185,84,0.55), 0 0 18px rgba(29,185,84,0.2) !important;`}
-        }
-        .npSpotifyBrowser input:focus {
-          ${themed ? "" : `border-color: ${SPOTIFY_GREEN} !important;`}
-        }
-        .npSpotifyResultButton {
-          scroll-margin-top: 64px;
-        }
-        .npSpotifyNavDock {
-          position: sticky;
-          top: -1px;
-          z-index: 4;
-          width: calc(100% + 8px);
-          box-sizing: border-box;
-          margin: -2px -4px 0;
-          padding: 6px 4px 8px;
-          background: transparent;
-        }
-        .npSpotifyBigPictureButton,
-        .npSpotifyBigPictureButton:hover,
-        .npSpotifyBigPictureButton:focus,
-        .npSpotifyBigPictureButton.gpfocus,
-        .npSpotifyBigPictureButton * {
-          ${themed ? "" : `color: #fff !important;`}
-        }
-      ` }), SP_JSX.jsxs(DFL.Focusable, { ref: browserRootRef, className: "npSpotifyBrowser", "flow-children": "vertical", onCancel: detail ? navigateBack : undefined, onCancelButton: detail ? navigateBack : undefined, style: { width: "100%", boxSizing: "border-box" }, children: [SP_JSX.jsx("div", { "aria-hidden": "true", style: {
-                            height: "2px",
-                            margin: "2px 4px 4px",
-                            borderRadius: "999px",
-                            background: themed ? THEME_DIVIDER : "linear-gradient(90deg, transparent, rgba(29,185,84,0.62), transparent)",
-                            boxShadow: themed ? "none" : "0 0 14px rgba(29,185,84,0.24)",
-                        } }), !detail ? (SP_JSX.jsxs("div", { className: "npSpotifyNavDock", children: [onOpenBigPicture ? (SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyBigPictureButton", style: {
-                                    ...fullButtonStyle,
-                                    marginBottom: "6px",
-                                    border: "1px solid rgba(255,255,255,0.075)",
-                                    background: "rgba(255,255,255,0.025)",
-                                }, onClick: onOpenBigPicture, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: "0.76em", fontWeight: 430, letterSpacing: "0.012em", color: themed ? undefined : "#fff" }, children: [SP_JSX.jsx(FaTv, { size: 12 }), " ", t.spotifyBigPicture] }) })) : null, rateLimitStatus.active ? (SP_JSX.jsx(DFL.DialogButton, { style: {
-                                    ...fullButtonStyle,
-                                    minHeight: "28px",
-                                    margin: "-2px 0 6px",
-                                    background: "transparent",
-                                    opacity: 0.78,
-                                }, onClick: () => toaster.toast({
-                                    title: "Spotify API",
-                                    body: formatSpotifyText(t.apiPausedDetail, { time: formatCountdown(rateLimitStatus.remainingSeconds) }),
-                                    duration: 5000,
-                                }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.68em", fontWeight: 500, color: "rgba(255,215,125,0.95)" }, children: [SP_JSX.jsx(FaClock, { size: 10 }), " ", formatSpotifyText(t.apiPaused, { time: formatCountdown(rateLimitStatus.remainingSeconds) })] }) })) : null, SP_JSX.jsxs(DFL.Focusable, { style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }, "flow-children": "grid", children: [tabButton("home", t.home, SP_JSX.jsx(FaHome, {})), tabButton("search", t.search, SP_JSX.jsx(FaSearch, {})), SP_JSX.jsx("div", { style: { gridColumn: "1 / -1", minWidth: 0 }, children: tabButton("library", t.library, SP_JSX.jsx(FaList, {})) })] })] })) : null, loading ? (SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px", fontSize: "0.72em", opacity: 0.62 }, children: [SP_JSX.jsx(FaClock, {}), " ", t.loadingSpotify] })) : null, detail ? renderDetail() : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary()] })] }));
-}
-function formatTrackDuration(value) {
-    const totalSeconds = Math.max(0, Math.floor(Number(value || 0) / 1000));
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-function releaseYear(item) {
-    const value = String(item?.release_date ?? "").trim();
-    const match = value.match(/^\d{4}/);
-    return match?.[0] ?? "";
-}
-function spotifyDirectionFromKey(key) {
-    if (key === "ArrowLeft" || key === "Left")
-        return -1;
-    if (key === "ArrowRight" || key === "Right")
-        return 1;
-    return 0;
-}
-function spotifyDirectionFromGamepadButton(button) {
-    if (button === DFL.GamepadButton.DIR_LEFT)
-        return -1;
-    if (button === DFL.GamepadButton.DIR_RIGHT)
-        return 1;
-    return 0;
-}
-function spotifyGridDirectionFromKey(key) {
-    if (key === "ArrowLeft" || key === "Left")
-        return -1;
-    if (key === "ArrowRight" || key === "Right")
-        return 1;
-    if (key === "ArrowUp" || key === "Up")
-        return -6;
-    if (key === "ArrowDown" || key === "Down")
-        return 6;
-    return 0;
-}
-function spotifyGridDirectionFromGamepad(button) {
-    if (button === DFL.GamepadButton.DIR_LEFT)
-        return -1;
-    if (button === DFL.GamepadButton.DIR_RIGHT)
-        return 1;
-    if (button === DFL.GamepadButton.DIR_UP)
-        return -6;
-    if (button === DFL.GamepadButton.DIR_DOWN)
-        return 6;
-    return 0;
-}
-const spotifyGridFocusMoveState = new WeakMap();
-function stopSpotifyDirectionalEvent(event) {
-    event?.preventDefault?.();
-    event?.stopPropagation?.();
-    event?.stopImmediatePropagation?.();
-    event?.nativeEvent?.stopImmediatePropagation?.();
-}
-function moveSpotifySixColumnGridFocus(event, delta) {
-    if (!delta)
-        return false;
-    const eventTarget = event?.target;
-    const activeTarget = typeof document !== "undefined" ? document.activeElement : null;
-    const current = eventTarget?.closest?.("[data-np-grid-index]")
-        ?? activeTarget?.closest?.("[data-np-grid-index]");
-    const grid = current?.closest?.("[data-np-six-grid]");
-    if (!current || !grid)
-        return false;
-    const currentIndex = Number(current.getAttribute("data-np-grid-index"));
-    if (!Number.isFinite(currentIndex))
-        return false;
-    const column = currentIndex % 6;
-    if ((delta === -1 && column === 0) || (delta === 1 && column === 5))
-        return false;
-    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
-    const previousMove = spotifyGridFocusMoveState.get(grid);
-    if (previousMove && previousMove.delta === delta && now - previousMove.at < 220) {
-        stopSpotifyDirectionalEvent(event);
-        return true;
-    }
-    const next = grid.querySelector(`[data-np-grid-index="${currentIndex + delta}"]`);
-    if (!next)
-        return false;
-    spotifyGridFocusMoveState.set(grid, { at: now, delta });
-    stopSpotifyDirectionalEvent(event);
-    next.scrollIntoView?.({ block: "nearest", inline: "nearest" });
-    next.focus?.({ preventScroll: true });
-    return true;
-}
-function SpotifyTvCard({ item, onActivate, round = false, preferredFocus = false, buttonRef, focusKey, gridIndex, }) {
-    const t = resolveSpotifyTranslations();
-    const title = String(item?.name ?? t.untitled);
-    const subtitle = itemType$2(item) === "album" && releaseYear(item)
-        ? `${artistText$2(item)} · ${releaseYear(item)}`
-        : artistText$2(item);
-    return (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npSpotifyTvCard", ...{
-            "data-np-focus-key": focusKey || undefined,
-            "data-np-grid-index": Number.isFinite(gridIndex) ? gridIndex : undefined,
-            onFocus: (event) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }),
-        }, onClick: onActivate, style: {
-            width: "100%",
-            minWidth: 0,
-            height: "auto",
-            minHeight: 0,
-            padding: "10px",
-            borderRadius: "12px",
-            overflow: "hidden",
-            textAlign: "left",
-        }, children: SP_JSX.jsxs("span", { style: { display: "flex", flexDirection: "column", width: "100%", height: "100%", minWidth: 0 }, children: [SP_JSX.jsx("span", { style: {
-                        width: "100%",
-                        aspectRatio: "1 / 1",
-                        borderRadius: round ? "50%" : "8px",
-                        overflow: "hidden",
-                        background: "rgba(255,255,255,0.08)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 18px 42px rgba(0,0,0,0.3)",
-                    }, children: imageUrl$1(item) ? (SP_JSX.jsx("img", { src: imageUrl$1(item), style: { width: "100%", height: "100%", objectFit: "cover" } })) : (SP_JSX.jsx(FaMusic, { size: 42, style: { opacity: 0.45 } })) }), SP_JSX.jsx("strong", { style: { marginTop: "12px", fontSize: "16px", lineHeight: 1.15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 650 }, children: title }), SP_JSX.jsx("span", { style: { marginTop: "5px", fontSize: "13px", opacity: 0.58, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: subtitle })] }) }));
-}
-function SpotifyTvTrack({ track, index, onActivate, preferredFocus = false, buttonRef, showArtwork = true, onFocus, status, progress, }) {
-    const normalized = normalizeTrack$1(track);
-    return (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npSpotifyTvTrack", ...{ onFocus: (event) => {
-                event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" });
-                onFocus?.();
-            } }, onClick: onActivate, style: {
-            width: "100%",
-            minWidth: "100%",
-            height: "66px",
-            minHeight: "66px",
-            padding: "0 16px",
-            borderRadius: "10px",
-            marginBottom: "6px",
-            textAlign: "left",
-        }, children: SP_JSX.jsxs("span", { style: {
-                display: "grid",
-                gridTemplateColumns: showArtwork ? "32px 48px minmax(0,1fr) auto" : "32px minmax(0,1fr) auto",
-                alignItems: "center",
-                gap: showArtwork ? "13px" : "16px",
-                width: "100%",
-            }, children: [SP_JSX.jsx("span", { style: { opacity: 0.45, fontVariantNumeric: "tabular-nums", textAlign: "right" }, children: index + 1 }), showArtwork ? SP_JSX.jsx(SpotifyArtwork, { url: imageUrl$1(normalized), size: 44 }) : null, SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: "16px", fontWeight: 620, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(normalized?.name ?? "") }), SP_JSX.jsx("span", { style: { display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(normalized) }), progress && progress > 0 && progress < 1 ? SP_JSX.jsx("span", { className: "npEpisodeProgress", style: { display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "rgba(255,255,255,.14)", overflow: "hidden" }, children: SP_JSX.jsx("span", { style: { display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 } }) }) : null] }), SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "14px", opacity: 0.62 }, children: [status ? SP_JSX.jsx("span", { className: "npEpisodeStatus", style: { fontSize: "13px", whiteSpace: "nowrap" }, children: status }) : normalized?.duration_ms ? SP_JSX.jsx("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "13px" }, children: formatTrackDuration(normalized.duration_ms) }) : null, SP_JSX.jsx(FaPlay, { size: 13 })] })] }) }));
-}
-function SpotifyBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
-    const t = useSpotifyTranslations();
-    const coreT = SP_REACT.useMemo(() => getTranslations("core"), []);
-    const [tab, setTab] = SP_REACT.useState("home");
-    const [librarySection, setLibrarySection] = SP_REACT.useState("tracks");
-    const librarySectionRef = SP_REACT.useRef("tracks");
-    const [history, setHistory] = SP_REACT.useState([]);
-    const [detail, setDetail] = SP_REACT.useState(null);
-    const [detailData, setDetailData] = SP_REACT.useState(null);
-    const [home, setHome] = SP_REACT.useState(null);
-    const [library, setLibrary] = SP_REACT.useState(null);
-    const [searchTerm, setSearchTerm] = SP_REACT.useState("");
-    const [searchResults, setSearchResults] = SP_REACT.useState(null);
-    const [loading, setLoading] = SP_REACT.useState(false);
-    const [snapshot, setSnapshot] = SP_REACT.useState(() => {
-        const player = getSharedSpotifyPlaybackSnapshot();
-        return { selectedPlayer: player?.id ?? "", currentPlayer: player?.id ?? "", selected: player, players: player ? [player] : [] };
-    });
-    const [snapshotAt, setSnapshotAt] = SP_REACT.useState(Date.now());
-    const [coverUrl, setCoverUrl] = SP_REACT.useState("");
-    const [appVolume, setAppVolume$1] = SP_REACT.useState(100);
-    const [volumeReady, setVolumeReady] = SP_REACT.useState(false);
-    const [rateLimitStatus, setRateLimitStatus] = SP_REACT.useState({ active: false, remainingSeconds: 0, until: 0 });
-    const [settingsReady, setSettingsReady] = SP_REACT.useState(false);
-    const [compactSavedTracks, setCompactSavedTracks] = SP_REACT.useState(true);
-    const [libraryTrackVisibleCount, setLibraryTrackVisibleCount] = SP_REACT.useState(120);
-    const [detailTrackVisibleCount, setDetailTrackVisibleCount] = SP_REACT.useState(120);
-    const [restoreFocusKey, setRestoreFocusKey] = SP_REACT.useState("");
-    const [backgroundSettingsOpen, setBackgroundSettingsOpen] = SP_REACT.useState(false);
-    const requestSerial = SP_REACT.useRef(0);
-    const firstContentRef = SP_REACT.useRef(null);
-    const playerCoverRef = SP_REACT.useRef(null);
-    const scrollRef = SP_REACT.useRef(null);
-    const homeTabRef = SP_REACT.useRef(null);
-    const snapshotBusyRef = SP_REACT.useRef(false);
-    const coverRequestRef = SP_REACT.useRef(0);
-    const coverClearTimerRef = SP_REACT.useRef(0);
-    const volumeTimerRef = SP_REACT.useRef(0);
-    const volumeValueRef = SP_REACT.useRef(100);
-    const volumeInteractionAtRef = SP_REACT.useRef(0);
-    const volumeCommitInFlightRef = SP_REACT.useRef(false);
-    const volumeCommitQueuedRef = SP_REACT.useRef(false);
-    const volumeCommitRetryRef = SP_REACT.useRef(0);
-    const volumeObservedRef = SP_REACT.useRef({ value: -1, count: 0 });
-    const pendingRestoreFocusKeyRef = SP_REACT.useRef("");
-    const restoreFocusTimersRef = SP_REACT.useRef([]);
-    const restoringTabRef = SP_REACT.useRef(null);
-    const restoringTabUntilRef = SP_REACT.useRef(0);
-    const spotifyPlaybackCacheRef = SP_REACT.useRef({ at: 0, player: null, lastValidAt: 0 });
-    const rateLimitActiveRef = SP_REACT.useRef(false);
-    const current = SP_REACT.useMemo(() => snapshot.selected ?? snapshot.players?.[0] ?? null, [snapshot]);
-    const hasCurrent = Boolean(current?.title);
-    const mediaKey = `${current?.id ?? ""}|${current?.title ?? ""}|${current?.artist ?? ""}|${current?.album ?? ""}`;
-    const isPlaying = current?.status === "Playing";
-    const durationMs = Math.max(0, Number(current?.length || 0));
-    const basePositionMs = Math.max(0, Number(current?.position || 0));
-    const stablePlayerArtwork = coverUrl || String(current?.artworkUrl ?? "");
-    const albumGlowImage = detail?.kind === "artist"
-        ? ""
-        : detail?.kind === "album"
-            ? imageUrl$1(detailData?.item)
-            : (stablePlayerArtwork || imageUrl$1(home?.playlists?.items?.[0]));
-    const artistBackgroundImage = detail?.kind === "artist" ? String(detailData?.backgroundImage ?? "") : "";
-    const artistBackgroundFallback = detail?.kind === "artist" ? String(detailData?.backgroundFallbackImage ?? "") : "";
-    const artistHeroImage = artistBackgroundImage || artistBackgroundFallback;
-    const artistHeroIsFallback = Boolean(!artistBackgroundImage && artistBackgroundFallback);
-    const refreshRateLimitStatus = SP_REACT.useCallback(async () => {
-        try {
-            const status = await getSpotifyApiStatus();
-            rateLimitActiveRef.current = Boolean(status.active);
-            setRateLimitStatus((previous) => (previous.active === status.active
-                && previous.remainingSeconds === status.remainingSeconds
-                && previous.until === status.until
-                ? previous
-                : status));
-        }
-        catch {
-            // This is a local backend status call. Preserve the last value on failure.
-        }
-    }, []);
-    const currentLocation = SP_REACT.useCallback(() => {
-        const active = document.activeElement;
-        const focusKey = active?.closest?.("[data-np-focus-key]")?.getAttribute("data-np-focus-key") ?? "";
-        if (detail)
-            return { kind: "detail", detail, focusKey };
-        return { kind: "tab", tab, librarySection, focusKey };
-    }, [detail, librarySection, tab]);
-    const clearRestoreFocusTimers = SP_REACT.useCallback(() => {
-        restoreFocusTimersRef.current.forEach((timer) => window.clearTimeout(timer));
-        restoreFocusTimersRef.current = [];
-    }, []);
-    const restoreCardFocus = SP_REACT.useCallback((focusKey) => {
-        const key = String(focusKey ?? "");
-        clearRestoreFocusTimers();
-        if (!key) {
-            restoreFocusTimersRef.current = [window.setTimeout(() => firstContentRef.current?.focus?.(), 80)];
-            return;
-        }
-        pendingRestoreFocusKeyRef.current = key;
-        setRestoreFocusKey(key);
-        const delays = [40, 120, 260, 520, 900, 1400];
-        const attempt = () => {
-            if (pendingRestoreFocusKeyRef.current !== key)
-                return;
-            const escaped = typeof CSS !== "undefined" && CSS.escape ? CSS.escape(key) : key.replace(/["\\]/g, "\\$&");
-            const root = document.querySelector(".npSpotifyBig");
-            const element = root?.querySelector(`[data-np-focus-key="${escaped}"]`) ?? document.querySelector(`[data-np-focus-key="${escaped}"]`);
-            if (!element)
-                return;
-            element.scrollIntoView?.({ block: "nearest", inline: "nearest" });
-            element.focus?.({ preventScroll: true });
-            if (document.activeElement === element) {
-                setRestoreFocusKey(key);
-                restoringTabRef.current = null;
-                restoringTabUntilRef.current = 0;
-            }
-        };
-        restoreFocusTimersRef.current = delays.map((delay) => window.setTimeout(attempt, delay));
-        restoreFocusTimersRef.current.push(window.setTimeout(() => {
-            restoringTabRef.current = null;
-            restoringTabUntilRef.current = 0;
-        }, 1600));
-    }, [clearRestoreFocusTimers]);
-    const handleApiError = SP_REACT.useCallback((message) => {
-        if (isSpotifyRateLimitMessage(message)) {
-            void refreshRateLimitStatus();
-            return;
-        }
-        showError$1(String(message ?? t.requestFailed));
-    }, [refreshRateLimitStatus, t.requestFailed]);
-    const run = SP_REACT.useCallback(async (work, onSuccess, minimumVisibleMs = 0) => {
-        const serial = ++requestSerial.current;
-        const startedAt = Date.now();
-        setLoading(true);
-        try {
-            const result = await work();
-            if (serial !== requestSerial.current)
-                return;
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            onSuccess(result.data);
-        }
-        catch (error) {
-            if (serial === requestSerial.current)
-                handleApiError(error?.message ?? String(error));
-        }
-        finally {
-            const remaining = minimumVisibleMs - (Date.now() - startedAt);
-            if (remaining > 0)
-                await new Promise((resolve) => window.setTimeout(resolve, remaining));
-            if (serial === requestSerial.current)
-                setLoading(false);
-        }
-    }, [handleApiError, t.requestFailed]);
-    const scrollPageTop = SP_REACT.useCallback(() => {
-        scrollRef.current?.scrollTo?.({ top: 0, behavior: "smooth" });
-    }, []);
-    const focusFirst = SP_REACT.useCallback(() => {
-        // Do not redirect focus away from tabs, category buttons, or the control used to navigate.
-    }, []);
-    const refreshSnapshot = SP_REACT.useCallback(async (force = false) => {
-        if (snapshotBusyRef.current || rateLimitActiveRef.current)
-            return;
-        const now = Date.now();
-        // Poll roughly once a second: while the integrated bridge is ready the backend
-        // serves its snapshot with no Web API call, so a track change (including an
-        // automatic advance) shows within ~1 s instead of lagging 3-4 s behind audio.
-        if (!force && now - spotifyPlaybackCacheRef.current.at < 1000)
-            return;
-        snapshotBusyRef.current = true;
-        try {
-            try {
-                const result = await spotifyGetPlaybackState();
-                const apiPlayer = result?.ok ? spotifyPlaybackToSnapshot(result.data) : null;
-                const previous = spotifyPlaybackCacheRef.current;
-                spotifyPlaybackCacheRef.current = apiPlayer
-                    ? { at: now, player: apiPlayer, lastValidAt: now }
-                    : { at: now, player: now - previous.lastValidAt <= 12000 ? previous.player : null, lastValidAt: previous.lastValidAt };
-                if (apiPlayer) {
-                    // Publish title, artwork, timing and controls as one complete payload.
-                    // Between API polls the clock interpolates progress locally; the same
-                    // stale API position is never re-published every few hundred ms.
-                    publishSpotifyPlaybackSnapshot(apiPlayer);
-                }
-                else if (!spotifyPlaybackCacheRef.current.player) {
-                    publishSpotifyPlaybackSnapshot(null);
-                }
-            }
-            catch {
-                // Preserve the latest complete Spotify API payload through a transient
-                // Spotify Connect handoff or a short network failure.
-            }
-        }
-        finally {
-            snapshotBusyRef.current = false;
-        }
-    }, []);
-    SP_REACT.useEffect(() => {
-        let tries = 0;
-        const focusHome = () => {
-            const element = homeTabRef.current;
-            if (element && typeof element.focus === "function") {
-                try {
-                    element.focus();
-                    return;
-                }
-                catch { /* retry */ }
-            }
-            if (tries++ < 20)
-                window.requestAnimationFrame(focusHome);
-        };
-        focusHome();
-    }, []);
-    SP_REACT.useEffect(() => {
-        const syncSharedPlayback = (event) => {
-            const detail = event instanceof CustomEvent ? event.detail : undefined;
-            const player = detail && typeof detail === "object" ? detail : getSharedSpotifyPlaybackSnapshot();
-            const now = getSharedSpotifyPlaybackTimestamp() || Date.now();
-            if (!player) {
-                spotifyPlaybackCacheRef.current = { at: now, player: null, lastValidAt: spotifyPlaybackCacheRef.current.lastValidAt };
-                setSnapshot({ selectedPlayer: "", currentPlayer: "", selected: null, players: [] });
-                setSnapshotAt(now);
-                return;
-            }
-            spotifyPlaybackCacheRef.current = { at: now, player, lastValidAt: now };
-            setSnapshot({ selectedPlayer: player.id, currentPlayer: player.id, selected: player, players: [player] });
-            setSnapshotAt(now);
-        };
-        window.addEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedPlayback);
-        return () => window.removeEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedPlayback);
-    }, []);
-    const loadHome = SP_REACT.useCallback(() => {
-        focusFirst();
-        void run(() => spotifyGetHome(), setHome);
-    }, [focusFirst, run]);
-    const loadLibrary = SP_REACT.useCallback((section, force = false) => {
-        librarySectionRef.current = section;
-        setLibrarySection(section);
-        focusFirst();
-        const cached = spotifyLibrarySessionCache.get(section);
-        if (!force && cached) {
-            setLibrary(cached);
-            setLoading(false);
-            if (!(section === "tracks" && compactSavedTracks) && spotifyLibraryNeedsHydration(cached, section)) {
-                hydrateSpotifyLibrary(section, (complete) => {
-                    if (librarySectionRef.current === section)
-                        setLibrary(complete);
-                });
-            }
-            return;
-        }
-        void run(() => spotifyGetLibrary(section, 0, section === "tracks" && compactSavedTracks ? 50 : 120), (value) => {
-            spotifyLibrarySessionCache.set(section, value);
-            setLibrary(value);
-            if (!(section === "tracks" && compactSavedTracks) && spotifyLibraryNeedsHydration(value, section)) {
-                hydrateSpotifyLibrary(section, (complete) => {
-                    if (librarySectionRef.current === section)
-                        setLibrary(complete);
-                });
-            }
-        });
-    }, [focusFirst, run, compactSavedTracks]);
-    const compactInitBpRef = SP_REACT.useRef(true);
-    SP_REACT.useEffect(() => {
-        if (compactInitBpRef.current) {
-            compactInitBpRef.current = false;
-            return;
-        }
-        clearSpotifyLibrarySessionCaches();
-        if (librarySection === "tracks")
-            loadLibrary("tracks", true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [compactSavedTracks]);
-    const requestDetail = SP_REACT.useCallback((next) => {
-        setBackgroundSettingsOpen(false);
-        setDetail(next);
-        setDetailData(null);
-        setDetailTrackVisibleCount(120);
-        focusFirst();
-        void run(() => spotifyGetDetail(next.kind, next.id), setDetailData, 900);
-    }, [focusFirst, run]);
-    SP_REACT.useEffect(() => {
-        setLibraryTrackVisibleCount(120);
-    }, [librarySection, library]);
-    const openDetail = SP_REACT.useCallback((item, focusKey = "") => {
-        const type = itemType$2(item);
-        if (type !== "album" && type !== "playlist" && type !== "artist")
-            return;
-        const id = String(item?.id ?? "");
-        if (!id)
-            return;
-        const location = currentLocation();
-        setHistory((items) => [...items, focusKey ? { ...location, focusKey } : location]);
-        requestDetail({ kind: type, id, title: String(item?.name ?? type) });
-    }, [currentLocation, requestDetail]);
-    const switchTab = SP_REACT.useCallback((next) => {
-        // Ignore a stale Home selection only during the brief restore window after a
-        // detail page. Deliberate tab changes remain available immediately.
-        if (restoringTabRef.current && Date.now() < restoringTabUntilRef.current) {
-            // Ignore only a transient Home request while the saved parent page is being
-            // restored. Any deliberate change to another tab cancels the guard.
-            if (next === "home" && restoringTabRef.current !== "home")
-                return;
-            if (next !== tab) {
-                restoringTabRef.current = null;
-                restoringTabUntilRef.current = 0;
-            }
-        }
-        if (next === tab && !detail)
-            return;
-        clearRestoreFocusTimers();
-        requestSerial.current += 1;
-        setLoading(false);
-        pendingRestoreFocusKeyRef.current = "";
-        setRestoreFocusKey("");
-        setDetail(null);
-        setDetailData(null);
-        setHistory([]);
-        setTab(next);
-        focusFirst();
-        if (next === "home" && !home)
-            loadHome();
-        if (next === "library")
-            loadLibrary(librarySection);
-    }, [clearRestoreFocusTimers, detail, focusFirst, home, librarySection, loadHome, loadLibrary, tab]);
-    const handleRootButtonDown = SP_REACT.useCallback((event) => {
-        if (detail)
-            return;
-        const button = event?.detail?.button;
-        if (button !== DFL.GamepadButton.BUMPER_LEFT && button !== DFL.GamepadButton.BUMPER_RIGHT)
-            return;
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
-        const tabs = ["home", "search", "library", "settings"];
-        const index = Math.max(0, tabs.indexOf(tab));
-        const delta = button === DFL.GamepadButton.BUMPER_RIGHT ? 1 : -1;
-        const next = tabs[(index + delta + tabs.length) % tabs.length];
-        if (next === "settings")
-            onOpenSettings?.();
-        else
-            switchTab(next);
-        window.setTimeout(() => {
-            const root = document.querySelector(".npSpotifyTvRoot");
-            const content = root?.querySelector(".npSpotifyTabContent");
-            if (content) {
-                content.style.transform = "none";
-                content.style.left = "0";
-                content.style.width = "100%";
-            }
-            scrollRef.current?.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
-        }, 0);
-    }, [detail, onOpenSettings, switchTab, tab]);
-    const restoreLocation = SP_REACT.useCallback((location) => {
-        requestSerial.current += 1;
-        setLoading(false);
-        if (location.kind === "detail") {
-            requestDetail(location.detail);
-            restoreCardFocus(location.focusKey);
-            return;
-        }
-        restoringTabRef.current = location.tab;
-        restoringTabUntilRef.current = Date.now() + 900;
-        setDetail(null);
-        setDetailData(null);
-        setTab(location.tab);
-        setLibrarySection(location.librarySection ?? "tracks");
-        if (location.tab === "home" && !home)
-            loadHome();
-        if (location.tab === "library")
-            loadLibrary(location.librarySection ?? "tracks");
-        restoreCardFocus(location.focusKey);
-    }, [home, library, loadHome, loadLibrary, requestDetail, restoreCardFocus]);
-    const navigateBack = SP_REACT.useCallback((event) => {
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
-        if (backgroundSettingsOpen) {
-            setBackgroundSettingsOpen(false);
-            return true;
-        }
-        const previous = history[history.length - 1];
-        if (previous) {
-            setHistory((items) => items.slice(0, -1));
-            restoreLocation(previous);
-            return true;
-        }
-        onExit();
-        return true;
-    }, [backgroundSettingsOpen, history, onExit, restoreLocation]);
-    SP_REACT.useEffect(() => {
-        let cancelled = false;
-        void getSpotifySettings().then((value) => {
-            if (cancelled)
-                return;
-            setCompactSavedTracks(value.compactSavedTracks !== false);
-            setSettingsReady(true);
-        }).catch(() => {
-            if (!cancelled)
-                setSettingsReady(true);
-        });
-        return () => { cancelled = true; };
-    }, []);
-    SP_REACT.useEffect(() => {
-        if (!settingsReady)
-            return;
-        loadHome();
-    }, [loadHome, settingsReady]);
-    SP_REACT.useEffect(() => () => clearRestoreFocusTimers(), [clearRestoreFocusTimers]);
-    SP_REACT.useEffect(() => {
-        const onKeyDown = (event) => {
-            if (event.key !== "Escape")
-                return;
-            navigateBack(event);
-        };
-        document.addEventListener("keydown", onKeyDown, true);
-        return () => document.removeEventListener("keydown", onKeyDown, true);
-    }, [navigateBack]);
-    SP_REACT.useEffect(() => {
-        rateLimitActiveRef.current = rateLimitStatus.active;
-        if (rateLimitStatus.active) {
-            const paused = spotifyPausedPlayer$1(t);
-            setSnapshot({ selectedPlayer: paused.id, currentPlayer: paused.id, selected: paused, players: [paused] });
-            setSnapshotAt(Date.now());
-            publishSpotifyPlaybackSnapshot(paused);
-            return;
-        }
-        spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-        void refreshSnapshot(true);
-    }, [rateLimitStatus.active, refreshSnapshot, t]);
-    SP_REACT.useEffect(() => {
-        void refreshSnapshot();
-        const timer = window.setInterval(() => void refreshSnapshot(), 1000);
-        return () => window.clearInterval(timer);
-    }, [refreshSnapshot]);
-    SP_REACT.useEffect(() => {
-        void refreshRateLimitStatus();
-        const timer = window.setInterval(() => void refreshRateLimitStatus(), 1000);
-        return () => window.clearInterval(timer);
-    }, [refreshRateLimitStatus]);
-    SP_REACT.useEffect(() => {
-        const requestId = ++coverRequestRef.current;
-        if (!current?.title) {
-            if (!coverClearTimerRef.current) {
-                coverClearTimerRef.current = window.setTimeout(() => {
-                    coverClearTimerRef.current = 0;
-                    setCoverUrl("");
-                }, 1200);
-            }
-            return;
-        }
-        if (coverClearTimerRef.current) {
-            window.clearTimeout(coverClearTimerRef.current);
-            coverClearTimerRef.current = 0;
-        }
-        let cancelled = false;
-        const commitPreloadedCover = (url) => {
-            if (!url || url === coverUrl)
-                return;
-            const image = new Image();
-            image.onload = () => {
-                if (!cancelled && requestId === coverRequestRef.current)
-                    setCoverUrl(url);
-            };
-            image.src = url;
-        };
-        const immediateArtwork = String(current.artworkUrl ?? "");
-        if (immediateArtwork) {
-            commitPreloadedCover(immediateArtwork);
-            return () => { cancelled = true; };
-        }
-        void getCoverForService("spotify", current.title ?? "", current.artist ?? "", current.album ?? "")
-            .then((url) => {
-            if (url)
-                commitPreloadedCover(url);
-        })
-            .catch(() => { });
-        return () => { cancelled = true; };
-    }, [current?.artworkUrl, mediaKey]);
-    SP_REACT.useEffect(() => () => {
-        if (coverClearTimerRef.current)
-            window.clearTimeout(coverClearTimerRef.current);
-    }, []);
-    SP_REACT.useEffect(() => {
-        let cancelled = false;
-        const timers = [];
-        const saved = getSavedSourceVolume("spotify", 100);
-        volumeValueRef.current = saved;
-        setAppVolume$1(saved);
-        setVolumeReady(false);
-        const initialize = async () => {
-            if (cancelled)
-                return;
-            try {
-                const startedAt = Date.now();
-                const result = await getAppVolume("spotify");
-                if (cancelled || volumeInteractionAtRef.current > startedAt)
-                    return;
-                if (result?.ok) {
-                    const actual = Math.max(0, Math.min(100, Number(result.volume ?? saved)));
-                    volumeValueRef.current = actual;
-                    setAppVolume$1(actual);
-                    saveSourceVolume("spotify", actual, "observed");
-                    setVolumeReady(true);
-                    return;
-                }
-            }
-            catch {
-                // The background player may still be creating its Windows audio session.
-            }
-            try {
-                const applied = await setAppVolume(volumeValueRef.current, "spotify");
-                if (!cancelled)
-                    setVolumeReady(Boolean(applied?.ok && !applied.stale));
-            }
-            catch {
-                if (!cancelled)
-                    setVolumeReady(false);
-            }
-        };
-        [0, 1400, 4200].forEach((delay) => timers.push(window.setTimeout(() => void initialize(), delay)));
-        const syncVolume = (event) => {
-            const detail = event instanceof CustomEvent ? event.detail : null;
-            if (detail?.source !== "spotify")
-                return;
-            const next = Math.max(0, Math.min(100, Number(detail.volume ?? saved)));
-            if (detail.origin !== "observed")
-                volumeInteractionAtRef.current = Date.now();
-            volumeValueRef.current = next;
-            volumeObservedRef.current = { value: next, count: 0 };
-            setAppVolume$1(next);
-            setVolumeReady(true);
-        };
-        window.addEventListener(SOURCE_VOLUME_CHANGED_EVENT, syncVolume);
-        return () => {
-            cancelled = true;
-            timers.forEach((timer) => window.clearTimeout(timer));
-            window.removeEventListener(SOURCE_VOLUME_CHANGED_EVENT, syncVolume);
-        };
-    }, []);
-    SP_REACT.useEffect(() => {
-        let cancelled = false;
-        let reading = false;
-        const refreshVolume = async () => {
-            if (reading || volumeCommitInFlightRef.current || volumeTimerRef.current)
-                return;
-            if (Date.now() - volumeInteractionAtRef.current < 800)
-                return;
-            reading = true;
-            const startedAt = Date.now();
-            try {
-                const result = await getAppVolume("spotify");
-                if (cancelled || !result?.ok || volumeInteractionAtRef.current > startedAt)
-                    return;
-                const next = Math.max(0, Math.min(100, Number(result.volume ?? volumeValueRef.current)));
-                const displayed = volumeValueRef.current;
-                const differs = Math.abs(next - displayed) > 2;
-                if (result.origin !== "spotify-connect" && differs && Date.now() - volumeInteractionAtRef.current < 15000) {
-                    if (!volumeCommitInFlightRef.current && !volumeTimerRef.current) {
-                        volumeCommitRetryRef.current = 0;
-                        volumeTimerRef.current = window.setTimeout(() => {
-                            volumeTimerRef.current = 0;
-                            flushVolumeCommit();
-                        }, 80);
-                    }
-                    return;
-                }
-                if (differs && result.origin !== "spotify-connect") {
-                    const observed = volumeObservedRef.current;
-                    volumeObservedRef.current = observed.value === next
-                        ? { value: next, count: observed.count + 1 }
-                        : { value: next, count: 1 };
-                    if (volumeObservedRef.current.count < 2)
-                        return;
-                }
-                else {
-                    volumeObservedRef.current = { value: next, count: 0 };
-                }
-                volumeValueRef.current = next;
-                setAppVolume$1(next);
-                setVolumeReady(true);
-                saveSourceVolume("spotify", next, "observed");
-            }
-            catch {
-                if (!cancelled)
-                    setVolumeReady(false);
-            }
-            finally {
-                reading = false;
-            }
-        };
-        const initialTimer = window.setTimeout(() => void refreshVolume(), 1600);
-        const timer = window.setInterval(() => void refreshVolume(), 2500);
-        return () => {
-            cancelled = true;
-            window.clearTimeout(initialTimer);
-            window.clearInterval(timer);
-        };
-    }, []);
-    SP_REACT.useEffect(() => {
-        const onFocusIn = (event) => {
-            const target = event.target;
-            if (target?.closest?.(".npSpotifyCustomTab"))
-                scrollPageTop();
-        };
-        document.addEventListener("focusin", onFocusIn, true);
-        return () => document.removeEventListener("focusin", onFocusIn, true);
-    }, [scrollPageTop]);
-    async function executeSearch() {
-        const query = searchTerm.trim();
-        if (query.length < 2 || loading)
-            return;
-        focusFirst();
-        void run(() => spotifySearch(query), setSearchResults);
-    }
-    async function play(uri, contextUri = "", offsetUri = "") {
-        if (rateLimitStatus.active) {
-            toaster.toast({ title: "Spotify API", body: formatSpotifyText(t.apiPausedDetail, { time: formatCountdown(rateLimitStatus.remainingSeconds) }), duration: 5000 });
-            return;
-        }
-        localAudioPlayer.stop();
-        spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-        try {
-            const result = await spotifyPlay(uri, contextUri, offsetUri);
-            if (!result?.ok)
-                throw new Error(result?.error || t.unableStartPlayback);
-            notifySpotifyPlaybackChanged();
-            window.setTimeout(() => void refreshSnapshot(), 260);
-        }
-        catch (error) {
-            handleApiError(error?.message ?? String(error));
-        }
-    }
-    async function playTrackList(entries, startIndex = 0) {
-        if (rateLimitStatus.active) {
-            toaster.toast({ title: "Spotify API", body: formatSpotifyText(t.apiPausedDetail, { time: formatCountdown(rateLimitStatus.remainingSeconds) }), duration: 5000 });
-            return;
-        }
-        localAudioPlayer.stop();
-        const normalizedEntries = entries.map(normalizeTrack$1).filter(Boolean);
-        spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-        const uris = normalizedEntries
-            .map((track) => String(track?.uri ?? ""))
-            .filter((uri) => uri.startsWith("spotify:track:") || uri.startsWith("spotify:episode:"));
-        if (!uris.length)
-            return;
-        try {
-            const result = await spotifyPlayItems(uris, Math.max(0, Math.min(startIndex, uris.length - 1)));
-            if (!result?.ok)
-                throw new Error(result?.error || t.unableStartPlayback);
-            const optimistic = optimisticSpotifySnapshotFromTrack(entries[Math.max(0, Math.min(startIndex, entries.length - 1))]);
-            if (optimistic)
-                publishSpotifyPlaybackSnapshot(optimistic);
-            notifySpotifyPlaybackChanged();
-            window.setTimeout(() => void refreshSnapshot(), 260);
-        }
-        catch (error) {
-            handleApiError(error?.message ?? String(error));
-        }
-    }
-    function patchSpotifyPlayer(update) {
-        const cached = spotifyPlaybackCacheRef.current;
-        if (cached.player)
-            spotifyPlaybackCacheRef.current = { ...cached, player: update(cached.player) };
-        setSnapshot((previous) => {
-            const player = previous.selected ?? previous.players?.[0];
-            if (!player)
-                return previous;
-            const next = update(player);
-            return { selectedPlayer: next.id, currentPlayer: next.id, selected: next, players: [next] };
-        });
-        setSnapshotAt(Date.now());
-        const player = spotifyPlaybackCacheRef.current.player;
-        if (player)
-            publishSpotifyPlaybackSnapshot(player);
-    }
-    function runSpotifyPlayerAction(action, optimistic) {
-        optimistic?.();
-        void action().then(() => {
-            notifySpotifyPlaybackChanged();
-            spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-        }).catch(() => { });
-        window.setTimeout(() => void refreshSnapshot(false), 260);
-    }
-    function changeVolume(value) {
-        const next = Math.max(0, Math.min(100, Math.round(Number(value || 0))));
-        volumeInteractionAtRef.current = Date.now();
-        volumeValueRef.current = next;
-        volumeObservedRef.current = { value: next, count: 0 };
-        volumeCommitRetryRef.current = 0;
-        setAppVolume$1(next);
-        setVolumeReady(true);
-        saveSourceVolume("spotify", next);
-        if (volumeCommitInFlightRef.current) {
-            volumeCommitQueuedRef.current = true;
-            return;
-        }
-        if (volumeTimerRef.current)
-            window.clearTimeout(volumeTimerRef.current);
-        volumeTimerRef.current = window.setTimeout(() => {
-            volumeTimerRef.current = 0;
-            flushVolumeCommit();
-        }, 45);
-    }
-    function flushVolumeCommit() {
-        if (volumeCommitInFlightRef.current) {
-            volumeCommitQueuedRef.current = true;
-            return;
-        }
-        const requested = volumeValueRef.current;
-        volumeCommitQueuedRef.current = false;
-        volumeCommitInFlightRef.current = true;
-        void setAppVolume(requested, "spotify")
-            .then((result) => {
-            if (!result?.ok) {
-                setVolumeReady(false);
-                return;
-            }
-            if (result.stale)
-                return;
-            setVolumeReady(true);
-            if (volumeValueRef.current !== requested)
-                return;
-            const confirmed = Math.max(0, Math.min(100, Number(result.volume ?? requested)));
-            if (Math.abs(confirmed - requested) <= 2) {
-                volumeCommitRetryRef.current = 0;
-                volumeValueRef.current = confirmed;
-                setAppVolume$1(confirmed);
-            }
-            else if (volumeCommitRetryRef.current < 3) {
-                volumeCommitRetryRef.current += 1;
-                volumeCommitQueuedRef.current = true;
-            }
-        })
-            .catch(() => setVolumeReady(false))
-            .finally(() => {
-            volumeCommitInFlightRef.current = false;
-            if (volumeCommitQueuedRef.current || volumeValueRef.current !== requested) {
-                volumeCommitQueuedRef.current = false;
-                volumeTimerRef.current = window.setTimeout(() => {
-                    volumeTimerRef.current = 0;
-                    flushVolumeCommit();
-                }, 80);
-            }
-        });
-    }
-    function nudgeVolume(delta) {
-        changeVolume(volumeValueRef.current + delta);
-    }
-    function handleVolumeKeyDown(event) {
-        const direction = spotifyDirectionFromKey(event.key);
-        if (!direction)
-            return;
-        event.preventDefault();
-        event.stopPropagation();
-        nudgeVolume(direction);
-    }
-    function handleVolumeButtonDown(event) {
-        const direction = spotifyDirectionFromGamepadButton(event?.detail?.button);
-        if (!direction)
-            return;
-        event.preventDefault?.();
-        event.stopPropagation?.();
-        nudgeVolume(direction);
-    }
-    async function openCurrentAlbum() {
-        if (!current?.title)
-            return;
-        try {
-            const result = await spotifyGetCurrentAlbum(current.title ?? "", current.artist ?? "", current.album ?? "");
-            if (!result?.ok)
-                throw new Error(result?.error || t.requestFailed);
-            const album = result.data?.album;
-            if (album?.id)
-                openDetail(album);
-        }
-        catch (error) {
-            handleApiError(error?.message ?? String(error));
-        }
-    }
-    const renderCardRow = (title, items, round = false, firstRow = false) => {
-        if (!items.length)
-            return null;
-        return (SP_JSX.jsxs("section", { className: "npSpotifyTvShelf", style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", letterSpacing: "-0.02em", fontWeight: 650 }, children: title }), SP_JSX.jsx(DFL.Focusable, { className: "npSpotifyTvRow", "flow-children": "horizontal", style: { display: "grid", gridAutoFlow: "column", gridAutoColumns: "calc((100% - 60px) / 6)", gap: "12px", overflowX: "auto", overflowY: "hidden", width: "100%", padding: "8px 0 24px", scrollPaddingInline: "0px" }, children: items.slice(0, 20).map((item, index) => (SP_JSX.jsx(SpotifyTvCard, { item: normalizeAlbum(item), round: round, buttonRef: firstRow && index === 0 ? firstContentRef : undefined, focusKey: `shelf:${title}:${itemType$2(normalizeAlbum(item))}:${String(normalizeAlbum(item)?.id ?? index)}`, onActivate: () => openDetail(normalizeAlbum(item)) }, `${item?.id ?? index}-${index}`))) })] }));
-    };
-    function renderPlayerCard() {
-        return (SP_JSX.jsxs(DFL.Focusable, { className: "npSpotifyNowPlayingCard", "flow-children": "grid", style: {
-                position: "relative",
-                display: "grid",
-                gridTemplateColumns: "320px minmax(0, 1fr) minmax(330px, 24vw)",
-                gap: "clamp(22px, 3vw, 44px)",
-                alignItems: "stretch",
-                width: "100%",
-                minHeight: "368px",
-                padding: "24px",
-                borderRadius: "20px",
-                border: "1px solid rgba(255,255,255,0.09)",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045) 48%, rgba(0,0,0,0.16))",
-                backdropFilter: "blur(28px)",
-                boxShadow: "0 24px 80px rgba(0,0,0,0.28)",
-                overflow: "hidden",
-            }, children: [stablePlayerArtwork ? (SP_JSX.jsx("div", { className: "npSpotifyPlayerGlow", "aria-hidden": "true", style: {
-                        position: "absolute",
-                        inset: "-40% -16% -70% -16%",
-                        background: `url(${stablePlayerArtwork}) center/cover no-repeat`,
-                        filter: "blur(110px) saturate(1.55)",
-                        opacity: 0.34,
-                        transform: "scale(1.1)",
-                        pointerEvents: "none",
-                    } })) : null, SP_JSX.jsx(DFL.DialogButton, { ref: playerCoverRef, className: "npSpotifyCoverButton", disabled: !current?.title || rateLimitStatus.active, ...{ onFocus: scrollPageTop }, onClick: () => { if (!rateLimitStatus.active)
-                        void openCurrentAlbum(); }, style: {
-                        position: "relative",
-                        width: "320px",
-                        minWidth: "320px",
-                        height: "320px",
-                        minHeight: "320px",
-                        padding: 0,
-                        borderRadius: "14px",
-                        overflow: "hidden",
-                        background: "rgba(255,255,255,0.06)",
-                        boxShadow: "0 24px 70px rgba(0,0,0,0.42)",
-                    }, children: stablePlayerArtwork ? (SP_JSX.jsx("img", { src: stablePlayerArtwork, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } })) : (SP_JSX.jsx("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }, children: rateLimitStatus.active ? SP_JSX.jsx(FaClock, { size: 64, style: { opacity: 0.42 } }) : SP_JSX.jsx(FaMusic, { size: 64, style: { opacity: 0.3 } }) })) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { display: "block", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.14em", opacity: 0.58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px, 4vw, 68px)", lineHeight: 1.08, letterSpacing: "-0.045em", fontWeight: 610, paddingBottom: "0.12em" }, children: String(current?.title ?? "") }), SP_JSX.jsx("div", { style: { marginTop: "12px", fontSize: "clamp(18px, 1.7vw, 27px)", opacity: 0.72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: current?.artist }), rateLimitStatus.active ? SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: "16px", opacity: 0.58, fontVariantNumeric: "tabular-nums" }, children: formatCountdown(rateLimitStatus.remainingSeconds) }) : current?.album ? SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: "16px", opacity: 0.45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: current.album }) : null, !rateLimitStatus.active ? SP_JSX.jsxs("div", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("div", { style: { height: "5px", borderRadius: "999px", background: "rgba(255,255,255,0.16)", overflow: "hidden" }, children: SP_JSX.jsx(SmoothProgressFill, { position: basePositionMs, duration: durationMs, playing: isPlaying, sampledAt: snapshotAt, style: { height: "100%", background: "#fff", borderRadius: "999px" } }) }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginTop: "8px", fontSize: "13px", opacity: 0.48, fontVariantNumeric: "tabular-nums" }, children: [SP_JSX.jsx(SmoothProgressTime, { position: basePositionMs, duration: durationMs, playing: isPlaying, sampledAt: snapshotAt, format: formatTrackDuration }), SP_JSX.jsx("span", { children: formatTrackDuration(durationMs) })] })] }) : null] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px, 3.4vw, 58px)", lineHeight: 1.08, letterSpacing: "-0.04em", fontWeight: 610 }, children: t.noPlayback }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "10px", alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "10px" }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent || !current?.canPrevious, ...{ onFocus: scrollPageTop }, onClick: () => runSpotifyPlayerAction(() => spotifyPlayerCommand("previous")), style: { width: "100%", minWidth: 0, height: "58px", minHeight: "58px", padding: 0 }, children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent || (!current?.canTogglePlayPause && !(current?.canPlay || current?.canPause)), ...{ onFocus: scrollPageTop }, onClick: () => runSpotifyPlayerAction(() => spotifyPlayerCommand(isPlaying ? "pause" : "play"), () => patchSpotifyPlayer((player) => ({ ...player, status: isPlaying ? "Paused" : "Playing" }))), style: { width: "100%", minWidth: 0, height: "58px", minHeight: "58px", padding: 0 }, children: isPlaying ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent || !current?.canNext, ...{ onFocus: scrollPageTop }, onClick: () => runSpotifyPlayerAction(() => spotifyPlayerCommand("next")), style: { width: "100%", minWidth: 0, height: "58px", minHeight: "58px", padding: 0 }, children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent || !current?.canShuffle, "aria-label": t.shuffle, onClick: () => runSpotifyPlayerAction(() => spotifyPlayerCommand("shuffle", current?.shuffleActive ? 0 : 1), () => patchSpotifyPlayer((player) => ({ ...player, shuffleActive: !player.shuffleActive }))), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", minHeight: "46px", padding: 0, opacity: current?.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), current?.shuffleActive ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: SPOTIFY_GREEN, boxShadow: `0 0 8px ${SPOTIFY_GREEN}` } }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent || !current?.canRepeat, "aria-label": t.repeat, onClick: () => runSpotifyPlayerAction(() => spotifyPlayerCommand("repeat", current?.repeatMode === "Off" ? 1 : current?.repeatMode === "List" ? 2 : 0), () => patchSpotifyPlayer((player) => ({ ...player, repeatMode: player.repeatMode === "Off" ? "List" : player.repeatMode === "List" ? "Track" : "Off" }))), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", minHeight: "46px", padding: 0, opacity: current?.repeatMode && !["None", "Off"].includes(current.repeatMode) ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: current?.repeatMode === "Track", size: 17 }), current?.repeatMode && !["None", "Off"].includes(current.repeatMode) ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: SPOTIFY_GREEN, boxShadow: `0 0 8px ${SPOTIFY_GREEN}` } }) : null] })] }), onOpenVisualizer ? (SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyBigPictureButton", disabled: rateLimitStatus.active, "aria-label": t.fullscreen, ...{ onFocus: scrollPageTop }, onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: "46px", minHeight: "46px", border: "1px solid rgba(255,255,255,0.075)", background: "rgba(255,255,255,0.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), " ", t.fullscreen] }) })) : null, SP_JSX.jsxs(DFL.Focusable, { className: "npSpotifyAppVolume", focusClassName: "npSpotifyAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: handleVolumeButtonDown, onKeyDown: handleVolumeKeyDown, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(appVolume), style: { gridColumn: "1 / -1", opacity: volumeReady && !rateLimitStatus.active ? 1 : 0.46 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", value: Math.round(appVolume), min: 0, max: 100, step: 1, disabled: !volumeReady || rateLimitStatus.active, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [Math.round(appVolume), "%"] })] })] }) })] }));
-    }
-    function renderHomeTv() {
-        const playlists = (home?.playlists?.items ?? []).filter(Boolean);
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [renderPlayerCard(), renderCardRow(t.yourPlaylists, playlists), renderCardRow(t.newForYou, (home?.newForYou?.items ?? []).map(normalizeAlbum).filter(Boolean))] }));
-    }
-    function renderSearchTv() {
-        const tracks = (searchResults?.tracks?.items ?? []).slice(0, 10);
-        const albums = (searchResults?.albums?.items ?? []).slice(0, 10);
-        const artists = (searchResults?.artists?.items ?? []).slice(0, 10);
-        const playlists = (searchResults?.playlists?.items ?? []).filter(Boolean).slice(0, 10);
-        const firstType = artists.length ? "artist" : albums.length ? "album" : tracks.length ? "track" : playlists.length ? "playlist" : "input";
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs("div", { style: { width: "100%" }, onFocusCapture: scrollPageTop, children: [SP_JSX.jsx(DFL.TextField, { label: t.searchSpotify, value: searchTerm, style: { width: "100%", minWidth: "100%" }, onChange: (value) => setSearchTerm(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => {
-                                if (event?.key === "Enter" || event?.keyCode === 13) {
-                                    event?.preventDefault?.();
-                                    void executeSearch();
-                                }
-                            } }), SP_JSX.jsx(DFL.DialogButton, { ref: firstType === "input" ? firstContentRef : undefined, style: { width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }, disabled: searchTerm.trim().length < 2 || loading, ...{ onFocus: scrollPageTop }, onClick: () => void executeSearch(), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaSearch, {}), " ", t.search] }) })] }), renderCardRow(t.artists, artists, true, firstType === "artist"), renderCardRow(t.albums, albums, false, firstType === "album"), tracks.length ? (SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { fontSize: "25px", marginBottom: "13px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.map((track, index) => (SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onActivate: () => void playTrackList(tracks, index) }, `${track?.id ?? index}-${index}`))) })] })) : null, renderCardRow(t.playlists, playlists, false, firstType === "playlist"), searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !loading ? (SP_JSX.jsx("div", { style: { marginTop: "38px", fontSize: "19px", opacity: 0.55 }, children: t.noResults })) : null] }));
-    }
-    function switchLibrarySection(next) {
-        if (librarySection === next && library) {
-            focusFirst();
-            return;
-        }
-        loadLibrary(next);
-    }
-    function renderLibraryTv() {
-        const labels = {
-            tracks: t.savedTracks,
-            albums: t.albums,
-            playlists: t.playlists,
-            artists: t.artists,
-        };
-        const entries = librarySection === "artists" ? (library?.artists?.items ?? []) : (library?.items ?? []);
-        const visible = librarySection === "tracks" ? entries.slice(0, libraryTrackVisibleCount) : entries;
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "9px", marginTop: "4px" }, children: ["tracks", "albums", "playlists", "artists"].map((section) => (SP_JSX.jsx(DFL.DialogButton, { ...{ onFocus: scrollPageTop }, onClick: () => switchLibrarySection(section), style: { width: "166px", minWidth: "166px", height: "44px", borderRadius: "999px", opacity: librarySection === section ? 1 : 0.58 }, children: SP_JSX.jsx("span", { style: { fontWeight: librarySection === section ? 650 : 500 }, children: labels[section] }) }, section))) }), SP_JSX.jsx("h2", { style: { margin: "26px 0 13px", fontSize: "27px", fontWeight: 650 }, children: labels[librarySection] }), librarySection === "tracks" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [entries.length ? (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "10px", marginBottom: "16px" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, onClick: () => void playTrackList(entries, 0), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, onClick: () => {
-                                        const shuffled = [...entries];
-                                        for (let index = shuffled.length - 1; index > 0; index -= 1) {
-                                            const swap = Math.floor(Math.random() * (index + 1));
-                                            [shuffled[index], shuffled[swap]] = [shuffled[swap], shuffled[index]];
-                                        }
-                                        void playTrackList(shuffled, 0);
-                                    }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaRandom, {}), " ", t.shuffle] }) })] })) : null, compactSavedTracks ? (SP_JSX.jsxs("div", { style: { width: "390px", maxWidth: "100%", padding: "18px", borderRadius: "14px", border: "1px solid rgba(29,185,84,.24)", background: "rgba(29,185,84,.08)", lineHeight: 1.48, opacity: .84 }, children: [SP_JSX.jsx("div", { children: t.compactSavedTracksCard }), onOpenSettings ? SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyBigPictureButton", style: { width: "100%", minWidth: "100%", height: "44px", marginTop: "12px", whiteSpace: "nowrap" }, onClick: onOpenSettings, children: SP_JSX.jsx("span", { style: { fontSize: ".82em", whiteSpace: "nowrap" }, children: t.changeInSettings }) }) : null] })) : (SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: visible.map((track, index) => (SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onFocus: () => {
-                                    if (index >= visible.length - 18 && visible.length < entries.length) {
-                                        setLibraryTrackVisibleCount((current) => Math.min(entries.length, current + 120));
-                                    }
-                                }, onActivate: () => void playTrackList(entries, index) }, `${normalizeTrack$1(track)?.id ?? index}-${index}`))) }))] })) : (SP_JSX.jsx(DFL.Focusable, { ...{ "data-np-six-grid": `spotify-library-${librarySection}` }, "flow-children": "grid", navEntryPreferPosition: restoreFocusKey ? DFL.NavEntryPositionPreferences.PREFERRED_CHILD : DFL.NavEntryPositionPreferences.MAINTAIN_X, onKeyDownCapture: (event) => moveSpotifySixColumnGridFocus(event, spotifyGridDirectionFromKey(event?.key)), onGamepadDirection: (event) => moveSpotifySixColumnGridFocus(event, spotifyGridDirectionFromGamepad(event?.detail?.button)), style: { display: "grid", gridTemplateColumns: "repeat(6, minmax(0, 1fr))", gap: "14px", alignItems: "start" }, children: visible.map((entry, index) => {
-                        const item = librarySection === "albums" ? normalizeAlbum(entry) : entry;
-                        const focusKey = `library:${librarySection}:${itemType$2(item)}:${String(item?.id ?? index)}`;
-                        return (SP_JSX.jsx(SpotifyTvCard, { item: item, round: librarySection === "artists", gridIndex: index, focusKey: focusKey, preferredFocus: restoreFocusKey === focusKey, onActivate: () => openDetail(item, focusKey) }, `${item?.id ?? index}-${index}`));
-                    }) })), !entries.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: 0.55 }, children: t.nothingHere }) : null] }));
-    }
-    const backButton = (overlay = false) => (SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyBackButton npSpotifyBigPictureButton", onClick: navigateBack, style: {
-            position: overlay ? "absolute" : "relative",
-            top: overlay ? "20px" : undefined,
-            left: overlay ? "28px" : undefined,
-            zIndex: 5,
-            width: "108px",
-            minWidth: "108px",
-            height: "34px",
-            minHeight: "34px",
-            padding: 0,
-            border: "1px solid rgba(255,255,255,0.075)",
-            background: "rgba(255,255,255,0.035)",
-        }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.72em", fontWeight: 430, color: "#fff" }, children: [SP_JSX.jsx(FaArrowLeft, { size: 11 }), " ", t.back] }) }));
-    function renderDetailTv() {
-        if (!detail)
-            return null;
-        const item = detailData?.item;
-        const tracks = detail.kind === "artist" ? (detailData?.topTracks?.tracks ?? []) : (detailData?.tracks?.items ?? []);
-        const albums = detailData?.albums?.items ?? [];
-        const visibleTracks = tracks.slice(0, detailTrackVisibleCount);
-        const contextUri = String(item?.uri ?? `spotify:${detail.kind}:${detail.id}`);
-        const albumArtist = item?.artists?.[0];
-        const albumYear = detail.kind === "album" ? releaseYear(item) : "";
-        const isArtist = detail.kind === "artist";
-        const isAlbum = detail.kind === "album";
-        if (backgroundSettingsOpen && isArtist) {
-            return SP_JSX.jsx(ArtistBackgroundPicker, { provider: "spotify", artistId: String(item?.id ?? detail.id ?? ""), artistName: String(item?.name ?? detail.title ?? ""), onBack: () => setBackgroundSettingsOpen(false), onApplied: (url) => setDetailData((currentData) => currentData ? { ...currentData, backgroundImage: url } : currentData) });
-        }
-        if (isArtist) {
-            return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs("section", { className: "npSpotifyArtistHero", style: {
-                            position: "relative",
-                            width: "100vw",
-                            height: "min(56.25vw, 720px)",
-                            minHeight: "430px",
-                            margin: "-18px -56px 0",
-                            overflow: "hidden",
-                            background: "#090909",
-                        }, children: [artistHeroImage ? (SP_JSX.jsx("img", { src: artistHeroImage, onError: () => {
-                                    setDetailData((currentData) => currentData ? (currentData.backgroundImage
-                                        ? { ...currentData, backgroundImage: "" }
-                                        : { ...currentData, backgroundFallbackImage: "" }) : currentData);
-                                }, style: {
-                                    position: "absolute",
-                                    inset: artistHeroIsFallback ? "-8%" : 0,
-                                    width: artistHeroIsFallback ? "116%" : "100%",
-                                    height: artistHeroIsFallback ? "116%" : "100%",
-                                    objectFit: "cover",
-                                    objectPosition: "center center",
-                                    filter: artistHeroIsFallback ? "blur(30px) saturate(1.35) brightness(.72)" : "none",
-                                    transform: artistHeroIsFallback ? "scale(1.06)" : "none",
-                                } })) : null, SP_JSX.jsx("div", { "aria-hidden": "true", style: {
-                                    position: "absolute",
-                                    inset: 0,
-                                    background: "linear-gradient(90deg, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.04) 62%, rgba(0,0,0,0.14) 100%), linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.08) 52%, rgba(0,0,0,0.72) 80%, #000 100%)",
-                                } }), backButton(true), SP_JSX.jsxs("div", { style: { position: "absolute", left: "46px", right: "46px", bottom: "46px", zIndex: 2 }, children: [SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(58px, 7vw, 102px)", lineHeight: 1, letterSpacing: "-0.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx(DFL.DialogButton, { ref: !tracks.length ? firstContentRef : undefined, style: { width: "156px", minWidth: "156px", height: "48px", marginTop: "22px" }, onClick: () => void play(contextUri), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 560 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) })] })] }), SP_JSX.jsxs("section", { style: { marginTop: "22px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "27px", fontWeight: 650 }, children: t.popularTracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: visibleTracks.map((track, index) => (SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onActivate: () => void playTrackList(tracks, index) }, `${normalizeTrack$1(track)?.id ?? index}-${index}`))) }), !tracks.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: 0.55 }, children: t.noTracks }) : null] }), albums.length ? renderCardRow(t.albumsAndSingles, albums) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npSpotifyBigPictureButton", style: { width: "250px", minWidth: "250px", height: "48px", marginTop: "26px" }, onClick: () => setBackgroundSettingsOpen(true), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaCog, {}), " ", coreT.artistBackgroundSettings] }) })] }));
-        }
-        return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [backButton(false), SP_JSX.jsxs("div", { style: {
-                        display: "grid",
-                        gridTemplateColumns: "250px minmax(0,1fr)",
-                        alignItems: "end",
-                        gap: "32px",
-                        marginTop: "20px",
-                        minHeight: "250px",
-                    }, children: [SP_JSX.jsx("div", { style: { width: "250px", height: "250px", borderRadius: "16px", overflow: "hidden", boxShadow: "0 30px 86px rgba(0,0,0,0.48)", background: "rgba(255,255,255,0.08)" }, children: imageUrl$1(item) ? SP_JSX.jsx("img", { src: imageUrl$1(item), style: { width: "100%", height: "100%", objectFit: "cover" } }) : SP_JSX.jsx(FaMusic, { size: 68, style: { margin: "91px", opacity: 0.4 } }) }), SP_JSX.jsxs("div", { style: { minWidth: 0, paddingBottom: "8px" }, children: [SP_JSX.jsx("div", { style: { textTransform: "uppercase", letterSpacing: "0.13em", fontSize: "12px", fontWeight: 650, opacity: 0.58 }, children: isAlbum ? t.album : t.playlist }), SP_JSX.jsx("h1", { style: { margin: "10px 0 0", fontSize: "56px", lineHeight: 1.02, letterSpacing: "-0.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), SP_JSX.jsxs("div", { style: { marginTop: "15px", fontSize: "17px", opacity: 0.64 }, children: [artistText$2(item), albumYear ? ` · ${albumYear}` : ""] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", alignItems: "center", gap: "10px", marginTop: "22px" }, children: [SP_JSX.jsx(DFL.DialogButton, { ref: !tracks.length ? firstContentRef : undefined, style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => void play(contextUri), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 560 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), isAlbum && albumArtist?.id ? (SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => openDetail({ ...albumArtist, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 520 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })) : null] })] })] }), SP_JSX.jsxs("section", { style: { marginTop: "30px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "27px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: visibleTracks.map((track, index) => (SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, showArtwork: !isAlbum, onFocus: () => {
-                                    if (index >= visibleTracks.length - 18 && visibleTracks.length < tracks.length) {
-                                        setDetailTrackVisibleCount((current) => Math.min(tracks.length, current + 120));
-                                    }
-                                }, onActivate: () => isAlbum
-                                    ? void play(String(normalizeTrack$1(track)?.uri ?? ""), contextUri, String(normalizeTrack$1(track)?.uri ?? ""))
-                                    : void playTrackList(tracks, index) }, `${normalizeTrack$1(track)?.id ?? index}-${index}`))) }), !tracks.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: 0.55 }, children: t.noTracks }) : null] })] }));
-    }
-    const renderTabPage = (page, content) => (SP_JSX.jsx("main", { ref: tab === page ? scrollRef : undefined, className: "npSpotifyTvScroll", style: { position: "absolute", inset: 0, height: "auto", overflowY: "auto", overflowX: "hidden", padding: "112px 56px 300px", scrollPaddingTop: 112, scrollPaddingBottom: 250, zIndex: 10 }, children: SP_JSX.jsx("div", { className: "npSpotifyTabContent", style: { position: "relative", zIndex: 1, width: "100%" }, children: content }) }, page));
-    const activeTabContent = tab === "home"
-        ? renderHomeTv()
-        : tab === "search"
-            ? renderSearchTv()
-            : renderLibraryTv();
-    return (SP_JSX.jsxs(DFL.Focusable, { className: "npSpotifyTvRoot npFullscreenRoot", "flow-children": "vertical", onCancel: navigateBack, onCancelButton: navigateBack, onButtonDown: handleRootButtonDown, style: { position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 10, background: "#070707", color: "#fff", overflow: "hidden", outline: "none" }, children: [SP_JSX.jsx("style", { children: `
-        .npSpotifyTvRoot, .npSpotifyTvRoot * { box-sizing: border-box; }
-        .npSpotifyTvRoot button { transition: background 120ms ease, box-shadow 120ms ease, opacity 120ms ease !important; }
-        .npSpotifyTvRoot button:focus, .npSpotifyTvRoot button.gpfocus { transform: none !important; z-index: 12; }
-        .npSpotifyTvRoot button, .npSpotifyTvRoot [tabindex] { scroll-margin-top: 112px; }
-        .npSpotifyCustomTabs { z-index: 200 !important; isolation: isolate; transform: none !important; }
-        .npSpotifyTvScroll { z-index: 10 !important; }
-        .npSpotifyTabContent { left: 0 !important; right: auto !important; width: 100% !important; max-width: 100% !important; transform-origin: center top !important; }
-        body > [class*="virtualkeyboard"], body > [class*="VirtualKeyboard"], body [class*="virtualkeyboard_Keyboard"], body [class*="VirtualKeyboard_Keyboard"] { z-index: 2147483647 !important; }
-        .npSpotifyTvCard:focus, .npSpotifyTvCard.gpfocus, .npSpotifyTvTrack:focus, .npSpotifyTvTrack.gpfocus { transform: none !important; }
-        .npSpotifyTvCard { width:100% !important; min-width:0 !important; max-width:100% !important; margin:0 !important; }
-        .npSpotifyCoverButton:focus, .npSpotifyCoverButton.gpfocus { box-shadow: 0 0 0 3px rgba(255,255,255,0.88), 0 0 0 6px rgba(29,185,84,0.48), 0 24px 70px rgba(0,0,0,0.42) !important; }
-        .npSpotifyTvRow { scroll-padding-inline: 0; overscroll-behavior-inline: contain; }
-        .npSpotifyTvRow::-webkit-scrollbar { display:none; }
-        .npSpotifyTvScroll::-webkit-scrollbar { width:7px; height:7px; }
-        .npSpotifyTvScroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,.16); border-radius:999px; }
-        .npSpotifyTvRoot input { font-size: 21px !important; }
-        .npSpotifyBigPictureButton, .npSpotifyBigPictureButton * { color: #fff !important; }
-        .npSpotifyBigPictureButton:hover, .npSpotifyBigPictureButton:focus, .npSpotifyBigPictureButton.gpfocus { color:#fff!important;background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.25)!important;box-shadow:0 0 0 1px rgba(29,185,84,.30),0 0 20px rgba(29,185,84,.17)!important; }
-        .npSpotifyAppVolume {
-          box-sizing: border-box;
-          display: grid;
-          grid-template-columns: 84px minmax(0, 1fr) 52px;
-          align-items: center;
-          gap: 10px;
-          width: 100%;
-          max-width: 100%;
-          margin: 0;
-          padding: 8px 10px;
-          border-radius: 7px;
-          border: 1px solid rgba(255,255,255,0.075);
-          background: rgba(255,255,255,0.025);
-          color: rgba(255,255,255,0.84);
-          font-size: 15px;
-          line-height: 1.15;
-          outline: none;
-          overflow: hidden;
-        }
-        .npSpotifyAppVolume.npSpotifyAppVolumeFocused, .npSpotifyAppVolume:focus-visible {
-          border-color: rgba(255,255,255,0.25);
-          background: rgba(255,255,255,0.13);
-          box-shadow: 0 0 0 1px rgba(29,185,84,0.30), 0 0 20px rgba(29,185,84,0.17);
-        }
-        .npSpotifyAppVolume span, .npSpotifyAppVolume strong { min-width: 0; font-size: 1em; line-height: 1.15; font-weight: 500; }
-        .npSpotifyAppVolume strong { text-align: right; font-weight: 700; }
-        .npSpotifyAppVolume input[type="range"] { min-width: 0; width: 100%; height: 18px; margin: 0; padding: 0; accent-color: #1DB954; }
-        .npSpotifyAppVolume input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.18); }
-        .npSpotifyAppVolume input[type="range"]::-webkit-slider-thumb { width: 14px; height: 14px; margin-top: -4px; border-radius: 999px; }
-        .npSpotifyCustomTab, .npSpotifyCustomTab * { color:#fff!important; }
-        .npSpotifyCustomTab { border:1px solid rgba(255,255,255,.075)!important; background:rgba(255,255,255,.025)!important; }
-        .npSpotifyCustomTab:hover, .npSpotifyCustomTab:focus, .npSpotifyCustomTab.gpfocus { background:rgba(255,255,255,.13)!important; border-color:rgba(255,255,255,.25)!important; box-shadow:0 0 0 1px rgba(29,185,84,.30),0 0 20px rgba(29,185,84,.17)!important; }
-        .npSpotifyCustomTabActive { background:rgba(29,185,84,.18)!important; border-color:rgba(29,185,84,.46)!important; }
-        .npSpotifyTvScroll { position:absolute!important; inset:0!important; height:auto!important; min-height:0!important; overflow-y:auto!important; overflow-x:hidden!important; overscroll-behavior:contain; }
-        .npSpotifyPlayerGlow { animation: npSpotifyPlayerGlow 5.6s ease-in-out infinite alternate; transform-origin:50% 50%; }
-        @keyframes npSpotifyPlayerGlow { from { transform:scale(1.02); opacity:.28; } to { transform:scale(1.12); opacity:.42; } }
-        .npSpotifyTabContent { animation: npSpotifyTabEnter 150ms ease both; }
-        @keyframes npSpotifyTabEnter { from { opacity: 0.78; } to { opacity: 1; } }
-        .npSpotifyArtistLoading { position:absolute; inset:0; z-index:260; display:flex; align-items:center; justify-content:center; background:#000; pointer-events:auto; }
-        .npSpotifyArtistLoadingLogo { color:#fff; animation:npSpotifyArtistLoadingPulse 2.4s ease-in-out infinite; }
-        .npSpotifyArtistPageReady { animation:npSpotifyArtistPageReveal 480ms ease both; }
-        @keyframes npSpotifyArtistLoadingPulse { 0%,100% { opacity:.18; transform:scale(.94); } 50% { opacity:1; transform:scale(1); } }
-        @keyframes npSpotifyArtistPageReveal { from { opacity:0; } to { opacity:1; } }
-      ` }), albumGlowImage ? (SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: "-34% -22% -30% -10%", background: `url(${albumGlowImage}) center/cover no-repeat`, filter: "blur(138px) saturate(1.58)", opacity: 0.52, transform: "scale(1.34)", pointerEvents: "none", zIndex: 0 } })) : null, SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: 0, zIndex: 0, background: detail?.kind === "artist" ? "#000" : "linear-gradient(90deg, rgba(7,7,7,0.66) 0%, rgba(7,7,7,0.26) 46%, rgba(7,7,7,0.20) 100%), linear-gradient(180deg, rgba(7,7,7,0.03), rgba(7,7,7,0.50) 76%, #070707 100%)", pointerEvents: "none" } }), loading && detail && ["artist", "album", "playlist"].includes(detail.kind) ? (SP_JSX.jsx("div", { className: "npSpotifyArtistLoading", role: "status", "aria-label": t.loadingSpotify, children: SP_JSX.jsx(SiSpotify, { className: "npSpotifyArtistLoadingLogo", size: 112 }) })) : null, rateLimitStatus.active ? (SP_JSX.jsx("div", { "aria-live": "polite", style: { position: "absolute", top: "20px", right: "28px", zIndex: 90, width: "210px", minWidth: "210px", height: "34px", minHeight: "34px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "7px", background: "rgba(35,26,10,0.48)", border: "1px solid rgba(255,211,120,0.18)", pointerEvents: "none", textAlign: "center" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", fontSize: "0.72em", color: "rgba(255,220,145,0.96)", textAlign: "center" }, children: [SP_JSX.jsx(FaClock, {}), " ", formatSpotifyText(t.apiPaused, { time: formatCountdown(rateLimitStatus.remainingSeconds) })] }) })) : loading && !detail ? (SP_JSX.jsxs("div", { style: { position: "absolute", top: "28px", right: "32px", display: "flex", alignItems: "center", gap: "8px", opacity: 0.58, zIndex: 24 }, children: [SP_JSX.jsx(FaSyncAlt, { className: "npSpotifyTvLoadingIcon" }), " ", t.loadingSpotify] })) : null, !detail ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { className: "npSpotifyCustomTabs", "flow-children": "horizontal", onButtonDown: (event) => { if (event?.detail?.button === DFL.GamepadButton.DIR_UP) {
-                            event?.preventDefault?.();
-                            event?.stopPropagation?.();
-                        } }, style: { position: "absolute", top: 24, left: 56, zIndex: 200, display: "flex", alignItems: "center", gap: 8 }, children: [[
-                                "home", t.home, FaHome,
-                            ], [
-                                "search", t.search, FaSearch,
-                            ], [
-                                "library", t.library, FaList,
-                            ], [
-                                "settings", t.settings, FaCog,
-                            ]].map(([id, label, Icon]) => (SP_JSX.jsx(DFL.DialogButton, { ref: id === "home" ? homeTabRef : undefined, className: `npSpotifyCustomTab${id !== "settings" && tab === id ? " npSpotifyCustomTabActive" : ""}`, onClick: () => id === "settings" ? onOpenSettings?.() : switchTab(id), style: { width: 138, minWidth: 138, height: 38, minHeight: 38, padding: 0 }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".76em", fontWeight: 540 }, children: [SP_JSX.jsx(Icon, { size: 13 }), " ", label] }) }, id))) }), renderTabPage(tab, activeTabContent)] })) : (SP_JSX.jsx("main", { ref: scrollRef, className: "npSpotifyTvScroll", style: { position: "absolute", inset: 0, overflowY: "auto", overflowX: "hidden", padding: "18px 56px 300px", scrollPaddingBottom: 250, zIndex: 2 }, children: SP_JSX.jsx("div", { className: detailData && !loading ? "npSpotifyArtistPageReady" : undefined, style: { position: "relative", zIndex: 1, width: "100%" }, children: renderDetailTv() }) }))] }));
-}
-const SpotifyBrowser = SP_REACT.memo(SpotifyBrowserContent);
-
 const LOCAL_ACCENT = "#D9A337";
 const COVER_CACHE = new Map();
 const ARTIST_PROFILE_CACHE = new Map();
@@ -9229,16 +4614,16 @@ function resolveLocalTranslations() {
 function useLocalTranslations() {
     return SP_REACT.useMemo(resolveLocalTranslations, []);
 }
-function artistText$1(item) {
+function artistText$2(item) {
     const artists = item?.artists ?? item?.album?.artists;
     if (Array.isArray(artists) && artists.length)
         return artists.map((artist) => artist?.name).filter(Boolean).join(", ");
     return "";
 }
-function normalizeTrack(entry) {
+function normalizeTrack$1(entry) {
     return entry?.track ?? entry?.item ?? entry;
 }
-function itemType$1(item) {
+function itemType$2(item) {
     const type = String(item?.type ?? "").toLowerCase();
     if (type === "track" || type === "album" || type === "artist")
         return type;
@@ -9389,7 +4774,7 @@ function useLocalArtistProfile(item) {
 function LocalArtwork({ item, size = 52, round = false }) {
     const coverId = String(item?.coverId ?? item?.album?.coverId ?? "");
     const coverUrl = useLocalCover(coverId);
-    const profileUrl = useLocalArtistProfile(round || itemType$1(item) === "artist" ? item : null);
+    const profileUrl = useLocalArtistProfile(round || itemType$2(item) === "artist" ? item : null);
     const url = profileUrl || coverUrl;
     return (SP_JSX.jsx("span", { style: { width: size, minWidth: size, height: size, borderRadius: round ? "50%" : "7px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.08)" }, children: url ? SP_JSX.jsx("img", { loading: "lazy", src: url, style: { width: "100%", height: "100%", objectFit: "cover" } }) : SP_JSX.jsx(FaMusic, { style: { opacity: .42 } }) }));
 }
@@ -9736,10 +5121,10 @@ function LocalMusicSettingsPanel({ selectedService: _selectedService }) {
 }
 const qamButton = { width: "100%", minWidth: "100%", height: 38, minHeight: 38, padding: 0 };
 function LocalTrackRow({ track, onActivate }) {
-    return (SP_JSX.jsx(DFL.DialogButton, { style: { ...qamButton, height: 54, minHeight: 54, marginBottom: 6 }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: { display: "flex", width: "100%", alignItems: "center", gap: 9, padding: "5px 8px", boxSizing: "border-box", textAlign: "left" }, children: [SP_JSX.jsx(LocalArtwork, { item: track, size: 42 }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: { display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: ".86em" }, children: track?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 3, fontSize: ".7em", opacity: .6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(track) })] }), SP_JSX.jsx("span", { style: { fontSize: ".67em", opacity: .45 }, children: formatDuration(track?.duration_ms) })] }) }));
+    return (SP_JSX.jsx(DFL.DialogButton, { style: { ...qamButton, height: 54, minHeight: 54, marginBottom: 6 }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: { display: "flex", width: "100%", alignItems: "center", gap: 9, padding: "5px 8px", boxSizing: "border-box", textAlign: "left" }, children: [SP_JSX.jsx(LocalArtwork, { item: track, size: 42 }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: { display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: ".86em" }, children: track?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 3, fontSize: ".7em", opacity: .6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(track) })] }), SP_JSX.jsx("span", { style: { fontSize: ".67em", opacity: .45 }, children: formatDuration(track?.duration_ms) })] }) }));
 }
 function LocalItemRow({ item, onActivate }) {
-    return (SP_JSX.jsx(DFL.DialogButton, { style: { ...qamButton, height: 54, minHeight: 54, marginBottom: 6 }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: { display: "flex", width: "100%", alignItems: "center", gap: 9, padding: "5px 8px", boxSizing: "border-box", textAlign: "left" }, children: [SP_JSX.jsx(LocalArtwork, { item: item, size: 42, round: itemType$1(item) === "artist" }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: { display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: ".86em" }, children: item?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 3, minHeight: "1.25em", paddingBottom: 2, fontSize: ".7em", lineHeight: 1.25, opacity: .6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(item) })] })] }) }));
+    return (SP_JSX.jsx(DFL.DialogButton, { style: { ...qamButton, height: 54, minHeight: 54, marginBottom: 6 }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: { display: "flex", width: "100%", alignItems: "center", gap: 9, padding: "5px 8px", boxSizing: "border-box", textAlign: "left" }, children: [SP_JSX.jsx(LocalArtwork, { item: item, size: 42, round: itemType$2(item) === "artist" }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: { display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: ".86em" }, children: item?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 3, minHeight: "1.25em", paddingBottom: 2, fontSize: ".7em", lineHeight: 1.25, opacity: .6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(item) })] })] }) }));
 }
 const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRequest, onOpenBigPicture }) {
     const t = useLocalTranslations();
@@ -9803,7 +5188,7 @@ const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRe
         void loadDetail(next).finally(() => setLoading(false));
     }, [loadDetail, openAlbumRequest?.id, openAlbumRequest?.nonce, openAlbumRequest?.title]);
     async function openDetail(item) {
-        const kind = itemType$1(item);
+        const kind = itemType$2(item);
         if (kind !== "album" && kind !== "artist")
             return;
         if (detail)
@@ -9822,7 +5207,7 @@ const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRe
     async function playTracks(entries, index = 0) {
         try {
             await pauseExternalPlayback().catch(() => false);
-            await localAudioPlayer.playItems(entries.map(normalizeTrack), index);
+            await localAudioPlayer.playItems(entries.map(normalizeTrack$1), index);
         }
         catch (error) {
             showError(error?.message ?? String(error));
@@ -9854,7 +5239,7 @@ const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRe
         const tracks = detailData?.tracks ?? [];
         const albums = detailData?.albums ?? [];
         const albumArtist = item?.artists?.[0];
-        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", style: { ...qamButton, marginTop: 18 }, onClick: goBack, children: SP_JSX.jsxs("span", { style: { display: "flex", gap: 7, alignItems: "center", justifyContent: "center", fontSize: ".8em" }, children: [SP_JSX.jsx(FaArrowLeft, {}), " ", t.back] }) }), SP_JSX.jsx("div", { style: { height: 8 } }), SP_JSX.jsxs("div", { style: { display: "flex", gap: 10, padding: 10, borderRadius: 10, background: themed ? THEME_CARD_BG : "rgba(217,163,55,.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.20)" }, children: [SP_JSX.jsx(LocalArtwork, { item: item, size: 70, round: detail?.kind === "artist" }), SP_JSX.jsxs("div", { style: { minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: [SP_JSX.jsx("strong", { children: item?.name }), SP_JSX.jsx("span", { style: { marginTop: 4, fontSize: ".7em", opacity: .58 }, children: artistText$1(item) })] })] }), detail?.kind === "album" && albumArtist?.id ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: 7 } }), SP_JSX.jsx(DFL.DialogButton, { style: qamButton, onClick: () => void openDetail({ ...albumArtist, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })] }) : null, detail?.kind === "artist" && albums.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.albums }), albums.map((album) => SP_JSX.jsx(LocalItemRow, { item: album, onActivate: () => void openDetail(album) }, album.id))] }) : null, SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.tracks }), tracks.map((track, index) => SP_JSX.jsx(LocalTrackRow, { track: track, onActivate: () => void playTracks(tracks, index) }, track.id))] });
+        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", style: { ...qamButton, marginTop: 18 }, onClick: goBack, children: SP_JSX.jsxs("span", { style: { display: "flex", gap: 7, alignItems: "center", justifyContent: "center", fontSize: ".8em" }, children: [SP_JSX.jsx(FaArrowLeft, {}), " ", t.back] }) }), SP_JSX.jsx("div", { style: { height: 8 } }), SP_JSX.jsxs("div", { style: { display: "flex", gap: 10, padding: 10, borderRadius: 10, background: themed ? THEME_CARD_BG : "rgba(217,163,55,.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.20)" }, children: [SP_JSX.jsx(LocalArtwork, { item: item, size: 70, round: detail?.kind === "artist" }), SP_JSX.jsxs("div", { style: { minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: [SP_JSX.jsx("strong", { children: item?.name }), SP_JSX.jsx("span", { style: { marginTop: 4, fontSize: ".7em", opacity: .58 }, children: artistText$2(item) })] })] }), detail?.kind === "album" && albumArtist?.id ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: 7 } }), SP_JSX.jsx(DFL.DialogButton, { style: qamButton, onClick: () => void openDetail({ ...albumArtist, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })] }) : null, detail?.kind === "artist" && albums.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.albums }), albums.map((album) => SP_JSX.jsx(LocalItemRow, { item: album, onActivate: () => void openDetail(album) }, album.id))] }) : null, SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.tracks }), tracks.map((track, index) => SP_JSX.jsx(LocalTrackRow, { track: track, onActivate: () => void playTracks(tracks, index) }, track.id))] });
     }
     function renderHome() {
         return SP_JSX.jsxs(SP_JSX.Fragment, { children: [home.albums?.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.recentAlbums }), home.albums.map((item) => SP_JSX.jsx(LocalItemRow, { item: item, onActivate: () => void openDetail(item) }, item.id))] }) : null, home.artists?.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: t.artists }), home.artists.map((item) => SP_JSX.jsx(LocalItemRow, { item: item, onActivate: () => void openDetail(item) }, item.id))] }) : null, !home.albums?.length && !home.artists?.length && !loading ? SP_JSX.jsx("div", { style: { padding: 12, fontSize: ".72em", opacity: .56 }, children: t.nothingHere }) : null] });
@@ -9875,7 +5260,7 @@ const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRe
         return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: 8 } }), SP_JSX.jsx(DFL.TextField, { label: t.searchMusic, value: search, onChange: (value) => setSearch(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event.key === "Enter") {
                         event.preventDefault();
                         void executeSearch();
-                    } } }), SP_JSX.jsx("div", { style: { height: 6 } }), SP_JSX.jsx(DFL.DialogButton, { style: qamButton, onClick: () => void executeSearch(), disabled: search.trim().length < 2, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }, children: [SP_JSX.jsx(FaSearch, {}), " ", t.search] }) }), groups.map(([label, items]) => items.length ? SP_JSX.jsxs("div", { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: label }), items.map((item, index) => itemType$1(item) === "track" ? SP_JSX.jsx(LocalTrackRow, { track: item, onActivate: () => void playTracks(items, index) }, item.id) : SP_JSX.jsx(LocalItemRow, { item: item, onActivate: () => void openDetail(item) }, item.id))] }, label) : null), results && !groups.some(([, items]) => items.length) ? SP_JSX.jsx("div", { style: { padding: 12, fontSize: ".72em", opacity: .56 }, children: t.noResults }) : null] });
+                    } } }), SP_JSX.jsx("div", { style: { height: 6 } }), SP_JSX.jsx(DFL.DialogButton, { style: qamButton, onClick: () => void executeSearch(), disabled: search.trim().length < 2, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }, children: [SP_JSX.jsx(FaSearch, {}), " ", t.search] }) }), groups.map(([label, items]) => items.length ? SP_JSX.jsxs("div", { children: [SP_JSX.jsx("div", { style: { margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }, children: label }), items.map((item, index) => itemType$2(item) === "track" ? SP_JSX.jsx(LocalTrackRow, { track: item, onActivate: () => void playTracks(items, index) }, item.id) : SP_JSX.jsx(LocalItemRow, { item: item, onActivate: () => void openDetail(item) }, item.id))] }, label) : null), results && !groups.some(([, items]) => items.length) ? SP_JSX.jsx("div", { style: { padding: 12, fontSize: ".72em", opacity: .56 }, children: t.noResults }) : null] });
     }
     function renderLibrary() {
         const labels = { tracks: t.tracks, albums: t.albums, artists: t.artists };
@@ -9908,17 +5293,17 @@ const LocalMusicBrowser = SP_REACT.memo(function LocalMusicBrowser({ openAlbumRe
                     }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4, fontSize: ".68em", lineHeight: 1, whiteSpace: "nowrap" }, children: [key === "home" ? SP_JSX.jsx(FaHome, {}) : key === "search" ? SP_JSX.jsx(FaSearch, {}) : key === "library" ? SP_JSX.jsx(FaList, {}) : SP_JSX.jsx(FaListOl, {}), key === "home" ? t.home : key === "search" ? t.search : key === "library" ? t.library : t.queue] }) }, key)) }), detail ? SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", onCancel: goBack, onCancelButton: goBack, children: renderDetail() }) : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : tab === "library" ? renderLibrary() : renderQueue()] });
 });
 function TvCard({ item, onActivate, round = false, focusKey, gridIndex, preferredFocus = false }) {
-    return (SP_JSX.jsx(DFL.DialogButton, { preferredFocus: preferredFocus, className: "npLocalTvCard", ...{ "data-np-focus-key": focusKey || undefined, "data-np-grid-index": Number.isFinite(gridIndex) ? gridIndex : undefined }, onClick: onActivate, style: { width: "100%", minWidth: 0, height: "auto", minHeight: 0, padding: 10, borderRadius: 12, overflow: "hidden", textAlign: "left" }, children: SP_JSX.jsxs("span", { style: { display: "flex", flexDirection: "column", width: "100%", height: "100%", minWidth: 0 }, children: [SP_JSX.jsx("span", { style: { width: "100%", aspectRatio: "1/1", borderRadius: round ? "50%" : 8, overflow: "hidden", background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(LocalCardImage, { item: item, round: round }) }), SP_JSX.jsx("strong", { style: { marginTop: 11, fontSize: 16, lineHeight: 1.15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 650 }, children: item?.name }), SP_JSX.jsx("span", { style: { marginTop: 5, fontSize: 13, opacity: .58, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(item) || String(item?.year ?? "") })] }) }));
+    return (SP_JSX.jsx(DFL.DialogButton, { preferredFocus: preferredFocus, className: "npLocalTvCard", ...{ "data-np-focus-key": focusKey || undefined, "data-np-grid-index": Number.isFinite(gridIndex) ? gridIndex : undefined }, onClick: onActivate, style: { width: "100%", minWidth: 0, height: "auto", minHeight: 0, padding: 10, borderRadius: 12, overflow: "hidden", textAlign: "left" }, children: SP_JSX.jsxs("span", { style: { display: "flex", flexDirection: "column", width: "100%", height: "100%", minWidth: 0 }, children: [SP_JSX.jsx("span", { style: { width: "100%", aspectRatio: "1/1", borderRadius: round ? "50%" : 8, overflow: "hidden", background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(LocalCardImage, { item: item, round: round }) }), SP_JSX.jsx("strong", { style: { marginTop: 11, fontSize: 16, lineHeight: 1.15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 650 }, children: item?.name }), SP_JSX.jsx("span", { style: { marginTop: 5, fontSize: 13, opacity: .58, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(item) || String(item?.year ?? "") })] }) }));
 }
 function LocalCardImage({ item, round = false }) {
     const coverId = String(item?.coverId ?? item?.album?.coverId ?? "");
     const coverUrl = useLocalCover(coverId);
-    const profileUrl = useLocalArtistProfile(round || itemType$1(item) === "artist" ? item : null);
+    const profileUrl = useLocalArtistProfile(round || itemType$2(item) === "artist" ? item : null);
     const url = profileUrl || coverUrl;
     return url ? SP_JSX.jsx("img", { loading: "lazy", src: url, style: { width: "100%", height: "100%", objectFit: "cover", borderRadius: round ? "50%" : 0 } }) : SP_JSX.jsx(FaMusic, { size: 44, style: { opacity: .36 } });
 }
 function TvTrack({ track, index, onActivate, showArtwork = true, onFocus }) {
-    return (SP_JSX.jsx(DFL.DialogButton, { className: "npLocalTvTrack", ...{ onFocus: (event) => { event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }); onFocus?.(); } }, onClick: onActivate, style: { width: "100%", minWidth: "100%", height: 66, minHeight: 66, padding: "0 16px", borderRadius: 10, marginBottom: 6, textAlign: "left" }, children: SP_JSX.jsxs("span", { style: { display: "grid", gridTemplateColumns: showArtwork ? "32px 48px minmax(0,1fr) auto" : "32px minmax(0,1fr) auto", alignItems: "center", gap: showArtwork ? 13 : 16, width: "100%" }, children: [SP_JSX.jsx("span", { style: { opacity: .45, fontVariantNumeric: "tabular-nums", textAlign: "right" }, children: index + 1 }), showArtwork ? SP_JSX.jsx(LocalArtwork, { item: track, size: 44 }) : null, SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: 16, fontWeight: 620, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: track?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 4, opacity: .56, fontSize: 13, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(track) })] }), SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", gap: 14, opacity: .62 }, children: [SP_JSX.jsx("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: 13 }, children: formatDuration(track?.duration_ms) }), SP_JSX.jsx(FaPlay, { size: 13 })] })] }) }));
+    return (SP_JSX.jsx(DFL.DialogButton, { className: "npLocalTvTrack", ...{ onFocus: (event) => { event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }); onFocus?.(); } }, onClick: onActivate, style: { width: "100%", minWidth: "100%", height: 66, minHeight: 66, padding: "0 16px", borderRadius: 10, marginBottom: 6, textAlign: "left" }, children: SP_JSX.jsxs("span", { style: { display: "grid", gridTemplateColumns: showArtwork ? "32px 48px minmax(0,1fr) auto" : "32px minmax(0,1fr) auto", alignItems: "center", gap: showArtwork ? 13 : 16, width: "100%" }, children: [SP_JSX.jsx("span", { style: { opacity: .45, fontVariantNumeric: "tabular-nums", textAlign: "right" }, children: index + 1 }), showArtwork ? SP_JSX.jsx(LocalArtwork, { item: track, size: 44 }) : null, SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: 16, fontWeight: 620, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: track?.name }), SP_JSX.jsx("span", { style: { display: "block", marginTop: 4, opacity: .56, fontSize: 13, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(track) })] }), SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", gap: 14, opacity: .62 }, children: [SP_JSX.jsx("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: 13 }, children: formatDuration(track?.duration_ms) }), SP_JSX.jsx(FaPlay, { size: 13 })] })] }) }));
 }
 function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     const t = useLocalTranslations();
@@ -10085,7 +5470,7 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         return () => document.removeEventListener("keydown", handler, true);
     }, [navigateBack]);
     async function openDetail(item, focusKey = "") {
-        const kind = itemType$1(item);
+        const kind = itemType$2(item);
         if (kind !== "album" && kind !== "artist")
             return;
         setBackgroundSettingsOpen(false);
@@ -10110,7 +5495,7 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     async function playTracks(entries, index = 0) {
         try {
             await pauseExternalPlayback().catch(() => false);
-            await localAudioPlayer.playItems(entries.map(normalizeTrack), index);
+            await localAudioPlayer.playItems(entries.map(normalizeTrack$1), index);
         }
         catch (error) {
             showError(error?.message ?? String(error));
@@ -10160,9 +5545,9 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     const position = Number(state?.position ?? 0);
     const ratio = length ? Math.max(0, Math.min(1, position / length)) : 0;
     const upcomingQueue = state.index >= 0 ? state.queue.slice(state.index + 1, state.index + 11) : [];
-    const cardRow = (title, items, round = false) => items?.length ? (SP_JSX.jsxs("section", { style: { marginTop: 28 }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: 25, fontWeight: 650 }, children: title }), SP_JSX.jsx(DFL.Focusable, { className: "npLocalTvRow", "flow-children": "horizontal", style: { display: "grid", gridAutoFlow: "column", gridAutoColumns: "calc((100% - 60px) / 6)", gap: 12, overflowX: "auto", overflowY: "hidden", width: "100%", padding: "8px 0 22px", scrollPaddingInline: 0 }, children: items.slice(0, 60).map((item, index) => { const focusKey = `shelf:${title}:${itemType$1(item)}:${String(item?.id ?? index)}`; return SP_JSX.jsx(TvCard, { item: item, round: round, focusKey: focusKey, onActivate: () => void openDetail(item, focusKey) }, item.id); }) })] })) : null;
+    const cardRow = (title, items, round = false) => items?.length ? (SP_JSX.jsxs("section", { style: { marginTop: 28 }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: 25, fontWeight: 650 }, children: title }), SP_JSX.jsx(DFL.Focusable, { className: "npLocalTvRow", "flow-children": "horizontal", style: { display: "grid", gridAutoFlow: "column", gridAutoColumns: "calc((100% - 60px) / 6)", gap: 12, overflowX: "auto", overflowY: "hidden", width: "100%", padding: "8px 0 22px", scrollPaddingInline: 0 }, children: items.slice(0, 60).map((item, index) => { const focusKey = `shelf:${title}:${itemType$2(item)}:${String(item?.id ?? index)}`; return SP_JSX.jsx(TvCard, { item: item, round: round, focusKey: focusKey, onActivate: () => void openDetail(item, focusKey) }, item.id); }) })] })) : null;
     function playerCard() {
-        return (SP_JSX.jsxs(DFL.Focusable, { className: "npLocalPlayerCard", "flow-children": "grid", style: { position: "relative", width: "100%", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", minHeight: 368, padding: 24, borderRadius: 20, border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.30)", overflow: "hidden" }, children: [currentCover ? SP_JSX.jsx("div", { className: "npLocalPlayerGlow", "aria-hidden": "true", style: { position: "absolute", inset: "-50% -15% -70% -15%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.5)", opacity: .34, pointerEvents: "none" } }) : null, SP_JSX.jsx(DFL.DialogButton, { ref: playerCoverRef, className: "npLocalCoverButton", disabled: !currentAlbum?.id, onClick: () => currentAlbum?.id ? void openDetail(currentAlbum) : undefined, style: { position: "relative", width: 320, minWidth: 320, height: 320, minHeight: 320, padding: 0, borderRadius: 14, overflow: "hidden", alignSelf: "center", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }, children: currentCover ? SP_JSX.jsx("img", { src: currentCover, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : SP_JSX.jsx("span", { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(FaMusic, { size: 76, style: { opacity: .3 } }) }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { textTransform: "uppercase", letterSpacing: ".14em", fontSize: 12, opacity: .58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }, children: current?.name }), SP_JSX.jsx("div", { style: { marginTop: 12, fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(current) }), currentAlbum?.name ? SP_JSX.jsx("div", { style: { marginTop: 7, fontSize: 16, opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: currentAlbum.name }) : null, SP_JSX.jsxs("div", { style: { marginTop: 28 }, children: [SP_JSX.jsx("div", { style: { height: 5, borderRadius: 999, background: "rgba(255,255,255,.16)", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { width: `${ratio * 100}%`, height: "100%", background: LOCAL_ACCENT, borderRadius: 999 } }) }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, opacity: .48, fontVariantNumeric: "tabular-nums" }, children: [SP_JSX.jsx("span", { children: formatDuration(position) }), SP_JSX.jsx("span", { children: formatDuration(length) })] })] })] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }, children: t.chooseSomething }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: 10, alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 10 }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("previous"), children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("play_pause"), children: state?.status === "Playing" ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("next"), children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 10 }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.shuffle, onClick: () => void localAudioPlayer.command("shuffle"), style: { position: "relative", width: "100%", minWidth: 0, height: 46, padding: 0, opacity: state.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), state.shuffleActive ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: LOCAL_ACCENT, boxShadow: `0 0 8px ${LOCAL_ACCENT}` } }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.repeat, onClick: () => void localAudioPlayer.command("repeat"), style: { position: "relative", width: "100%", minWidth: 0, height: 46, padding: 0, opacity: state.repeatMode !== "None" ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: state.repeatMode === "One", size: 17 }), state.repeatMode !== "None" ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: LOCAL_ACCENT, boxShadow: `0 0 8px ${LOCAL_ACCENT}` } }) : null] })] }), SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", "aria-label": t.fullscreen, onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: 46, minHeight: 46, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), " ", t.fullscreen] }) }), SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", onClick: () => setQueueExpanded((value) => !value), style: { gridColumn: "1 / -1", width: "100%", minWidth: 0, height: 46, border: "1px solid rgba(255,255,255,.075)", background: queueExpanded ? "rgba(217,163,55,.16)" : "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaListOl, { size: 12 }), " ", t.queue] }) }), SP_JSX.jsxs(DFL.Focusable, { className: "npLocalAppVolume", focusClassName: "npLocalAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: volumeButton, onKeyDown: volumeKey, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volume, style: { gridColumn: "1 / -1", marginTop: 0 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", min: 0, max: 100, step: 1, value: volume, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [volume, "%"] })] })] }) })] }));
+        return (SP_JSX.jsxs(DFL.Focusable, { className: "npLocalPlayerCard", "flow-children": "grid", style: { position: "relative", width: "100%", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", minHeight: 368, padding: 24, borderRadius: 20, border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.30)", overflow: "hidden" }, children: [currentCover ? SP_JSX.jsx("div", { className: "npLocalPlayerGlow", "aria-hidden": "true", style: { position: "absolute", inset: "-50% -15% -70% -15%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.5)", opacity: .34, pointerEvents: "none" } }) : null, SP_JSX.jsx(DFL.DialogButton, { ref: playerCoverRef, className: "npLocalCoverButton", disabled: !currentAlbum?.id, onClick: () => currentAlbum?.id ? void openDetail(currentAlbum) : undefined, style: { position: "relative", width: 320, minWidth: 320, height: 320, minHeight: 320, padding: 0, borderRadius: 14, overflow: "hidden", alignSelf: "center", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }, children: currentCover ? SP_JSX.jsx("img", { src: currentCover, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : SP_JSX.jsx("span", { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(FaMusic, { size: 76, style: { opacity: .3 } }) }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { textTransform: "uppercase", letterSpacing: ".14em", fontSize: 12, opacity: .58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }, children: current?.name }), SP_JSX.jsx("div", { style: { marginTop: 12, fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$2(current) }), currentAlbum?.name ? SP_JSX.jsx("div", { style: { marginTop: 7, fontSize: 16, opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: currentAlbum.name }) : null, SP_JSX.jsxs("div", { style: { marginTop: 28 }, children: [SP_JSX.jsx("div", { style: { height: 5, borderRadius: 999, background: "rgba(255,255,255,.16)", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { width: `${ratio * 100}%`, height: "100%", background: LOCAL_ACCENT, borderRadius: 999 } }) }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, opacity: .48, fontVariantNumeric: "tabular-nums" }, children: [SP_JSX.jsx("span", { children: formatDuration(position) }), SP_JSX.jsx("span", { children: formatDuration(length) })] })] })] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }, children: t.chooseSomething }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: 10, alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 10 }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("previous"), children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("play_pause"), children: state?.status === "Playing" ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: 58, padding: 0 }, onClick: () => void command("next"), children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 10 }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.shuffle, onClick: () => void localAudioPlayer.command("shuffle"), style: { position: "relative", width: "100%", minWidth: 0, height: 46, padding: 0, opacity: state.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), state.shuffleActive ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: LOCAL_ACCENT, boxShadow: `0 0 8px ${LOCAL_ACCENT}` } }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.repeat, onClick: () => void localAudioPlayer.command("repeat"), style: { position: "relative", width: "100%", minWidth: 0, height: 46, padding: 0, opacity: state.repeatMode !== "None" ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: state.repeatMode === "One", size: 17 }), state.repeatMode !== "None" ? SP_JSX.jsx("span", { "aria-hidden": "true", style: { position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: LOCAL_ACCENT, boxShadow: `0 0 8px ${LOCAL_ACCENT}` } }) : null] })] }), SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", "aria-label": t.fullscreen, onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: 46, minHeight: 46, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), " ", t.fullscreen] }) }), SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", onClick: () => setQueueExpanded((value) => !value), style: { gridColumn: "1 / -1", width: "100%", minWidth: 0, height: 46, border: "1px solid rgba(255,255,255,.075)", background: queueExpanded ? "rgba(217,163,55,.16)" : "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaListOl, { size: 12 }), " ", t.queue] }) }), SP_JSX.jsxs(DFL.Focusable, { className: "npLocalAppVolume", focusClassName: "npLocalAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: volumeButton, onKeyDown: volumeKey, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volume, style: { gridColumn: "1 / -1", marginTop: 0 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", min: 0, max: 100, step: 1, value: volume, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [volume, "%"] })] })] }) })] }));
     }
     function renderQueuePanel() {
         return (SP_JSX.jsxs("section", { style: { marginTop: 18, padding: 18, borderRadius: 16, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.035)" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: 25, fontWeight: 650 }, children: t.queue }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: upcomingQueue.map((track, index) => (SP_JSX.jsx(TvTrack, { track: track, index: index, onActivate: () => void localAudioPlayer.playIndex(state.index + index + 1) }, `${track?.id ?? index}-${index}`))) }), !upcomingQueue.length ? SP_JSX.jsx("div", { style: { fontSize: 18, opacity: .55 }, children: t.queueEmpty }) : null] }));
@@ -10186,7 +5571,7 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
                                         const swap = Math.floor(Math.random() * (index + 1));
                                         [shuffled[index], shuffled[swap]] = [shuffled[swap], shuffled[index]];
                                     } void playTracks(shuffled, 0); }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaRandom, {}), " ", t.shuffle] }) })] }) : null, visibleItems.map((track, index) => SP_JSX.jsx(TvTrack, { track: track, index: index, onFocus: () => { if (index >= visibleItems.length - 18 && visibleItems.length < items.length)
-                                setLibraryTrackVisibleCount((current) => Math.min(items.length, current + 120)); }, onActivate: () => void playTracks(items, index) }, track.id))] }) : SP_JSX.jsx(DFL.Focusable, { ...{ "data-np-six-grid": section }, "flow-children": "grid", navEntryPreferPosition: restoreFocusKey ? DFL.NavEntryPositionPreferences.PREFERRED_CHILD : DFL.NavEntryPositionPreferences.MAINTAIN_X, onKeyDownCapture: (event) => moveSixColumnGridFocus(event, gridDirectionFromKey(event?.key)), onGamepadDirection: (event) => moveSixColumnGridFocus(event, gridDirectionFromGamepad(event?.detail?.button)), style: { display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: 14 }, children: visibleItems.map((item, index) => { const focusKey = `library:${section}:${itemType$1(item)}:${String(item?.id ?? index)}`; return SP_JSX.jsx(TvCard, { item: item, round: section === "artists", gridIndex: index, focusKey: focusKey, preferredFocus: restoreFocusKey === focusKey, onActivate: () => void openDetail(item, focusKey) }, item.id); }) }), !items.length && !loading ? SP_JSX.jsx("div", { style: { opacity: .56 }, children: t.nothingHere }) : null] });
+                                setLibraryTrackVisibleCount((current) => Math.min(items.length, current + 120)); }, onActivate: () => void playTracks(items, index) }, track.id))] }) : SP_JSX.jsx(DFL.Focusable, { ...{ "data-np-six-grid": section }, "flow-children": "grid", navEntryPreferPosition: restoreFocusKey ? DFL.NavEntryPositionPreferences.PREFERRED_CHILD : DFL.NavEntryPositionPreferences.MAINTAIN_X, onKeyDownCapture: (event) => moveSixColumnGridFocus(event, gridDirectionFromKey(event?.key)), onGamepadDirection: (event) => moveSixColumnGridFocus(event, gridDirectionFromGamepad(event?.detail?.button)), style: { display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: 14 }, children: visibleItems.map((item, index) => { const focusKey = `library:${section}:${itemType$2(item)}:${String(item?.id ?? index)}`; return SP_JSX.jsx(TvCard, { item: item, round: section === "artists", gridIndex: index, focusKey: focusKey, preferredFocus: restoreFocusKey === focusKey, onActivate: () => void openDetail(item, focusKey) }, item.id); }) }), !items.length && !loading ? SP_JSX.jsx("div", { style: { opacity: .56 }, children: t.nothingHere }) : null] });
     }
     function renderDetail() {
         if (loading || !detailData)
@@ -10202,7 +5587,7 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         }
         const background = String(detailData?.backgroundImage ?? item?.backgroundImage ?? "");
         const albumArtist = item?.artists?.[0];
-        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [isArtist && background ? SP_JSX.jsx("div", { className: "npLocalArtistHero", "aria-hidden": "true", style: { backgroundImage: `url(${background})` }, children: SP_JSX.jsx("div", {}) }) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npLocalBackButton npLocalMinimalButton", onClick: navigateBack, style: { width: 108, minWidth: 108, height: 34, minHeight: 34, padding: 0, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: ".72em", fontWeight: 430 }, children: [SP_JSX.jsx(FaArrowLeft, { size: 11 }), " ", t.back] }) }), SP_JSX.jsxs("div", { style: { display: "grid", gridTemplateColumns: isArtist ? "1fr" : "250px minmax(0,1fr)", gap: 30, marginTop: isArtist ? 220 : 20, alignItems: "end", position: "relative" }, children: [!isArtist ? SP_JSX.jsx(LocalArtwork, { item: item, size: 250 }) : null, SP_JSX.jsxs("div", { style: { minWidth: 0 }, children: [SP_JSX.jsx("h1", { style: { fontSize: isArtist ? "clamp(62px,7vw,104px)" : 54, lineHeight: 1, margin: 0, letterSpacing: "-.045em" }, children: item?.name }), !isArtist ? SP_JSX.jsxs("div", { style: { marginTop: 12, opacity: .62 }, children: [artistText$1(item), item?.year ? ` · ${item.year}` : ""] }) : null, SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: 10, marginTop: 20 }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { width: 170, minWidth: 170, height: 48 }, onClick: () => void playTracks(tracks, 0), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), !isArtist && albumArtist?.id ? SP_JSX.jsx(DFL.DialogButton, { style: { width: 160, minWidth: 160, height: 48 }, onClick: () => void openDetail({ ...albumArtist, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) }) : null] })] })] }), isArtist && albums.length ? cardRow(t.albums, albums) : null, SP_JSX.jsxs("section", { style: { marginTop: 30 }, children: [SP_JSX.jsx("h2", { children: t.tracks }), tracks.slice(0, detailTrackVisibleCount).map((track, index) => SP_JSX.jsx(TvTrack, { track: track, index: index, showArtwork: !isArtist, onFocus: () => { const visible = Math.min(tracks.length, detailTrackVisibleCount); if (index >= visible - 18 && visible < tracks.length)
+        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [isArtist && background ? SP_JSX.jsx("div", { className: "npLocalArtistHero", "aria-hidden": "true", style: { backgroundImage: `url(${background})` }, children: SP_JSX.jsx("div", {}) }) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npLocalBackButton npLocalMinimalButton", onClick: navigateBack, style: { width: 108, minWidth: 108, height: 34, minHeight: 34, padding: 0, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: ".72em", fontWeight: 430 }, children: [SP_JSX.jsx(FaArrowLeft, { size: 11 }), " ", t.back] }) }), SP_JSX.jsxs("div", { style: { display: "grid", gridTemplateColumns: isArtist ? "1fr" : "250px minmax(0,1fr)", gap: 30, marginTop: isArtist ? 220 : 20, alignItems: "end", position: "relative" }, children: [!isArtist ? SP_JSX.jsx(LocalArtwork, { item: item, size: 250 }) : null, SP_JSX.jsxs("div", { style: { minWidth: 0 }, children: [SP_JSX.jsx("h1", { style: { fontSize: isArtist ? "clamp(62px,7vw,104px)" : 54, lineHeight: 1, margin: 0, letterSpacing: "-.045em" }, children: item?.name }), !isArtist ? SP_JSX.jsxs("div", { style: { marginTop: 12, opacity: .62 }, children: [artistText$2(item), item?.year ? ` · ${item.year}` : ""] }) : null, SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: 10, marginTop: 20 }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { width: 170, minWidth: 170, height: 48 }, onClick: () => void playTracks(tracks, 0), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), !isArtist && albumArtist?.id ? SP_JSX.jsx(DFL.DialogButton, { style: { width: 160, minWidth: 160, height: 48 }, onClick: () => void openDetail({ ...albumArtist, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) }) : null] })] })] }), isArtist && albums.length ? cardRow(t.albums, albums) : null, SP_JSX.jsxs("section", { style: { marginTop: 30 }, children: [SP_JSX.jsx("h2", { children: t.tracks }), tracks.slice(0, detailTrackVisibleCount).map((track, index) => SP_JSX.jsx(TvTrack, { track: track, index: index, showArtwork: !isArtist, onFocus: () => { const visible = Math.min(tracks.length, detailTrackVisibleCount); if (index >= visible - 18 && visible < tracks.length)
                                 setDetailTrackVisibleCount((current) => Math.min(tracks.length, current + 120)); }, onActivate: () => void playTracks(tracks, index) }, track.id))] }), isArtist ? SP_JSX.jsx(DFL.DialogButton, { className: "npLocalMinimalButton", style: { width: 250, minWidth: 250, height: 48, marginTop: 26 }, onClick: () => setBackgroundSettingsOpen(true), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [SP_JSX.jsx(FaCog, {}), " ", coreT.artistBackgroundSettings] }) }) : null] });
     }
     const switchRootTab = SP_REACT.useCallback((nextTab) => {
@@ -10307,47 +5692,23 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
 const SPEAKER_LABELS = ["FL", "FR", "C", "LFE", "SL", "SR", "BL", "BR"];
 // Single shared "Upmix surround" card (used once in the settings, not per source).
 // Expands to a 5.1 / 7.1 selector and per-speaker volumes. Applies to the
-// in-browser player (Your Music + YouTube Music); Spotify uses its own bridge.
+// in-browser player (Your Music + YouTube Music).
 function SurroundUpmixControls({ accent = "#66c0f4", cardStyle }) {
     const t = SP_REACT.useMemo(() => getTranslations("core"), []);
     const [mode, setMode] = SP_REACT.useState(() => localAudioPlayer.getSurroundMode());
     const [expanded, setExpanded] = SP_REACT.useState(false);
     const [volumes, setVolumes] = SP_REACT.useState(() => localAudioPlayer.getSpeakerVolumes());
-    const backendSyncTimer = SP_REACT.useRef(0);
     const channels = mode === "7.1" ? 8 : mode === "5.1" ? 6 : 0;
-    SP_REACT.useEffect(() => {
-        let active = true;
-        void getSurroundSettings().then((saved) => {
-            if (!active)
-                return;
-            setMode(saved.mode);
-            setVolumes(saved.speakerVolumes);
-            localAudioPlayer.setSurroundMode(saved.mode);
-            saved.speakerVolumes.forEach((value, index) => localAudioPlayer.setSpeakerVolume(index, value));
-        }).catch(() => { });
-        return () => {
-            active = false;
-            if (backendSyncTimer.current)
-                window.clearTimeout(backendSyncTimer.current);
-        };
-    }, []);
-    const syncBackend = (nextMode, nextVolumes) => {
-        if (backendSyncTimer.current)
-            window.clearTimeout(backendSyncTimer.current);
-        backendSyncTimer.current = window.setTimeout(() => void setSurroundSettings(nextMode, nextVolumes), 180);
-    };
     const choose = (target) => {
         const next = mode === target ? "off" : target;
         setMode(next);
         localAudioPlayer.setSurroundMode(next);
-        syncBackend(next, volumes);
     };
     const setVol = (index, value) => {
         const clamped = Math.max(0, Math.min(100, Math.round(value)));
         setVolumes((prev) => {
             const next = [...prev];
             next[index] = clamped;
-            syncBackend(mode, next);
             return next;
         });
         localAudioPlayer.setSpeakerVolume(index, clamped);
@@ -10372,8 +5733,56 @@ function SurroundUpmixControls({ accent = "#66c0f4", cardStyle }) {
       ` }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "100%", minWidth: "100%" }, onClick: () => setExpanded((value) => !value), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px", boxSizing: "border-box" }, children: [SP_JSX.jsxs("span", { style: { fontWeight: 600 }, children: [t.surroundUpmix, mode !== "off" ? SP_JSX.jsx("span", { style: { color: accent, marginLeft: 8, fontSize: ".82em" }, children: mode }) : null] }), expanded ? SP_JSX.jsx(FaChevronUp, { size: 12 }) : SP_JSX.jsx(FaChevronDown, { size: 12 })] }) }), expanded ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("p", { style: { margin: "9px 4px 8px", fontSize: "0.68em", lineHeight: 1.42, opacity: 0.6 }, children: t.surroundUpmixHint }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "8px" }, children: [modeButton("5.1"), modeButton("7.1")] }), channels > 0 ? (SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", marginTop: "8px" }, children: SPEAKER_LABELS.slice(0, channels).map((label, index) => (SP_JSX.jsxs(DFL.Focusable, { className: "npSpeakerRow", role: "slider", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudge(index), onKeyDown: nudge(index), tabIndex: 0, ...{ focusable: true }, "aria-label": label, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volumes[index], style: { display: "grid", gridTemplateColumns: "48px minmax(0,1fr) 40px", alignItems: "center", gap: "10px", padding: "8px 10px", borderRadius: "7px", border: "1px solid rgba(255,255,255,.10)", background: "rgba(255,255,255,.03)" }, children: [SP_JSX.jsx("span", { style: { fontSize: ".76em", fontWeight: 700 }, children: label }), SP_JSX.jsx("div", { style: { position: "relative", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,.15)", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, width: `${volumes[index]}%`, background: accent, borderRadius: "999px" } }) }), SP_JSX.jsx("strong", { style: { fontSize: ".72em", textAlign: "right", fontVariantNumeric: "tabular-nums" }, children: volumes[index] })] }, label))) })) : null] })) : null] }));
 }
 
+function SmoothProgressFill({ position, duration, playing, sampledAt, style, rate = 1 }) {
+    const fillRef = SP_REACT.useRef(null);
+    SP_REACT.useEffect(() => {
+        let frame = 0;
+        const base = Math.max(0, Number(position || 0));
+        const total = Math.max(1, Number(duration || 1));
+        const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
+        const draw = () => {
+            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
+            const ratio = Math.max(0, Math.min(1, (base + elapsed) / total));
+            if (fillRef.current)
+                fillRef.current.style.transform = `scaleX(${ratio})`;
+            if (playing && ratio < 1)
+                frame = window.requestAnimationFrame(draw);
+        };
+        draw();
+        return () => {
+            if (frame)
+                window.cancelAnimationFrame(frame);
+        };
+    }, [duration, playing, position, rate, sampledAt]);
+    return (SP_JSX.jsx("div", { ref: fillRef, "aria-hidden": "true", style: { width: "100%", transform: "scaleX(0)", transformOrigin: "left center", willChange: "transform", ...style } }));
+}
+function SmoothProgressTime({ position, duration, playing, sampledAt, format, rate = 1 }) {
+    const labelRef = SP_REACT.useRef(null);
+    SP_REACT.useEffect(() => {
+        let timer = 0;
+        const base = Math.max(0, Number(position || 0));
+        const total = Math.max(0, Number(duration || 0));
+        const receivedAt = Math.max(0, Number(sampledAt || Date.now()));
+        const draw = () => {
+            const elapsed = playing ? Math.max(0, Date.now() - receivedAt) * (rate > 0 ? rate : 1) : 0;
+            const current = Math.min(total || Number.MAX_SAFE_INTEGER, base + elapsed);
+            const label = format(current);
+            if (labelRef.current && labelRef.current.textContent !== label)
+                labelRef.current.textContent = label;
+            if (playing && (!total || current < total))
+                timer = window.setTimeout(draw, 200);
+        };
+        draw();
+        return () => {
+            if (timer)
+                window.clearTimeout(timer);
+        };
+    }, [duration, format, playing, position, rate, sampledAt]);
+    return SP_JSX.jsx("span", { ref: labelRef, children: format(Math.max(0, Number(position || 0))) });
+}
+
 // Seek bar and skip/speed buttons for the in-plugin player (Your Music and
-// YouTube Music). Spotify and Windows media sessions keep their read-only bar.
+// YouTube Music). Windows media sessions (Apple Music) keep their read-only bar.
 const SEEK_CSS = ".npSeekBar .npSeekTrack{transition:box-shadow 120ms ease}.npSeekBarFocused .npSeekTrack{box-shadow:0 0 0 2px rgba(255,255,255,.6)}";
 function formatClock(value) {
     const total = Math.max(0, Math.floor(Number(value || 0) / 1000));
@@ -10434,6 +5843,180 @@ function LocalSeekButtons({ buttonStyle, gap = 8 }) {
     const seconds = (text, value) => String(text).replace("{seconds}", String(value));
     const content = { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontVariantNumeric: "tabular-nums" };
     return (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: `${gap}px`, width: "100%" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: disabled, "aria-label": seconds(core.seekBackLabel, back), onClick: () => localAudioPlayer.seekBy(-back * 1000), children: SP_JSX.jsxs("span", { style: content, children: [SP_JSX.jsx(FaRedoAlt, { style: { transform: "scaleX(-1)" } }), back] }) }), episode ? (SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, "aria-label": core.playbackSpeedLabel, onClick: () => localAudioPlayer.cyclePodcastSpeed(), children: SP_JSX.jsx("span", { style: { ...content, fontWeight: 700 }, children: speedLabel(state.playbackRate) }) })) : null, SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: disabled, "aria-label": seconds(core.seekForwardLabel, forward), onClick: () => localAudioPlayer.seekBy(forward * 1000), children: SP_JSX.jsxs("span", { style: content, children: [forward, SP_JSX.jsx(FaRedoAlt, {})] }) })] }));
+}
+
+const controlHeight = 34;
+const fullButtonStyle = {
+    width: "100%",
+    minWidth: "100%",
+    maxWidth: "100%",
+    minHeight: `${controlHeight}px`,
+    padding: 0,
+    lineHeight: 1,
+};
+const iconButtonStyle = {
+    width: `${controlHeight}px`,
+    minWidth: `${controlHeight}px`,
+    maxWidth: `${controlHeight}px`,
+    height: `${controlHeight}px`,
+    minHeight: `${controlHeight}px`,
+    padding: 0,
+};
+function imageUrl$1(item) {
+    const images = item?.images ?? item?.album?.images ?? [];
+    if (!Array.isArray(images) || !images.length)
+        return "";
+    const medium = images.find((entry) => Number(entry?.width || 0) >= 160) ?? images[0];
+    return String(medium?.url ?? "");
+}
+function artistText$1(item) {
+    const artists = item?.artists;
+    if (Array.isArray(artists) && artists.length) {
+        return artists.map((artist) => artist?.name).filter(Boolean).join(", ");
+    }
+    const singleArtist = typeof item?.artist === "string"
+        ? item.artist
+        : String(item?.artist?.name ?? "");
+    if (singleArtist.trim())
+        return singleArtist.trim();
+    if (String(item?.type ?? "").toLowerCase() === "album")
+        return "";
+    return String(item?.owner?.display_name ?? item?.publisher ?? "");
+}
+function normalizeTrack(entry) {
+    return entry?.track ?? entry?.item ?? entry;
+}
+function itemType$1(item) {
+    const type = String(item?.type ?? "").toLowerCase();
+    if (type === "track" || type === "album" || type === "artist" || type === "playlist")
+        return type;
+    return "unknown";
+}
+function formatTrackDuration(value) {
+    const totalSeconds = Math.max(0, Math.floor(Number(value || 0) / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+function releaseYear(item) {
+    const value = String(item?.release_date ?? "").trim();
+    const match = value.match(/^\d{4}/);
+    return match?.[0] ?? "";
+}
+function MediaArtwork({ url, size = 42, round = false }) {
+    const radius = round ? "50%" : "5px";
+    return (SP_JSX.jsx("div", { style: {
+            width: `${size}px`,
+            height: `${size}px`,
+            minWidth: `${size}px`,
+            borderRadius: radius,
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.42)",
+        }, children: url ? (SP_JSX.jsx("img", { src: url, style: { width: "100%", height: "100%", objectFit: "cover" } })) : (SP_JSX.jsx(FaMusic, { size: Math.max(14, Math.round(size * 0.38)) })) }));
+}
+function MediaRow({ item, subtitle, onActivate, leadingImage, roundImage, sideAction, buttonRef, preferredFocus, onFocus, }) {
+    const t = getTranslations("youtubeMusic");
+    const mainButton = (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npMediaResultButton", ...{ onFocus: (event) => {
+                event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" });
+                onFocus?.();
+            } }, style: {
+            ...fullButtonStyle,
+            width: sideAction ? "auto" : "100%",
+            minWidth: 0,
+            maxWidth: sideAction ? "none" : "100%",
+            flex: sideAction ? 1 : undefined,
+            height: "54px",
+            minHeight: "54px",
+            marginBottom: sideAction ? 0 : "6px",
+            overflow: "hidden",
+        }, onClick: onActivate, children: SP_JSX.jsxs("span", { style: {
+                width: "100%",
+                minWidth: 0,
+                boxSizing: "border-box",
+                display: "flex",
+                alignItems: "center",
+                gap: "9px",
+                padding: "5px 8px",
+                textAlign: "left",
+            }, children: [SP_JSX.jsx(MediaArtwork, { url: leadingImage ?? imageUrl$1(item), size: 42, round: roundImage }), SP_JSX.jsxs("span", { style: { minWidth: 0, flex: 1 }, children: [SP_JSX.jsx("strong", { style: {
+                                display: "block",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                fontSize: "0.88em",
+                                lineHeight: 1.15,
+                            }, children: String(item?.name ?? t.untitled) }), SP_JSX.jsx("span", { style: {
+                                display: "block",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                fontSize: "0.72em",
+                                lineHeight: 1.25,
+                                minHeight: "1.25em",
+                                paddingBottom: "2px",
+                                opacity: 0.62,
+                                marginTop: "3px",
+                            }, children: subtitle ?? artistText$1(item) })] }), !sideAction ? SP_JSX.jsx("span", { style: { display: "inline-flex", alignItems: "center", opacity: 0.68 }, children: SP_JSX.jsx(FaChevronRight, { size: 12 }) }) : null] }) }));
+    if (!sideAction)
+        return mainButton;
+    return (SP_JSX.jsxs(DFL.Focusable, { style: { display: "flex", alignItems: "stretch", gap: "6px", width: "100%", marginBottom: "6px" }, "flow-children": "horizontal", children: [mainButton, SP_JSX.jsx(DFL.DialogButton, { style: { ...iconButtonStyle, height: "54px", minHeight: "54px", width: "38px", minWidth: "38px", maxWidth: "38px" }, "aria-label": sideAction.label, onClick: sideAction.onActivate, children: sideAction.icon })] }));
+}
+function MediaTvCard({ item, onActivate, round = false, preferredFocus = false, buttonRef, focusKey, gridIndex, }) {
+    const t = getTranslations("youtubeMusic");
+    const title = String(item?.name ?? t.untitled);
+    const subtitle = itemType$1(item) === "album" && releaseYear(item)
+        ? `${artistText$1(item)} · ${releaseYear(item)}`
+        : artistText$1(item);
+    return (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npMediaTvCard", ...{
+            "data-np-focus-key": focusKey || undefined,
+            "data-np-grid-index": Number.isFinite(gridIndex) ? gridIndex : undefined,
+            onFocus: (event) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }),
+        }, onClick: onActivate, style: {
+            width: "100%",
+            minWidth: 0,
+            height: "auto",
+            minHeight: 0,
+            padding: "10px",
+            borderRadius: "12px",
+            overflow: "hidden",
+            textAlign: "left",
+        }, children: SP_JSX.jsxs("span", { style: { display: "flex", flexDirection: "column", width: "100%", height: "100%", minWidth: 0 }, children: [SP_JSX.jsx("span", { style: {
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        borderRadius: round ? "50%" : "8px",
+                        overflow: "hidden",
+                        background: "rgba(255,255,255,0.08)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0 18px 42px rgba(0,0,0,0.3)",
+                    }, children: imageUrl$1(item) ? (SP_JSX.jsx("img", { src: imageUrl$1(item), style: { width: "100%", height: "100%", objectFit: "cover" } })) : (SP_JSX.jsx(FaMusic, { size: 42, style: { opacity: 0.45 } })) }), SP_JSX.jsx("strong", { style: { marginTop: "12px", fontSize: "16px", lineHeight: 1.15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 650 }, children: title }), SP_JSX.jsx("span", { style: { marginTop: "5px", fontSize: "13px", opacity: 0.58, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: subtitle })] }) }));
+}
+function MediaTvTrack({ track, index, onActivate, preferredFocus = false, buttonRef, showArtwork = true, onFocus, status, progress, }) {
+    const normalized = normalizeTrack(track);
+    return (SP_JSX.jsx(DFL.DialogButton, { ref: buttonRef, preferredFocus: preferredFocus, className: "npMediaTvTrack", ...{ onFocus: (event) => {
+                event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" });
+                onFocus?.();
+            } }, onClick: onActivate, style: {
+            width: "100%",
+            minWidth: "100%",
+            height: "66px",
+            minHeight: "66px",
+            padding: "0 16px",
+            borderRadius: "10px",
+            marginBottom: "6px",
+            textAlign: "left",
+        }, children: SP_JSX.jsxs("span", { style: {
+                display: "grid",
+                gridTemplateColumns: showArtwork ? "32px 48px minmax(0,1fr) auto" : "32px minmax(0,1fr) auto",
+                alignItems: "center",
+                gap: showArtwork ? "13px" : "16px",
+                width: "100%",
+            }, children: [SP_JSX.jsx("span", { style: { opacity: 0.45, fontVariantNumeric: "tabular-nums", textAlign: "right" }, children: index + 1 }), showArtwork ? SP_JSX.jsx(MediaArtwork, { url: imageUrl$1(normalized), size: 44 }) : null, SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: "16px", fontWeight: 620, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(normalized?.name ?? "") }), SP_JSX.jsx("span", { style: { display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText$1(normalized) }), progress && progress > 0 && progress < 1 ? SP_JSX.jsx("span", { className: "npEpisodeProgress", style: { display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "rgba(255,255,255,.14)", overflow: "hidden" }, children: SP_JSX.jsx("span", { style: { display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 } }) }) : null] }), SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "14px", opacity: 0.62 }, children: [status ? SP_JSX.jsx("span", { className: "npEpisodeStatus", style: { fontSize: "13px", whiteSpace: "nowrap" }, children: status }) : normalized?.duration_ms ? SP_JSX.jsx("span", { style: { fontVariantNumeric: "tabular-nums", fontSize: "13px" }, children: formatTrackDuration(normalized.duration_ms) }) : null, SP_JSX.jsx(FaPlay, { size: 13 })] })] }) }));
 }
 
 const YOUTUBE_RED = "#ff0033";
@@ -10694,9 +6277,8 @@ function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }) {
             setBusy(false);
         }
     };
-    // Artist-background cache — independent YouTube Music store (mirrors Spotify's
-    // section, red accent). Shared cache-UI strings come from the Spotify catalog.
-    const st = SP_REACT.useMemo(() => getTranslations("spotify"), []);
+    // Artist-background cache — independent YouTube Music store (red accent).
+    const st = SP_REACT.useMemo(() => getTranslations("youtubeMusic"), []);
     const [artistCacheBusy, setArtistCacheBusy] = SP_REACT.useState(false);
     const [artistCacheProgress, setArtistCacheProgress] = SP_REACT.useState({ active: false, phase: "idle", current: "", completed: 0, total: 0 });
     const [artistCacheStats, setArtistCacheStats] = SP_REACT.useState({ bytes: 0, files: 0 });
@@ -10791,7 +6373,7 @@ function YouTubeMusicSettingsPanel({ selectedService = "youtubeMusic" }) {
             void reloadArtistCacheStats();
         }
     };
-    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { padding: "0 4px", margin: "14px 0 6px", fontSize: "0.74em", fontWeight: 800, letterSpacing: "0.035em", textTransform: "uppercase", opacity: 0.62 }, children: "YouTube Music" }), SP_JSX.jsxs("div", { className: "npYtmSettings", style: { ...settingsCard, ...(themed ? { background: THEME_CARD_BG, border: THEME_CARD_BORDER } : {}), opacity: selectedService === "youtubeMusic" ? 1 : .86 }, children: [SP_JSX.jsx("style", { children: `.npYtmSettings button,.npYtmSettings button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}.npYtmSettings button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}.npYtmSettings button span{font-size:1em!important}.npYtmSettings button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}${themed ? "" : `.npYtmSettings button:hover,.npYtmSettings button:focus,.npYtmSettings button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,0,51,.28),0 0 18px rgba(255,0,51,.15)!important}`}.npYtmSettings input{box-sizing:border-box!important}` }), SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }, children: [SP_JSX.jsx(SiYoutubemusic, { size: 24, color: "#fff", style: { flexShrink: 0 } }), SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: "1em", lineHeight: 1.1, fontWeight: 620 }, children: "YouTube Music" }), SP_JSX.jsx("span", { style: { display: "block", fontSize: ".72em", opacity: .62, marginTop: "2px" }, children: settings.authenticated ? String(settings.displayName || t.connected) : t.yourMusicInsideSteam })] })] }), !settings.authenticated ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("p", { style: { fontSize: ".72em", lineHeight: 1.42, opacity: .72, margin: "10px 2px 7px" }, children: authRunning ? t.completeSignIn : t.automaticSignInDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, disabled: busy, onClick: () => void startAutomaticAuth(), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }, children: authRunning ? t.loadingSpotify : t.connect }) }), authError ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: ".7em", lineHeight: 1.35, color: "#ff9aaa" }, children: authError }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, onClick: () => setShowManualAuth((value) => !value), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", justifyContent: "center", textAlign: "center" }, children: showManualAuth ? t.hideDetails : t.showDetails }) })] }) : null, showManualAuth ? SP_JSX.jsxs("div", { style: { marginTop: "9px" }, children: [SP_JSX.jsx("p", { style: { fontSize: ".72em", lineHeight: 1.42, opacity: .72, margin: "0 0 7px" }, children: t.browserHeadersDescription }), SP_JSX.jsx(DFL.TextField, { value: headers, label: t.browserHeaders, onChange: (value) => setHeaders(typeof value === "string" ? value : String(value?.target?.value ?? "")) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, disabled: busy || !headers.trim(), onClick: () => void run(async () => { const result = await connectYouTubeMusic(headers); if (result.ok)
+    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { padding: "0 4px", margin: "14px 0 6px", fontSize: "0.74em", fontWeight: 800, letterSpacing: "0.035em", textTransform: "uppercase", opacity: 0.62 }, children: "YouTube Music" }), SP_JSX.jsxs("div", { className: "npYtmSettings", style: { ...settingsCard, ...(themed ? { background: THEME_CARD_BG, border: THEME_CARD_BORDER } : {}), opacity: selectedService === "youtubeMusic" ? 1 : .86 }, children: [SP_JSX.jsx("style", { children: `.npYtmSettings button,.npYtmSettings button *{${themed ? "" : "color:#fff!important;"}text-align:left!important}.npYtmSettings button{font-size:.82em!important;transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}.npYtmSettings button span{font-size:1em!important}.npYtmSettings button>span{width:100%!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;padding:0 10px!important;gap:7px!important;line-height:1.15!important}${themed ? "" : `.npYtmSettings button:hover,.npYtmSettings button:focus,.npYtmSettings button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,0,51,.28),0 0 18px rgba(255,0,51,.15)!important}`}.npYtmSettings input{box-sizing:border-box!important}` }), SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }, children: [SP_JSX.jsx(SiYoutubemusic, { size: 24, color: "#fff", style: { flexShrink: 0 } }), SP_JSX.jsxs("span", { style: { minWidth: 0 }, children: [SP_JSX.jsx("strong", { style: { display: "block", fontSize: "1em", lineHeight: 1.1, fontWeight: 620 }, children: "YouTube Music" }), SP_JSX.jsx("span", { style: { display: "block", fontSize: ".72em", opacity: .62, marginTop: "2px" }, children: settings.authenticated ? String(settings.displayName || t.connected) : t.yourMusicInsideSteam })] })] }), !settings.authenticated ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("p", { style: { fontSize: ".72em", lineHeight: 1.42, opacity: .72, margin: "10px 2px 7px" }, children: authRunning ? t.completeSignIn : t.automaticSignInDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, disabled: busy, onClick: () => void startAutomaticAuth(), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }, children: authRunning ? t.loadingYouTubeMusic : t.connect }) }), authError ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: ".7em", lineHeight: 1.35, color: "#ff9aaa" }, children: authError }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, onClick: () => setShowManualAuth((value) => !value), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", justifyContent: "center", textAlign: "center" }, children: showManualAuth ? t.hideDetails : t.showDetails }) })] }) : null, showManualAuth ? SP_JSX.jsxs("div", { style: { marginTop: "9px" }, children: [SP_JSX.jsx("p", { style: { fontSize: ".72em", lineHeight: 1.42, opacity: .72, margin: "0 0 7px" }, children: t.browserHeadersDescription }), SP_JSX.jsx(DFL.TextField, { value: headers, label: t.browserHeaders, onChange: (value) => setHeaders(typeof value === "string" ? value : String(value?.target?.value ?? "")) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, disabled: busy || !headers.trim(), onClick: () => void run(async () => { const result = await connectYouTubeMusic(headers); if (result.ok)
                                             clearYouTubeMusicLibrarySessionCache(); return result; }, t.connected), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }, children: t.connect }) })] }) : null] }) : SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "7px" }, disabled: busy, onClick: () => void run(async () => { const result = await disconnectYouTubeMusic(); if (result.ok)
                             clearYouTubeMusicLibrarySessionCache(); return result; }, t.disconnect), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", textAlign: "center" }, children: [SP_JSX.jsx(FaSignOutAlt, {}), t.disconnect] }) }), SP_JSX.jsx("div", { style: { marginTop: "12px", fontSize: ".76em", fontWeight: 700, opacity: .72 }, children: t.audioQuality }), ["low", "medium", "high"].map((quality) => SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "6px", border: settings.audioQuality === quality ? `1px solid ${themed ? THEME_ACCENT : YOUTUBE_RED}` : undefined }, disabled: busy, onClick: () => void run(() => setYouTubeMusicAudioQuality(quality)), children: SP_JSX.jsxs("span", { style: { width: "100%", padding: "0 10px", boxSizing: "border-box", display: "flex", justifyContent: "space-between" }, children: [SP_JSX.jsx("span", { children: { low: t.qualityLow, medium: t.qualityMedium, high: t.qualityHigh }[quality] }), settings.audioQuality === quality ? SP_JSX.jsx("span", { style: { color: themed ? THEME_ACCENT : YOUTUBE_RED }, children: "\u25cf" }) : null] }) }, quality)), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "10px" }, onClick: () => void refreshYouTubeMusicCache().then((result) => { if (!result.ok)
                             throw new Error(result.error); clearYouTubeMusicLibrarySessionCache(); toaster.toast({ title: "YouTube Music", body: t.refresh, duration: 2000 }); }).catch(notifyError), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaSyncAlt, {}), t.refresh] }) }), SP_JSX.jsxs("div", { style: { marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.08)" }, children: [SP_JSX.jsx("div", { style: { fontSize: "0.8em", fontWeight: 700, marginBottom: "5px" }, children: st.artistCacheTitle }), SP_JSX.jsx("p", { style: { margin: "0 2px 9px", fontSize: "0.72em", lineHeight: 1.42, opacity: 0.56 }, children: t.artistCacheDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, opacity: settings.authenticated ? 1 : .5 }, disabled: !settings.authenticated || artistCacheBusy, onClick: () => void createArtistCache(), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaSyncAlt, {}), " ", artistCacheBusy && artistCacheProgress.phase !== "clearing" && artistCacheProgress.phase !== "clearing_manual" ? st.artistCacheBuilding : st.createArtistCache] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "6px", opacity: artistCacheStats.files > 0 ? 1 : .58 }, disabled: artistCacheBusy || artistCacheStats.files <= 0, onClick: () => void clearArtistCache(), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaTimes, {}), " ", artistCacheProgress.phase === "clearing" ? st.artistCacheClearing : st.clearArtistCache] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, marginTop: "6px", opacity: Number(artistCacheStats.manualFiles || 0) > 0 ? 1 : .58 }, disabled: artistCacheBusy || Number(artistCacheStats.manualFiles || 0) <= 0, onClick: () => void clearManualBackgrounds(), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaTimes, {}), " ", artistCacheProgress.phase === "clearing_manual" ? st.manualBackgroundsRemoving : st.removeManualBackgrounds] }) }), SP_JSX.jsx("p", { style: { margin: "7px 2px 0", fontSize: "0.66em", lineHeight: 1.4, opacity: 0.52 }, children: st.manualBackgroundsDescription }), (artistCacheBusy && artistCacheProgress.total > 0) ? (SP_JSX.jsxs("div", { style: { marginTop: "9px" }, children: [SP_JSX.jsx("div", { style: { fontSize: "0.66em", opacity: .7, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistCacheProgress.current || `${artistCacheProgress.completed}/${artistCacheProgress.total}` }), SP_JSX.jsx("div", { style: { height: "4px", marginTop: "6px", borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,.1)" }, children: SP_JSX.jsx("div", { style: { width: `${Math.min(100, (artistCacheProgress.completed / Math.max(1, artistCacheProgress.total)) * 100)}%`, height: "100%", background: themed ? THEME_ACCENT : YOUTUBE_RED, transition: "width 180ms ease" } }) })] })) : null, SP_JSX.jsxs("div", { style: { marginTop: 7, padding: "7px 9px", borderRadius: 7, background: "rgba(255,255,255,.035)", display: "grid", gap: 5, fontSize: ".72em" }, children: [SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", gap: 8 }, children: [SP_JSX.jsx("span", { style: { opacity: .58 }, children: st.cacheSize }), SP_JSX.jsxs("strong", { children: [(Math.max(0, Number(artistCacheStats.bytes || 0)) / (1024 * 1024)).toFixed(2), " MB"] })] }), SP_JSX.jsxs("div", { style: { display: "flex", justifyContent: "space-between", gap: 8 }, children: [SP_JSX.jsx("span", { style: { opacity: .58 }, children: st.manualBackgrounds }), SP_JSX.jsxs("strong", { children: [(Math.max(0, Number(artistCacheStats.manualBytes || 0)) / (1024 * 1024)).toFixed(2), " MB"] })] })] })] })] })] }));
@@ -10871,30 +6453,30 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
         void run(() => youtubeMusicGetDetail(kind, next.id), (data) => setDetail({ ...next, data }));
     };
     const rowSubtitle = (item) => { const status = episodeStatus(t, item); return status ? `${status.label} · ${artistText(item)}` : artistText(item); };
-    const renderRows = (items, tracksAsQueue = false) => items.map((item, index) => SP_JSX.jsx(SpotifyRow, { item: item, subtitle: rowSubtitle(item), roundImage: itemType(item) === "artist", onFocus: () => prefetchTrack(item), onActivate: () => tracksAsQueue && itemType(item) === "track" ? void playItems(items, index) : openDetail(item) }, `${item?.type}-${item?.id}-${index}`));
+    const renderRows = (items, tracksAsQueue = false) => items.map((item, index) => SP_JSX.jsx(MediaRow, { item: item, subtitle: rowSubtitle(item), roundImage: itemType(item) === "artist", onFocus: () => prefetchTrack(item), onActivate: () => tracksAsQueue && itemType(item) === "track" ? void playItems(items, index) : openDetail(item) }, `${item?.type}-${item?.id}-${index}`));
     const renderDetail = () => {
         if (!detail)
             return null;
         if (!detail.data)
-            return SP_JSX.jsx("div", { style: { padding: "20px", textAlign: "center", opacity: .68 }, children: t.loadingSpotify });
+            return SP_JSX.jsx("div", { style: { padding: "20px", textAlign: "center", opacity: .68 }, children: t.loadingYouTubeMusic });
         const item = detail.data.item;
         const tracks = Array.isArray(detail.data.tracks) ? detail.data.tracks : [];
         const albums = Array.isArray(detail.data.albums) ? detail.data.albums : [];
         const primaryArtist = Array.isArray(item?.artists) ? item.artists.find((a) => a?.id) : null;
-        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.DialogButton, { style: fullButton, onClick: () => setDetail(null), children: SP_JSX.jsxs("span", { style: { display: "flex", gap: "7px", alignItems: "center", justifyContent: "center", fontSize: ".8em" }, children: [SP_JSX.jsx(FaArrowLeft, {}), " ", t.back] }) }), SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs("div", { style: { display: "flex", gap: "10px", padding: "10px", borderRadius: "10px", background: themed ? THEME_CARD_BG : "linear-gradient(145deg,rgba(255,0,51,.18),rgba(0,0,0,.24))", border: themed ? THEME_CARD_BORDER : "1px solid rgba(255,0,51,.25)" }, children: [SP_JSX.jsx(SpotifyArtwork, { url: imageUrl(item), size: 72, round: detail.kind === "artist" }), SP_JSX.jsxs("div", { style: { minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: [SP_JSX.jsx("span", { style: { fontSize: ".68em", opacity: .55, textTransform: "uppercase", fontWeight: 700 }, children: String(item?.isPodcast ? t.podcast : t[detail.kind] ?? detail.kind) }), SP_JSX.jsx("strong", { style: { marginTop: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx("span", { style: { marginTop: "4px", fontSize: ".72em", opacity: .62 }, children: detail.kind === "artist" ? t.artist : artistText(item) })] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, ...(themed ? {} : { background: YOUTUBE_RED, color: "#fff" }) }, disabled: !tracks.length, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), detail.kind === "album" && primaryArtist ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: fullButton, onClick: () => openDetail({ id: primaryArtist.id, name: primaryArtist.name, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: ".8em", fontWeight: 700 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })] }) : null, tracks.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabel, children: detail.kind === "artist" ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }), renderRows(tracks, true)] }) : null, unavailableNote(t, detail.data) ? SP_JSX.jsx("div", { className: "npYtmUnavailableNote", style: { padding: "8px 8px 2px", textAlign: "center", opacity: .55, fontSize: ".7em" }, children: unavailableNote(t, detail.data) }) : null, albums.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabel, children: t.albumsAndSingles }), renderRows(albums)] }) : null, !tracks.length && !albums.length && !loading ? SP_JSX.jsx("div", { style: { padding: "12px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }, children: t.nothingHere }) : null] });
+        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.DialogButton, { style: fullButton, onClick: () => setDetail(null), children: SP_JSX.jsxs("span", { style: { display: "flex", gap: "7px", alignItems: "center", justifyContent: "center", fontSize: ".8em" }, children: [SP_JSX.jsx(FaArrowLeft, {}), " ", t.back] }) }), SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs("div", { style: { display: "flex", gap: "10px", padding: "10px", borderRadius: "10px", background: themed ? THEME_CARD_BG : "linear-gradient(145deg,rgba(255,0,51,.18),rgba(0,0,0,.24))", border: themed ? THEME_CARD_BORDER : "1px solid rgba(255,0,51,.25)" }, children: [SP_JSX.jsx(MediaArtwork, { url: imageUrl(item), size: 72, round: detail.kind === "artist" }), SP_JSX.jsxs("div", { style: { minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: [SP_JSX.jsx("span", { style: { fontSize: ".68em", opacity: .55, textTransform: "uppercase", fontWeight: 700 }, children: String(item?.isPodcast ? t.podcast : t[detail.kind] ?? detail.kind) }), SP_JSX.jsx("strong", { style: { marginTop: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx("span", { style: { marginTop: "4px", fontSize: ".72em", opacity: .62 }, children: detail.kind === "artist" ? t.artist : artistText(item) })] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, ...(themed ? {} : { background: YOUTUBE_RED, color: "#fff" }) }, disabled: !tracks.length, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }), detail.kind === "album" && primaryArtist ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: fullButton, onClick: () => openDetail({ id: primaryArtist.id, name: primaryArtist.name, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: ".8em", fontWeight: 700 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) })] }) : null, tracks.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabel, children: detail.kind === "artist" ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }), renderRows(tracks, true)] }) : null, unavailableNote(t, detail.data) ? SP_JSX.jsx("div", { className: "npYtmUnavailableNote", style: { padding: "8px 8px 2px", textAlign: "center", opacity: .55, fontSize: ".7em" }, children: unavailableNote(t, detail.data) }) : null, albums.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabel, children: t.albumsAndSingles }), renderRows(albums)] }) : null, !tracks.length && !albums.length && !loading ? SP_JSX.jsx("div", { style: { padding: "12px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }, children: t.nothingHere }) : null] });
     };
     const tabButton = (key, label, icon) => SP_JSX.jsx(DFL.DialogButton, { style: { flex: 1, minWidth: 0, height: "32px", minHeight: "32px", padding: 0, opacity: tab === key ? 1 : .58 }, onClick: () => { requestSerial.current += 1; setLoading(false); setDetail(null); setTab(key); if (key === "home" && !home)
             loadHome(); if (key === "library" && !library)
             loadLibrary(librarySection); }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", fontSize: ".72em" }, children: [icon, label] }) });
     const continueItems = continueListeningEpisodes();
     const renderHome = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [continueItems.length ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: sectionLabel, children: t.continueListening }), renderRows(continueItems, true)] }) : null, SP_JSX.jsx("div", { style: sectionLabel, children: t.yourPlaylists }), renderRows(home?.playlists?.items ?? []), SP_JSX.jsx("div", { style: sectionLabel, children: t.newReleases }), renderRows(home?.newReleases?.items ?? home?.newForYou?.items ?? []), !home?.playlists?.items?.length && !home?.newForYou?.items?.length && !loading ? SP_JSX.jsx("div", { style: { padding: "12px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }, children: t.nothingHere }) : null] });
-    const renderSearch = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs("div", { style: { width: "100%", marginTop: "8px" }, children: [SP_JSX.jsx(DFL.TextField, { value: query, label: t.searchSpotify, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
+    const renderSearch = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs("div", { style: { width: "100%", marginTop: "8px" }, children: [SP_JSX.jsx(DFL.TextField, { value: query, label: t.searchYouTubeMusic, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
                             void run(() => youtubeMusicSearch(query), setSearchResults); } }), SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, ...(themed ? {} : { background: YOUTUBE_RED, color: "#fff" }) }, disabled: query.trim().length < 2 || loading, onClick: () => void run(() => youtubeMusicSearch(query), setSearchResults), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: "0.8em" }, children: [SP_JSX.jsx(FaSearch, {}), " ", t.search] }) })] }), SEARCH_GROUPS.map((key) => { const items = searchResults?.[key]?.items ?? []; return items.length ? SP_JSX.jsxs("div", { children: [SP_JSX.jsx("div", { style: sectionLabel, children: String(t[key]) }), renderRows(items, isTrackListSection(key))] }, key) : null; }), searchResults && !SEARCH_GROUPS.some((key) => searchResults?.[key]?.items?.length) && !loading ? SP_JSX.jsx("div", { style: { padding: "14px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }, children: t.noResults }) : null] });
     const renderLibrary = () => {
         const items = libraryItems(library, librarySection);
         return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", width: "100%" }, children: LIBRARY_SECTIONS.map((section) => SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, minWidth: 0, opacity: librarySection === section ? 1 : .58 }, onClick: () => loadLibrary(section), children: SP_JSX.jsx("span", { style: { fontSize: ".74em", textTransform: "capitalize" }, children: String(t[section]) }) }, section)) }), SP_JSX.jsx("div", { style: sectionLabel, children: String(t[librarySection]) }), isTrackListSection(librarySection) && items.length ? SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "6px", marginBottom: "7px" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, flex: 1, minWidth: 0, ...(themed ? {} : { background: YOUTUBE_RED }) }, onClick: () => void playItems(items), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 800, fontSize: ".8em" }, children: [SP_JSX.jsx(FaPlay, {}), t.play] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...fullButton, flex: 1, minWidth: 0 }, onClick: () => void playItems(shuffledCopy(items)), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontWeight: 700, fontSize: ".8em" }, children: [SP_JSX.jsx(FaRandom, {}), t.shuffle] }) })] }) : null, renderRows(items, isTrackListSection(librarySection)), !items.length && !loading ? SP_JSX.jsx("div", { style: { padding: "12px 8px", textAlign: "center", opacity: .58, fontSize: ".74em" }, children: t.nothingHere }) : null] });
     };
-    return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("style", { children: `${themed ? "" : `.npYtmBrowser button:focus,.npYtmBrowser button.gpfocus{box-shadow:0 0 0 1px rgba(255,0,51,.55),0 0 18px rgba(255,0,51,.2)!important}.npYtmBrowser input:focus{border-color:${YOUTUBE_RED}!important}`}.npYtmBrowser .npSpotifyResultButton{scroll-margin-top:64px}.npYtmNavDock{position:sticky;top:-1px;z-index:4;width:calc(100% + 8px);box-sizing:border-box;margin:-2px -4px 0;padding:6px 4px 8px;background:transparent}${themed ? "" : `.npYtmBigPictureButton,.npYtmBigPictureButton:hover,.npYtmBigPictureButton:focus,.npYtmBigPictureButton.gpfocus,.npYtmBigPictureButton *{color:#fff!important}`}` }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmBrowser", "flow-children": "vertical", onCancel: detail ? () => { setDetail(null); return true; } : undefined, onCancelButton: detail ? () => { setDetail(null); return true; } : undefined, style: { width: "100%", boxSizing: "border-box" }, children: [SP_JSX.jsx("div", { "aria-hidden": "true", style: { height: "2px", margin: "2px 4px 4px", borderRadius: "999px", background: themed ? THEME_DIVIDER : "linear-gradient(90deg,transparent,rgba(255,0,51,.62),transparent)", boxShadow: themed ? "none" : "0 0 14px rgba(255,0,51,.24)" } }), !detail ? SP_JSX.jsxs("div", { className: "npYtmNavDock", children: [onOpenBigPicture ? SP_JSX.jsx(DFL.DialogButton, { className: "npYtmBigPictureButton", style: { ...fullButton, marginBottom: "6px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, onClick: onOpenBigPicture, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".76em", fontWeight: 430, color: themed ? undefined : "#fff" }, children: [SP_JSX.jsx(FaTv, { size: 12 }), t.spotifyBigPicture] }) }) : null, SP_JSX.jsxs(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }, children: [tabButton("home", t.home, SP_JSX.jsx(FaHome, {})), tabButton("search", t.search, SP_JSX.jsx(FaSearch, {})), SP_JSX.jsx("div", { style: { gridColumn: "1 / -1", minWidth: 0 }, children: tabButton("library", t.library, SP_JSX.jsx(FaList, {})) })] })] }) : null, loading ? SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px", fontSize: ".72em", opacity: .62 }, children: [SP_JSX.jsx(FaSyncAlt, { className: "npYtmSpin" }), t.loadingSpotify] }) : null, detail ? renderDetail() : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary()] })] });
+    return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("style", { children: `${themed ? "" : `.npYtmBrowser button:focus,.npYtmBrowser button.gpfocus{box-shadow:0 0 0 1px rgba(255,0,51,.55),0 0 18px rgba(255,0,51,.2)!important}.npYtmBrowser input:focus{border-color:${YOUTUBE_RED}!important}`}.npYtmBrowser .npMediaResultButton{scroll-margin-top:64px}.npYtmNavDock{position:sticky;top:-1px;z-index:4;width:calc(100% + 8px);box-sizing:border-box;margin:-2px -4px 0;padding:6px 4px 8px;background:transparent}${themed ? "" : `.npYtmBigPictureButton,.npYtmBigPictureButton:hover,.npYtmBigPictureButton:focus,.npYtmBigPictureButton.gpfocus,.npYtmBigPictureButton *{color:#fff!important}`}` }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmBrowser", "flow-children": "vertical", onCancel: detail ? () => { setDetail(null); return true; } : undefined, onCancelButton: detail ? () => { setDetail(null); return true; } : undefined, style: { width: "100%", boxSizing: "border-box" }, children: [SP_JSX.jsx("div", { "aria-hidden": "true", style: { height: "2px", margin: "2px 4px 4px", borderRadius: "999px", background: themed ? THEME_DIVIDER : "linear-gradient(90deg,transparent,rgba(255,0,51,.62),transparent)", boxShadow: themed ? "none" : "0 0 14px rgba(255,0,51,.24)" } }), !detail ? SP_JSX.jsxs("div", { className: "npYtmNavDock", children: [onOpenBigPicture ? SP_JSX.jsx(DFL.DialogButton, { className: "npYtmBigPictureButton", style: { ...fullButton, marginBottom: "6px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, onClick: onOpenBigPicture, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".76em", fontWeight: 430, color: themed ? undefined : "#fff" }, children: [SP_JSX.jsx(FaTv, { size: 12 }), t.bigPicture] }) }) : null, SP_JSX.jsxs(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }, children: [tabButton("home", t.home, SP_JSX.jsx(FaHome, {})), tabButton("search", t.search, SP_JSX.jsx(FaSearch, {})), SP_JSX.jsx("div", { style: { gridColumn: "1 / -1", minWidth: 0 }, children: tabButton("library", t.library, SP_JSX.jsx(FaList, {})) })] })] }) : null, loading ? SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px", fontSize: ".72em", opacity: .62 }, children: [SP_JSX.jsx(FaSyncAlt, { className: "npYtmSpin" }), t.loadingYouTubeMusic] }) : null, detail ? renderDetail() : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary()] })] });
 }
 const YouTubeMusicBrowser = SP_REACT.memo(YouTubeMusicBrowserContent);
 function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
@@ -10992,7 +6574,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         };
         focusHome();
     }, []);
-    // Artist hero background with the same cached scraping used by Spotify/local.
+    // Artist hero background with the same cached scraping used by local music.
     SP_REACT.useEffect(() => {
         if (detail?.kind !== "artist") {
             setArtistHero("");
@@ -11075,7 +6657,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
             window.requestAnimationFrame(() => scrollRef.current?.scrollTo?.({ top: 0 }));
         });
     };
-    const cardRow = (title, items, round = false) => items.length ? SP_JSX.jsxs("section", { className: "npYtmTvShelf", style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: title }), SP_JSX.jsx(DFL.Focusable, { className: "npYtmTvRow", "flow-children": "horizontal", style: { display: "grid", gridAutoFlow: "column", gridAutoColumns: "calc((100% - 60px) / 6)", gap: "12px", overflowX: "auto", overflowY: "hidden", width: "100%", padding: "8px 0 24px", scrollPaddingInline: 0 }, children: items.slice(0, 60).map((item, index) => SP_JSX.jsx(SpotifyTvCard, { item: item, round: round, onActivate: () => openDetail(item) }, `${item?.type}-${item?.id}-${index}`)) })] }) : null;
+    const cardRow = (title, items, round = false) => items.length ? SP_JSX.jsxs("section", { className: "npYtmTvShelf", style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: title }), SP_JSX.jsx(DFL.Focusable, { className: "npYtmTvRow", "flow-children": "horizontal", style: { display: "grid", gridAutoFlow: "column", gridAutoColumns: "calc((100% - 60px) / 6)", gap: "12px", overflowX: "auto", overflowY: "hidden", width: "100%", padding: "8px 0 24px", scrollPaddingInline: 0 }, children: items.slice(0, 60).map((item, index) => SP_JSX.jsx(MediaTvCard, { item: item, round: round, onActivate: () => openDetail(item) }, `${item?.type}-${item?.id}-${index}`)) })] }) : null;
     const current = audio.track;
     const hasCurrent = Boolean(current?.name);
     const currentCover = imageUrl(current);
@@ -11083,22 +6665,22 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     const playerCard = () => SP_JSX.jsxs(DFL.Focusable, { className: "npYtmPlayerCard", "flow-children": "grid", style: { position: "relative", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", width: "100%", minHeight: "368px", padding: "24px", borderRadius: "20px", border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.28)", overflow: "hidden" }, children: [currentCover ? SP_JSX.jsx("div", { className: "npYtmPlayerGlow", "aria-hidden": "true", style: { position: "absolute", inset: "-40% -16% -70% -16%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.55)", opacity: .34, pointerEvents: "none" } }) : null, SP_JSX.jsx(DFL.DialogButton, { className: "npYtmCoverButton", disabled: !currentAlbum?.id, onClick: () => currentAlbum?.id ? openDetail({ ...currentAlbum, type: "album" }) : undefined, style: { position: "relative", width: "320px", minWidth: "320px", height: "320px", minHeight: "320px", padding: 0, borderRadius: "14px", overflow: "hidden", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }, children: currentCover ? SP_JSX.jsx("img", { src: currentCover, style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : SP_JSX.jsx("span", { style: { width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }, children: SP_JSX.jsx(FaMusic, { size: 64, style: { opacity: .3 } }) }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, alignSelf: "center" }, children: hasCurrent ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("span", { style: { display: "block", fontSize: "12px", textTransform: "uppercase", letterSpacing: ".14em", opacity: .58, fontWeight: 620 }, children: t.nowPlaying }), SP_JSX.jsx("h1", { style: { margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }, children: String(current?.name ?? "") }), SP_JSX.jsx("div", { style: { marginTop: "12px", fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: artistText(current) }), currentAlbum?.name ? SP_JSX.jsx("div", { style: { marginTop: "7px", fontSize: "16px", opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: currentAlbum.name }) : null, SP_JSX.jsxs("div", { style: { marginTop: "22px" }, children: [SP_JSX.jsx(LocalSeekBar, { accent: YOUTUBE_RED, trackHeight: 5, timeStyle: { marginTop: "8px", fontSize: "13px", opacity: .48 } }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(LocalSeekButtons, { buttonStyle: { flex: 1, minWidth: 0, height: "42px", minHeight: "42px", padding: 0 }, gap: 10 })] })] }) : SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }, children: t.noPlayback }) }), SP_JSX.jsx("div", { style: { position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }, children: SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "10px", alignItems: "stretch" }, children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("previous"), children: SP_JSX.jsx(FaStepBackward, { size: 18 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("play_pause"), children: audio.status === "Playing" ? SP_JSX.jsx(FaPause, { size: 21 }) : SP_JSX.jsx(FaPlay, { size: 21 }) }), SP_JSX.jsx(DFL.DialogButton, { disabled: !hasCurrent, style: { width: "100%", minWidth: 0, height: "58px", padding: 0 }, onClick: () => void localAudioPlayer.command("next"), children: SP_JSX.jsx(FaStepForward, { size: 18 }) })] }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "10px" }, children: [SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.shuffle, onClick: () => void localAudioPlayer.command("shuffle"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.shuffleActive ? 1 : .62 }, children: [SP_JSX.jsx(FaRandom, { size: 16 }), audio.shuffleActive ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] }), SP_JSX.jsxs(DFL.DialogButton, { disabled: !hasCurrent, "aria-label": t.repeat, onClick: () => void localAudioPlayer.command("repeat"), style: { position: "relative", width: "100%", minWidth: 0, height: "46px", padding: 0, opacity: audio.repeatMode !== "None" ? 1 : .62 }, children: [SP_JSX.jsx(RepeatIcon$1, { one: audio.repeatMode === "One", size: 17 }), audio.repeatMode !== "None" ? SP_JSX.jsx("span", { className: "npYtmActiveDot" }) : null] })] }), SP_JSX.jsx(DFL.DialogButton, { className: "npYtmMinimalButton", onClick: onOpenVisualizer, style: { width: "100%", minWidth: 0, height: "46px", border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaExpandArrowsAlt, { size: 13 }), t.fullscreen] }) }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmAppVolume", focusClassName: "npYtmAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudgeVolume, onKeyDown: nudgeVolume, role: "slider", tabIndex: 0, ...{ focusable: true }, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volume, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", min: 0, max: 100, step: 1, value: volume, tabIndex: -1, onChange: (event) => changeVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [volume, "%"] })] })] }) })] });
     const statusProps = (track) => { const status = episodeStatus(t, track); return status ? { status: status.label, progress: status.fraction } : {}; };
     const continueItems = continueListeningEpisodes();
-    const continueRow = () => continueItems.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.continueListening }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: continueItems.map((episode, index) => SP_JSX.jsx(SpotifyTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(continueItems, index) }, `continue-${episode?.id}`)) })] }) : null;
+    const continueRow = () => continueItems.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.continueListening }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: continueItems.map((episode, index) => SP_JSX.jsx(MediaTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(continueItems, index) }, `continue-${episode?.id}`)) })] }) : null;
     const renderHome = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [playerCard(), continueRow(), cardRow(t.yourPlaylists, home?.playlists?.items ?? []), cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])] });
-    const renderSearch = () => { const tracks = searchResults?.tracks?.items ?? []; const albums = searchResults?.albums?.items ?? []; const artists = searchResults?.artists?.items ?? []; const playlists = searchResults?.playlists?.items ?? []; const podcasts = searchResults?.podcasts?.items ?? []; const episodes = searchResults?.episodes?.items ?? []; return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.TextField, { label: t.searchSpotify, value: query, style: { width: "100%", minWidth: "100%" }, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
-                    void run(() => youtubeMusicSearch(query), setSearchResults); } }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }, disabled: query.trim().length < 2 || loading, onClick: () => void run(() => youtubeMusicSearch(query), setSearchResults), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaSearch, {}), t.search] }) }), cardRow(t.artists, artists, true), cardRow(t.albums, albums), tracks.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.map((track, index) => SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onFocus: () => prefetchTrack(track), onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) })] }) : null, cardRow(t.playlists, playlists), cardRow(t.podcasts, podcasts), episodes.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.episodes }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => SP_JSX.jsx(SpotifyTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })] }) : null, searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? SP_JSX.jsx("div", { style: { marginTop: "38px", fontSize: "19px", opacity: .55 }, children: t.noResults }) : null] }); };
+    const renderSearch = () => { const tracks = searchResults?.tracks?.items ?? []; const albums = searchResults?.albums?.items ?? []; const artists = searchResults?.artists?.items ?? []; const playlists = searchResults?.playlists?.items ?? []; const podcasts = searchResults?.podcasts?.items ?? []; const episodes = searchResults?.episodes?.items ?? []; return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.TextField, { label: t.searchYouTubeMusic, value: query, style: { width: "100%", minWidth: "100%" }, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
+                    void run(() => youtubeMusicSearch(query), setSearchResults); } }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }, disabled: query.trim().length < 2 || loading, onClick: () => void run(() => youtubeMusicSearch(query), setSearchResults), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaSearch, {}), t.search] }) }), cardRow(t.artists, artists, true), cardRow(t.albums, albums), tracks.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.map((track, index) => SP_JSX.jsx(MediaTvTrack, { track: track, index: index, onFocus: () => prefetchTrack(track), onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) })] }) : null, cardRow(t.playlists, playlists), cardRow(t.podcasts, podcasts), episodes.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.episodes }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => SP_JSX.jsx(MediaTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })] }) : null, searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? SP_JSX.jsx("div", { style: { marginTop: "38px", fontSize: "19px", opacity: .55 }, children: t.noResults }) : null] }); };
     const renderLibrary = () => {
         const items = libraryItems(library, librarySection);
         const visibleItems = isTrackListSection(librarySection) ? items.slice(0, libraryTrackVisibleCount) : items;
         const loadSection = (section) => {
             loadLibrary(section);
         };
-        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "9px", marginTop: "4px" }, children: LIBRARY_SECTIONS.map((section) => (SP_JSX.jsx(DFL.DialogButton, { onClick: () => loadSection(section), style: { width: "166px", minWidth: "166px", height: "44px", borderRadius: "999px", opacity: librarySection === section ? 1 : .58 }, children: SP_JSX.jsx("span", { style: { fontWeight: librarySection === section ? 650 : 500 }, children: String(t[section]) }) }, section))) }), SP_JSX.jsx("h2", { style: { margin: "26px 0 13px", fontSize: "27px", fontWeight: 650 }, children: String(t[librarySection]) }), isTrackListSection(librarySection) ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "10px", marginBottom: "16px" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, disabled: !items.length, onClick: () => void playItems(items), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaPlay, {}), t.play] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, disabled: !items.length, onClick: () => void playItems(shuffledCopy(items)), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaRandom, {}), t.shuffle] }) })] }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: visibleItems.map((track, index) => (SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, onFocus: () => {
+        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "9px", marginTop: "4px" }, children: LIBRARY_SECTIONS.map((section) => (SP_JSX.jsx(DFL.DialogButton, { onClick: () => loadSection(section), style: { width: "166px", minWidth: "166px", height: "44px", borderRadius: "999px", opacity: librarySection === section ? 1 : .58 }, children: SP_JSX.jsx("span", { style: { fontWeight: librarySection === section ? 650 : 500 }, children: String(t[section]) }) }, section))) }), SP_JSX.jsx("h2", { style: { margin: "26px 0 13px", fontSize: "27px", fontWeight: 650 }, children: String(t[librarySection]) }), isTrackListSection(librarySection) ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "10px", marginBottom: "16px" }, children: [SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, disabled: !items.length, onClick: () => void playItems(items), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaPlay, {}), t.play] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "190px", minWidth: "190px", height: "46px" }, disabled: !items.length, onClick: () => void playItems(shuffledCopy(items)), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaRandom, {}), t.shuffle] }) })] }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: visibleItems.map((track, index) => (SP_JSX.jsx(MediaTvTrack, { track: track, index: index, onFocus: () => {
                                     prefetchTrack(track);
                                     if (index >= visibleItems.length - 18 && visibleItems.length < items.length) {
                                         setLibraryTrackVisibleCount((current) => Math.min(items.length, current + 120));
                                     }
-                                }, onActivate: () => void playItems(items, index) }, `${track?.id}-${index}`))) })] }) : (SP_JSX.jsx(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: "14px", alignItems: "start" }, children: visibleItems.map((item, index) => SP_JSX.jsx(SpotifyTvCard, { item: item, round: librarySection === "artists", onActivate: () => openDetail(item) }, `${item?.id}-${index}`)) })), !items.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: .55 }, children: t.nothingHere }) : null] });
+                                }, onActivate: () => void playItems(items, index) }, `${track?.id}-${index}`))) })] }) : (SP_JSX.jsx(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: "14px", alignItems: "start" }, children: visibleItems.map((item, index) => SP_JSX.jsx(MediaTvCard, { item: item, round: librarySection === "artists", onActivate: () => openDetail(item) }, `${item?.id}-${index}`)) })), !items.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: .55 }, children: t.nothingHere }) : null] });
     };
     const backButton = (overlay = false) => (SP_JSX.jsx(DFL.DialogButton, { className: "npYtmBackButton npYtmMinimalButton", onClick: () => setDetail(null), style: { position: overlay ? "absolute" : "relative", top: overlay ? "20px" : undefined, left: overlay ? "28px" : undefined, zIndex: 5, width: "108px", minWidth: "108px", height: "34px", minHeight: "34px", padding: 0, border: "1px solid rgba(255,255,255,0.075)", background: "rgba(255,255,255,0.035)" }, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", fontSize: "0.72em", fontWeight: 430, color: "#fff" }, children: [SP_JSX.jsx(FaArrowLeft, { size: 11 }), " ", t.back] }) }));
     const renderDetail = () => {
@@ -11114,7 +6696,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         if (backgroundSettingsOpen && isArtist) {
             return SP_JSX.jsx(ArtistBackgroundPicker, { provider: "youtubeMusic", artistId: String(item?.id ?? detail?.id ?? ""), artistName: String(item?.name ?? detail?.title ?? ""), onBack: () => setBackgroundSettingsOpen(false), onApplied: (url) => setArtistHero(url) });
         }
-        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [isArtist ? SP_JSX.jsxs("section", { style: { position: "relative", width: "100vw", height: "min(56.25vw,720px)", minHeight: "430px", margin: "-18px -56px 0", overflow: "hidden", background: "#090909" }, children: [(artistHero || imageUrl(item)) ? SP_JSX.jsx("img", { src: artistHero || imageUrl(item), style: { position: "absolute", inset: "-8%", width: "116%", height: "116%", objectFit: "cover", filter: artistHero ? "saturate(1.1) brightness(.82)" : "blur(24px) saturate(1.25) brightness(.68)", transform: "scale(1.05)" } }) : null, SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, background: "linear-gradient(90deg,rgba(0,0,0,.66),rgba(0,0,0,.04) 62%),linear-gradient(180deg,transparent,rgba(0,0,0,.72) 80%,#000)" } }), backButton(true), SP_JSX.jsxs("div", { style: { position: "absolute", left: "46px", right: "46px", bottom: "46px", zIndex: 2 }, children: [SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(58px,7vw,102px)", lineHeight: 1, letterSpacing: "-.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), tracks.length ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px", marginTop: "22px" }, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaPlay, {}), t.play] }) }) : null] })] }) : SP_JSX.jsxs(SP_JSX.Fragment, { children: [backButton(), SP_JSX.jsxs("div", { style: { display: "grid", gridTemplateColumns: "250px minmax(0,1fr)", alignItems: "end", gap: "32px", marginTop: "20px", minHeight: "250px" }, children: [SP_JSX.jsx("div", { style: { width: "250px", height: "250px", borderRadius: "16px", overflow: "hidden", boxShadow: "0 30px 86px rgba(0,0,0,.48)", background: "rgba(255,255,255,.08)" }, children: imageUrl(item) ? SP_JSX.jsx("img", { src: imageUrl(item), style: { width: "100%", height: "100%", objectFit: "cover" } }) : SP_JSX.jsx(FaMusic, { size: 68, style: { margin: "91px", opacity: .4 } }) }), SP_JSX.jsxs("div", { style: { minWidth: 0, paddingBottom: "8px" }, children: [SP_JSX.jsx("div", { style: { textTransform: "uppercase", letterSpacing: ".13em", fontSize: "12px", fontWeight: 650, opacity: .58 }, children: String(item?.isPodcast ? t.podcast : t[detail.kind]) }), SP_JSX.jsx("h1", { style: { margin: "10px 0 0", fontSize: "56px", lineHeight: 1.02, letterSpacing: "-.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx("div", { style: { marginTop: "15px", fontSize: "17px", opacity: .64 }, children: artistText(item) }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", alignItems: "center", gap: "10px", marginTop: "22px" }, children: [tracks.length ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 560 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }) : null, detail.kind === "album" && primaryArtist ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => openDetail({ id: primaryArtist.id, name: primaryArtist.name, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 520 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) }) : null] })] })] })] }), SP_JSX.jsxs("section", { style: { marginTop: "30px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "27px", fontWeight: 650 }, children: isArtist ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.slice(0, detailTrackVisibleCount).map((track, index) => SP_JSX.jsx(SpotifyTvTrack, { track: track, index: index, showArtwork: detail.kind !== "album", ...statusProps(track), onFocus: () => { prefetchTrack(track); const visible = Math.min(tracks.length, detailTrackVisibleCount); if (index >= visible - 18 && visible < tracks.length)
+        return SP_JSX.jsxs(SP_JSX.Fragment, { children: [isArtist ? SP_JSX.jsxs("section", { style: { position: "relative", width: "100vw", height: "min(56.25vw,720px)", minHeight: "430px", margin: "-18px -56px 0", overflow: "hidden", background: "#090909" }, children: [(artistHero || imageUrl(item)) ? SP_JSX.jsx("img", { src: artistHero || imageUrl(item), style: { position: "absolute", inset: "-8%", width: "116%", height: "116%", objectFit: "cover", filter: artistHero ? "saturate(1.1) brightness(.82)" : "blur(24px) saturate(1.25) brightness(.68)", transform: "scale(1.05)" } }) : null, SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, background: "linear-gradient(90deg,rgba(0,0,0,.66),rgba(0,0,0,.04) 62%),linear-gradient(180deg,transparent,rgba(0,0,0,.72) 80%,#000)" } }), backButton(true), SP_JSX.jsxs("div", { style: { position: "absolute", left: "46px", right: "46px", bottom: "46px", zIndex: 2 }, children: [SP_JSX.jsx("h1", { style: { margin: 0, fontSize: "clamp(58px,7vw,102px)", lineHeight: 1, letterSpacing: "-.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), tracks.length ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px", marginTop: "22px" }, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }, children: [SP_JSX.jsx(FaPlay, {}), t.play] }) }) : null] })] }) : SP_JSX.jsxs(SP_JSX.Fragment, { children: [backButton(), SP_JSX.jsxs("div", { style: { display: "grid", gridTemplateColumns: "250px minmax(0,1fr)", alignItems: "end", gap: "32px", marginTop: "20px", minHeight: "250px" }, children: [SP_JSX.jsx("div", { style: { width: "250px", height: "250px", borderRadius: "16px", overflow: "hidden", boxShadow: "0 30px 86px rgba(0,0,0,.48)", background: "rgba(255,255,255,.08)" }, children: imageUrl(item) ? SP_JSX.jsx("img", { src: imageUrl(item), style: { width: "100%", height: "100%", objectFit: "cover" } }) : SP_JSX.jsx(FaMusic, { size: 68, style: { margin: "91px", opacity: .4 } }) }), SP_JSX.jsxs("div", { style: { minWidth: 0, paddingBottom: "8px" }, children: [SP_JSX.jsx("div", { style: { textTransform: "uppercase", letterSpacing: ".13em", fontSize: "12px", fontWeight: 650, opacity: .58 }, children: String(item?.isPodcast ? t.podcast : t[detail.kind]) }), SP_JSX.jsx("h1", { style: { margin: "10px 0 0", fontSize: "56px", lineHeight: 1.02, letterSpacing: "-.052em", fontWeight: 610 }, children: String(item?.name ?? detail.title) }), SP_JSX.jsx("div", { style: { marginTop: "15px", fontSize: "17px", opacity: .64 }, children: artistText(item) }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", alignItems: "center", gap: "10px", marginTop: "22px" }, children: [tracks.length ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => void playItems(tracks), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 560 }, children: [SP_JSX.jsx(FaPlay, {}), " ", t.play] }) }) : null, detail.kind === "album" && primaryArtist ? SP_JSX.jsx(DFL.DialogButton, { style: { width: "156px", minWidth: "156px", height: "48px" }, onClick: () => openDetail({ id: primaryArtist.id, name: primaryArtist.name, type: "artist" }), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 520 }, children: [SP_JSX.jsx(FaUser, {}), " ", t.artist] }) }) : null] })] })] })] }), SP_JSX.jsxs("section", { style: { marginTop: "30px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "27px", fontWeight: 650 }, children: isArtist ? t.popularTracks : item?.isPodcast ? t.episodes : t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.slice(0, detailTrackVisibleCount).map((track, index) => SP_JSX.jsx(MediaTvTrack, { track: track, index: index, showArtwork: detail.kind !== "album", ...statusProps(track), onFocus: () => { prefetchTrack(track); const visible = Math.min(tracks.length, detailTrackVisibleCount); if (index >= visible - 18 && visible < tracks.length)
                                     setDetailTrackVisibleCount((current) => Math.min(tracks.length, current + 120)); }, onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) }), !tracks.length && !loading ? SP_JSX.jsx("div", { style: { fontSize: "19px", opacity: .55 }, children: t.noTracks }) : null, unavailableNote(t, detail.data) ? SP_JSX.jsx("div", { className: "npYtmUnavailableNote", style: { marginTop: "14px", fontSize: "16px", opacity: .5 }, children: unavailableNote(t, detail.data) }) : null] }), cardRow(t.albumsAndSingles, albums), isArtist ? SP_JSX.jsx(DFL.DialogButton, { className: "npYtmMinimalButton", style: { width: 250, minWidth: 250, height: 48, marginTop: 26, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }, onClick: () => setBackgroundSettingsOpen(true), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }, children: [SP_JSX.jsx(FaCog, {}), " ", coreT.artistBackgroundSettings] }) }) : null] });
     };
     const handleRootButtonDown = SP_REACT.useCallback((event) => {
@@ -11146,7 +6728,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         return true;
     };
     const backgroundImage = detail?.kind === "artist" ? (artistHero || imageUrl(detail?.data?.item)) : (imageUrl(detail?.data?.item) || currentCover);
-    return SP_JSX.jsxs(DFL.Focusable, { className: "npYtmTvRoot npFullscreenRoot", "flow-children": "vertical", onButtonDown: handleRootButtonDown, onCancel: handleRootCancel, onCancelButton: handleRootCancel, style: { position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 10, background: "#070707", color: "#fff", overflow: "hidden", outline: "none" }, children: [SP_JSX.jsx("style", { children: `.npYtmTvRoot,.npYtmTvRoot *{box-sizing:border-box}.npYtmTvRoot button{transition:background 120ms ease,box-shadow 120ms ease,opacity 120ms ease!important}.npYtmTvRoot button:focus,.npYtmTvRoot button.gpfocus{transform:none!important;z-index:12}.npYtmTvRoot .npYtmCoverButton:focus,.npYtmTvRoot .npYtmCoverButton.gpfocus{box-shadow:0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(255,0,51,.48),0 24px 70px rgba(0,0,0,.42)!important}.npYtmTabs{z-index:200!important;isolation:isolate}.npYtmTvScroll{z-index:10!important;position:absolute!important;inset:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain}.npYtmTvScroll::-webkit-scrollbar{width:7px}.npYtmTvScroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}.npYtmTvRow::-webkit-scrollbar{display:none}.npYtmTvRoot .npSpotifyTvCard:focus,.npYtmTvRoot .npSpotifyTvCard.gpfocus,.npYtmTvRoot .npSpotifyTvTrack:focus,.npYtmTvRoot .npSpotifyTvTrack.gpfocus{transform:none!important}.npYtmTab,.npYtmTab *,.npYtmMinimalButton,.npYtmMinimalButton *{color:#fff!important}.npYtmTab{border:1px solid rgba(255,255,255,.075)!important;background:rgba(255,255,255,.025)!important}.npYtmTab:hover,.npYtmTab:focus,.npYtmTab.gpfocus,.npYtmMinimalButton:hover,.npYtmMinimalButton:focus,.npYtmMinimalButton.gpfocus{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.25)!important;box-shadow:0 0 0 1px rgba(255,0,51,.3),0 0 20px rgba(255,0,51,.17)!important}.npYtmTabActive{background:rgba(255,0,51,.18)!important;border-color:rgba(255,0,51,.46)!important}.npYtmPlayerGlow{animation:npYtmGlow 5.6s ease-in-out infinite alternate}.npYtmActiveDot{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:999px;background:${YOUTUBE_RED};box-shadow:0 0 8px ${YOUTUBE_RED}}.npYtmAppVolume{display:grid;grid-template-columns:84px minmax(0,1fr) 52px;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.025);font-size:15px;overflow:hidden}.npYtmAppVolumeFocused,.npYtmAppVolume:focus-visible{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.13);box-shadow:0 0 0 1px rgba(255,0,51,.3),0 0 20px rgba(255,0,51,.17)}.npYtmAppVolume input{min-width:0;width:100%;accent-color:${YOUTUBE_RED}}.npYtmAppVolume strong{text-align:right}@keyframes npYtmGlow{from{transform:scale(1.02);opacity:.28}to{transform:scale(1.12);opacity:.42}}` }), backgroundImage ? SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: "-34% -22% -30% -10%", background: `url(${backgroundImage}) center/cover no-repeat`, filter: "blur(138px) saturate(1.58)", opacity: .52, transform: "scale(1.34)", pointerEvents: "none", zIndex: 0 } }) : null, SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: 0, zIndex: 0, background: detail?.kind === "artist" ? "#000" : "linear-gradient(90deg,rgba(7,7,7,.66),rgba(7,7,7,.26) 46%,rgba(7,7,7,.2)),linear-gradient(180deg,rgba(7,7,7,.03),rgba(7,7,7,.5) 76%,#070707)", pointerEvents: "none" } }), !detail ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { className: "npYtmTabs", "flow-children": "horizontal", onButtonDown: (event) => { if (event?.detail?.button === DFL.GamepadButton.DIR_UP) {
+    return SP_JSX.jsxs(DFL.Focusable, { className: "npYtmTvRoot npFullscreenRoot", "flow-children": "vertical", onButtonDown: handleRootButtonDown, onCancel: handleRootCancel, onCancelButton: handleRootCancel, style: { position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 10, background: "#070707", color: "#fff", overflow: "hidden", outline: "none" }, children: [SP_JSX.jsx("style", { children: `.npYtmTvRoot,.npYtmTvRoot *{box-sizing:border-box}.npYtmTvRoot button{transition:background 120ms ease,box-shadow 120ms ease,opacity 120ms ease!important}.npYtmTvRoot button:focus,.npYtmTvRoot button.gpfocus{transform:none!important;z-index:12}.npYtmTvRoot .npYtmCoverButton:focus,.npYtmTvRoot .npYtmCoverButton.gpfocus{box-shadow:0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(255,0,51,.48),0 24px 70px rgba(0,0,0,.42)!important}.npYtmTabs{z-index:200!important;isolation:isolate}.npYtmTvScroll{z-index:10!important;position:absolute!important;inset:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain}.npYtmTvScroll::-webkit-scrollbar{width:7px}.npYtmTvScroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}.npYtmTvRow::-webkit-scrollbar{display:none}.npYtmTvRoot .npMediaTvCard:focus,.npYtmTvRoot .npMediaTvCard.gpfocus,.npYtmTvRoot .npMediaTvTrack:focus,.npYtmTvRoot .npMediaTvTrack.gpfocus{transform:none!important}.npYtmTab,.npYtmTab *,.npYtmMinimalButton,.npYtmMinimalButton *{color:#fff!important}.npYtmTab{border:1px solid rgba(255,255,255,.075)!important;background:rgba(255,255,255,.025)!important}.npYtmTab:hover,.npYtmTab:focus,.npYtmTab.gpfocus,.npYtmMinimalButton:hover,.npYtmMinimalButton:focus,.npYtmMinimalButton.gpfocus{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.25)!important;box-shadow:0 0 0 1px rgba(255,0,51,.3),0 0 20px rgba(255,0,51,.17)!important}.npYtmTabActive{background:rgba(255,0,51,.18)!important;border-color:rgba(255,0,51,.46)!important}.npYtmPlayerGlow{animation:npYtmGlow 5.6s ease-in-out infinite alternate}.npYtmActiveDot{position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:999px;background:${YOUTUBE_RED};box-shadow:0 0 8px ${YOUTUBE_RED}}.npYtmAppVolume{display:grid;grid-template-columns:84px minmax(0,1fr) 52px;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.075);background:rgba(255,255,255,.025);font-size:15px;overflow:hidden}.npYtmAppVolumeFocused,.npYtmAppVolume:focus-visible{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.13);box-shadow:0 0 0 1px rgba(255,0,51,.3),0 0 20px rgba(255,0,51,.17)}.npYtmAppVolume input{min-width:0;width:100%;accent-color:${YOUTUBE_RED}}.npYtmAppVolume strong{text-align:right}@keyframes npYtmGlow{from{transform:scale(1.02);opacity:.28}to{transform:scale(1.12);opacity:.42}}` }), backgroundImage ? SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: "-34% -22% -30% -10%", background: `url(${backgroundImage}) center/cover no-repeat`, filter: "blur(138px) saturate(1.58)", opacity: .52, transform: "scale(1.34)", pointerEvents: "none", zIndex: 0 } }) : null, SP_JSX.jsx("div", { "aria-hidden": "true", style: { position: "absolute", inset: 0, zIndex: 0, background: detail?.kind === "artist" ? "#000" : "linear-gradient(90deg,rgba(7,7,7,.66),rgba(7,7,7,.26) 46%,rgba(7,7,7,.2)),linear-gradient(180deg,rgba(7,7,7,.03),rgba(7,7,7,.5) 76%,#070707)", pointerEvents: "none" } }), !detail ? SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.Focusable, { className: "npYtmTabs", "flow-children": "horizontal", onButtonDown: (event) => { if (event?.detail?.button === DFL.GamepadButton.DIR_UP) {
                             event?.preventDefault?.();
                             event?.stopPropagation?.();
                         } }, style: { position: "absolute", top: 24, left: 56, zIndex: 200, display: "flex", alignItems: "center", gap: 8 }, children: [["home", t.home, FaHome], ["search", t.search, FaSearch], ["library", t.library, FaList], ["settings", t.settings, FaCog]].map(([id, label, Icon]) => SP_JSX.jsx(DFL.DialogButton, { ref: id === "home" ? homeTabRef : undefined, className: `npYtmTab${id !== "settings" && tab === id ? " npYtmTabActive" : ""}`, onClick: () => id === "settings" ? onOpenSettings?.() : switchTab(id), style: { width: 138, minWidth: 138, height: 38, minHeight: 38, padding: 0 }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".76em", fontWeight: 540 }, children: [SP_JSX.jsx(Icon, { size: 13 }), label] }) }, id)) }), SP_JSX.jsx("main", { ref: scrollRef, className: "npYtmTvScroll", style: { padding: "112px 56px 300px", scrollPaddingTop: 112, scrollPaddingBottom: 250 }, children: SP_JSX.jsx("div", { style: { position: "relative", zIndex: 1, width: "100%" }, children: tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary() }) })] }) : SP_JSX.jsx("main", { ref: scrollRef, className: "npYtmTvScroll", style: { padding: "18px 56px 300px", scrollPaddingBottom: 250 }, children: SP_JSX.jsx("div", { style: { position: "relative", zIndex: 1, width: "100%" }, children: renderDetail() }) })] });
@@ -42146,75 +37728,9 @@ if ( typeof window !== 'undefined' ) {
 
 const clamp01 = (value) => Math.min(1, Math.max(0, value));
 /**
- * Shared live-level feed for the Spotify integrated player.
- *
- * The playback bridge refreshes its PCM RMS meter every 32 ms; this feed polls
- * a dedicated lightweight backend method at a visual rate while at least one
- * fullscreen visualizer is mounted, and interpolates between samples.
- */
-class SpotifyLevelFeed {
-    constructor() {
-        this.users = 0;
-        this.timer = 0;
-        this.polling = false;
-        this.level = 0;
-        this.previousLevel = 0;
-        this.sampleAt = 0;
-        this.playing = false;
-        this.lastSuccess = 0;
-    }
-    retain() {
-        this.users += 1;
-        if (this.users === 1)
-            this.start();
-    }
-    release() {
-        this.users = Math.max(0, this.users - 1);
-        if (!this.users)
-            this.stop();
-    }
-    start() {
-        const poll = async () => {
-            if (this.polling)
-                return;
-            this.polling = true;
-            try {
-                const result = await getSpotifyAudioLevel();
-                const value = Number(result?.level);
-                if (Number.isFinite(value) && value >= 0) {
-                    this.previousLevel = this.level;
-                    this.level = clamp01(value);
-                    this.sampleAt = performance.now();
-                    this.playing = Boolean(result?.playing);
-                    this.lastSuccess = this.sampleAt;
-                }
-            }
-            catch {
-                // Transient backend hiccups fall back to the synthetic pulse.
-            }
-            finally {
-                this.polling = false;
-            }
-        };
-        void poll();
-        this.timer = window.setInterval(() => void poll(), 160);
-    }
-    stop() {
-        if (this.timer)
-            window.clearInterval(this.timer);
-        this.timer = 0;
-    }
-    read() {
-        if (performance.now() - this.lastSuccess > 1600)
-            return null;
-        const progress = clamp01((performance.now() - this.sampleAt) / 170);
-        return { level: this.previousLevel + (this.level - this.previousLevel) * progress, playing: this.playing };
-    }
-}
-const spotifyFeed = new SpotifyLevelFeed();
-/**
  * Musical fallback pulse so the visualizers never freeze, even when no live
- * measurement is available (analyser blocked, bridge briefly unreachable).
+ * measurement is available (analyser blocked, or a Windows media session such
+ * as Apple Music, whose audio the plugin cannot measure).
  */
 function syntheticLevels(seconds, intensity) {
     const beat = Math.pow(Math.max(0, Math.sin(seconds * Math.PI * 2 * 1.02)), 3);
@@ -42228,14 +37744,6 @@ function syntheticLevels(seconds, intensity) {
         treble: clamp01(treble),
         energy: clamp01(bass * 0.5 + mid * 0.34 + treble * 0.16),
     };
-}
-/** Mount-scoped retain of the live Spotify feed. Returns the release callback. */
-function retainVisualizerAudio(useLocalAudio) {
-    if (!useLocalAudio) {
-        spotifyFeed.retain();
-        return () => spotifyFeed.release();
-    }
-    return () => { };
 }
 // Per-band response weighting, in order of prominence: bass detection is
 // boosted 20%; treble reacts at 70% of bass; mid at 30% of bass.
@@ -42256,9 +37764,8 @@ class AdaptiveSourceGain {
                 ? this.peak * 0.72 + inputPeak * 0.28
                 : Math.max(0.055, this.peak * 0.996);
         }
-        // Target a ~0.72 output peak so the local/YouTube Music analyser reaches the
-        // same visual intensity as Spotify's bridge PCM level (which drives bands up
-        // to ~1.0). The old 0.48 target left them visibly weaker.
+        // Target a ~0.72 output peak so the local/YouTube Music analyser drives the
+        // bands up to ~1.0. The old 0.48 target left them visibly weaker.
         const targetGain = Math.min(6, Math.max(1, 0.72 / Math.max(0.055, this.peak)));
         this.gain += (targetGain - this.gain) * (targetGain > this.gain ? 0.08 : 0.035);
         return {
@@ -42275,7 +37782,7 @@ class AdaptiveSourceGain {
 }
 // One adaptive gain for every in-browser source (local files AND YouTube Music).
 // Local music previously used the raw analyser bands with no compensation, which
-// is why its effects looked weaker than Spotify's.
+// made its effects look weak.
 const localAudioGain = new AdaptiveSourceGain();
 function weighBands(levels) {
     const bass = clamp01(levels.bass * BASS_GAIN);
@@ -42286,19 +37793,15 @@ function weighBands(levels) {
 /**
  * Per-frame levels for a fullscreen visualizer.
  *
- * Priority: real Web Audio bands (local/YouTube Music), real bridge PCM level
- * (Spotify) expanded into bands, then the synthetic pulse — strong while
- * playing, gentle breathing while paused. Every path is passed through the
+ * Priority: real Web Audio bands (local/YouTube Music), then the synthetic
+ * pulse — strong while playing, gentle breathing while paused. Every path is passed through the
  * band weighting so the response order (bass > treble > mid) is consistent.
  */
 function readVisualizerLevels(useLocalAudio, isPlayingHint, seconds) {
     if (useLocalAudio) {
         const measured = localAudioPlayer.getAudioLevels();
         // Normalise the analyser loudness with the adaptive gain, then derive the
-        // bands from the resulting ENERGY exactly the same way the Spotify path does
-        // below. Local music and YouTube Music therefore react with the same
-        // intensity as Spotify instead of looking weaker (their raw analyser bands
-        // read much lower than Spotify's bridge PCM level).
+        // bands from the resulting energy (raw analyser bands read low).
         const gained = localAudioGain.apply(measured);
         if (gained.energy > 0.006) {
             const shape = syntheticLevels(seconds, 1);
@@ -42311,20 +37814,10 @@ function readVisualizerLevels(useLocalAudio, isPlayingHint, seconds) {
         const playing = localAudioPlayer.getSnapshot().status === "Playing" || isPlayingHint;
         return weighBands(syntheticLevels(seconds, playing ? 0.8 : 0.16));
     }
-    // Spotify uses the bridge PCM feed, not the browser analyser: let the local
-    // adaptive gain drift back to neutral so it starts fresh next local/YTM track.
+    // Windows media sessions (Apple Music) cannot be measured: let the local
+    // adaptive gain drift back to neutral and show the synthetic pulse.
     localAudioGain.relax();
-    const feed = spotifyFeed.read();
-    if (feed && feed.playing && feed.level > 0.015) {
-        const shape = syntheticLevels(seconds, 1);
-        return weighBands({
-            bass: clamp01(feed.level * (0.75 + shape.bass * 0.5)),
-            mid: clamp01(feed.level * (0.7 + shape.mid * 0.5)),
-            treble: clamp01(feed.level * (0.6 + shape.treble * 0.55)),
-        });
-    }
-    const playing = feed ? feed.playing : isPlayingHint;
-    return weighBands(syntheticLevels(seconds, playing ? 0.8 : 0.16));
+    return weighBands(syntheticLevels(seconds, isPlayingHint ? 0.8 : 0.16));
 }
 
 /**
@@ -42566,7 +38059,6 @@ function ReactiveParticlesLayer(props) {
     localAudioRef.current = useLocalAudio;
     const [webglFailed, setWebglFailed] = SP_REACT.useState(() => !supportsWebgl());
     const failWebgl = SP_REACT.useCallback(() => setWebglFailed(true), []);
-    SP_REACT.useEffect(() => retainVisualizerAudio(useLocalAudio), [useLocalAudio]);
     SP_REACT.useEffect(() => {
         let cancelled = false;
         const fallback = fallbackPalette(accent);
@@ -43046,7 +38538,6 @@ const APP_SETTINGS_KEY = "nowPlaying.enabledApps";
 const APP_SETTINGS_CHANGED_EVENT = "nowPlaying:source-changed";
 const FULLSCREEN_EFFECT_SETTINGS_KEY = "nowPlaying.fullscreenEffect";
 const FULLSCREEN_ROUTE = "/awesome-mix/fullscreen";
-const SPOTIFY_BIG_PICTURE_ROUTE = "/awesome-mix/spotify-big-picture";
 const LOCAL_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/local-music-big-picture";
 const YOUTUBE_MUSIC_BIG_PICTURE_ROUTE = "/awesome-mix/youtube-music-big-picture";
 const FULLSCREEN_SETTINGS_ROUTE = "/awesome-mix/settings-fullscreen";
@@ -43218,7 +38709,7 @@ function appProgramLabel(app) {
     return app.label;
 }
 function sourceVolumeStorageKey(key) {
-    return key === "spotify" ? "spotify" : String(key || "");
+    return String(key || "");
 }
 function formatEffectLabel(t, effect) {
     switch (effect) {
@@ -43252,22 +38743,12 @@ function formatEffectLabel(t, effect) {
 }
 const musicApps = [
     { key: "localMusic", label: "Your Music", Icon: FaMusic, open: openLocalMusic },
-    { key: "spotify", label: "Spotify", Icon: SiSpotify, open: openSpotify },
     { key: "youtubeMusic", label: "YouTube Music", Icon: SiYoutubemusic, open: openYouTubeMusic },
-    { key: "tidal", label: "Tidal", Icon: SiTidal, open: openTidal },
     { key: "appleMusic", label: "Apple Music", Icon: SiApplemusic, open: openAppleMusic },
-    { key: "deezer", label: "Deezer", Icon: FaDeezer, open: openDeezer },
-    { key: "amazonMusic", label: "Amazon Music", Icon: FaAmazon, open: openAmazonMusic },
-    { key: "soundCloud", label: "SoundCloud", Icon: SiSoundcloud, open: openSoundCloud },
 ];
 const SERVICE_ACCENTS = {
-    spotify: "#1DB954",
     youtubeMusic: "#FF0033",
-    tidal: "#ffffff",
     appleMusic: "#FA243C",
-    deezer: "#A238FF",
-    amazonMusic: "#25D1DA",
-    soundCloud: "#FF5500",
     localMusic: "#D9A337",
 };
 function accentForKey(key) {
@@ -43866,21 +39347,6 @@ function navigateToFullscreen() {
     queueMicrotask(markAllFullscreenChrome);
     window.requestAnimationFrame(markAllFullscreenChrome);
 }
-function navigateToSpotifyBigPicture() {
-    holdFullscreenChromeSuppressionForTransition();
-    markAllFullscreenChrome();
-    try {
-        DFL.Navigation.CloseSideMenus();
-    }
-    catch {
-        // Navigation still works on Steam builds where side-menu closing is unavailable.
-    }
-    if (!performSteamNavigation(SPOTIFY_BIG_PICTURE_ROUTE))
-        return;
-    markAllFullscreenChrome();
-    queueMicrotask(markAllFullscreenChrome);
-    window.requestAnimationFrame(markAllFullscreenChrome);
-}
 function navigateToLocalMusicBigPicture() {
     holdFullscreenChromeSuppressionForTransition();
     markAllFullscreenChrome();
@@ -44122,7 +39588,6 @@ function ParticleVisualizerLayer(props) {
     const localAudioRef = SP_REACT.useRef(useLocalAudio);
     playingRef.current = isPlaying;
     localAudioRef.current = useLocalAudio;
-    SP_REACT.useEffect(() => retainVisualizerAudio(useLocalAudio), [useLocalAudio]);
     SP_REACT.useEffect(() => {
         let cancelled = false;
         const fallback = fallbackCoverPalette(accentForKey(loadEnabledAppKeys()[0]));
@@ -45020,13 +40485,6 @@ function FullscreenRoute() {
                                         void runAction(() => localMusicFullscreen ? localAudioPlayer.command("next") : nextTrack());
                                 }, children: SP_JSX.jsx(FaStepForward, {}) })] })] })] }));
 }
-function SpotifyBigPictureRoute() {
-    SP_REACT.useLayoutEffect(() => {
-        retainFullscreenChromeSuppression();
-        return () => releaseFullscreenChromeSuppression();
-    }, []);
-    return SP_JSX.jsx(SpotifyBigPicture, { onExit: navigateBackFromBigPicture, onOpenVisualizer: navigateToFullscreen, onOpenSettings: navigateToFullscreenSettings });
-}
 function LocalMusicBigPictureRoute() {
     SP_REACT.useLayoutEffect(() => {
         retainFullscreenChromeSuppression();
@@ -45258,7 +40716,7 @@ function FullscreenSettingsRoute() {
                                                 const active = coverSource === source;
                                                 const label = source === "online" ? (t.coverSourceOnline) : (t.coverSourceWindows);
                                                 return SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: active ? 1 : .58 }, onClick: () => selectCover(source), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: label }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: active ? SP_JSX.jsx(FaCheck, {}) : null })] }) }, source);
-                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(SpotifyPlusSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic", onSettingsChanged: () => { } }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
+                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
 }
 function RepeatIcon(props) {
     const isTrack = props.repeatMode === "Track";
@@ -45376,7 +40834,7 @@ function SettingsView(props) {
                                                 const nv = !topbarLeft;
                                                 setTopbarLeft$1(nv);
                                                 void setTopbarLeft(nv);
-                                            }, children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx("span", { children: t.topbarLeft }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) })] }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(SurroundUpmixControls, {}), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { margin: "12px 3px 6px", fontSize: ".72em", lineHeight: 1.4, opacity: .58 }, children: t.autoLaunchSourcesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...wideButtonStyle, height: "54px", minHeight: "54px", lineHeight: 1.25, opacity: sourceBehavior.autoLaunch ? 1 : .58 }, onClick: () => void updateSourceBehavior({ ...sourceBehavior, autoLaunch: !sourceBehavior.autoLaunch }), children: SP_JSX.jsxs("span", { style: { ...settingsButtonContentStyle, minHeight: "54px", whiteSpace: "normal", lineHeight: 1.25 }, children: [SP_JSX.jsx("span", { children: t.autoLaunchSources }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: sourceBehavior.autoLaunch ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "8px 3px 6px", fontSize: ".72em", lineHeight: 1.4, opacity: .58 }, children: t.closeSourcesOnSwitchDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...wideButtonStyle, height: "54px", minHeight: "54px", lineHeight: 1.25, opacity: sourceBehavior.closeOnSwitch ? 1 : .58 }, onClick: () => void updateSourceBehavior({ ...sourceBehavior, closeOnSwitch: !sourceBehavior.closeOnSwitch }), children: SP_JSX.jsxs("span", { style: { ...settingsButtonContentStyle, minHeight: "54px", whiteSpace: "normal", lineHeight: 1.25 }, children: [SP_JSX.jsx("span", { children: t.closeSourcesOnSwitch }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: sourceBehavior.closeOnSwitch ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: props.enabledAppKeys[0] ?? "localMusic" }), SP_JSX.jsx(SpotifyPlusSettingsPanel, { selectedService: props.enabledAppKeys[0] ?? "localMusic", onSettingsChanged: props.onSpotifySettingsChanged }), SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: props.enabledAppKeys[0] ?? "localMusic" }), SP_JSX.jsx(FanartSettingsPanel, {}), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { ...settingsGroupLabelStyle, marginBottom: "6px" }, children: t.settingsRecovery }), SP_JSX.jsx("div", { style: {
+                                            }, children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx("span", { children: t.topbarLeft }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) })] }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(SurroundUpmixControls, {}), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { margin: "12px 3px 6px", fontSize: ".72em", lineHeight: 1.4, opacity: .58 }, children: t.autoLaunchSourcesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...wideButtonStyle, height: "54px", minHeight: "54px", lineHeight: 1.25, opacity: sourceBehavior.autoLaunch ? 1 : .58 }, onClick: () => void updateSourceBehavior({ ...sourceBehavior, autoLaunch: !sourceBehavior.autoLaunch }), children: SP_JSX.jsxs("span", { style: { ...settingsButtonContentStyle, minHeight: "54px", whiteSpace: "normal", lineHeight: 1.25 }, children: [SP_JSX.jsx("span", { children: t.autoLaunchSources }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: sourceBehavior.autoLaunch ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "8px 3px 6px", fontSize: ".72em", lineHeight: 1.4, opacity: .58 }, children: t.closeSourcesOnSwitchDescription }), SP_JSX.jsx(DFL.DialogButton, { style: { ...wideButtonStyle, height: "54px", minHeight: "54px", lineHeight: 1.25, opacity: sourceBehavior.closeOnSwitch ? 1 : .58 }, onClick: () => void updateSourceBehavior({ ...sourceBehavior, closeOnSwitch: !sourceBehavior.closeOnSwitch }), children: SP_JSX.jsxs("span", { style: { ...settingsButtonContentStyle, minHeight: "54px", whiteSpace: "normal", lineHeight: 1.25 }, children: [SP_JSX.jsx("span", { children: t.closeSourcesOnSwitch }), SP_JSX.jsx("span", { style: settingsCheckStyle, children: sourceBehavior.closeOnSwitch ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: props.enabledAppKeys[0] ?? "localMusic" }), SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: props.enabledAppKeys[0] ?? "localMusic" }), SP_JSX.jsx(FanartSettingsPanel, {}), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx("div", { style: { ...settingsGroupLabelStyle, marginBottom: "6px" }, children: t.settingsRecovery }), SP_JSX.jsx("div", { style: {
                                         width: "100%",
                                         marginBottom: "6px",
                                         color: "rgba(255,255,255,0.62)",
@@ -45387,84 +40845,9 @@ function SettingsView(props) {
               .npRestartSpin { animation: npRestartSpin .8s linear infinite; }
             ` })] }) }) }) })] }));
 }
-function spotifyPlaybackToPlayer(payload) {
-    const item = payload?.item;
-    if (!item || !item?.name)
-        return null;
-    const artists = Array.isArray(item?.artists)
-        ? item.artists.map((artist) => artist?.name).filter(Boolean).join(", ")
-        : String(item?.show?.name ?? "");
-    const repeat = String(payload?.repeat_state ?? "off");
-    const images = item?.album?.images ?? item?.images ?? [];
-    const artworkUrl = Array.isArray(images)
-        ? String([...images].filter((entry) => entry?.url).sort((left, right) => {
-            const leftSize = Number(left?.width || 0) * Number(left?.height || 0);
-            const rightSize = Number(right?.width || 0) * Number(right?.height || 0);
-            return rightSize - leftSize;
-        })[0]?.url ?? "")
-        : "";
-    return {
-        id: "spotify-api",
-        name: "Spotify",
-        title: String(item?.name ?? ""),
-        artist: artists,
-        album: String(item?.album?.name ?? item?.show?.name ?? ""),
-        status: payload?.is_playing ? "Playing" : "Paused",
-        length: Number(item?.duration_ms ?? 0),
-        position: Number(payload?.progress_ms ?? 0),
-        canNext: true,
-        canPrevious: true,
-        canPlay: true,
-        canPause: true,
-        canTogglePlayPause: true,
-        isSelected: true,
-        isCurrent: true,
-        canShuffle: true,
-        canRepeat: true,
-        shuffleActive: Boolean(payload?.shuffle_state),
-        repeatMode: repeat === "context" ? "List" : repeat === "track" ? "Track" : "Off",
-        artworkUrl,
-        volume: Number(payload?.device?.volume_percent ?? 100),
-    };
-}
-function spotifyPausedPlayer(t) {
-    return {
-        id: "spotify-api-paused",
-        name: "Spotify",
-        title: t.apiPausedTitle,
-        artist: t.apiPausedWait,
-        album: "",
-        status: "Paused",
-        length: 0,
-        position: 0,
-        canNext: false,
-        canPrevious: false,
-        canPlay: false,
-        canPause: false,
-        canTogglePlayPause: false,
-        isSelected: true,
-        isCurrent: true,
-        canShuffle: false,
-        canRepeat: false,
-        shuffleActive: false,
-        repeatMode: "Off",
-        artworkUrl: "",
-        volume: getSavedSourceVolume("spotify", 100),
-    };
-}
 function Content() {
     const t = useTranslations();
-    const spotifyT = SP_REACT.useMemo(() => getTranslations("spotify"), []);
     const [showSettings, setShowSettings] = SP_REACT.useState(false);
-    const [spotifyPlus, setSpotifyPlus] = SP_REACT.useState({
-        enabled: false,
-        clientId: "",
-        redirectUri: "http://127.0.0.1:43821/callback",
-        authenticated: false,
-    });
-    const [spotifySettingsReady, setSpotifySettingsReady] = SP_REACT.useState(false);
-    const [spotifyApiStatus, setSpotifyApiStatus] = SP_REACT.useState({ active: false, remainingSeconds: 0, until: 0 });
-    const [spotifyAlbumRequest, setSpotifyAlbumRequest] = SP_REACT.useState(null);
     const [localAlbumRequest, setLocalAlbumRequest] = SP_REACT.useState(null);
     const [enabledAppKeys, setEnabledAppKeys] = SP_REACT.useState(loadEnabledAppKeys);
     const [activeServiceReady, setActiveServiceReady] = SP_REACT.useState(false);
@@ -45499,8 +40882,6 @@ function Content() {
     const coverUrlRef = SP_REACT.useRef("");
     const coverIdentityRef = SP_REACT.useRef("");
     const volumeObservedRef = SP_REACT.useRef({ value: -1, count: 0 });
-    const spotifyPlaybackCacheRef = SP_REACT.useRef({ at: 0, player: null, lastValidAt: 0 });
-    const spotifyApiPausedRef = SP_REACT.useRef(false);
     const sourceRefreshTimersRef = SP_REACT.useRef([]);
     const volumeApplyTimersRef = SP_REACT.useRef([]);
     const volumeAppliedRef = SP_REACT.useRef(false);
@@ -45649,7 +41030,6 @@ function Content() {
         volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
         volumeApplyTimersRef.current = [];
         coverRequestRef.current += 1;
-        spotifyPlaybackCacheRef.current = { at: 0, player: null, lastValidAt: 0 };
         stableCurrentRef.current = null;
         mediaKeyRef.current = "";
         setSnapshot(emptySnapshot);
@@ -45677,13 +41057,13 @@ function Content() {
             setMediaVisible(true);
             sourceRefreshTimersRef.current = [0, 220, 650, 1400, 2800].map((delay) => window.setTimeout(() => {
                 if (!cancelled)
-                    void refresh(true);
+                    void refresh();
             }, delay));
         }).catch(() => {
             if (!cancelled) {
                 setMediaVisible(true);
                 setLoading(false);
-                void refresh(true);
+                void refresh();
             }
         });
         return () => {
@@ -45693,30 +41073,9 @@ function Content() {
         };
     }, [activeServiceKey, activeServiceReady]);
     const mediaKey = `${current?.id ?? ""}|${current?.title ?? ""}|${current?.artist ?? ""}|${current?.album ?? ""}`;
-    const spotifyApiActive = activeServiceKey === "spotify" && spotifySettingsReady && spotifyPlus.enabled && spotifyPlus.authenticated;
-    const spotifyPaused = spotifyApiActive && spotifyApiStatus.active;
-    const stableMediaKey = spotifyPaused ? "spotify-api-paused" : mediaKey;
-    const spotifyCoverActive = spotifyApiActive && !spotifyPaused;
+    const stableMediaKey = mediaKey;
     const localCoverActive = (activeServiceKey === "localMusic" || activeServiceKey === "youtubeMusic") && Boolean(current?.title);
-    SP_REACT.useEffect(() => {
-        const syncSharedSpotifyPlayback = (event) => {
-            if (!spotifyApiActive)
-                return;
-            const detail = event instanceof CustomEvent ? event.detail : null;
-            const player = detail && typeof detail === "object" ? detail : null;
-            if (!player) {
-                spotifyPlaybackCacheRef.current = { ...spotifyPlaybackCacheRef.current, at: 0 };
-                return;
-            }
-            const now = getSharedSpotifyPlaybackTimestamp() || Date.now();
-            spotifyPlaybackCacheRef.current = { at: now, player: { ...player }, lastValidAt: now };
-            setSnapshot({ selectedPlayer: player.id, currentPlayer: player.id, selected: { ...player }, players: [{ ...player }] });
-            setSnapshotAt(now);
-        };
-        window.addEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedSpotifyPlayback);
-        return () => window.removeEventListener(SPOTIFY_PLAYBACK_CHANGED_EVENT, syncSharedSpotifyPlayback);
-    }, [spotifyApiActive]);
-    async function refresh(force = false) {
+    async function refresh() {
         if (refreshingRef.current)
             return;
         refreshingRef.current = true;
@@ -45763,44 +41122,6 @@ function Content() {
                     setSnapshotAt(sampledAt);
                 }
             }
-            else if (spotifyApiActive) {
-                if (spotifyApiPausedRef.current) {
-                    const paused = spotifyPausedPlayer(spotifyT);
-                    setSnapshot({ selectedPlayer: paused.id, currentPlayer: paused.id, selected: paused, players: [paused] });
-                    setSnapshotAt(Date.now());
-                    return;
-                }
-                const now = Date.now();
-                const shouldFetch = force || now - spotifyPlaybackCacheRef.current.at >= 5000;
-                if (!shouldFetch)
-                    return;
-                try {
-                    const apiState = await spotifyGetPlaybackState();
-                    if (spotifyApiPausedRef.current)
-                        return;
-                    const apiPlayer = apiState?.ok ? spotifyPlaybackToPlayer(apiState.data) : null;
-                    const previous = spotifyPlaybackCacheRef.current;
-                    spotifyPlaybackCacheRef.current = apiPlayer
-                        ? { at: now, player: apiPlayer, lastValidAt: now }
-                        : { at: now, player: now - previous.lastValidAt <= 12000 ? previous.player : null, lastValidAt: previous.lastValidAt };
-                    if (apiPlayer) {
-                        // Publish a complete Spotify API payload atomically. Reusing the
-                        // cached payload between polls avoids resetting progress to an old
-                        // base position several times per second.
-                        setSnapshot({ selectedPlayer: apiPlayer.id, currentPlayer: apiPlayer.id, selected: apiPlayer, players: [apiPlayer] });
-                        setSnapshotAt(now);
-                        publishSpotifyPlaybackSnapshot(apiPlayer);
-                    }
-                    else if (!spotifyPlaybackCacheRef.current.player) {
-                        setSnapshot((previousSnapshot) => previousSnapshot.selected?.id === "spotify-api" ? emptySnapshot : previousSnapshot);
-                        setSnapshotAt(now);
-                    }
-                }
-                catch {
-                    // Retain the latest complete API payload. Windows MediaBridge must
-                    // never overwrite Spotify API metadata in API mode.
-                }
-            }
             else {
                 const nextSnapshot = await getSnapshot();
                 const sampledAt = Date.now();
@@ -45829,49 +41150,39 @@ function Content() {
             const selected = previous.selected?.id === targetId
                 ? update(previous.selected)
                 : (players.find((player) => player.id === targetId) ?? previous.selected);
-            if (isSpotifyApiActive && selected)
-                publishSpotifyPlaybackSnapshot(selected);
             return { ...previous, selected, players };
         });
         setSnapshotAt(Date.now());
     }
     const isLocalMusicActive = enabledAppKeys[0] === "localMusic" || enabledAppKeys[0] === "youtubeMusic";
-    const isSpotifyApiActive = spotifyApiActive;
     function previousAction() {
-        return isLocalMusicActive ? localAudioPlayer.command("previous") : isSpotifyApiActive ? spotifyPlayerCommand("previous") : previousTrack();
+        return isLocalMusicActive ? localAudioPlayer.command("previous") : previousTrack();
     }
     function playPauseAction() {
-        return isLocalMusicActive
-            ? localAudioPlayer.command("play_pause")
-            : isSpotifyApiActive
-                ? spotifyPlayerCommand(current?.status === "Playing" ? "pause" : "play")
-                : playPause();
+        return isLocalMusicActive ? localAudioPlayer.command("play_pause") : playPause();
     }
     function nextAction() {
-        return isLocalMusicActive ? localAudioPlayer.command("next") : isSpotifyApiActive ? spotifyPlayerCommand("next") : nextTrack();
+        return isLocalMusicActive ? localAudioPlayer.command("next") : nextTrack();
     }
     function shuffleAction() {
-        return isLocalMusicActive ? localAudioPlayer.command("shuffle") : isSpotifyApiActive ? spotifyPlayerCommand("shuffle") : shuffle();
+        return isLocalMusicActive ? localAudioPlayer.command("shuffle") : shuffle();
     }
     function repeatAction() {
-        return isLocalMusicActive ? localAudioPlayer.command("repeat") : isSpotifyApiActive ? spotifyPlayerCommand("repeat") : repeat();
+        return isLocalMusicActive ? localAudioPlayer.command("repeat") : repeat();
     }
-    async function runAction(action, optimistic, spotifyRefreshDelays = [260]) {
-        const blockUi = !isSpotifyApiActive;
-        if (blockUi)
-            setBusy(true);
+    async function runAction(action, optimistic) {
+        setBusy(true);
         optimistic?.();
         const pending = action();
-        const delays = isSpotifyApiActive ? spotifyRefreshDelays : isLocalMusicActive ? [30] : [45, 130, 320, 720, 1450];
+        const delays = isLocalMusicActive ? [30] : [45, 130, 320, 720, 1450];
         delays.forEach((delay) => {
-            window.setTimeout(() => void refresh(true), delay);
+            window.setTimeout(() => void refresh(), delay);
         });
         try {
             await pending;
         }
         finally {
-            if (blockUi)
-                window.setTimeout(() => setBusy(false), 120);
+            window.setTimeout(() => setBusy(false), 120);
         }
     }
     async function openMusicApp(app) {
@@ -45885,7 +41196,7 @@ function Content() {
         try {
             await closeMusicApp(app.key);
             setActiveAppRunning(false);
-            window.setTimeout(() => void refresh(true), 180);
+            window.setTimeout(() => void refresh(), 180);
         }
         finally {
             window.setTimeout(() => setBusy(false), 120);
@@ -45916,31 +41227,6 @@ function Content() {
         setFullscreenEffect(effect);
         saveFullscreenEffect(effect);
     }
-    async function openCurrentSpotifyAlbum() {
-        if (enabledAppKeys[0] !== "spotify" || !spotifyPlus.enabled || !spotifyPlus.authenticated || !current)
-            return;
-        try {
-            const result = await spotifyGetCurrentAlbum(current.title?.trim() ?? "", current.artist?.trim() ?? "", current.album?.trim() ?? "");
-            if (!result?.ok)
-                throw new Error(result?.error || getTranslations("runtime").openCurrentSpotifyAlbumFailed);
-            const albumItem = result.data?.album;
-            const albumId = String(albumItem?.id ?? "");
-            if (!albumId)
-                throw new Error(getTranslations("runtime").currentSpotifyAlbumUnavailable);
-            setSpotifyAlbumRequest({
-                id: albumId,
-                title: String(albumItem?.name ?? current.album ?? t.unknownAlbum),
-                nonce: Date.now(),
-            });
-        }
-        catch (error) {
-            toaster.toast({
-                title: "Spotify",
-                body: localizeRuntimeMessage(error?.message ?? String(error)),
-                duration: 3500,
-            });
-        }
-    }
     async function openCurrentLocalAlbum() {
         if (enabledAppKeys[0] !== "localMusic")
             return;
@@ -45965,68 +41251,6 @@ function Content() {
         }
     }
     SP_REACT.useEffect(() => {
-        let cancelled = false;
-        getSpotifySettings()
-            .then((settings) => {
-            if (!cancelled) {
-                setSpotifyPlus(settings);
-                setSpotifySettingsReady(true);
-            }
-        })
-            .catch(() => {
-            if (!cancelled)
-                setSpotifySettingsReady(true);
-        });
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-    SP_REACT.useEffect(() => {
-        if (!spotifyApiActive) {
-            spotifyApiPausedRef.current = false;
-            setSpotifyApiStatus({ active: false, remainingSeconds: 0, until: 0 });
-            return;
-        }
-        let cancelled = false;
-        const updateStatus = async () => {
-            try {
-                const status = await getSpotifyApiStatus();
-                if (cancelled)
-                    return;
-                const wasPaused = spotifyApiPausedRef.current;
-                spotifyApiPausedRef.current = Boolean(status.active);
-                setSpotifyApiStatus((previous) => (previous.active === status.active
-                    && previous.remainingSeconds === status.remainingSeconds
-                    && previous.until === status.until
-                    ? previous
-                    : status));
-                if (status.active && !wasPaused) {
-                    const paused = spotifyPausedPlayer(spotifyT);
-                    spotifyPlaybackCacheRef.current = { at: Date.now(), player: null, lastValidAt: 0 };
-                    setMediaVisible(true);
-                    setLoading(false);
-                    setSnapshot({ selectedPlayer: paused.id, currentPlayer: paused.id, selected: paused, players: [paused] });
-                    setSnapshotAt(Date.now());
-                }
-                else if (!status.active && wasPaused) {
-                    spotifyPlaybackCacheRef.current = { at: 0, player: null, lastValidAt: 0 };
-                    void refresh(true);
-                }
-            }
-            catch {
-                // This is a local status read; preserve the previous state on a transient RPC error.
-            }
-        };
-        void updateStatus();
-        const timer = window.setInterval(() => void updateStatus(), 1000);
-        return () => {
-            cancelled = true;
-            window.clearInterval(timer);
-        };
-    }, [spotifyApiActive]);
-    SP_REACT.useEffect(() => {
-        if (!spotifySettingsReady && activeServiceKey === "spotify")
-            return;
         let cancelled = false;
         volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
         volumeApplyTimersRef.current = [];
@@ -46066,7 +41290,7 @@ function Content() {
             catch {
                 // The player may still be creating its Windows audio session.
             }
-            if (cancelled || (spotifyApiActive && spotifyApiPausedRef.current))
+            if (cancelled)
                 return;
             try {
                 const applied = await setAppVolume(volumeValueRef.current, activeServiceKey);
@@ -46089,12 +41313,12 @@ function Content() {
             volumeApplyTimersRef.current.forEach((timer) => window.clearTimeout(timer));
             volumeApplyTimersRef.current = [];
         };
-    }, [activeServiceKey, isLocalMusicActive, spotifyApiActive, spotifySettingsReady]);
+    }, [activeServiceKey, isLocalMusicActive]);
     SP_REACT.useEffect(() => {
         if (!isLocalMusicActive)
             return;
         return localAudioPlayer.subscribe(() => {
-            void refresh(true);
+            void refresh();
         });
     }, [activeServiceKey, isLocalMusicActive]);
     SP_REACT.useEffect(() => {
@@ -46128,9 +41352,9 @@ function Content() {
         };
     }, []);
     SP_REACT.useEffect(() => {
-        void refresh(true);
+        void refresh();
         const timer = window.setInterval(() => {
-            void refresh(false);
+            void refresh();
         }, 900);
         return () => window.clearInterval(timer);
     }, [activeServiceKey]);
@@ -46153,7 +41377,7 @@ function Content() {
                     const next = clamp(result.volume, 0, 100);
                     const displayed = volumeValueRef.current;
                     const differs = Math.abs(next - displayed) > 2;
-                    if (result.origin !== "spotify-connect" && differs && Date.now() - volumeInteractionAtRef.current < 15000) {
+                    if (differs && Date.now() - volumeInteractionAtRef.current < 15000) {
                         if (!volumeCommitInFlightRef.current && !volumeCommitTimerRef.current) {
                             volumeCommitRetryRef.current = 0;
                             volumeCommitTimerRef.current = window.setTimeout(() => {
@@ -46195,7 +41419,7 @@ function Content() {
             window.clearTimeout(initialTimer);
             window.clearInterval(timer);
         };
-    }, [activeServiceKey, isLocalMusicActive, isSpotifyApiActive]);
+    }, [activeServiceKey, isLocalMusicActive]);
     function flushAppVolumeCommit() {
         if (volumeCommitInFlightRef.current) {
             volumeCommitQueuedRef.current = true;
@@ -46297,7 +41521,7 @@ function Content() {
         setLoading(true);
         setMediaVisible(false);
         window.setTimeout(() => {
-            void refresh(true);
+            void refresh();
             setMediaVisible(true);
         }, 0);
     }
@@ -46344,7 +41568,6 @@ function Content() {
             setCoverResolving(false);
             return;
         }
-        const immediateArtwork = String(current?.artworkUrl ?? "");
         const requestId = coverRequestRef.current + 1;
         coverRequestRef.current = requestId;
         let cancelled = false;
@@ -46378,10 +41601,6 @@ function Content() {
             };
             image.src = url;
         };
-        if (spotifyCoverActive && immediateArtwork) {
-            commitPreloadedCover(immediateArtwork);
-            return () => { cancelled = true; };
-        }
         const cached = coverCacheRef.current.get(key);
         if (cached) {
             setCoverResolving(false);
@@ -46417,7 +41636,7 @@ function Content() {
         return () => {
             cancelled = true;
         };
-    }, [current?.title, current?.artist, current?.album, current?.artworkUrl, coverSource, spotifyCoverActive, activeServiceKey, isLocalMusicActive, t.coverFailed]);
+    }, [current?.title, current?.artist, current?.album, current?.artworkUrl, coverSource, activeServiceKey, isLocalMusicActive, t.coverFailed]);
     SP_REACT.useEffect(() => () => {
         if (coverClearTimerRef.current)
             window.clearTimeout(coverClearTimerRef.current);
@@ -46452,21 +41671,19 @@ function Content() {
     }, [coverUrl, current?.title, snapshot.players.length, enabledApps.length]);
     const title = current?.title?.trim() ? current.title : t.notPlaying;
     const artist = current?.artist?.trim() ? current.artist : " ";
-    const album = spotifyPaused
-        ? formatTime(Math.max(0, Number(spotifyApiStatus.remainingSeconds || 0)) * 1000)
-        : current?.album?.trim() ? current.album : " ";
+    const album = current?.album?.trim() ? current.album : " ";
     const isPlaying = current?.status === "Playing";
     const isShuffleActive = current?.shuffleActive === true;
     const repeatMode = current?.repeatMode || "None";
     const repeatActive = !["", "None", "Off"].includes(repeatMode);
-    const controlsDisabled = loading || spotifyPaused;
+    const controlsDisabled = loading;
     const mediaTransitionStyle = {
         opacity: mediaVisible ? 1 : 0.28,
         transform: mediaVisible ? "translateY(0)" : "translateY(2px)",
         transition: "opacity 160ms ease, transform 160ms ease",
     };
     if (showSettings) {
-        return (SP_JSX.jsx(SettingsView, { enabledAppKeys: enabledAppKeys, coverSource: coverSource, fullscreenEffect: fullscreenEffect, onBack: handleSettingsBack, onSelectCoverSource: selectCoverSource, onSelectFullscreenEffect: selectFullscreenEffect, onToggleApp: toggleEnabledApp, onSpotifySettingsChanged: setSpotifyPlus }));
+        return (SP_JSX.jsx(SettingsView, { enabledAppKeys: enabledAppKeys, coverSource: coverSource, fullscreenEffect: fullscreenEffect, onBack: handleSettingsBack, onSelectCoverSource: selectCoverSource, onSelectFullscreenEffect: selectFullscreenEffect, onToggleApp: toggleEnabledApp }));
     }
     return (SP_JSX.jsxs(DFL.PanelSection, { children: [SP_JSX.jsx("style", { children: `
         @keyframes inRiproduzioneMarquee {
@@ -46610,11 +41827,7 @@ function Content() {
           margin-top: -4px;
           border-radius: 999px;
         }
-      ` }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { ref: qamRootRef, style: { ...qamCenterRowStyle, ["--np-accent"]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }, children: [SP_JSX.jsx(QamGlowLayer, { artUrl: coverUrl || coverUrlRef.current, playing: isPlaying, bottomFadeTop: bottomGlowFadeTop }), SP_JSX.jsxs("div", { style: { ...centeredColumnStyle, position: "relative", zIndex: 3 }, children: [SP_JSX.jsxs("div", { style: mediaTransitionStyle, children: [SP_JSX.jsx(CoverBox, { artUrl: coverUrl, placeholderIcon: spotifyPaused ? SP_JSX.jsx(FaClock, { size: 88, style: { opacity: 0.88 } }) : undefined, showPlaceholder: !coverResolving || spotifyPaused, ariaLabel: t.openCurrentAlbum, onActivate: spotifyPaused ? undefined : spotifyCoverActive
-                                                ? () => void openCurrentSpotifyAlbum()
-                                                : localCoverActive
-                                                    ? () => void openCurrentLocalAlbum()
-                                                    : undefined }), SP_JSX.jsxs("div", { style: {
+      ` }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { ref: qamRootRef, style: { ...qamCenterRowStyle, ["--np-accent"]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }, children: [SP_JSX.jsx(QamGlowLayer, { artUrl: coverUrl || coverUrlRef.current, playing: isPlaying, bottomFadeTop: bottomGlowFadeTop }), SP_JSX.jsxs("div", { style: { ...centeredColumnStyle, position: "relative", zIndex: 3 }, children: [SP_JSX.jsxs("div", { style: mediaTransitionStyle, children: [SP_JSX.jsx(CoverBox, { artUrl: coverUrl, showPlaceholder: !coverResolving, ariaLabel: t.openCurrentAlbum, onActivate: localCoverActive ? () => void openCurrentLocalAlbum() : undefined }), SP_JSX.jsxs("div", { style: {
                                                 width: "100%",
                                                 textAlign: "center",
                                                 marginTop: "14px",
@@ -46634,10 +41847,10 @@ function Content() {
                                                         opacity: 0.62,
                                                         fontSize: "0.9em",
                                                         lineHeight: 1.2,
-                                                    } })] })] }), spotifyPaused ? null : isLocalMusicActive ? SP_JSX.jsx(LocalPlaybackProgress, { current: current, snapshotAt: snapshotAt }) : SP_JSX.jsx(ProgressView, { current: current, snapshotAt: snapshotAt }), SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canPrevious, onClick: () => void runAction(() => previousAction()), children: SP_JSX.jsx(FaStepBackward, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current, onClick: () => void runAction(() => playPauseAction(), () => patchCurrentPlayer((player) => ({
+                                                    } })] })] }), isLocalMusicActive ? SP_JSX.jsx(LocalPlaybackProgress, { current: current, snapshotAt: snapshotAt }) : SP_JSX.jsx(ProgressView, { current: current, snapshotAt: snapshotAt }), SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canPrevious, onClick: () => void runAction(() => previousAction()), children: SP_JSX.jsx(FaStepBackward, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current, onClick: () => void runAction(() => playPauseAction(), () => patchCurrentPlayer((player) => ({
                                                 ...player,
                                                 status: player.status === "Playing" ? "Paused" : "Playing",
-                                            }))), children: isPlaying ? SP_JSX.jsx(FaPause, {}) : SP_JSX.jsx(FaPlay, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canNext, onClick: () => void runAction(() => nextAction()), children: SP_JSX.jsx(FaStepForward, {}) })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsxs(DFL.DialogButton, { style: { ...compactButtonStyle, position: "relative", opacity: isShuffleActive ? 1 : 0.58 }, disabled: controlsDisabled || !current?.canShuffle, onClick: () => void runAction(() => shuffleAction(), () => patchCurrentPlayer((player) => ({ ...player, shuffleActive: !player.shuffleActive })), [1200]), children: [SP_JSX.jsx(FaRandom, {}), isShuffleActive ? (SP_JSX.jsx("span", { "aria-hidden": "true", style: {
+                                            }))), children: isPlaying ? SP_JSX.jsx(FaPause, {}) : SP_JSX.jsx(FaPlay, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: compactButtonStyle, disabled: controlsDisabled || !current?.canNext, onClick: () => void runAction(() => nextAction()), children: SP_JSX.jsx(FaStepForward, {}) })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsxs(DFL.DialogButton, { style: { ...compactButtonStyle, position: "relative", opacity: isShuffleActive ? 1 : 0.58 }, disabled: controlsDisabled || !current?.canShuffle, onClick: () => void runAction(() => shuffleAction(), () => patchCurrentPlayer((player) => ({ ...player, shuffleActive: !player.shuffleActive }))), children: [SP_JSX.jsx(FaRandom, {}), isShuffleActive ? (SP_JSX.jsx("span", { "aria-hidden": "true", style: {
                                                         position: "absolute",
                                                         top: "5px",
                                                         right: "5px",
@@ -46654,7 +41867,7 @@ function Content() {
                                                     : player.repeatMode === "List"
                                                         ? "Track"
                                                         : "Off",
-                                            })), [1200]), children: [SP_JSX.jsx(RepeatIcon, { repeatMode: repeatMode }), repeatActive ? (SP_JSX.jsx("span", { "aria-hidden": "true", style: {
+                                            }))), children: [SP_JSX.jsx(RepeatIcon, { repeatMode: repeatMode }), repeatActive ? (SP_JSX.jsx("span", { "aria-hidden": "true", style: {
                                                         position: "absolute",
                                                         top: "5px",
                                                         right: "5px",
@@ -46664,9 +41877,9 @@ function Content() {
                                                         background: "var(--np-accent, #66c0f4)",
                                                         boxShadow: "0 0 5px var(--np-accent, #66c0f4)",
                                                         pointerEvents: "none",
-                                                    } })) : null] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { ref: volumeWrapperRef, className: "npAppVolume", focusClassName: "npAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: handleVolumeButtonDown, onKeyDown: handleVolumeKeyDown, role: "slider", tabIndex: 0, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(appVolume), style: { opacity: current && volumeReady ? 1 : 0.46 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", value: Math.round(appVolume), min: 0, max: 100, step: 1, disabled: !current || spotifyPaused, tabIndex: -1, onChange: (event) => changeAppVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [Math.round(appVolume), "%"] })] }), snapshot.players.length > 1 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", width: "100%" }, children: snapshot.players.map((player) => (SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: busy, onClick: () => void runAction(async () => {
+                                                    } })) : null] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { ref: volumeWrapperRef, className: "npAppVolume", focusClassName: "npAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: handleVolumeButtonDown, onKeyDown: handleVolumeKeyDown, role: "slider", tabIndex: 0, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(appVolume), style: { opacity: current && volumeReady ? 1 : 0.46 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", value: Math.round(appVolume), min: 0, max: 100, step: 1, disabled: !current, tabIndex: -1, onChange: (event) => changeAppVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [Math.round(appVolume), "%"] })] }), snapshot.players.length > 1 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", width: "100%" }, children: snapshot.players.map((player) => (SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: busy, onClick: () => void runAction(async () => {
                                                     await setMediaPlayer(player.id);
-                                                }), children: SP_JSX.jsx("span", { style: buttonContentStyle, children: (player.id === snapshot.selectedPlayer ? "\u2022 " : "") + player.name }) }, player.id))) })] })) : null, SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: navigateToFullscreen, children: SP_JSX.jsx(FaExpandAlt, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: () => setShowSettings(true), children: SP_JSX.jsx(FaCog, {}) })] }), enabledAppKeys[0] === "spotify" && spotifyPlus.enabled && spotifyPlus.authenticated ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(SpotifyBrowser, { openAlbumRequest: spotifyAlbumRequest, onOpenBigPicture: navigateToSpotifyBigPicture, onOpenSettings: () => setShowSettings(true) })] })) : null, enabledAppKeys[0] === "localMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(LocalMusicBrowser, { openAlbumRequest: localAlbumRequest, onOpenBigPicture: navigateToLocalMusicBigPicture })] })) : null, enabledAppKeys[0] === "youtubeMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(YouTubeMusicBrowser, { onOpenBigPicture: navigateToYouTubeMusicBigPicture, onOpenSettings: () => setShowSettings(true) })] })) : null, enabledApps.length > 0 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.Focusable, { style: { ...centeredColumnStyle, gap: "6px" }, "flow-children": "vertical", children: enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "spotify" && app.key !== "youtubeMusic").map((app) => {
+                                                }), children: SP_JSX.jsx("span", { style: buttonContentStyle, children: (player.id === snapshot.selectedPlayer ? "\u2022 " : "") + player.name }) }, player.id))) })] })) : null, SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: navigateToFullscreen, children: SP_JSX.jsx(FaExpandAlt, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: () => setShowSettings(true), children: SP_JSX.jsx(FaCog, {}) })] }), enabledAppKeys[0] === "localMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(LocalMusicBrowser, { openAlbumRequest: localAlbumRequest, onOpenBigPicture: navigateToLocalMusicBigPicture })] })) : null, enabledAppKeys[0] === "youtubeMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(YouTubeMusicBrowser, { onOpenBigPicture: navigateToYouTubeMusicBigPicture, onOpenSettings: () => setShowSettings(true) })] })) : null, enabledApps.length > 0 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.Focusable, { style: { ...centeredColumnStyle, gap: "6px" }, "flow-children": "vertical", children: enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "youtubeMusic").map((app) => {
                                                 const Icon = app.Icon;
                                                 return (SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: busy, onClick: () => void (activeAppRunning ? closeMusicApp$1(app) : openMusicApp(app)), children: SP_JSX.jsxs("span", { style: buttonContentStyle, children: [SP_JSX.jsx(Icon, {}), formatOpenAppLabel(activeAppRunning ? t.closeApp : t.openApp, appProgramLabel(app))] }) }, app.key));
                                             }) })] })) : null] })] }) })] }));
@@ -46695,7 +41908,6 @@ function NowPlayingTitle() {
 var index = definePlugin(() => {
     fullscreenUiDisposed = false;
     routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
-    routerHook.addRoute(SPOTIFY_BIG_PICTURE_ROUTE, SpotifyBigPictureRoute);
     routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
     routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
     routerHook.addRoute(FULLSCREEN_SETTINGS_ROUTE, FullscreenSettingsRoute);
@@ -46710,7 +41922,6 @@ var index = definePlugin(() => {
             publishPlaybackActivity(false, "Stopped", "", "", "");
             localAudioPlayer.destroy();
             routerHook.removeRoute(FULLSCREEN_ROUTE);
-            routerHook.removeRoute(SPOTIFY_BIG_PICTURE_ROUTE);
             routerHook.removeRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE);
             routerHook.removeRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE);
             routerHook.removeRoute(FULLSCREEN_SETTINGS_ROUTE);

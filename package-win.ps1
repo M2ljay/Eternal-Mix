@@ -73,7 +73,6 @@ Copy-Item (Join-Path $Root "CHANGELOG_$Version.md") $Stage
 Copy-Item (Join-Path $Root "dist/index.js") (Join-Path $Stage "dist")
 Copy-Item (Join-Path $Root "bin/MediaBridge.exe") (Join-Path $Stage "bin")
 Copy-Item (Join-Path $Root "bin/ThumbnailBridge.exe") (Join-Path $Stage "bin")
-Copy-Item (Join-Path $Root "bin/SpotifyPlaybackBridge.exe") (Join-Path $Stage "bin")
 Copy-Item (Join-Path $Root "vendor/*") (Join-Path $Stage "vendor") -Recurse -Force
 Copy-Item (Join-Path $Root "licenses/*") (Join-Path $Stage "licenses") -Recurse -Force
 Copy-Item (Join-Path $Root "package.json") $Stage

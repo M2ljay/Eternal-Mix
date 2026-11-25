@@ -156,32 +156,12 @@ export function previousTrack(): Promise<string> {
   return call<[], string>("previous");
 }
 
-export function openSpotify(): Promise<string> {
-  return call<[], string>("open_spotify");
-}
-
 export function openYouTubeMusic(): Promise<string> {
   return call<[], string>("open_youtube_music");
 }
 
-export function openTidal(): Promise<string> {
-  return call<[], string>("open_tidal");
-}
-
 export function openAppleMusic(): Promise<string> {
   return call<[], string>("open_apple_music");
-}
-
-export function openDeezer(): Promise<string> {
-  return call<[], string>("open_deezer");
-}
-
-export function openAmazonMusic(): Promise<string> {
-  return call<[], string>("open_amazon_music");
-}
-
-export function openSoundCloud(): Promise<string> {
-  return call<[], string>("open_soundcloud");
 }
 
 export function shuffle(): Promise<string> {
@@ -247,20 +227,7 @@ export function closeMusicApp(appKey: string): Promise<string> {
 }
 
 
-export type SpotifyPlusSettings = {
-  enabled: boolean;
-  clientId: string;
-  redirectUri: string;
-  authenticated: boolean;
-  playbackAuthenticated?: boolean;
-  compactSavedTracks?: boolean;
-  audioQuality?: 96 | 160 | 320;
-  displayName?: string;
-  userId?: string;
-  avatar?: string;
-};
-
-export type SpotifyApiResult<T = any> = {
+export type ApiResult<T = any> = {
   ok: boolean;
   data?: T;
   error?: string;
@@ -282,230 +249,79 @@ export type YouTubeMusicBrowserAuthStatus = {
   settings?: YouTubeMusicSettings;
 };
 
-export type SpotifyAudioLevel = { level: number; playing: boolean; volume?: number };
-
-export function getSpotifyAudioLevel(): Promise<SpotifyAudioLevel> {
-  return call<[], SpotifyAudioLevel>("get_spotify_audio_level");
-}
-
 export function getYouTubeMusicSettings(): Promise<YouTubeMusicSettings> {
   return call<[], YouTubeMusicSettings>("get_youtube_music_settings");
 }
 
-export function connectYouTubeMusic(headersRaw: string): Promise<SpotifyApiResult<YouTubeMusicSettings>> {
-  return call<[headersRaw: string], SpotifyApiResult<YouTubeMusicSettings>>("connect_youtube_music", headersRaw);
+export function connectYouTubeMusic(headersRaw: string): Promise<ApiResult<YouTubeMusicSettings>> {
+  return call<[headersRaw: string], ApiResult<YouTubeMusicSettings>>("connect_youtube_music", headersRaw);
 }
 
-export function startYouTubeMusicBrowserAuth(): Promise<SpotifyApiResult<YouTubeMusicBrowserAuthStatus>> {
-  return call<[], SpotifyApiResult<YouTubeMusicBrowserAuthStatus>>("start_youtube_music_browser_auth");
+export function startYouTubeMusicBrowserAuth(): Promise<ApiResult<YouTubeMusicBrowserAuthStatus>> {
+  return call<[], ApiResult<YouTubeMusicBrowserAuthStatus>>("start_youtube_music_browser_auth");
 }
 
-export function getYouTubeMusicBrowserAuthStatus(): Promise<SpotifyApiResult<YouTubeMusicBrowserAuthStatus>> {
-  return call<[], SpotifyApiResult<YouTubeMusicBrowserAuthStatus>>("get_youtube_music_browser_auth_status");
+export function getYouTubeMusicBrowserAuthStatus(): Promise<ApiResult<YouTubeMusicBrowserAuthStatus>> {
+  return call<[], ApiResult<YouTubeMusicBrowserAuthStatus>>("get_youtube_music_browser_auth_status");
 }
 
-export function cancelYouTubeMusicBrowserAuth(): Promise<SpotifyApiResult<YouTubeMusicBrowserAuthStatus>> {
-  return call<[], SpotifyApiResult<YouTubeMusicBrowserAuthStatus>>("cancel_youtube_music_browser_auth");
+export function cancelYouTubeMusicBrowserAuth(): Promise<ApiResult<YouTubeMusicBrowserAuthStatus>> {
+  return call<[], ApiResult<YouTubeMusicBrowserAuthStatus>>("cancel_youtube_music_browser_auth");
 }
 
-export function disconnectYouTubeMusic(): Promise<SpotifyApiResult<YouTubeMusicSettings>> {
-  return call<[], SpotifyApiResult<YouTubeMusicSettings>>("disconnect_youtube_music");
+export function disconnectYouTubeMusic(): Promise<ApiResult<YouTubeMusicSettings>> {
+  return call<[], ApiResult<YouTubeMusicSettings>>("disconnect_youtube_music");
 }
 
-export function setYouTubeMusicAudioQuality(quality: "low" | "medium" | "high"): Promise<SpotifyApiResult<YouTubeMusicSettings>> {
-  return call<[quality: string], SpotifyApiResult<YouTubeMusicSettings>>("set_youtube_music_audio_quality", quality);
+export function setYouTubeMusicAudioQuality(quality: "low" | "medium" | "high"): Promise<ApiResult<YouTubeMusicSettings>> {
+  return call<[quality: string], ApiResult<YouTubeMusicSettings>>("set_youtube_music_audio_quality", quality);
 }
 
-export function setYouTubeMusicCompactSavedTracks(enabled: boolean): Promise<SpotifyApiResult<YouTubeMusicSettings>> {
-  return call<[enabled: boolean], SpotifyApiResult<YouTubeMusicSettings>>("set_youtube_music_compact_saved_tracks", enabled);
+export function setYouTubeMusicCompactSavedTracks(enabled: boolean): Promise<ApiResult<YouTubeMusicSettings>> {
+  return call<[enabled: boolean], ApiResult<YouTubeMusicSettings>>("set_youtube_music_compact_saved_tracks", enabled);
 }
 
-export function refreshYouTubeMusicCache(): Promise<SpotifyApiResult<{ entries: number }>> {
-  return call<[], SpotifyApiResult<{ entries: number }>>("refresh_youtube_music_cache");
+export function refreshYouTubeMusicCache(): Promise<ApiResult<{ entries: number }>> {
+  return call<[], ApiResult<{ entries: number }>>("refresh_youtube_music_cache");
 }
 
-export function youtubeMusicGetHome(): Promise<SpotifyApiResult> {
-  return call<[], SpotifyApiResult>("youtube_music_get_home");
+export function youtubeMusicGetHome(): Promise<ApiResult> {
+  return call<[], ApiResult>("youtube_music_get_home");
 }
 
-export function youtubeMusicSearch(query: string): Promise<SpotifyApiResult> {
-  return call<[query: string], SpotifyApiResult>("youtube_music_search", query);
+export function youtubeMusicSearch(query: string): Promise<ApiResult> {
+  return call<[query: string], ApiResult>("youtube_music_search", query);
 }
 
-export function youtubeMusicGetLibrary(section: "tracks" | "albums" | "playlists" | "artists" | "podcasts" | "episodes", maxItems = 100): Promise<SpotifyApiResult> {
-  return call<[section: string, maxItems: number], SpotifyApiResult>("youtube_music_get_library", section, maxItems);
+export function youtubeMusicGetLibrary(section: "tracks" | "albums" | "playlists" | "artists" | "podcasts" | "episodes", maxItems = 100): Promise<ApiResult> {
+  return call<[section: string, maxItems: number], ApiResult>("youtube_music_get_library", section, maxItems);
 }
 
-export function youtubeMusicGetDetail(kind: "album" | "playlist" | "artist", itemId: string): Promise<SpotifyApiResult> {
-  return call<[kind: string, itemId: string], SpotifyApiResult>("youtube_music_get_detail", kind, itemId);
+export function youtubeMusicGetDetail(kind: "album" | "playlist" | "artist", itemId: string): Promise<ApiResult> {
+  return call<[kind: string, itemId: string], ApiResult>("youtube_music_get_detail", kind, itemId);
 }
 
-export function youtubeMusicPrepareStream(videoId: string): Promise<SpotifyApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>> {
-  return call<[videoId: string], SpotifyApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>>(
+export function youtubeMusicPrepareStream(videoId: string): Promise<ApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>> {
+  return call<[videoId: string], ApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>>(
     "youtube_music_prepare_stream",
     videoId,
   );
 }
 
-export function youtubeMusicPrefetchStream(videoId: string): Promise<SpotifyApiResult<{}>> {
-  return call<[videoId: string], SpotifyApiResult<{}>>("youtube_music_prefetch_stream", videoId);
+export function youtubeMusicPrefetchStream(videoId: string): Promise<ApiResult<{}>> {
+  return call<[videoId: string], ApiResult<{}>>("youtube_music_prefetch_stream", videoId);
 }
 
-export function youtubeMusicInvalidateStream(videoId: string): Promise<SpotifyApiResult<{ removed: number }>> {
-  return call<[videoId: string], SpotifyApiResult<{ removed: number }>>(
+export function youtubeMusicInvalidateStream(videoId: string): Promise<ApiResult<{ removed: number }>> {
+  return call<[videoId: string], ApiResult<{ removed: number }>>(
     "youtube_music_invalidate_stream",
     videoId,
   );
 }
 
-export type SpotifyApiStatus = {
-  active: boolean;
-  remainingSeconds: number;
-  until: number;
-};
-
-export type SpotifyAuthStatus = SpotifyPlusSettings & {
-  state: "idle" | "waiting" | "authenticated" | "error" | string;
-  message?: string;
-};
-
-export function getSpotifySettings(): Promise<SpotifyPlusSettings> {
-  return call<[], SpotifyPlusSettings>("get_spotify_settings");
-}
-
-export function setSpotifyEnabled(enabled: boolean): Promise<SpotifyPlusSettings> {
-  return call<[enabled: boolean], SpotifyPlusSettings>("set_spotify_enabled", enabled);
-}
-
-
-export function setSpotifyCompactSavedTracks(enabled: boolean): Promise<SpotifyPlusSettings> {
-  return call<[enabled: boolean], SpotifyPlusSettings>("set_spotify_compact_saved_tracks", enabled);
-}
-
-export function refreshSpotifyCache(): Promise<SpotifyApiResult> {
-  return call<[], SpotifyApiResult>("refresh_spotify_cache");
-}
-
-export function setSpotifyAudioQuality(quality: 96 | 160 | 320): Promise<SpotifyPlusSettings> {
-  return call<[quality: number], SpotifyPlusSettings>("set_spotify_audio_quality", quality);
-}
-
-export function clearSpotifyAudioCache(): Promise<SpotifyApiResult<{ files: number; bytes: number; restarted: boolean }>> {
-  return call<[], SpotifyApiResult<{ files: number; bytes: number; restarted: boolean }>>("clear_spotify_audio_cache");
-}
-
-export function getSpotifyAudioCacheStats(): Promise<SpotifyApiResult<{ bytes: number; files: number; limitBytes: number }>> {
-  return call<[], SpotifyApiResult<{ bytes: number; files: number; limitBytes: number }>>("get_spotify_audio_cache_stats");
-}
-
-export function getSpotifyApiUsage(): Promise<SpotifyApiResult<{ total: number; perMinute: number; rateLimited: boolean; remainingSeconds: number }>> {
-  return call<[], SpotifyApiResult<{ total: number; perMinute: number; rateLimited: boolean; remainingSeconds: number }>>("get_spotify_api_usage");
-}
-
-export function setSpotifyClientId(clientId: string): Promise<SpotifyPlusSettings> {
-  return call<[clientId: string], SpotifyPlusSettings>("set_spotify_client_id", clientId);
-}
-
-export function beginSpotifyAuth(): Promise<{ ok: boolean; url?: string; redirectUri?: string; error?: string }> {
-  return call<[], { ok: boolean; url?: string; redirectUri?: string; error?: string }>("begin_spotify_auth");
-}
-
-export function beginSpotifyPlaybackAuth(): Promise<{ ok: boolean; url?: string; redirectUri?: string; error?: string }> {
-  return call<[], { ok: boolean; url?: string; redirectUri?: string; error?: string }>("begin_spotify_playback_auth");
-}
-
-export function getSurroundSettings(): Promise<{ mode: "off" | "5.1" | "7.1"; speakerVolumes: number[] }> {
-  return call<[], { mode: "off" | "5.1" | "7.1"; speakerVolumes: number[] }>("get_surround_settings");
-}
-
-export function setSurroundSettings(mode: "off" | "5.1" | "7.1", speakerVolumes: number[]): Promise<{ mode: "off" | "5.1" | "7.1"; speakerVolumes: number[] }> {
-  return call<[mode: string, speakerVolumes: number[]], { mode: "off" | "5.1" | "7.1"; speakerVolumes: number[] }>("set_surround_settings", mode, speakerVolumes);
-}
-
-export function getSpotifyAuthStatus(): Promise<SpotifyAuthStatus> {
-  return call<[], SpotifyAuthStatus>("get_spotify_auth_status");
-}
-
-export function disconnectSpotify(): Promise<SpotifyPlusSettings> {
-  return call<[], SpotifyPlusSettings>("disconnect_spotify");
-}
-
-export function openSpotifyDashboard(): Promise<boolean> {
-  return call<[], boolean>("open_spotify_dashboard");
-}
-
 export function openExternalUrl(url: string): Promise<boolean> {
   return call<[url: string], boolean>("open_external_url", url);
 }
-
-export function spotifyGetHome(): Promise<SpotifyApiResult> {
-  return call<[], SpotifyApiResult>("spotify_get_home");
-}
-
-export function spotifySearch(query: string, offset = 0): Promise<SpotifyApiResult> {
-  return call<[query: string, offset: number], SpotifyApiResult>("spotify_search", query, offset);
-}
-
-export function spotifyGetLibrary(
-  section: "tracks" | "albums" | "playlists" | "artists",
-  offset = 0,
-  maxItems = 300
-): Promise<SpotifyApiResult> {
-  return call<[section: string, offset: number, maxItems: number], SpotifyApiResult>(
-    "spotify_get_library",
-    section,
-    offset,
-    maxItems
-  );
-}
-
-export function spotifyGetDetail(kind: "album" | "playlist" | "artist", itemId: string): Promise<SpotifyApiResult> {
-  return call<[kind: string, itemId: string], SpotifyApiResult>("spotify_get_detail", kind, itemId);
-}
-
-export function spotifyGetCurrentAlbum(title: string, artist: string, album: string): Promise<SpotifyApiResult> {
-  return call<[title: string, artist: string, album: string], SpotifyApiResult>(
-    "spotify_get_current_album",
-    title,
-    artist,
-    album
-  );
-}
-
-export function getSpotifyApiStatus(): Promise<SpotifyApiStatus> {
-  return call<[], SpotifyApiStatus>("get_spotify_api_status");
-}
-
-export function spotifyGetPlaybackState(): Promise<SpotifyApiResult> {
-  return call<[], SpotifyApiResult>("spotify_get_playback_state");
-}
-
-export function spotifyPlayerCommand(command: "play" | "pause" | "play_pause" | "next" | "previous" | "shuffle" | "repeat" | "volume", value = -1): Promise<SpotifyApiResult> {
-  return call<[command: string, value: number], SpotifyApiResult>("spotify_player_command", command, value);
-}
-
-export function spotifyPlay(uri: string, contextUri = "", offsetUri = ""): Promise<SpotifyApiResult> {
-  return call<[uri: string, contextUri: string, offsetUri: string], SpotifyApiResult>(
-    "spotify_play",
-    uri,
-    contextUri,
-    offsetUri
-  );
-}
-
-export function spotifyPlayItems(uris: string[], startIndex = 0): Promise<SpotifyApiResult> {
-  return call<[uris: string[], startIndex: number], SpotifyApiResult>(
-    "spotify_play_items",
-    uris,
-    startIndex
-  );
-}
-
-export function spotifySetSaved(uri: string, saved: boolean): Promise<SpotifyApiResult> {
-  return call<[uri: string, saved: boolean], SpotifyApiResult>("spotify_set_saved", uri, saved);
-}
-
-
 
 export type ArtistBackgroundCandidate = {
   id: string;
@@ -530,7 +346,7 @@ export type ArtistBackgroundApplyResult = {
   error?: string;
 };
 
-export type SpotifyArtistCacheProgress = {
+export type ArtistCacheProgress = {
   active: boolean;
   phase: "idle" | "loading" | "background" | "clearing" | "cleared" | "complete" | "error" | string;
   current: string;
@@ -541,35 +357,19 @@ export type SpotifyArtistCacheProgress = {
 
 export type ArtistBackgroundSource = "all";
 
-export function searchArtistBackgrounds(provider: "local" | "spotify" | "youtubeMusic", artistId: string, artistName: string, source: ArtistBackgroundSource = "all"): Promise<ArtistBackgroundSearchResult> {
+export function searchArtistBackgrounds(provider: "local" | "youtubeMusic", artistId: string, artistName: string, source: ArtistBackgroundSource = "all"): Promise<ArtistBackgroundSearchResult> {
   return call<[provider: string, artistId: string, artistName: string, source: string], ArtistBackgroundSearchResult>(
     "search_artist_backgrounds", provider, artistId, artistName, source,
   );
 }
 
-export function applyArtistBackground(provider: "local" | "spotify" | "youtubeMusic", artistId: string, artistName: string, candidateId: string): Promise<ArtistBackgroundApplyResult> {
+export function applyArtistBackground(provider: "local" | "youtubeMusic", artistId: string, artistName: string, candidateId: string): Promise<ArtistBackgroundApplyResult> {
   return call<[provider: string, artistId: string, artistName: string, candidateId: string], ArtistBackgroundApplyResult>(
     "apply_artist_background", provider, artistId, artistName, candidateId,
   );
 }
 
-export function buildSpotifyArtistCache(): Promise<{ ok: boolean; data?: { artists: number; cached: number }; error?: string }> {
-  return call<[], { ok: boolean; data?: { artists: number; cached: number }; error?: string }>("build_spotify_artist_cache");
-}
-
-export function getSpotifyArtistCacheProgress(): Promise<SpotifyArtistCacheProgress> {
-  return call<[], SpotifyArtistCacheProgress>("get_spotify_artist_cache_progress");
-}
-
 export type AssetCacheStats = { bytes: number; files: number; manualBytes?: number; manualFiles?: number; totalBytes?: number; totalFiles?: number };
-
-export function getSpotifyArtistCacheStats(): Promise<AssetCacheStats> {
-  return call<[], AssetCacheStats>("get_spotify_artist_cache_stats");
-}
-
-export function clearSpotifyArtistCache(): Promise<{ ok: boolean; data?: AssetCacheStats; error?: string }> {
-  return call<[], { ok: boolean; data?: AssetCacheStats; error?: string }>("clear_spotify_artist_cache");
-}
 
 export function getYouTubeMusicArtistBackground(artistName: string): Promise<string> {
   return call<[artistName: string], string>("get_youtube_music_artist_background", artistName);
@@ -587,12 +387,12 @@ export function getYouTubeMusicArtistCacheStats(): Promise<AssetCacheStats> {
   return call<[], AssetCacheStats>("get_youtube_music_artist_cache_stats");
 }
 
-export function getYouTubeMusicArtistCacheProgress(): Promise<SpotifyArtistCacheProgress> {
-  return call<[], SpotifyArtistCacheProgress>("get_youtube_music_artist_cache_progress");
+export function getYouTubeMusicArtistCacheProgress(): Promise<ArtistCacheProgress> {
+  return call<[], ArtistCacheProgress>("get_youtube_music_artist_cache_progress");
 }
 
 
-export function clearManualArtistBackgrounds(provider: "local" | "spotify" | "youtubeMusic"): Promise<{ ok: boolean; data?: AssetCacheStats; stats?: any; error?: string }> {
+export function clearManualArtistBackgrounds(provider: "local" | "youtubeMusic"): Promise<{ ok: boolean; data?: AssetCacheStats; stats?: any; error?: string }> {
   return call<[provider: string], { ok: boolean; data?: AssetCacheStats; stats?: any; error?: string }>("clear_manual_artist_backgrounds", provider);
 }
 

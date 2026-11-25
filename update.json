@@ -1,0 +1,7 @@
+{
+ "version": "1.0.1",
+ "sha256": "05bc676ee563fe26333b8cef82b0b805cf897f06de4a1c0a3afa701b053d674b",
+ "size": 49755082,
+ "notes": "- Safer updates: before an update is handed to Decky, Awesome Mix now stops its helper programs (such as MediaBridge) so Windows can replace every file. Previously a file still in use could stop the update half-way and leave the plugin unable to start.\n- Install check: Awesome Mix checks its own files when it starts. If the last update didn't finish copying, it says so and offers a Reinstall button that downloads and installs the current version again. This works even when part of the plugin is missing.\n- The update download is now refused unless every file inside it matches the file list shipped with it.",
+ "url": "https://raw.githubusercontent.com/M2ljay/Eternal-Mix/release/awesome-mix.zip"
+}

@@ -11,11 +11,14 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+import mix_install_check  # noqa: E402
 import mix_update  # noqa: E402
 from mix_update import UpdateError  # noqa: E402
 
 
-def installer_zip(version="1.0.1", folder="Awesome Mix", name="Awesome Mix", extra=None, drop=()):
+def installer_zip(version="1.0.1", folder="Awesome Mix", name="Awesome Mix", extra=None, drop=(),
+                  manifest=True, manifest_version=None, tamper=None):
+    """A minimal installer. ``tamper`` (rel, text) replaces a file after the manifest was made."""
     buffer = io.BytesIO()
     files = {
         "plugin.json": json.dumps({"name": name}),
@@ -23,10 +26,15 @@ def installer_zip(version="1.0.1", folder="Awesome Mix", name="Awesome Mix", ext
         "main.py": "# backend\n",
         "dist/index.js": "// bundle\n",
     }
+    kept = {rel: text.encode() for rel, text in files.items() if rel not in drop}
+    listed = mix_install_check.build_manifest(name, manifest_version or version, kept.items())
+    if tamper:
+        kept[tamper[0]] = tamper[1].encode()
     with zipfile.ZipFile(buffer, "w") as archive:
-        for rel, text in files.items():
-            if rel not in drop:
-                archive.writestr(f"{folder}/{rel}", text)
+        if manifest:
+            archive.writestr(f"{folder}/{mix_install_check.MANIFEST_NAME}", mix_install_check.encode_manifest(listed))
+        for rel, body in kept.items():
+            archive.writestr(f"{folder}/{rel}", body)
         for entry in extra or ():
             archive.writestr(entry, "x")
     return buffer.getvalue()
@@ -156,6 +164,10 @@ class VerificationTests(unittest.TestCase):
             "missing main.py": installer_zip(drop=("main.py",)),
             "missing bundle": installer_zip(drop=("dist/index.js",)),
             "not a zip": b"not a zip",
+            "no install manifest": installer_zip(manifest=False),
+            "install manifest of another version": installer_zip(manifest_version="1.0.0"),
+            "file changed after the manifest": installer_zip(tamper=("main.py", "# other backend\n")),
+            "file not in the manifest": installer_zip(extra=["Awesome Mix/vendor/stray.py"]),
         }
         for label, data in cases.items():
             with self.subTest(label), self.assertRaises(UpdateError) as caught:
@@ -260,6 +272,19 @@ class ChannelTests(unittest.TestCase):
         self.assertEqual((result["ok"], result["version"]), (True, "1.0.2"))
         self.assertEqual(self.downloads(), ["Eternal-Mix-decky_Installer-1.0.2.zip"])
 
+    def test_reinstall_accepts_the_installed_version_only_when_asked(self):
+        data = installer_zip(version="1.0.1")
+        refused = self.channel(FakeTransport(manifest_for(data), data), current="1.0.1").prepare()
+        self.assertEqual((refused["ok"], refused["reason"]), (False, mix_update.UP_TO_DATE))
+        result = self.channel(FakeTransport(manifest_for(data), data), current="1.0.1").prepare(reinstall=True)
+        self.assertTrue(result["ok"], result)
+        self.assertEqual(result["version"], "1.0.1")
+
+    def test_reinstall_never_goes_back(self):
+        data = installer_zip(version="1.0.1")
+        result = self.channel(FakeTransport(manifest_for(data), data), current="1.0.2").prepare(reinstall=True)
+        self.assertEqual((result["ok"], result["reason"]), (False, mix_update.UP_TO_DATE))
+
     def test_busy_while_running(self):
         channel = self.channel(FakeTransport(manifest_for(installer_zip())))
         channel._lock.acquire()
@@ -276,6 +301,14 @@ class ReleaseFilesTests(unittest.TestCase):
         self.assertIn("'mix_update.py'", package_release)
         package_win = (ROOT / "package-win.ps1").read_text(encoding="utf-8")
         self.assertIn('Copy-Item (Join-Path $Root "mix_update.py") $Stage', package_win)
+
+    def test_startup_modules_ship(self):
+        package_release = (ROOT / "scripts" / "package-release.py").read_text(encoding="utf-8")
+        package_win = (ROOT / "package-win.ps1").read_text(encoding="utf-8")
+        for name in ("main.py", "mix_backend.py", "mix_install_check.py", "mix_process_guard.py"):
+            self.assertIn(f"'{name}'", package_release)
+            self.assertIn(f'Copy-Item (Join-Path $Root "{name}") $Stage', package_win)
+        self.assertIn("write-install-manifest.py", package_win)
 
 
 if __name__ == "__main__":

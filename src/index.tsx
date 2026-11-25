@@ -9,6 +9,7 @@ import * as python from "./python";
 import type { PlayerSnapshot, Snapshot, SourceBehaviorSettings } from "./python";
 import { FanartSettingsPanel, LocalMusicBigPicture, LocalMusicBrowser, LocalMusicSettingsPanel } from "./localMusic";
 import { UpdateSettingsPanel } from "./updatePanel";
+import { InstallCheckGate } from "./installCheck";
 import { SurroundUpmixControls } from "./surroundControls";
 import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
@@ -4241,7 +4242,11 @@ export default definePlugin(() => {
   return {
     name: PLUGIN_DISPLAY_NAME,
     titleView: <NowPlayingTitle />,
-    content: <Content />,
+    content: (
+      <InstallCheckGate>
+        <Content />
+      </InstallCheckGate>
+    ),
     icon: <FaMusic />,
     onDismount() {
       fullscreenUiDisposed = true;

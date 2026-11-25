@@ -1,3 +1,5 @@
+"""Awesome Mix backend. Decky loads main.py, which runs the install check first and
+then imports this module; see main.py for why the two are separate."""
 # Decky Windows can omit optional stdlib modules from its frozen interpreter.
 # Install the narrow fallback before importing http.server or its dependencies.
 import os
@@ -844,6 +846,9 @@ class Plugin:
         self._topbar_last_signature = ""
         self._topbar_last_injected_at = 0.0
         self._helper_ready = False
+        # Set while an update is handed to Decky: no helper is (re)started and
+        # nothing is read from bin/, so Decky can delete and replace the folder.
+        self._update_quiesce_until = 0.0
         self._helper_process: Optional[subprocess.Popen] = None
         self._helper_pid = 0
         self._helper_request_lock = threading.RLock()
@@ -1969,6 +1974,8 @@ class Plugin:
     def _ensure_helper_unlocked(self) -> None:
         if not self._is_windows():
             raise RuntimeError("Questo plugin funziona solo su Windows")
+        if self._update_quiescing():
+            raise RuntimeError("Awesome Mix is being updated; helpers stay stopped")
         self._prepare_helper_runtime()
 
         health = self._helper_health(timeout=0.55) if self.port else None
@@ -2096,6 +2103,40 @@ class Plugin:
         with urllib.request.urlopen(req, timeout=max(0.2, float(timeout))) as response:
             raw = response.read().decode("utf-8")
             return json.loads(raw) if raw else {}
+
+    def _update_quiescing(self) -> bool:
+        return time.monotonic() < self._update_quiesce_until
+
+    def _stop_helpers_for_exit(self, reason: str, quiesce_seconds: float = 0.0) -> Dict[str, Any]:
+        """Stop MediaBridge (asked first, then forced) and every other helper this plugin started.
+
+        Used before an update is handed to Decky and from _unload. With
+        ``quiesce_seconds`` no helper is restarted for that long, so nothing
+        reopens a file in the plugin folder while Decky replaces it.
+        """
+        if quiesce_seconds > 0:
+            self._update_quiesce_until = time.monotonic() + quiesce_seconds
+        result: Dict[str, Any] = {"reason": reason}
+        try:
+            self._youtube_music.cancel_browser_auth()
+        except Exception:
+            pass
+        if not self._is_windows():
+            return result
+        locked = self._helper_restart_lock.acquire(timeout=4.0)
+        try:
+            result["mediabridge"] = self._stop_helper_unlocked(force=True, reason=reason)
+        except Exception as exc:
+            result["mediabridge"] = {"error": str(exc)}
+            self._log(f"helper stop ({reason}) error: {exc}")
+        finally:
+            if locked:
+                self._helper_restart_lock.release()
+        try:
+            self._kill_all_plugin_helpers()
+        except Exception as exc:
+            self._log(f"auxiliary helper stop ({reason}) error: {exc}")
+        return result
 
     def _shutdown_helper(self) -> None:
         if not self._is_windows() or not self.port:
@@ -3066,7 +3107,7 @@ class Plugin:
         return ""
 
     def _best_smtc_cover(self, title: str, artist: str, album: str) -> str:
-        if not self._is_windows() or not os.path.exists(self.thumbnail_bridge_path):
+        if not self._is_windows() or self._update_quiescing() or not os.path.exists(self.thumbnail_bridge_path):
             return ""
         try:
             completed = subprocess.run(
@@ -6985,7 +7026,14 @@ class Plugin:
                 pending.append(task)
         if pending:
             await asyncio.gather(*pending, return_exceptions=True)
-        self._shutdown_helper()
+        # Decky v3.3.1 calls _unload only where it can deliver SIGTERM (Linux);
+        # on Windows it uses TerminateProcess. Stop the helpers either way.
+        try:
+            await asyncio.wait_for(
+                asyncio.get_running_loop().run_in_executor(None, self._stop_helpers_for_exit, "unload"), timeout=4.0
+            )
+        except Exception as exc:
+            self._log(f"unload helper stop error: {type(exc).__name__}: {exc}")
         try:
             self._topbar_close_all_sockets()
         except Exception:

@@ -600,3 +600,34 @@ export function checkPluginUpdate(force = false): Promise<PluginUpdateCheck> {
 export function preparePluginUpdate(): Promise<PreparedPluginUpdate> {
   return call<[], PreparedPluginUpdate>("prepare_plugin_update");
 }
+
+export function preparePluginReinstall(): Promise<PreparedPluginUpdate> {
+  return call<[], PreparedPluginUpdate>("prepare_plugin_reinstall");
+}
+
+export type PluginInstallReady = { ok: true; stopped: { pid: number; name: string }[] } | PluginUpdateFailure;
+
+/** Stop the plugin's helper programs so Decky can replace every file (main.py). */
+export function prepareForPluginInstall(): Promise<PluginInstallReady> {
+  return call<[], PluginInstallReady>("prepare_for_plugin_install");
+}
+
+export type InstallProblem = { path: string; kind: "missing" | "size" | "hash" | "unreadable" | "version" | "invalid" };
+
+/** mix_install_check.InstallCheck.snapshot() */
+export type InstallCheck = {
+  status: "ok" | "broken" | "unverified";
+  phase: "sizes" | "hashing" | "done" | "stopped";
+  version: string;
+  totalFiles: number;
+  hashedFiles: number;
+  problemCount: number;
+  problems: InstallProblem[];
+  manifestError: string;
+  backendError: string;
+  safeMode: boolean;
+};
+
+export function getInstallCheck(): Promise<InstallCheck> {
+  return call<[], InstallCheck>("get_install_check");
+}

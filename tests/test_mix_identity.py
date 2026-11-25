@@ -32,7 +32,7 @@ class MixIdentityTests(unittest.TestCase):
 
     def test_no_other_hardcoded_plugin_version(self):
         version = mix_identity.VERSION
-        for name in ("main.py", "ytmusic_service.py", "mix_update.py", "src/index.tsx", "src/version.ts", "src/updatePanel.tsx"):
+        for name in ("main.py", "mix_backend.py", "mix_install_check.py", "mix_process_guard.py", "ytmusic_service.py", "mix_update.py", "src/index.tsx", "src/version.ts", "src/updatePanel.tsx"):
             text = (ROOT / name).read_text(encoding="utf-8")
             self.assertNotRegex(text, rf"(?<![\d.]){re.escape(version)}(?![\d.])", name)
 

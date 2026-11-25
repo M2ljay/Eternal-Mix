@@ -24,11 +24,15 @@ class _MissingStdlibFinder:
             "mimetypes": os.path.join(base, "mimetypes.py"),
             "webbrowser": os.path.join(base, "webbrowser.py"),
             # yt-dlp (and html.parser, for _markupbase) import these at module level; Decky's frozen runtime
-            # (PyInstaller, Python 3.11) does not bundle them.
+            # (PyInstaller) does not bundle them.
             "optparse": os.path.join(base, "optparse.py"),
             "glob": os.path.join(base, "glob.py"),
             "fileinput": os.path.join(base, "fileinput.py"),
             "_markupbase": os.path.join(base, "_markupbase.py"),
+            # Also absent from Decky v3.3.1's frozen runtime (tests/decky_frozen_stdlib.txt):
+            # yt-dlp imports both at module level, webbrowser.py imports shlex.
+            "shlex": os.path.join(base, "shlex.py"),
+            "getpass": os.path.join(base, "getpass.py"),
             "html": os.path.join(html, "__init__.py"),
             "html.entities": os.path.join(html, "entities.py"),
         }

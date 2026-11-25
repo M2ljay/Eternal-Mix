@@ -53,6 +53,20 @@
       "source_sha256": "cb14dd6f2e2439eb70b806cd49d19911363d424c2b6b9f4b73c9c08022d47030",
       "shipped_sha256": "cb14dd6f2e2439eb70b806cd49d19911363d424c2b6b9f4b73c9c08022d47030",
       "modification": "Unmodified; required by html.parser, which yt-dlp imports"
+    },
+    "shlex.py": {
+      "upstream_path": "shlex.py",
+      "source": "CPython 3.13.18 standard library (/usr/lib/python3.13, Ubuntu libpython3.13-stdlib 3.13.18-1+noble1); PSF license",
+      "source_sha256": "f927227de5ba5b1b2bdd75e3d9c8cb72b602b3bba3cc8edbf8fb554de0dc1fd7",
+      "shipped_sha256": "f927227de5ba5b1b2bdd75e3d9c8cb72b602b3bba3cc8edbf8fb554de0dc1fd7",
+      "modification": "Unmodified; imported at module level by vendored yt-dlp (and shlex by runtime_stdlib/webbrowser.py); absent from Decky v3.3.1's frozen runtime (tests/decky_frozen_stdlib.txt)"
+    },
+    "getpass.py": {
+      "upstream_path": "getpass.py",
+      "source": "CPython 3.13.18 standard library (/usr/lib/python3.13, Ubuntu libpython3.13-stdlib 3.13.18-1+noble1); PSF license",
+      "source_sha256": "e52ea266b79f3b4a83388093f387540ff36d51ff306dcbb6ca6de081cd28e718",
+      "shipped_sha256": "e52ea266b79f3b4a83388093f387540ff36d51ff306dcbb6ca6de081cd28e718",
+      "modification": "Unmodified; imported at module level by vendored yt-dlp (and shlex by runtime_stdlib/webbrowser.py); absent from Decky v3.3.1's frozen runtime (tests/decky_frozen_stdlib.txt)"
     }
   }
 }

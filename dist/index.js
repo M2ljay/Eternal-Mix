@@ -96,6 +96,8 @@ function FaUser (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"},"child":[]}]})(props);
 }function FaSearch (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"},"child":[]}]})(props);
+}function FaRedo (props) {
+  return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M500.33 0h-47.41a12 12 0 0 0-12 12.57l4 82.76A247.42 247.42 0 0 0 256 8C119.34 8 7.9 119.53 8 256.19 8.1 393.07 119.1 504 256 504a247.1 247.1 0 0 0 166.18-63.91 12 12 0 0 0 .48-17.43l-34-34a12 12 0 0 0-16.38-.55A176 176 0 1 1 402.1 157.8l-101.53-4.87a12 12 0 0 0-12.57 12v47.41a12 12 0 0 0 12 12h200.33a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12z"},"child":[]}]})(props);
 }function FaRedoAlt (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M256.455 8c66.269.119 126.437 26.233 170.859 68.685l35.715-35.715C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.75c-30.864-28.899-70.801-44.907-113.23-45.273-92.398-.798-170.283 73.977-169.484 169.442C88.764 348.009 162.184 424 256 424c41.127 0 79.997-14.678 110.629-41.556 4.743-4.161 11.906-3.908 16.368.553l39.662 39.662c4.872 4.872 4.631 12.815-.482 17.433C378.202 479.813 319.926 504 256 504 119.034 504 8.001 392.967 8 256.002 7.999 119.193 119.646 7.755 256.455 8z"},"child":[]}]})(props);
 }function FaRandom (props) {
@@ -417,6 +419,16 @@ function checkPluginUpdate(force = false) {
 function preparePluginUpdate() {
     return call("prepare_plugin_update");
 }
+function preparePluginReinstall() {
+    return call("prepare_plugin_reinstall");
+}
+/** Stop the plugin's helper programs so Decky can replace every file (main.py). */
+function prepareForPluginInstall() {
+    return call("prepare_for_plugin_install");
+}
+function getInstallCheck() {
+    return call("get_install_check");
+}
 
 // Shared repeat glyph so the QAM and every Big Picture render an identical
 // icon for repeat off / all / one. "off" and "all" use the plain redo arrow;
@@ -704,7 +716,17 @@ var en = {
 		errorSave: "The update could not be saved to disk. Nothing was installed.",
 		errorBusy: "An update check is already running.",
 		errorDecky: "Decky did not accept the install: {error}",
-		errorUnknown: "The update failed: {error}"
+		errorUnknown: "The update failed: {error}",
+		errorHelpers: "Awesome Mix's helper programs could not be stopped, so nothing was installed. Restart Steam and try again. ({error})",
+		errorReinstallUnavailable: "The updater could not start. Install the zip from the release branch by hand. ({error})"
+	},
+	installCheck: {
+		body: "{name}'s last update didn't finish copying.",
+		problems: "{count} files are missing or damaged.",
+		safeMode: "{name} can't fully start until it is reinstalled.",
+		reinstall: "Reinstall {volume}",
+		downloading: "Downloading and checking the installer…",
+		manual: "Install the zip from the release branch by hand."
 	}
 };
 var it = {
@@ -986,7 +1008,17 @@ var it = {
 		errorSave: "Impossibile salvare l'aggiornamento su disco. Non è stato installato nulla.",
 		errorBusy: "È già in corso una ricerca di aggiornamenti.",
 		errorDecky: "Decky non ha accettato l'installazione: {error}",
-		errorUnknown: "Aggiornamento non riuscito: {error}"
+		errorUnknown: "Aggiornamento non riuscito: {error}",
+		errorHelpers: "Non è stato possibile fermare i programmi di supporto di Awesome Mix, quindi non è stato installato nulla. Riavvia Steam e riprova. ({error})",
+		errorReinstallUnavailable: "Il programma di aggiornamento non si è avviato. Installa a mano lo zip dal ramo release. ({error})"
+	},
+	installCheck: {
+		body: "L'ultimo aggiornamento di {name} non ha finito di copiare i file.",
+		problems: "{count} file mancano o sono danneggiati.",
+		safeMode: "{name} non può avviarsi del tutto finché non viene reinstallato.",
+		reinstall: "Reinstalla {volume}",
+		downloading: "Download e verifica del programma di installazione…",
+		manual: "Installa a mano lo zip dal ramo release."
 	}
 };
 var es = {
@@ -1268,7 +1300,17 @@ var es = {
 		errorSave: "No se pudo guardar la actualización en el disco. No se instaló nada.",
 		errorBusy: "Ya hay una búsqueda de actualizaciones en curso.",
 		errorDecky: "Decky no aceptó la instalación: {error}",
-		errorUnknown: "La actualización falló: {error}"
+		errorUnknown: "La actualización falló: {error}",
+		errorHelpers: "No se pudieron detener los programas auxiliares de Awesome Mix, así que no se instaló nada. Reinicia Steam e inténtalo de nuevo. ({error})",
+		errorReinstallUnavailable: "El actualizador no pudo iniciarse. Instala a mano el zip de la rama release. ({error})"
+	},
+	installCheck: {
+		body: "La última actualización de {name} no terminó de copiar los archivos.",
+		problems: "Faltan {count} archivos o están dañados.",
+		safeMode: "{name} no puede iniciarse por completo hasta que se reinstale.",
+		reinstall: "Reinstalar {volume}",
+		downloading: "Descargando y comprobando el instalador…",
+		manual: "Instala a mano el zip de la rama release."
 	}
 };
 var fr = {
@@ -1550,7 +1592,17 @@ var fr = {
 		errorSave: "Impossible d'enregistrer la mise à jour sur le disque. Rien n'a été installé.",
 		errorBusy: "Une recherche de mises à jour est déjà en cours.",
 		errorDecky: "Decky n'a pas accepté l'installation : {error}",
-		errorUnknown: "La mise à jour a échoué : {error}"
+		errorUnknown: "La mise à jour a échoué : {error}",
+		errorHelpers: "Les programmes d'assistance d'Awesome Mix n'ont pas pu être arrêtés : rien n'a été installé. Redémarrez Steam et réessayez. ({error})",
+		errorReinstallUnavailable: "Le programme de mise à jour n'a pas pu démarrer. Installez à la main le zip de la branche release. ({error})"
+	},
+	installCheck: {
+		body: "La dernière mise à jour de {name} n'a pas fini de copier les fichiers.",
+		problems: "{count} fichiers sont manquants ou endommagés.",
+		safeMode: "{name} ne peut pas démarrer complètement tant qu'il n'est pas réinstallé.",
+		reinstall: "Réinstaller {volume}",
+		downloading: "Téléchargement et vérification du programme d'installation…",
+		manual: "Installez à la main le zip de la branche release."
 	}
 };
 var de = {
@@ -1832,7 +1884,17 @@ var de = {
 		errorSave: "Das Update konnte nicht gespeichert werden. Es wurde nichts installiert.",
 		errorBusy: "Es läuft bereits eine Suche nach Updates.",
 		errorDecky: "Decky hat die Installation nicht angenommen: {error}",
-		errorUnknown: "Das Update ist fehlgeschlagen: {error}"
+		errorUnknown: "Das Update ist fehlgeschlagen: {error}",
+		errorHelpers: "Die Hilfsprogramme von Awesome Mix ließen sich nicht beenden, daher wurde nichts installiert. Starte Steam neu und versuche es erneut. ({error})",
+		errorReinstallUnavailable: "Der Updater konnte nicht starten. Installiere das Zip aus dem release-Branch von Hand. ({error})"
+	},
+	installCheck: {
+		body: "Das letzte Update von {name} wurde nicht vollständig kopiert.",
+		problems: "{count} Dateien fehlen oder sind beschädigt.",
+		safeMode: "{name} kann erst nach einer Neuinstallation vollständig starten.",
+		reinstall: "{volume} neu installieren",
+		downloading: "Installationspaket wird heruntergeladen und geprüft…",
+		manual: "Installiere das Zip aus dem release-Branch von Hand."
 	}
 };
 var ru = {
@@ -2114,7 +2176,17 @@ var ru = {
 		errorSave: "Не удалось сохранить обновление на диск. Ничего не установлено.",
 		errorBusy: "Проверка обновлений уже выполняется.",
 		errorDecky: "Decky не принял установку: {error}",
-		errorUnknown: "Не удалось обновить: {error}"
+		errorUnknown: "Не удалось обновить: {error}",
+		errorHelpers: "Не удалось остановить вспомогательные программы Awesome Mix, поэтому ничего не установлено. Перезапустите Steam и попробуйте снова. ({error})",
+		errorReinstallUnavailable: "Не удалось запустить обновление. Установите zip из ветки release вручную. ({error})"
+	},
+	installCheck: {
+		body: "Последнее обновление {name} не докопировало файлы.",
+		problems: "Файлов отсутствует или повреждено: {count}.",
+		safeMode: "{name} не сможет полностью запуститься, пока его не переустановить.",
+		reinstall: "Переустановить {volume}",
+		downloading: "Загрузка и проверка установщика…",
+		manual: "Установите zip из ветки release вручную."
 	}
 };
 var ja = {
@@ -2396,7 +2468,17 @@ var ja = {
 		errorSave: "アップデートをディスクに保存できませんでした。何もインストールされていません。",
 		errorBusy: "アップデートの確認はすでに実行中です。",
 		errorDecky: "Decky がインストールを受け付けませんでした: {error}",
-		errorUnknown: "アップデートに失敗しました: {error}"
+		errorUnknown: "アップデートに失敗しました: {error}",
+		errorHelpers: "Awesome Mix の補助プログラムを停止できなかったため、何もインストールされていません。Steam を再起動してもう一度お試しください。({error})",
+		errorReinstallUnavailable: "アップデーターを起動できませんでした。release ブランチの zip を手動でインストールしてください。({error})"
+	},
+	installCheck: {
+		body: "{name} の前回のアップデートでファイルのコピーが完了しませんでした。",
+		problems: "{count} 個のファイルが見つからないか破損しています。",
+		safeMode: "再インストールするまで {name} は完全には起動できません。",
+		reinstall: "{volume} を再インストール",
+		downloading: "インストーラーをダウンロードして確認しています…",
+		manual: "release ブランチの zip を手動でインストールしてください。"
 	}
 };
 var ko = {
@@ -2678,7 +2760,17 @@ var ko = {
 		errorSave: "업데이트를 디스크에 저장할 수 없습니다. 아무것도 설치되지 않았습니다.",
 		errorBusy: "이미 업데이트를 확인하는 중입니다.",
 		errorDecky: "Decky가 설치를 받아들이지 않았습니다: {error}",
-		errorUnknown: "업데이트에 실패했습니다: {error}"
+		errorUnknown: "업데이트에 실패했습니다: {error}",
+		errorHelpers: "Awesome Mix 보조 프로그램을 중지할 수 없어 아무것도 설치되지 않았습니다. Steam을 다시 시작한 뒤 다시 시도하세요. ({error})",
+		errorReinstallUnavailable: "업데이터를 시작할 수 없습니다. release 브랜치의 zip을 직접 설치하세요. ({error})"
+	},
+	installCheck: {
+		body: "{name}의 마지막 업데이트에서 파일 복사가 끝나지 않았습니다.",
+		problems: "파일 {count}개가 없거나 손상되었습니다.",
+		safeMode: "다시 설치하기 전까지 {name}이(가) 완전히 시작되지 않습니다.",
+		reinstall: "{volume} 다시 설치",
+		downloading: "설치 파일을 다운로드하고 확인하는 중…",
+		manual: "release 브랜치의 zip을 직접 설치하세요."
 	}
 };
 var zh = {
@@ -2960,7 +3052,17 @@ var zh = {
 		errorSave: "无法将更新保存到磁盘。未安装任何内容。",
 		errorBusy: "已有一次更新检查正在进行。",
 		errorDecky: "Decky 未接受此次安装：{error}",
-		errorUnknown: "更新失败：{error}"
+		errorUnknown: "更新失败：{error}",
+		errorHelpers: "无法停止 Awesome Mix 的辅助程序，因此未安装任何内容。请重启 Steam 后重试。({error})",
+		errorReinstallUnavailable: "更新程序无法启动。请手动安装 release 分支中的 zip。({error})"
+	},
+	installCheck: {
+		body: "{name} 上次更新未完成文件复制。",
+		problems: "有 {count} 个文件缺失或损坏。",
+		safeMode: "重新安装之前，{name} 无法完全启动。",
+		reinstall: "重新安装 {volume}",
+		downloading: "正在下载并校验安装包…",
+		manual: "请手动安装 release 分支中的 zip。"
 	}
 };
 var catalogs = {
@@ -3248,7 +3350,17 @@ var catalogs = {
 		errorSave: "Não foi possível salvar a atualização no disco. Nada foi instalado.",
 		errorBusy: "Já há uma busca por atualizações em andamento.",
 		errorDecky: "O Decky não aceitou a instalação: {error}",
-		errorUnknown: "A atualização falhou: {error}"
+		errorUnknown: "A atualização falhou: {error}",
+		errorHelpers: "Não foi possível parar os programas auxiliares do Awesome Mix, então nada foi instalado. Reinicie o Steam e tente de novo. ({error})",
+		errorReinstallUnavailable: "O atualizador não pôde iniciar. Instale manualmente o zip do branch release. ({error})"
+	},
+	installCheck: {
+		body: "A última atualização do {name} não terminou de copiar os arquivos.",
+		problems: "{count} arquivos estão faltando ou danificados.",
+		safeMode: "O {name} não consegue iniciar por completo até ser reinstalado.",
+		reinstall: "Reinstalar {volume}",
+		downloading: "Baixando e verificando o instalador…",
+		manual: "Instale manualmente o zip do branch release."
 	}
 },
 	ru: ru,
@@ -5956,6 +6068,8 @@ const REASON_KEYS = {
     layout_invalid: "errorLayout",
     download_failed: "errorSave",
     busy: "errorBusy",
+    helpers_running: "errorHelpers",
+    reinstall_unavailable: "errorReinstallUnavailable",
 };
 function updateReasonKey(reason) {
     const key = String(reason ?? "");
@@ -5967,7 +6081,7 @@ function formatMegabytes(bytes) {
     return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
 }
 
-var version = "1.0.0";
+var version = "1.0.1";
 var packageInfo = {
 	version: version};
 
@@ -5983,11 +6097,27 @@ const PLUGIN_VERSION = packageInfo.version;
 const PLUGIN_VOLUME = volumeLabel(PLUGIN_VERSION);
 const PLUGIN_CREDITS = "Based on Now Playing by Andrea Sgarro (LoZazaMastro)";
 
+// Hands a verified installer to Decky Loader, shared by the update panel and the install check.
+//
+// Decky v3.3.1 on Windows stops the backend with TerminateProcess (our _unload
+// never runs), deletes the plugin folder and extracts the zip over it. A helper
+// program that is still running keeps its files open and stops either step
+// half-way, so the backend first stops every helper (prepare_for_plugin_install).
 /** Decky Loader's websocket router (window.DeckyBackend); not part of @decky/api. */
 function deckyRouter() {
     const router = globalThis.DeckyBackend;
     return typeof router?.call === "function" ? router : undefined;
 }
+async function handOffToDecky(router, prepared) {
+    const ready = await prepareForPluginInstall();
+    if (ready.ok === false)
+        return ready;
+    // The name must be plugin.json's ("Awesome Mix"): Decky finds the installed
+    // folder by it. Another name would install a second copy beside this one.
+    await router.call("utilities/install_plugin", prepared.artifact, PLUGIN_DISPLAY_NAME, prepared.version, prepared.sha256, DECKY_INSTALL_TYPE_UPDATE);
+    return { ok: true };
+}
+
 function UpdateSettingsPanel(props) {
     const t = getTranslations("update");
     const [check, setCheck] = SP_REACT.useState(null);
@@ -6031,9 +6161,11 @@ function UpdateSettingsPanel(props) {
                 setStatus({ text: failureText(prepared), error: true });
                 return;
             }
-            // The name must be plugin.json's ("Awesome Mix"): Decky finds the installed
-            // folder by it. Another name would install a second copy beside this one.
-            await router.call("utilities/install_plugin", prepared.artifact, PLUGIN_DISPLAY_NAME, prepared.version, prepared.sha256, DECKY_INSTALL_TYPE_UPDATE);
+            const handed = await handOffToDecky(router, prepared);
+            if (handed.ok === false) {
+                setStatus({ text: failureText(handed), error: true });
+                return;
+            }
             setStatus({ text: t.handedOff });
         }
         catch (error) {
@@ -6055,6 +6187,95 @@ function UpdateSettingsPanel(props) {
     const contentStyle = { width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "0 12px", boxSizing: "border-box", textAlign: "left", ...props.contentStyle };
     const noteStyle = { width: "100%", margin: "0 0 8px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35, whiteSpace: "pre-line" };
     return (SP_JSX.jsxs("div", { className: "npUpdateSettingsPanel", style: { width: "100%" }, children: [SP_JSX.jsx("div", { style: props.titleStyle, children: t.title }), SP_JSX.jsx("div", { style: noteStyle, children: formatTranslation(t.installed, { volume: PLUGIN_VOLUME, version: PLUGIN_VERSION }) }), offered && (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { ...noteStyle, color: "#fff" }, children: formatTranslation(t.available, { volume: offeredVolume, version: offered.version ?? "" }) }), offered.notes ? SP_JSX.jsx("div", { style: { ...noteStyle, maxHeight: 160, overflowY: "auto" }, children: offered.notes }) : null, SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: busy || !router, onClick: confirmInstall, children: SP_JSX.jsxs("span", { style: contentStyle, children: [SP_JSX.jsx(FaDownload, {}), SP_JSX.jsx("span", { children: formatTranslation(t.installButton, { volume: offeredVolume, size: offeredSize }) })] }) }), !router ? SP_JSX.jsx("div", { style: noteStyle, children: t.unsupportedLoader }) : null] })), SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: busy, onClick: () => void refresh(true), children: SP_JSX.jsxs("span", { style: contentStyle, children: [SP_JSX.jsx(FaSyncAlt, { className: busy ? "npRestartSpin" : undefined }), SP_JSX.jsx("span", { children: t.checkForUpdates })] }) }), status ? (SP_JSX.jsx("div", { role: "status", style: { ...noteStyle, color: status.error ? "#ffb4a8" : noteStyle.color }, children: status.text })) : null] }));
+}
+
+// Pure helpers for the install check banner (kept free of imports so tests can load it).
+/** Show the banner when files are missing/damaged or the backend runs in safe mode. */
+function shouldShowInstallBanner(check) {
+    return Boolean(check && (check.safeMode || check.status === "broken"));
+}
+/** Milliseconds until the next poll, or null once the background hash check has finished. */
+function installCheckPollDelay(check, polls) {
+    if (!check || polls >= 60)
+        return null;
+    return check.phase === "sizes" || check.phase === "hashing" ? 4000 : null;
+}
+
+function useInstallCheck() {
+    const [check, setCheck] = SP_REACT.useState(null);
+    SP_REACT.useEffect(() => {
+        let cancelled = false;
+        let timer;
+        let polls = 0;
+        const poll = async () => {
+            try {
+                const result = await getInstallCheck();
+                if (cancelled)
+                    return;
+                setCheck(result);
+                const delay = installCheckPollDelay(result, ++polls);
+                if (delay !== null)
+                    timer = setTimeout(() => void poll(), delay);
+            }
+            catch {
+                // A backend without the install check (or not running) shows the normal panel.
+            }
+        };
+        void poll();
+        return () => {
+            cancelled = true;
+            if (timer !== undefined)
+                clearTimeout(timer);
+        };
+    }, []);
+    return check;
+}
+function InstallCheckBanner(props) {
+    const t = getTranslations("installCheck");
+    const tu = getTranslations("update");
+    const [busy, setBusy] = SP_REACT.useState(false);
+    const [status, setStatus] = SP_REACT.useState(null);
+    const router = deckyRouter();
+    const volume = volumeLabel(props.check.version);
+    const failureText = (failure) => formatTranslation(String(tu[updateReasonKey(failure.reason)]), { error: failure.message });
+    async function reinstall() {
+        if (!router)
+            return;
+        setBusy(true);
+        setStatus({ text: t.downloading });
+        try {
+            const prepared = await preparePluginReinstall();
+            if (prepared.ok === false) {
+                setStatus({ text: failureText(prepared), error: true });
+                return;
+            }
+            const handed = await handOffToDecky(router, prepared);
+            if (handed.ok === false) {
+                setStatus({ text: failureText(handed), error: true });
+                return;
+            }
+            setStatus({ text: tu.handedOff });
+        }
+        catch (error) {
+            setStatus({ text: formatTranslation(tu.errorDecky, { error: error?.message ?? String(error) }), error: true });
+        }
+        finally {
+            setBusy(false);
+        }
+    }
+    const box = { width: "100%", padding: "10px 12px", boxSizing: "border-box", borderRadius: 6, background: "rgba(255,120,90,0.14)", border: "1px solid rgba(255,140,110,0.45)", color: "#fff" };
+    const note = { margin: "6px 0 0", fontSize: "0.85em", lineHeight: 1.35, color: "rgba(255,255,255,0.75)" };
+    const button = { width: "100%", minWidth: "100%", height: 46, minHeight: 46, marginTop: 10, padding: 0 };
+    const content = { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 };
+    return (SP_JSX.jsxs("div", { className: "npInstallCheckBanner", role: "alert", style: box, children: [SP_JSX.jsx("div", { style: { fontWeight: 600, lineHeight: 1.35 }, children: formatTranslation(t.body, { name: PLUGIN_DISPLAY_NAME }) }), props.check.problemCount > 0 ? SP_JSX.jsx("div", { style: note, children: formatTranslation(t.problems, { count: props.check.problemCount }) }) : null, props.check.safeMode ? SP_JSX.jsx("div", { style: note, children: formatTranslation(t.safeMode, { name: PLUGIN_DISPLAY_NAME }) }) : null, router ? (SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy, onClick: () => void reinstall(), children: SP_JSX.jsxs("span", { style: content, children: [SP_JSX.jsx(FaRedo, {}), SP_JSX.jsx("span", { children: formatTranslation(t.reinstall, { volume }) })] }) })) : (SP_JSX.jsx("div", { style: note, children: t.manual })), status ? SP_JSX.jsx("div", { role: "status", style: { ...note, color: status.error ? "#ffb4a8" : note.color }, children: status.text }) : null] }));
+}
+/** QAM content wrapper: the banner above the normal panel, or alone in safe mode. */
+function InstallCheckGate(props) {
+    const check = useInstallCheck();
+    const banner = check && shouldShowInstallBanner(check) ? (SP_JSX.jsx(DFL.PanelSection, { children: SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(InstallCheckBanner, { check: check }) }) })) : null;
+    if (check?.safeMode)
+        return banner;
+    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [banner, props.children] }));
 }
 
 // WebAudio discrete channel order: FL, FR, FC, LFE, SL, SR, BL, BR.
@@ -42268,7 +42489,7 @@ var index = definePlugin(() => {
     return {
         name: PLUGIN_DISPLAY_NAME,
         titleView: SP_JSX.jsx(NowPlayingTitle, {}),
-        content: SP_JSX.jsx(Content, {}),
+        content: (SP_JSX.jsx(InstallCheckGate, { children: SP_JSX.jsx(Content, {}) })),
         icon: SP_JSX.jsx(FaMusic, {}),
         onDismount() {
             fullscreenUiDisposed = true;

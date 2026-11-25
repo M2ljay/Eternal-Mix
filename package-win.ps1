@@ -53,9 +53,9 @@ $Python = Get-Command python -ErrorAction SilentlyContinue
 if (-not $Python) { $Python = Get-Command py -ErrorAction SilentlyContinue }
 if ($Python) {
   if ($Python.Name -eq "py.exe" -or $Python.Name -eq "py") {
-    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
+    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "mix_backend.py") (Join-Path $Root "mix_install_check.py") (Join-Path $Root "mix_process_guard.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
   } else {
-    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
+    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "mix_backend.py") (Join-Path $Root "mix_install_check.py") (Join-Path $Root "mix_process_guard.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
   }
   if ($LASTEXITCODE -ne 0) { throw "main.py failed Python syntax validation" }
 } else {
@@ -64,6 +64,9 @@ if ($Python) {
 
 Copy-Item (Join-Path $Root "plugin.json") $Stage
 Copy-Item (Join-Path $Root "main.py") $Stage
+Copy-Item (Join-Path $Root "mix_backend.py") $Stage
+Copy-Item (Join-Path $Root "mix_install_check.py") $Stage
+Copy-Item (Join-Path $Root "mix_process_guard.py") $Stage
 Copy-Item (Join-Path $Root "ytmusic_service.py") $Stage
 Copy-Item (Join-Path $Root "runtime_compat.py") $Stage
 Copy-Item (Join-Path $Root "legacy_migration.py") $Stage
@@ -90,6 +93,15 @@ foreach ($GeneratedDirectory in $InstallerGeneratedDirectories) {
     throw "Refusing to remove generated installer data outside the staging directory"
   }
   Remove-Item -LiteralPath $ResolvedGeneratedDirectory -Recurse -Force
+}
+
+# install-manifest.json lets the installed plugin notice a half-copied install.
+# Compress-Archive cannot order entries; scripts/package-release.py is the release path.
+if ($Python) {
+  & $Python.Source (Join-Path $Root "scripts/write-install-manifest.py") $Stage
+  if ($LASTEXITCODE -ne 0) { throw "install-manifest.json could not be written" }
+} else {
+  Write-Host "Python not found: installer has no install-manifest.json (install check reports 'unverified')"
 }
 
 if (Test-Path $Zip) { Remove-Item $Zip -Force }

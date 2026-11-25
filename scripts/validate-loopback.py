@@ -10,9 +10,11 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.modules.setdefault('decky_plugin',types.ModuleType('decky_plugin'))
-spec=importlib.util.spec_from_file_location('np_loopback_backend',ROOT/'main.py')
-backend=importlib.util.module_from_spec(spec)
-spec.loader.exec_module(backend)
+spec=importlib.util.spec_from_file_location('np_loopback_entry',ROOT/'main.py')
+entry=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(entry)
+assert entry.BACKEND_ERROR=='' and entry._backend is not None,entry.BACKEND_ERROR
+backend=entry._backend
 
 def test_idle_stream_stop():
     stream=backend.LocalMusicStreamServer(lambda _: '',lambda *_: '',lambda _: None)

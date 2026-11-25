@@ -13,6 +13,8 @@ const REASON_KEYS = {
   layout_invalid: "errorLayout",
   download_failed: "errorSave",
   busy: "errorBusy",
+  helpers_running: "errorHelpers",
+  reinstall_unavailable: "errorReinstallUnavailable",
 } as const;
 
 export type UpdateReasonKey = (typeof REASON_KEYS)[keyof typeof REASON_KEYS] | "errorUnknown";

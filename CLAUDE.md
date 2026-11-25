@@ -18,14 +18,27 @@ podcasts), Your Music (local files), Apple Music (Windows media session only).
 
 ## Traps
 
+- Decky loads `main.py`, a small stdlib-only entry: it runs the install check (`mix_install_check.py`) first, then
+  imports the backend (`mix_backend.py`, formerly main.py; merge upstream main.py changes into it). If the backend
+  cannot import or start, `main.py` serves `SafeModePlugin` (install check + reinstall only). `main.py`,
+  `mix_install_check.py` and `mix_process_guard.py` may import only stdlib modules in
+  `tests/decky_frozen_stdlib.txt` and nothing from the plugin (`tests/test_install_check.py` checks).
+- Decky v3.3.1 on Windows stops the backend with TerminateProcess: `_unload` does not run there. Helpers must be stopped
+  by `prepare_for_plugin_install` (called by `src/installHandoff.ts`) before any `utilities/install_plugin` call; never
+  call that route directly.
+- Release zips carry `install-manifest.json` (written by `scripts/package-release.py`, first entry; `bin/` last).
+  `mix_update.verify_installer_layout` refuses a zip without a matching manifest.
+- `tests/frozen_gate.py` hides every stdlib module not in `tests/decky_frozen_stdlib.txt` (`tests/test_frozen_runtime.py`,
+  `scripts/validate-frozen-runtime.py` mode `decky`). A module it reports goes into `runtime_stdlib/` +
+  `runtime_compat.py` + `PROVENANCE.json`.
 - The version is written only in `package.json` (and mirrored by `npm` in `package-lock.json`). Backend reads it in
   `mix_identity.py`, frontend in `src/version.ts`; shown as "Vol. N" (major). `tests/test_mix_identity.py` fails on
   a hardcoded copy. A release also needs `CHANGELOG_<version>.md` (package-release.py requires it).
 - Decky keys settings/data/logs by plugin **folder** name (`homebrew/settings/<folder>`), and the folder is the
   installer ZIP's top folder. Renaming `plugin.json` `name` moves the user's settings: extend
   `legacy_migration.py` (copy-only allow-list, marker file) instead.
-- New top-level Python modules must be added to `runtime_names` in `scripts/package-release.py` and to
-  `package-win.ps1`, or the installed plugin fails to import them.
+- New top-level Python modules must be added to `runtime_names` in `scripts/package-release.py`, to
+  `package-win.ps1` and to `check:python` in `package.json`, or the installed plugin fails to import them.
 - Decky's Windows Python lacks some stdlib modules; `runtime_compat.py` + `runtime_stdlib/` provide fallbacks.
   Import new stdlib modules only after checking `validate-frozen-runtime.py`.
 - localStorage keys keep the upstream `nowPlaying` prefix on purpose: podcast resume, speed, volumes and theme

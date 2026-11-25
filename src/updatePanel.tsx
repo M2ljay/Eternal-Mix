@@ -1,8 +1,8 @@
 // Settings section for the self-update channel (mix_update.py).
 //
 // The backend downloads the newest build and refuses it unless its size, SHA-256
-// and layout match update.json. The verified file is then handed to Decky
-// Loader's own installer (the `utilities/install_plugin` route its store uses):
+// and layout match update.json, stops its helper programs (installHandoff.ts),
+// and the verified file is then handed to Decky Loader's own installer (the route its store uses):
 // Decky asks once more, checks the SHA-256 again, replaces the "Awesome Mix"
 // folder and reloads the plugin. Settings live in homebrew/settings/Awesome Mix,
 // outside the plugin folder, and are kept.
@@ -11,17 +11,10 @@ import { CSSProperties, useEffect, useState } from "react";
 import { FaDownload, FaSyncAlt } from "react-icons/fa";
 import { formatTranslation, getTranslations } from "./i18n";
 import * as python from "./python";
-import { DECKY_INSTALL_TYPE_UPDATE, formatMegabytes, updateReasonKey } from "./updateText";
-import { PLUGIN_DISPLAY_NAME, PLUGIN_VERSION, PLUGIN_VOLUME } from "./version";
+import { deckyRouter, handOffToDecky } from "./installHandoff";
+import { formatMegabytes, updateReasonKey } from "./updateText";
+import { PLUGIN_VERSION, PLUGIN_VOLUME } from "./version";
 import { volumeLabel } from "./volume";
-
-type DeckyRouter = { call(route: string, ...args: unknown[]): Promise<unknown> };
-
-/** Decky Loader's websocket router (window.DeckyBackend); not part of @decky/api. */
-function deckyRouter(): DeckyRouter | undefined {
-  const router = (globalThis as unknown as { DeckyBackend?: DeckyRouter }).DeckyBackend;
-  return typeof router?.call === "function" ? router : undefined;
-}
 
 type Status = { text: string; error?: boolean };
 
@@ -70,9 +63,11 @@ export function UpdateSettingsPanel(props: {
         setStatus({ text: failureText(prepared), error: true });
         return;
       }
-      // The name must be plugin.json's ("Awesome Mix"): Decky finds the installed
-      // folder by it. Another name would install a second copy beside this one.
-      await router.call("utilities/install_plugin", prepared.artifact, PLUGIN_DISPLAY_NAME, prepared.version, prepared.sha256, DECKY_INSTALL_TYPE_UPDATE);
+      const handed = await handOffToDecky(router, prepared);
+      if (handed.ok === false) {
+        setStatus({ text: failureText(handed), error: true });
+        return;
+      }
       setStatus({ text: t.handedOff });
     } catch (error: any) {
       setStatus({ text: formatTranslation(t.errorDecky, { error: error?.message ?? String(error) }), error: true });

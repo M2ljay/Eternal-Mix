@@ -27,11 +27,15 @@ ROOT = Path(__file__).resolve().parents[1]
 # portable tests import the backend.
 sys.modules.setdefault("decky_plugin", types.ModuleType("decky_plugin"))
 
-spec = importlib.util.spec_from_file_location("now_playing_backend", ROOT / "main.py")
+spec = importlib.util.spec_from_file_location("now_playing_entry", ROOT / "main.py")
 if spec is None or spec.loader is None:
     raise RuntimeError("Unable to load main.py")
-backend = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(backend)
+entry = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(entry)
+# main.py falls back to safe mode when the backend cannot load; these tests need the real one.
+assert entry.BACKEND_ERROR == "" and entry._backend is not None, entry.BACKEND_ERROR
+assert issubclass(entry.Plugin, entry._backend.Plugin)
+backend = entry._backend
 
 sys.path.insert(0, str(ROOT / "vendor"))
 from ytmusic_service import YouTubeMusicService
@@ -118,7 +122,7 @@ def test_only_supported_sources_remain() -> None:
         plugin.source_behavior_settings_path = os.path.join(directory, "source-behavior.json")
         Path(plugin.source_behavior_settings_path).write_text(json.dumps({"active_service": "spotify"}), encoding="utf-8")
         assert plugin._load_source_behavior_settings()["active_service"] == "localMusic"
-    backend_source = (ROOT / "main.py").read_text(encoding="utf-8").lower()
+    backend_source = (ROOT / "mix_backend.py").read_text(encoding="utf-8").lower()
     for word in ("spotify", "tidal", "deezer", "soundcloud", "amazon"):
         assert word not in backend_source, word
 
@@ -209,7 +213,7 @@ def test_fanart_preview_url_and_no_external_curl() -> None:
     assert preview in variants
     assert any("static.fanart.tv" in value for value in variants)
     assert any("/fanart/" in value for value in variants)
-    backend_source = (ROOT / "main.py").read_text(encoding="utf-8")
+    backend_source = (ROOT / "mix_backend.py").read_text(encoding="utf-8")
     assert 'shutil.which("curl' not in backend_source
     assert 'curl.exe"' not in backend_source
     assert "_download_remote_image_bytes_winhttp" in backend_source
@@ -217,7 +221,7 @@ def test_fanart_preview_url_and_no_external_curl() -> None:
 
 
 def test_helper_recovery_architecture() -> None:
-    backend_source = (ROOT / "main.py").read_text(encoding="utf-8")
+    backend_source = (ROOT / "mix_backend.py").read_text(encoding="utf-8")
     assert "self.port = 0" in backend_source
     assert "NowPlaying-MediaBridge-state.json" in backend_source
     assert "_snapshot_refresh_lock" in backend_source
@@ -326,12 +330,20 @@ def test_self_update_offline() -> None:
     import zipfile
 
     update = backend.mix_update
+    import mix_install_check
+
+    files = {
+        "plugin.json": json.dumps({"name": "Awesome Mix"}).encode(),
+        "package.json": json.dumps({"version": "99.0.0"}).encode(),
+        "main.py": b"",
+        "dist/index.js": b"",
+    }
+    install_manifest = mix_install_check.build_manifest("Awesome Mix", "99.0.0", files.items())
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
-        archive.writestr("Awesome Mix/plugin.json", json.dumps({"name": "Awesome Mix"}))
-        archive.writestr("Awesome Mix/package.json", json.dumps({"version": "99.0.0"}))
-        archive.writestr("Awesome Mix/main.py", "")
-        archive.writestr("Awesome Mix/dist/index.js", "")
+        archive.writestr("Awesome Mix/" + mix_install_check.MANIFEST_NAME, mix_install_check.encode_manifest(install_manifest))
+        for rel, body in files.items():
+            archive.writestr("Awesome Mix/" + rel, body)
     data = buffer.getvalue()
     manifest = {"version": "99.0.0", "sha256": hashlib.sha256(data).hexdigest(), "size": len(data),
                 "notes": "", "url": update.ARTIFACT_URL}
@@ -351,6 +363,8 @@ def test_self_update_offline() -> None:
     update.HttpTransport(backend.mix_identity.USER_AGENT, update.default_cafile(str(ROOT)))
     for name in ("check_plugin_update", "prepare_plugin_update"):
         assert callable(getattr(backend.Plugin, name)), name
+    for name in ("get_install_check", "prepare_plugin_reinstall", "prepare_for_plugin_install"):
+        assert callable(getattr(entry.Plugin, name)), name
 
 
 def main() -> None:

@@ -7,14 +7,14 @@ import types
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-tree = ast.parse((ROOT / 'main.py').read_text(encoding='utf-8'))
+tree = ast.parse((ROOT / 'mix_backend.py').read_text(encoding='utf-8'))
 plugin = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == 'Plugin')
 methods = {'_refresh_topbar_once', '_topbar_loop', 'set_topbar_enabled', 'set_topbar_left'}
 selected = [node for node in plugin.body if isinstance(node, ast.AsyncFunctionDef) and node.name in methods]
 constants = [node for node in tree.body if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id.startswith('TOPBAR_') and target.id.endswith('_SECONDS') for target in node.targets)]
 clock = types.SimpleNamespace(value=0.0)
 environment = {'asyncio': asyncio, 'json': json, 'time': types.SimpleNamespace(monotonic=lambda: clock.value)}
-exec(compile(ast.fix_missing_locations(ast.Module(body=constants + [ast.ClassDef(name='Harness', bases=[], keywords=[], body=selected, decorator_list=[])], type_ignores=[])), str(ROOT / 'main.py'), 'exec'), environment)
+exec(compile(ast.fix_missing_locations(ast.Module(body=constants + [ast.ClassDef(name='Harness', bases=[], keywords=[], body=selected, decorator_list=[])], type_ignores=[])), str(ROOT / 'mix_backend.py'), 'exec'), environment)
 
 class TopbarIdleTests(unittest.IsolatedAsyncioTestCase):
     def make_plugin(self, enabled=True):

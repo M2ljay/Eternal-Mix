@@ -17,6 +17,13 @@ becomes the plugin folder, and Decky keys the settings folder by that name
 (homebrew/settings/<folder>). The layout check therefore insists on the top
 folder ``Awesome Mix``: an update can never move the user's settings.
 
+Every release zip also carries ``install-manifest.json`` (mix_install_check):
+the layout check refuses a zip whose files do not match their own manifest, and
+the installed plugin re-checks its folder against it at startup.
+
+``prepare(reinstall=True)`` also accepts the version that is already installed:
+the install check offers it when the last install did not finish copying.
+
 Only stdlib modules that Decky Loader's frozen Windows interpreter bundles for
 its own use are imported here (hashlib, json, os, re, ssl, urllib, zipfile).
 """
@@ -35,6 +42,7 @@ import zipfile
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import mix_identity
+import mix_install_check
 
 RELEASE_REPO = "M2ljay/Eternal-Mix"
 RELEASE_BRANCH = "release"
@@ -64,6 +72,10 @@ HASH_MISMATCH = "hash_mismatch"
 LAYOUT_INVALID = "layout_invalid"
 DOWNLOAD_FAILED = "download_failed"
 BUSY = "busy"
+# Sent by main.py: a helper still holds files in the plugin folder, or (safe
+# mode) this module itself could not be imported.
+HELPERS_RUNNING = "helpers_running"
+REINSTALL_UNAVAILABLE = "reinstall_unavailable"
 
 
 class UpdateError(Exception):
@@ -76,7 +88,7 @@ class UpdateError(Exception):
 
 
 def parse_version(text: object) -> Optional[Tuple[int, int, int]]:
-    """``"1.0.1"`` -> ``(1, 0, 1)``. Any other shape (pre-release, garbage) is None."""
+    """``"1.2.3"`` -> ``(1, 2, 3)``. Any other shape (pre-release, garbage) is None."""
     if not isinstance(text, str):
         return None
     match = _VERSION_RE.match(text.strip())
@@ -152,7 +164,8 @@ def verify_installer_layout(path: str, version: str) -> None:
 
     Every entry must sit under the one top folder ``Awesome Mix/`` (no absolute
     or ``..`` paths), and that folder's plugin.json must be named ``Awesome Mix``
-    and its package.json must carry ``version``.
+    and its package.json must carry ``version``. Its install-manifest.json must
+    list exactly the zip's other files, with matching sizes and SHA-256 hashes.
     """
     def bad(message: str) -> UpdateError:
         return UpdateError(LAYOUT_INVALID, f"The update is not a valid {PLUGIN_FOLDER} installer: {message}")
@@ -172,6 +185,7 @@ def verify_installer_layout(path: str, version: str) -> None:
                     raise bad(f"{required} is missing")
             plugin = json.loads(archive.read(prefix + "plugin.json").decode("utf-8"))
             package = json.loads(archive.read(prefix + "package.json").decode("utf-8"))
+            _verify_zip_manifest(archive, prefix, version, bad)
     except UpdateError:
         raise
     except (zipfile.BadZipFile, OSError, ValueError, KeyError) as exc:
@@ -180,6 +194,35 @@ def verify_installer_layout(path: str, version: str) -> None:
         raise bad(f"plugin.json is not named {PLUGIN_FOLDER!r}")
     if not isinstance(package, dict) or package.get("version") != version:
         raise bad(f"package.json is not version {version}")
+
+
+def _verify_zip_manifest(archive: zipfile.ZipFile, prefix: str, version: str, bad) -> None:
+    manifest_entry = prefix + mix_install_check.MANIFEST_NAME
+    if manifest_entry not in archive.namelist():
+        raise bad(f"{mix_install_check.MANIFEST_NAME} is missing")
+    try:
+        manifest = mix_install_check.decode_manifest(archive.read(manifest_entry))
+    except mix_install_check.ManifestError as exc:
+        raise bad(f"{mix_install_check.MANIFEST_NAME} is invalid: {exc}") from exc
+    if manifest["version"] != version:
+        raise bad(f"{mix_install_check.MANIFEST_NAME} is not version {version}")
+    files = {info.filename[len(prefix):]: info for info in archive.infolist()
+             if not info.is_dir() and info.filename != manifest_entry}
+    listed = {entry["path"]: entry for entry in manifest["files"]}
+    if set(files) != set(listed):
+        extra = sorted(set(files) - set(listed))[:3]
+        missing = sorted(set(listed) - set(files))[:3]
+        raise bad(f"{mix_install_check.MANIFEST_NAME} does not match the zip (unlisted {extra}, absent {missing})")
+    for rel, entry in listed.items():
+        info = files[rel]
+        if info.file_size != entry["size"]:
+            raise bad(f"{rel} has the wrong size")
+        digest = hashlib.sha256()
+        with archive.open(info) as handle:
+            for chunk in iter(lambda: handle.read(_CHUNK), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != entry["sha256"]:
+            raise bad(f"{rel} does not match its SHA-256")
 
 
 def file_artifact(path: str) -> str:
@@ -283,19 +326,22 @@ class UpdateChannel:
         finally:
             self._lock.release()
 
-    def prepare(self) -> Dict[str, Any]:
+    def prepare(self, reinstall: bool = False) -> Dict[str, Any]:
         """Download and verify the newest build.
 
         ``{ok: True, version, artifact, sha256, size}`` where ``artifact`` is the
         ``file://`` path Decky's installer reads, or a failure. Nothing is handed
-        on unless size, SHA-256 and layout all match.
+        on unless size, SHA-256 and layout all match. With ``reinstall`` the
+        published version may equal the installed one (never be older).
         """
         if not self._lock.acquire(blocking=False):
             return self._failure(UpdateError(BUSY, "An update check or download is already running."))
         try:
             self._load_state()
             manifest = self._refresh(self._clock())
-            if not is_newer(self.current, manifest["version"]):
+            current = parse_version(self.current)
+            same = current is not None and parse_version(manifest["version"]) == current
+            if not (is_newer(self.current, manifest["version"]) or (reinstall and same)):
                 raise UpdateError(UP_TO_DATE, f"{self.current} is already the newest version.")
             download_dir = os.path.join(self.staging_dir, "download")
             os.makedirs(download_dir, exist_ok=True)

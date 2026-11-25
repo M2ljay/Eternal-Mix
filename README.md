@@ -118,15 +118,28 @@ with its notes and size, and everything works with the controller.
 
 Installing asks for confirmation, then:
 
-1. The plugin downloads the installer and checks it against the published size and SHA-256, and checks that it installs
-   into the `Awesome Mix` folder. If anything differs, nothing is installed and you are told why; if the update was
+1. The plugin downloads the installer and checks it against the published size and SHA-256, checks that it installs
+   into the `Awesome Mix` folder, and checks every file inside it against the file list it carries
+   (`install-manifest.json`). If anything differs, nothing is installed and you are told why; if the update was
    published moments ago, try again in a few minutes.
-2. Decky shows its own *update* prompt. Confirm it and Decky replaces the plugin folder and reloads Awesome Mix. Cancel
+2. The plugin stops its helper programs (MediaBridge and any other program running from the plugin folder or its
+   temp copies, never anything else) so Windows can replace every file. If one cannot be stopped, nothing is
+   installed and you are told which; restart Steam and try again.
+3. Decky shows its own *update* prompt. Confirm it and Decky replaces the plugin folder and reloads Awesome Mix. Cancel
    it and nothing changes.
 
 Your settings (YouTube Music sign-in, music library, artist backgrounds, fanart.tv key) live in
 `homebrew/settings/Awesome Mix`, outside the plugin folder, and are kept. If your Decky Loader cannot install plugins
 from a plugin, the install button is greyed out; install the ZIP from the `release` branch by hand instead.
+
+### Install check
+
+On Windows, Decky replaces a plugin by deleting its folder and unpacking the new ZIP. A file that is still in use can
+stop either step half-way, leaving some files new and others old or missing. At every start Awesome Mix compares its
+folder with `install-manifest.json` (sizes at once, SHA-256 hashes in the background) and logs any difference. If the
+last update did not finish copying, the panel says so and offers **Reinstall Vol. N**, which downloads the current
+version from the `release` branch and hands it to Decky as above. This works even when the damaged files keep the rest
+of the plugin from starting (the panel then shows only this message).
 
 ## Troubleshooting
 
@@ -134,7 +147,8 @@ from a plugin, the install button is greyed out; install the ZIP from the `relea
 - The first track of a new YouTube Music context may take a few seconds; subsequent tracks are prepared in advance.
 - Upmixing is only audible as multi-channel if Windows and the playback device natively expose 5.1 or 7.1 channels.
 - **Restart plugin services** remains available as a diagnostic tool.
-- The plugin log is `homebrew/logs/Awesome Mix/NowPlaying.log` (the file keeps its upstream name).
+- The plugin log is `homebrew/logs/Awesome Mix/NowPlaying.log` (the file keeps its upstream name). Install check
+  results are logged there as `install check: ...`.
 
 ## Development
 
@@ -142,7 +156,7 @@ from a plugin, the install button is greyed out; install the ZIP from the `relea
 npm ci
 npm run build          # translations check, strict type check, rollup -> dist/index.js
 npm test               # node + python unit tests
-npm run check:python   # py_compile + frozen-runtime regression suite
+npm run check:python   # py_compile + frozen-runtime regression suite (incl. Decky v3.3.1's exact stdlib)
 npm run check:steam    # source/bundle parity + Steam UI fixtures
 python scripts/package-release.py --output-dir release   # Decky installer ZIP + project ZIP
 ```

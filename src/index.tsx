@@ -8,6 +8,7 @@ import { SiApplemusic, SiYoutubemusic } from "react-icons/si";
 import * as python from "./python";
 import type { PlayerSnapshot, Snapshot, SourceBehaviorSettings } from "./python";
 import { FanartSettingsPanel, LocalMusicBigPicture, LocalMusicBrowser, LocalMusicSettingsPanel } from "./localMusic";
+import { UpdateSettingsPanel } from "./updatePanel";
 import { SurroundUpmixControls } from "./surroundControls";
 import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
@@ -2578,6 +2579,10 @@ function FullscreenSettingsRoute() {
               <div style={{ margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }}>{t.diagnosticLogDescription}</div>
               <DialogButton style={optionButton} disabled={exportingDiagnostics} onClick={() => void exportDiagnostics()}><span style={optionContent}><FaFileAlt /> {t.exportDiagnosticLog}</span></DialogButton>
             </section>
+
+            <section className="npSettingsCard" style={card}>
+              <UpdateSettingsPanel titleStyle={heading} buttonStyle={optionButton} contentStyle={optionContent} />
+            </section>
           </Focusable>
 
           <Focusable className="npSettingsColumn" flow-children="vertical">
@@ -2879,6 +2884,12 @@ function SettingsView(props: {
             <DialogButton style={wideButtonStyle} disabled={exportingDiagnostics} onClick={() => void exportDiagnostics()}>
               <span style={settingsButtonContentStyle}><FaFileAlt /><span>{t.exportDiagnosticLog}</span></span>
             </DialogButton>
+            <div style={{ height: "12px" }} />
+            <UpdateSettingsPanel
+              titleStyle={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}
+              buttonStyle={{ ...wideButtonStyle, marginBottom: "6px" }}
+              contentStyle={settingsButtonContentStyle}
+            />
             <div style={{ width: "100%", margin: "14px 0 0", color: "rgba(255,255,255,0.52)", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }}>
               {PLUGIN_DISPLAY_NAME} · {PLUGIN_VOLUME}<br />{PLUGIN_CREDITS}
             </div>

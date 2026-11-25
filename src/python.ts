@@ -569,3 +569,34 @@ export function setLocalMusicVolume(volume: number): Promise<LocalMusicResult> {
 export function openLocalMusic(): Promise<string> {
   return call<[], string>("open_local_music");
 }
+
+export type PluginUpdateFailure = {
+  ok: false;
+  reason: string;
+  message: string;
+  current: string;
+};
+
+export type PluginUpdateCheck =
+  | {
+      ok: true;
+      current: string;
+      updateAvailable: boolean;
+      checkedAt: number | null;
+      version?: string;
+      notes?: string;
+      size?: number;
+    }
+  | PluginUpdateFailure;
+
+export type PreparedPluginUpdate =
+  | { ok: true; current: string; version: string; artifact: string; sha256: string; size: number }
+  | PluginUpdateFailure;
+
+export function checkPluginUpdate(force = false): Promise<PluginUpdateCheck> {
+  return call<[force: boolean], PluginUpdateCheck>("check_plugin_update", force);
+}
+
+export function preparePluginUpdate(): Promise<PreparedPluginUpdate> {
+  return call<[], PreparedPluginUpdate>("prepare_plugin_update");
+}

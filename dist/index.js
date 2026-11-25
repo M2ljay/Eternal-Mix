@@ -411,6 +411,12 @@ function getLocalMusicStreamBase() {
 function openLocalMusic() {
     return call("open_local_music");
 }
+function checkPluginUpdate(force = false) {
+    return call("check_plugin_update", force);
+}
+function preparePluginUpdate() {
+    return call("prepare_plugin_update");
+}
 
 // Shared repeat glyph so the QAM and every Big Picture render an identical
 // icon for repeat off / all / one. "off" and "all" use the plain redo arrow;
@@ -674,6 +680,31 @@ var en = {
 		played: "Played",
 		minutesLeft: "{count} min left",
 		inProgress: "In progress"
+	},
+	update: {
+		title: "Updates",
+		installed: "Installed: {volume} ({version})",
+		available: "{volume} ({version}) is available.",
+		installButton: "Install {volume} · {size} MB",
+		checkForUpdates: "Check for updates",
+		checking: "Checking for updates…",
+		upToDate: "You have the newest version.",
+		downloading: "Downloading and checking the update…",
+		handedOff: "Decky will ask you to confirm, then reload Awesome Mix.",
+		confirmTitle: "Install the update?",
+		confirmBody: "Awesome Mix will download {volume} ({version}, {size} MB), check it, and hand it to Decky. Decky asks once more, then replaces the plugin and reloads it. Your settings are kept.",
+		confirmInstall: "Download and install",
+		cancel: "Cancel",
+		unsupportedLoader: "This Decky Loader cannot install plugins from here. Install the zip from the release branch by hand.",
+		errorNetwork: "Could not reach GitHub. Check the internet connection and try again.",
+		errorManifest: "The published update information is broken. Nothing was installed.",
+		errorSize: "The download has the wrong size. Nothing was installed. If the update was just published, try again in a few minutes.",
+		errorHash: "The download failed its integrity check. Nothing was installed. If the update was just published, try again in a few minutes.",
+		errorLayout: "The download is not a valid Awesome Mix installer. Nothing was installed.",
+		errorSave: "The update could not be saved to disk. Nothing was installed.",
+		errorBusy: "An update check is already running.",
+		errorDecky: "Decky did not accept the install: {error}",
+		errorUnknown: "The update failed: {error}"
 	}
 };
 var it = {
@@ -931,6 +962,31 @@ var it = {
 		played: "Ascoltato",
 		minutesLeft: "{count} min rimanenti",
 		inProgress: "In corso"
+	},
+	update: {
+		title: "Aggiornamenti",
+		installed: "Installato: {volume} ({version})",
+		available: "È disponibile {volume} ({version}).",
+		installButton: "Installa {volume} · {size} MB",
+		checkForUpdates: "Cerca aggiornamenti",
+		checking: "Ricerca aggiornamenti…",
+		upToDate: "Hai già la versione più recente.",
+		downloading: "Download e verifica dell'aggiornamento…",
+		handedOff: "Decky chiederà conferma, poi ricaricherà Awesome Mix.",
+		confirmTitle: "Installare l'aggiornamento?",
+		confirmBody: "Awesome Mix scaricherà {volume} ({version}, {size} MB), lo verificherà e lo passerà a Decky. Decky chiede conferma ancora una volta, poi sostituisce il plugin e lo ricarica. Le tue impostazioni vengono mantenute.",
+		confirmInstall: "Scarica e installa",
+		cancel: "Annulla",
+		unsupportedLoader: "Questo Decky Loader non può installare plugin da qui. Installa a mano lo zip dal branch release.",
+		errorNetwork: "Impossibile raggiungere GitHub. Controlla la connessione a Internet e riprova.",
+		errorManifest: "Le informazioni dell'aggiornamento pubblicato sono danneggiate. Non è stato installato nulla.",
+		errorSize: "Il download ha una dimensione errata. Non è stato installato nulla. Se l'aggiornamento è appena stato pubblicato, riprova tra qualche minuto.",
+		errorHash: "Il download non ha superato il controllo di integrità. Non è stato installato nulla. Se l'aggiornamento è appena stato pubblicato, riprova tra qualche minuto.",
+		errorLayout: "Il download non è un installer valido di Awesome Mix. Non è stato installato nulla.",
+		errorSave: "Impossibile salvare l'aggiornamento su disco. Non è stato installato nulla.",
+		errorBusy: "È già in corso una ricerca di aggiornamenti.",
+		errorDecky: "Decky non ha accettato l'installazione: {error}",
+		errorUnknown: "Aggiornamento non riuscito: {error}"
 	}
 };
 var es = {
@@ -1188,6 +1244,31 @@ var es = {
 		played: "Escuchado",
 		minutesLeft: "Quedan {count} min",
 		inProgress: "En curso"
+	},
+	update: {
+		title: "Actualizaciones",
+		installed: "Instalado: {volume} ({version})",
+		available: "{volume} ({version}) está disponible.",
+		installButton: "Instalar {volume} · {size} MB",
+		checkForUpdates: "Buscar actualizaciones",
+		checking: "Buscando actualizaciones…",
+		upToDate: "Ya tienes la versión más reciente.",
+		downloading: "Descargando y comprobando la actualización…",
+		handedOff: "Decky te pedirá confirmación y luego recargará Awesome Mix.",
+		confirmTitle: "¿Instalar la actualización?",
+		confirmBody: "Awesome Mix descargará {volume} ({version}, {size} MB), lo comprobará y se lo pasará a Decky. Decky pregunta una vez más, luego reemplaza el plugin y lo recarga. Tus ajustes se conservan.",
+		confirmInstall: "Descargar e instalar",
+		cancel: "Cancelar",
+		unsupportedLoader: "Este Decky Loader no puede instalar plugins desde aquí. Instala a mano el zip de la rama release.",
+		errorNetwork: "No se pudo conectar con GitHub. Comprueba la conexión a Internet e inténtalo de nuevo.",
+		errorManifest: "La información de la actualización publicada está dañada. No se instaló nada.",
+		errorSize: "La descarga tiene un tamaño incorrecto. No se instaló nada. Si la actualización se acaba de publicar, inténtalo de nuevo en unos minutos.",
+		errorHash: "La descarga no superó la comprobación de integridad. No se instaló nada. Si la actualización se acaba de publicar, inténtalo de nuevo en unos minutos.",
+		errorLayout: "La descarga no es un instalador válido de Awesome Mix. No se instaló nada.",
+		errorSave: "No se pudo guardar la actualización en el disco. No se instaló nada.",
+		errorBusy: "Ya hay una búsqueda de actualizaciones en curso.",
+		errorDecky: "Decky no aceptó la instalación: {error}",
+		errorUnknown: "La actualización falló: {error}"
 	}
 };
 var fr = {
@@ -1445,6 +1526,31 @@ var fr = {
 		played: "Écouté",
 		minutesLeft: "{count} min restantes",
 		inProgress: "En cours"
+	},
+	update: {
+		title: "Mises à jour",
+		installed: "Installé : {volume} ({version})",
+		available: "{volume} ({version}) est disponible.",
+		installButton: "Installer {volume} · {size} Mo",
+		checkForUpdates: "Rechercher des mises à jour",
+		checking: "Recherche de mises à jour…",
+		upToDate: "Vous avez déjà la version la plus récente.",
+		downloading: "Téléchargement et vérification de la mise à jour…",
+		handedOff: "Decky va demander confirmation, puis recharger Awesome Mix.",
+		confirmTitle: "Installer la mise à jour ?",
+		confirmBody: "Awesome Mix va télécharger {volume} ({version}, {size} Mo), le vérifier et le transmettre à Decky. Decky demande une dernière confirmation, puis remplace le plugin et le recharge. Vos réglages sont conservés.",
+		confirmInstall: "Télécharger et installer",
+		cancel: "Annuler",
+		unsupportedLoader: "Ce Decky Loader ne peut pas installer de plugins d'ici. Installez manuellement le zip de la branche release.",
+		errorNetwork: "Impossible de joindre GitHub. Vérifiez la connexion Internet et réessayez.",
+		errorManifest: "Les informations de la mise à jour publiée sont endommagées. Rien n'a été installé.",
+		errorSize: "Le téléchargement n'a pas la bonne taille. Rien n'a été installé. Si la mise à jour vient d'être publiée, réessayez dans quelques minutes.",
+		errorHash: "Le téléchargement a échoué au contrôle d'intégrité. Rien n'a été installé. Si la mise à jour vient d'être publiée, réessayez dans quelques minutes.",
+		errorLayout: "Le téléchargement n'est pas un installateur Awesome Mix valide. Rien n'a été installé.",
+		errorSave: "Impossible d'enregistrer la mise à jour sur le disque. Rien n'a été installé.",
+		errorBusy: "Une recherche de mises à jour est déjà en cours.",
+		errorDecky: "Decky n'a pas accepté l'installation : {error}",
+		errorUnknown: "La mise à jour a échoué : {error}"
 	}
 };
 var de = {
@@ -1702,6 +1808,31 @@ var de = {
 		played: "Gehört",
 		minutesLeft: "Noch {count} Min.",
 		inProgress: "Begonnen"
+	},
+	update: {
+		title: "Updates",
+		installed: "Installiert: {volume} ({version})",
+		available: "{volume} ({version}) ist verfügbar.",
+		installButton: "{volume} installieren · {size} MB",
+		checkForUpdates: "Nach Updates suchen",
+		checking: "Suche nach Updates…",
+		upToDate: "Du hast bereits die neueste Version.",
+		downloading: "Update wird heruntergeladen und geprüft…",
+		handedOff: "Decky fragt nach einer Bestätigung und lädt Awesome Mix dann neu.",
+		confirmTitle: "Update installieren?",
+		confirmBody: "Awesome Mix lädt {volume} ({version}, {size} MB) herunter, prüft es und übergibt es an Decky. Decky fragt noch einmal nach, ersetzt dann das Plugin und lädt es neu. Deine Einstellungen bleiben erhalten.",
+		confirmInstall: "Herunterladen und installieren",
+		cancel: "Abbrechen",
+		unsupportedLoader: "Dieser Decky Loader kann von hier aus keine Plugins installieren. Installiere das ZIP aus dem release-Branch von Hand.",
+		errorNetwork: "GitHub ist nicht erreichbar. Prüfe die Internetverbindung und versuche es erneut.",
+		errorManifest: "Die veröffentlichten Update-Informationen sind beschädigt. Es wurde nichts installiert.",
+		errorSize: "Der Download hat die falsche Größe. Es wurde nichts installiert. Wenn das Update gerade erst veröffentlicht wurde, versuche es in ein paar Minuten erneut.",
+		errorHash: "Der Download hat die Integritätsprüfung nicht bestanden. Es wurde nichts installiert. Wenn das Update gerade erst veröffentlicht wurde, versuche es in ein paar Minuten erneut.",
+		errorLayout: "Der Download ist kein gültiger Awesome-Mix-Installer. Es wurde nichts installiert.",
+		errorSave: "Das Update konnte nicht gespeichert werden. Es wurde nichts installiert.",
+		errorBusy: "Es läuft bereits eine Suche nach Updates.",
+		errorDecky: "Decky hat die Installation nicht angenommen: {error}",
+		errorUnknown: "Das Update ist fehlgeschlagen: {error}"
 	}
 };
 var ru = {
@@ -1959,6 +2090,31 @@ var ru = {
 		played: "Прослушано",
 		minutesLeft: "Осталось {count} мин",
 		inProgress: "Начато"
+	},
+	update: {
+		title: "Обновления",
+		installed: "Установлено: {volume} ({version})",
+		available: "Доступно {volume} ({version}).",
+		installButton: "Установить {volume} · {size} МБ",
+		checkForUpdates: "Проверить обновления",
+		checking: "Проверка обновлений…",
+		upToDate: "У вас самая новая версия.",
+		downloading: "Загрузка и проверка обновления…",
+		handedOff: "Decky попросит подтверждение, затем перезагрузит Awesome Mix.",
+		confirmTitle: "Установить обновление?",
+		confirmBody: "Awesome Mix загрузит {volume} ({version}, {size} МБ), проверит его и передаст Decky. Decky спросит ещё раз, затем заменит плагин и перезагрузит его. Ваши настройки сохранятся.",
+		confirmInstall: "Загрузить и установить",
+		cancel: "Отмена",
+		unsupportedLoader: "Этот Decky Loader не может устанавливать плагины отсюда. Установите zip из ветки release вручную.",
+		errorNetwork: "Не удалось подключиться к GitHub. Проверьте подключение к интернету и попробуйте снова.",
+		errorManifest: "Опубликованные сведения об обновлении повреждены. Ничего не установлено.",
+		errorSize: "Загруженный файл имеет неверный размер. Ничего не установлено. Если обновление только что опубликовано, повторите через несколько минут.",
+		errorHash: "Загруженный файл не прошёл проверку целостности. Ничего не установлено. Если обновление только что опубликовано, повторите через несколько минут.",
+		errorLayout: "Загруженный файл не является установщиком Awesome Mix. Ничего не установлено.",
+		errorSave: "Не удалось сохранить обновление на диск. Ничего не установлено.",
+		errorBusy: "Проверка обновлений уже выполняется.",
+		errorDecky: "Decky не принял установку: {error}",
+		errorUnknown: "Не удалось обновить: {error}"
 	}
 };
 var ja = {
@@ -2216,6 +2372,31 @@ var ja = {
 		played: "再生済み",
 		minutesLeft: "残り {count} 分",
 		inProgress: "再生途中"
+	},
+	update: {
+		title: "アップデート",
+		installed: "インストール済み: {volume} ({version})",
+		available: "{volume} ({version}) が利用可能です。",
+		installButton: "{volume} をインストール · {size} MB",
+		checkForUpdates: "アップデートを確認",
+		checking: "アップデートを確認しています…",
+		upToDate: "最新バージョンです。",
+		downloading: "アップデートをダウンロードして確認しています…",
+		handedOff: "Decky が確認を求めた後、Awesome Mix を再読み込みします。",
+		confirmTitle: "アップデートをインストールしますか？",
+		confirmBody: "Awesome Mix は {volume} ({version}、{size} MB) をダウンロードして確認し、Decky に渡します。Decky がもう一度確認した後、プラグインを置き換えて再読み込みします。設定はそのまま保持されます。",
+		confirmInstall: "ダウンロードしてインストール",
+		cancel: "キャンセル",
+		unsupportedLoader: "この Decky Loader はここからプラグインをインストールできません。release ブランチの zip を手動でインストールしてください。",
+		errorNetwork: "GitHub に接続できません。インターネット接続を確認して、もう一度お試しください。",
+		errorManifest: "公開されているアップデート情報が壊れています。何もインストールされていません。",
+		errorSize: "ダウンロードのサイズが正しくありません。何もインストールされていません。公開直後の場合は、数分後にもう一度お試しください。",
+		errorHash: "ダウンロードが整合性チェックに失敗しました。何もインストールされていません。公開直後の場合は、数分後にもう一度お試しください。",
+		errorLayout: "ダウンロードは有効な Awesome Mix のインストーラーではありません。何もインストールされていません。",
+		errorSave: "アップデートをディスクに保存できませんでした。何もインストールされていません。",
+		errorBusy: "アップデートの確認はすでに実行中です。",
+		errorDecky: "Decky がインストールを受け付けませんでした: {error}",
+		errorUnknown: "アップデートに失敗しました: {error}"
 	}
 };
 var ko = {
@@ -2473,6 +2654,31 @@ var ko = {
 		played: "재생함",
 		minutesLeft: "{count}분 남음",
 		inProgress: "듣는 중"
+	},
+	update: {
+		title: "업데이트",
+		installed: "설치됨: {volume} ({version})",
+		available: "{volume} ({version}) 업데이트가 있습니다.",
+		installButton: "{volume} 설치 · {size} MB",
+		checkForUpdates: "업데이트 확인",
+		checking: "업데이트를 확인하는 중…",
+		upToDate: "최신 버전을 사용 중입니다.",
+		downloading: "업데이트를 다운로드하고 확인하는 중…",
+		handedOff: "Decky가 확인을 요청한 뒤 Awesome Mix를 다시 불러옵니다.",
+		confirmTitle: "업데이트를 설치할까요?",
+		confirmBody: "Awesome Mix가 {volume} ({version}, {size} MB)을 다운로드하고 확인한 뒤 Decky에 넘깁니다. Decky가 한 번 더 확인한 뒤 플러그인을 교체하고 다시 불러옵니다. 설정은 유지됩니다.",
+		confirmInstall: "다운로드 후 설치",
+		cancel: "취소",
+		unsupportedLoader: "이 Decky Loader는 여기에서 플러그인을 설치할 수 없습니다. release 브랜치의 zip을 직접 설치하세요.",
+		errorNetwork: "GitHub에 연결할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요.",
+		errorManifest: "게시된 업데이트 정보가 손상되었습니다. 아무것도 설치되지 않았습니다.",
+		errorSize: "다운로드한 파일의 크기가 맞지 않습니다. 아무것도 설치되지 않았습니다. 방금 게시된 업데이트라면 몇 분 뒤에 다시 시도하세요.",
+		errorHash: "다운로드한 파일이 무결성 검사를 통과하지 못했습니다. 아무것도 설치되지 않았습니다. 방금 게시된 업데이트라면 몇 분 뒤에 다시 시도하세요.",
+		errorLayout: "다운로드한 파일이 올바른 Awesome Mix 설치 파일이 아닙니다. 아무것도 설치되지 않았습니다.",
+		errorSave: "업데이트를 디스크에 저장할 수 없습니다. 아무것도 설치되지 않았습니다.",
+		errorBusy: "이미 업데이트를 확인하는 중입니다.",
+		errorDecky: "Decky가 설치를 받아들이지 않았습니다: {error}",
+		errorUnknown: "업데이트에 실패했습니다: {error}"
 	}
 };
 var zh = {
@@ -2730,6 +2936,31 @@ var zh = {
 		played: "已播放",
 		minutesLeft: "剩余 {count} 分钟",
 		inProgress: "收听中"
+	},
+	update: {
+		title: "更新",
+		installed: "已安装：{volume} ({version})",
+		available: "{volume} ({version}) 可用。",
+		installButton: "安装 {volume} · {size} MB",
+		checkForUpdates: "检查更新",
+		checking: "正在检查更新…",
+		upToDate: "已是最新版本。",
+		downloading: "正在下载并校验更新…",
+		handedOff: "Decky 会请你确认，然后重新加载 Awesome Mix。",
+		confirmTitle: "安装更新？",
+		confirmBody: "Awesome Mix 将下载 {volume} ({version}，{size} MB)，校验后交给 Decky。Decky 会再确认一次，然后替换插件并重新加载。你的设置会保留。",
+		confirmInstall: "下载并安装",
+		cancel: "取消",
+		unsupportedLoader: "此 Decky Loader 无法从这里安装插件。请手动安装 release 分支中的 zip。",
+		errorNetwork: "无法连接到 GitHub。请检查网络连接后重试。",
+		errorManifest: "已发布的更新信息已损坏。未安装任何内容。",
+		errorSize: "下载的文件大小不正确。未安装任何内容。如果更新刚刚发布，请几分钟后重试。",
+		errorHash: "下载的文件未通过完整性校验。未安装任何内容。如果更新刚刚发布，请几分钟后重试。",
+		errorLayout: "下载的文件不是有效的 Awesome Mix 安装包。未安装任何内容。",
+		errorSave: "无法将更新保存到磁盘。未安装任何内容。",
+		errorBusy: "已有一次更新检查正在进行。",
+		errorDecky: "Decky 未接受此次安装：{error}",
+		errorUnknown: "更新失败：{error}"
 	}
 };
 var catalogs = {
@@ -2993,6 +3224,31 @@ var catalogs = {
 		played: "Ouvido",
 		minutesLeft: "Faltam {count} min",
 		inProgress: "Em andamento"
+	},
+	update: {
+		title: "Atualizações",
+		installed: "Instalado: {volume} ({version})",
+		available: "{volume} ({version}) está disponível.",
+		installButton: "Instalar {volume} · {size} MB",
+		checkForUpdates: "Procurar atualizações",
+		checking: "Procurando atualizações…",
+		upToDate: "Você já tem a versão mais recente.",
+		downloading: "Baixando e verificando a atualização…",
+		handedOff: "O Decky vai pedir confirmação e depois recarregar o Awesome Mix.",
+		confirmTitle: "Instalar a atualização?",
+		confirmBody: "O Awesome Mix vai baixar {volume} ({version}, {size} MB), verificá-lo e entregá-lo ao Decky. O Decky pergunta mais uma vez, depois substitui o plugin e o recarrega. Suas configurações são mantidas.",
+		confirmInstall: "Baixar e instalar",
+		cancel: "Cancelar",
+		unsupportedLoader: "Este Decky Loader não consegue instalar plugins daqui. Instale manualmente o zip do branch release.",
+		errorNetwork: "Não foi possível acessar o GitHub. Verifique a conexão com a internet e tente de novo.",
+		errorManifest: "As informações da atualização publicada estão corrompidas. Nada foi instalado.",
+		errorSize: "O download tem o tamanho errado. Nada foi instalado. Se a atualização acabou de ser publicada, tente de novo em alguns minutos.",
+		errorHash: "O download falhou na verificação de integridade. Nada foi instalado. Se a atualização acabou de ser publicada, tente de novo em alguns minutos.",
+		errorLayout: "O download não é um instalador válido do Awesome Mix. Nada foi instalado.",
+		errorSave: "Não foi possível salvar a atualização no disco. Nada foi instalado.",
+		errorBusy: "Já há uma busca por atualizações em andamento.",
+		errorDecky: "O Decky não aceitou a instalação: {error}",
+		errorUnknown: "A atualização falhou: {error}"
 	}
 },
 	ru: ru,
@@ -5685,6 +5941,120 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
                             event?.preventDefault?.();
                             event?.stopPropagation?.();
                         } }, style: { position: "absolute", top: 24, left: 56, zIndex: 200, display: "flex", alignItems: "center", gap: 8 }, children: [["home", t.home, FaHome], ["search", t.search, FaSearch], ["library", t.library, FaList], ["settings", t.settings, FaCog]].map(([id, label, Icon]) => (SP_JSX.jsx(DFL.DialogButton, { ref: id === "home" ? homeTabRef : undefined, className: `npLocalCustomTab${id !== "settings" && tab === id ? " npLocalCustomTabActive" : ""}`, onClick: () => id === "settings" ? onOpenSettings() : switchRootTab(id), style: { width: 138, minWidth: 138, height: 38, minHeight: 38, padding: 0 }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".76em", fontWeight: 540 }, children: [SP_JSX.jsx(Icon, { size: 13 }), " ", label] }) }, id))) }), page(activeTabContent)] })] }));
+}
+
+// Pure helpers for the self-update panel (kept free of imports so tests can load it).
+/** Decky Loader's PluginInstallType.UPDATE (backend/decky_loader/browser.py); its prompt words itself from it. */
+const DECKY_INSTALL_TYPE_UPDATE = 2;
+/** Backend refusal reason (mix_update.py) -> key in locales.json's "update" section. */
+const REASON_KEYS = {
+    network: "errorNetwork",
+    manifest_invalid: "errorManifest",
+    up_to_date: "upToDate",
+    size_mismatch: "errorSize",
+    hash_mismatch: "errorHash",
+    layout_invalid: "errorLayout",
+    download_failed: "errorSave",
+    busy: "errorBusy",
+};
+function updateReasonKey(reason) {
+    const key = String(reason ?? "");
+    return Object.prototype.hasOwnProperty.call(REASON_KEYS, key) ? REASON_KEYS[key] : "errorUnknown";
+}
+/** Megabytes with one decimal, as Windows Explorer would round them ("37.4"). */
+function formatMegabytes(bytes) {
+    const value = Number(bytes);
+    return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
+}
+
+var version = "1.0.0";
+var packageInfo = {
+	version: version};
+
+// Versions are shown as volumes: 1.x.y is "Vol. 1". package.json holds the
+// version; this file only formats it (kept free of imports so tests can load it).
+function volumeLabel(version) {
+    const match = /^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/.exec(String(version ?? "").trim());
+    return match ? `Vol. ${Number(match[1])}` : "Vol. ?";
+}
+
+const PLUGIN_DISPLAY_NAME = "Awesome Mix";
+const PLUGIN_VERSION = packageInfo.version;
+const PLUGIN_VOLUME = volumeLabel(PLUGIN_VERSION);
+const PLUGIN_CREDITS = "Based on Now Playing by Andrea Sgarro (LoZazaMastro)";
+
+/** Decky Loader's websocket router (window.DeckyBackend); not part of @decky/api. */
+function deckyRouter() {
+    const router = globalThis.DeckyBackend;
+    return typeof router?.call === "function" ? router : undefined;
+}
+function UpdateSettingsPanel(props) {
+    const t = getTranslations("update");
+    const [check, setCheck] = SP_REACT.useState(null);
+    const [busy, setBusy] = SP_REACT.useState(false);
+    const [status, setStatus] = SP_REACT.useState(null);
+    const router = deckyRouter();
+    const failureText = (failure) => {
+        const key = updateReasonKey(failure.reason);
+        return formatTranslation(String(t[key]), { error: failure.message });
+    };
+    async function refresh(force) {
+        setBusy(true);
+        if (force)
+            setStatus({ text: t.checking });
+        try {
+            const result = await checkPluginUpdate(force);
+            setCheck(result);
+            if (result.ok === false)
+                setStatus({ text: failureText(result), error: true });
+            else
+                setStatus(force && !result.updateAvailable ? { text: t.upToDate } : null);
+        }
+        catch (error) {
+            setStatus({ text: formatTranslation(t.errorUnknown, { error: error?.message ?? String(error) }), error: true });
+        }
+        finally {
+            setBusy(false);
+        }
+    }
+    SP_REACT.useEffect(() => {
+        void refresh(false);
+    }, []);
+    async function install() {
+        if (!router)
+            return;
+        setBusy(true);
+        setStatus({ text: t.downloading });
+        try {
+            const prepared = await preparePluginUpdate();
+            if (prepared.ok === false) {
+                setStatus({ text: failureText(prepared), error: true });
+                return;
+            }
+            // The name must be plugin.json's ("Awesome Mix"): Decky finds the installed
+            // folder by it. Another name would install a second copy beside this one.
+            await router.call("utilities/install_plugin", prepared.artifact, PLUGIN_DISPLAY_NAME, prepared.version, prepared.sha256, DECKY_INSTALL_TYPE_UPDATE);
+            setStatus({ text: t.handedOff });
+        }
+        catch (error) {
+            setStatus({ text: formatTranslation(t.errorDecky, { error: error?.message ?? String(error) }), error: true });
+        }
+        finally {
+            setBusy(false);
+        }
+    }
+    const offered = check?.ok && check.updateAvailable && check.version ? check : null;
+    const offeredVolume = offered ? volumeLabel(offered.version ?? "") : "";
+    const offeredSize = offered ? formatMegabytes(offered.size) : "";
+    function confirmInstall() {
+        if (!offered)
+            return;
+        DFL.showModal(SP_JSX.jsx(DFL.ConfirmModal, { strTitle: t.confirmTitle, strDescription: formatTranslation(t.confirmBody, { volume: offeredVolume, version: offered.version ?? "", size: offeredSize }), strOKButtonText: t.confirmInstall, strCancelButtonText: t.cancel, onOK: () => void install() }));
+    }
+    const buttonStyle = { width: "100%", minWidth: "100%", height: 46, minHeight: 46, marginBottom: 8, padding: 0, ...props.buttonStyle };
+    const contentStyle = { width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "0 12px", boxSizing: "border-box", textAlign: "left", ...props.contentStyle };
+    const noteStyle = { width: "100%", margin: "0 0 8px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35, whiteSpace: "pre-line" };
+    return (SP_JSX.jsxs("div", { className: "npUpdateSettingsPanel", style: { width: "100%" }, children: [SP_JSX.jsx("div", { style: props.titleStyle, children: t.title }), SP_JSX.jsx("div", { style: noteStyle, children: formatTranslation(t.installed, { volume: PLUGIN_VOLUME, version: PLUGIN_VERSION }) }), offered && (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { ...noteStyle, color: "#fff" }, children: formatTranslation(t.available, { volume: offeredVolume, version: offered.version ?? "" }) }), offered.notes ? SP_JSX.jsx("div", { style: { ...noteStyle, maxHeight: 160, overflowY: "auto" }, children: offered.notes }) : null, SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: busy || !router, onClick: confirmInstall, children: SP_JSX.jsxs("span", { style: contentStyle, children: [SP_JSX.jsx(FaDownload, {}), SP_JSX.jsx("span", { children: formatTranslation(t.installButton, { volume: offeredVolume, size: offeredSize }) })] }) }), !router ? SP_JSX.jsx("div", { style: noteStyle, children: t.unsupportedLoader }) : null] })), SP_JSX.jsx(DFL.DialogButton, { style: buttonStyle, disabled: busy, onClick: () => void refresh(true), children: SP_JSX.jsxs("span", { style: contentStyle, children: [SP_JSX.jsx(FaSyncAlt, { className: busy ? "npRestartSpin" : undefined }), SP_JSX.jsx("span", { children: t.checkForUpdates })] }) }), status ? (SP_JSX.jsx("div", { role: "status", style: { ...noteStyle, color: status.error ? "#ffb4a8" : noteStyle.color }, children: status.text })) : null] }));
 }
 
 // WebAudio discrete channel order: FL, FR, FC, LFE, SL, SR, BL, BR.
@@ -38488,22 +38858,6 @@ function FallbackParticlesCanvas({ mode, shared }) {
     return SP_JSX.jsx("canvas", { ref: canvasRef, className: "npReactiveParticlesCanvas" });
 }
 
-var version = "1.0.0";
-var packageInfo = {
-	version: version};
-
-// Versions are shown as volumes: 1.x.y is "Vol. 1". package.json holds the
-// version; this file only formats it (kept free of imports so tests can load it).
-function volumeLabel(version) {
-    const match = /^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/.exec(String(version).trim());
-    return match ? `Vol. ${Number(match[1])}` : "Vol. ?";
-}
-
-const PLUGIN_DISPLAY_NAME = "Awesome Mix";
-const PLUGIN_VERSION = packageInfo.version;
-const PLUGIN_VOLUME = volumeLabel(PLUGIN_VERSION);
-const PLUGIN_CREDITS = "Based on Now Playing by Andrea Sgarro (LoZazaMastro)";
-
 const emptySnapshot = {
     selectedPlayer: "",
     currentPlayer: "",
@@ -40716,7 +41070,7 @@ function FullscreenSettingsRoute() {
                                                 const active = coverSource === source;
                                                 const label = source === "online" ? (t.coverSourceOnline) : (t.coverSourceWindows);
                                                 return SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: active ? 1 : .58 }, onClick: () => selectCover(source), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: label }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: active ? SP_JSX.jsx(FaCheck, {}) : null })] }) }, source);
-                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
+                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: heading, buttonStyle: optionButton, contentStyle: optionContent }) })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
 }
 function RepeatIcon(props) {
     const isTrack = props.repeatMode === "Track";
@@ -40840,7 +41194,7 @@ function SettingsView(props) {
                                         color: "rgba(255,255,255,0.62)",
                                         fontSize: "0.82em",
                                         lineHeight: 1.35,
-                                    }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: restartingServices, onClick: () => void restartPluginServices$1(), children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), SP_JSX.jsx("span", { children: restartingServices ? t.restartServicesInProgress : t.restartServices })] }) }), SP_JSX.jsx("div", { style: { width: "100%", margin: "12px 0 6px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx(FaFileAlt, {}), SP_JSX.jsx("span", { children: t.exportDiagnosticLog })] }) }), SP_JSX.jsxs("div", { style: { width: "100%", margin: "14px 0 0", color: "rgba(255,255,255,0.52)", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }, children: [PLUGIN_DISPLAY_NAME, " \u00B7 ", PLUGIN_VOLUME, SP_JSX.jsx("br", {}), PLUGIN_CREDITS] }), SP_JSX.jsx("style", { children: `
+                                    }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: restartingServices, onClick: () => void restartPluginServices$1(), children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), SP_JSX.jsx("span", { children: restartingServices ? t.restartServicesInProgress : t.restartServices })] }) }), SP_JSX.jsx("div", { style: { width: "100%", margin: "12px 0 6px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: settingsButtonContentStyle, children: [SP_JSX.jsx(FaFileAlt, {}), SP_JSX.jsx("span", { children: t.exportDiagnosticLog })] }) }), SP_JSX.jsx("div", { style: { height: "12px" } }), SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: { ...settingsGroupLabelStyle, marginBottom: "6px" }, buttonStyle: { ...wideButtonStyle, marginBottom: "6px" }, contentStyle: settingsButtonContentStyle }), SP_JSX.jsxs("div", { style: { width: "100%", margin: "14px 0 0", color: "rgba(255,255,255,0.52)", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }, children: [PLUGIN_DISPLAY_NAME, " \u00B7 ", PLUGIN_VOLUME, SP_JSX.jsx("br", {}), PLUGIN_CREDITS] }), SP_JSX.jsx("style", { children: `
               @keyframes npRestartSpin { to { transform: rotate(360deg); } }
               .npRestartSpin { animation: npRestartSpin .8s linear infinite; }
             ` })] }) }) }) })] }));

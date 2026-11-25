@@ -10,7 +10,7 @@
     "package:win": "powershell -ExecutionPolicy Bypass -File ./package-win.ps1",
     "check:i18n": "node scripts/validate-translations.mjs",
     "check:types": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
-    "check:python": "python -m py_compile main.py ytmusic_service.py runtime_compat.py legacy_migration.py mix_identity.py && python scripts/validate-frozen-runtime.py",
+    "check:python": "python -m py_compile main.py ytmusic_service.py runtime_compat.py legacy_migration.py mix_identity.py mix_update.py && python scripts/validate-frozen-runtime.py",
     "verify": "npm run check:i18n && npm run check:types && npm run check:python && npm run check:steam && npm test && node --check dist/index.js",
     "check:steam": "node scripts/validate-steam-bundle.mjs && python scripts/validate-steam-ui.py --node",
     "check:steam:browser": "python scripts/validate-steam-ui.py",

@@ -51,6 +51,7 @@ import decky_plugin
 from ytmusic_service import YouTubeMusicService
 from legacy_migration import migrate_legacy_settings
 import mix_identity
+import mix_update
 
 TOPBAR_CEF_PORT = 8080
 # Music sources. Apple Music is followed through its Windows media session (SMTC).
@@ -975,6 +976,16 @@ class Plugin:
         self._local_music_player: Optional[LocalMusicPlayerWorker] = None
         self._local_music_frontend_state: Dict[str, Any] = {}
         self._local_music_stream_server: Optional[LocalMusicStreamServer] = None
+
+        # Self-update from the fork's release branch. Staged under Decky's runtime
+        # folder (homebrew/data/<plugin>), which an update does not replace.
+        self._update_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="NowPlaying-Update")
+        self._update_channel = mix_update.UpdateChannel(
+            mix_identity.VERSION,
+            os.path.join(self.runtime_dir, "plugin-update"),
+            mix_update.HttpTransport(mix_identity.USER_AGENT, mix_update.default_cafile(self.plugin_dir)),
+            log=self._log,
+        )
 
     async def _run_in_executor(self, executor: ThreadPoolExecutor, func, *args):
         loop = asyncio.get_running_loop()
@@ -6494,6 +6505,12 @@ class Plugin:
             self._log(f"diagnostic export error: {exc}")
             return {"ok": False, "error": str(exc), "path": ""}
 
+    async def check_plugin_update(self, force: bool = False) -> Dict[str, Any]:
+        return await self._run_in_executor(self._update_executor, self._update_channel.check, bool(force))
+
+    async def prepare_plugin_update(self) -> Dict[str, Any]:
+        return await self._run_in_executor(self._update_executor, self._update_channel.prepare)
+
     async def report_diagnostic_event(self, category: str, event: str, details: Optional[Dict[str, Any]] = None) -> bool:
         safe_details = details if isinstance(details, dict) else {}
         self._record_diagnostic_event(f"frontend:{str(category or 'ui')[:60]}", str(event or "")[:160], safe_details)
@@ -7011,6 +7028,7 @@ class Plugin:
             self._youtube_music_executor,
             self._source_lifecycle_executor,
             self._local_music_executor,
+            self._update_executor,
         ):
             try:
                 executor.shutdown(wait=False, cancel_futures=True)

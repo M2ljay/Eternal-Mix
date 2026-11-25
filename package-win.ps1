@@ -53,9 +53,9 @@ $Python = Get-Command python -ErrorAction SilentlyContinue
 if (-not $Python) { $Python = Get-Command py -ErrorAction SilentlyContinue }
 if ($Python) {
   if ($Python.Name -eq "py.exe" -or $Python.Name -eq "py") {
-    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py")
+    & $Python.Source -3 -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
   } else {
-    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py")
+    & $Python.Source -m py_compile (Join-Path $Root "main.py") (Join-Path $Root "ytmusic_service.py") (Join-Path $Root "runtime_compat.py") (Join-Path $Root "legacy_migration.py") (Join-Path $Root "mix_identity.py") (Join-Path $Root "mix_update.py")
   }
   if ($LASTEXITCODE -ne 0) { throw "main.py failed Python syntax validation" }
 } else {
@@ -68,6 +68,7 @@ Copy-Item (Join-Path $Root "ytmusic_service.py") $Stage
 Copy-Item (Join-Path $Root "runtime_compat.py") $Stage
 Copy-Item (Join-Path $Root "legacy_migration.py") $Stage
 Copy-Item (Join-Path $Root "mix_identity.py") $Stage
+Copy-Item (Join-Path $Root "mix_update.py") $Stage
 Copy-Item (Join-Path $Root "runtime_stdlib") $Stage -Recurse -Force
 Copy-Item (Join-Path $Root "CHANGELOG_$Version.md") $Stage
 Copy-Item (Join-Path $Root "dist/index.js") (Join-Path $Stage "dist")

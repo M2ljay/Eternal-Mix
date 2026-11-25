@@ -319,6 +319,40 @@ def test_youtube_music_chromium_header_normalization() -> None:
     assert {"authorization", "cookie", "x-goog-authuser"}.issubset(keys)
     assert not any(key.startswith("/") or key in {"music.youtube.com", "https"} for key in keys)
 
+def test_self_update_offline() -> None:
+    """The update channel's download, hash and zip checks, with the backend's own imports."""
+    import hashlib
+    import io
+    import zipfile
+
+    update = backend.mix_update
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("Awesome Mix/plugin.json", json.dumps({"name": "Awesome Mix"}))
+        archive.writestr("Awesome Mix/package.json", json.dumps({"version": "99.0.0"}))
+        archive.writestr("Awesome Mix/main.py", "")
+        archive.writestr("Awesome Mix/dist/index.js", "")
+    data = buffer.getvalue()
+    manifest = {"version": "99.0.0", "sha256": hashlib.sha256(data).hexdigest(), "size": len(data),
+                "notes": "", "url": update.ARTIFACT_URL}
+
+    class Transport:
+        def read(self, url, max_bytes):
+            return json.dumps(manifest).encode()
+
+        def download(self, url, dest, max_bytes):
+            Path(dest).write_bytes(data)
+
+    with tempfile.TemporaryDirectory(prefix="awesome-mix-update-test-") as directory:
+        channel = update.UpdateChannel(backend.mix_identity.VERSION, directory, Transport())
+        assert channel.check(True)["updateAvailable"] is True
+        prepared = channel.prepare()
+        assert prepared["ok"] and Path(prepared["artifact"][7:]).read_bytes() == data, prepared
+    update.HttpTransport(backend.mix_identity.USER_AGENT, update.default_cafile(str(ROOT)))
+    for name in ("check_plugin_update", "prepare_plugin_update"):
+        assert callable(getattr(backend.Plugin, name)), name
+
+
 def main() -> None:
     test_local_stream_ranges()
     test_active_service_matching()
@@ -335,7 +369,8 @@ def main() -> None:
     test_youtube_music_response_cache_survives_restart()
     test_cache_invalidation_wins_over_inflight_results()
     test_youtube_music_chromium_header_normalization()
-    print("Runtime smoke tests OK: ranges, Apple Music SMTC matching, removed sources rejected, SMTC fallbacks, canonical snapshots, local state, parallel YouTube Music search, restart-persistent generation-safe caches, helper ownership, Chromium headers, and in-process fanart.tv transports.")
+    test_self_update_offline()
+    print("Runtime smoke tests OK: ranges, Apple Music SMTC matching, removed sources rejected, SMTC fallbacks, canonical snapshots, local state, parallel YouTube Music search, restart-persistent generation-safe caches, helper ownership, Chromium headers, in-process fanart.tv transports, and the offline self-update check.")
 
 
 if __name__ == "__main__":

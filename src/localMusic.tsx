@@ -36,6 +36,16 @@ import type { LocalMusicTranslation } from "./i18n";
 import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useCoreRoot, useQamThemeMatch } from "./themeMatch";
 import { CORE_ROOT_CSS } from "./corePalette";
 import { steppedVolume } from "./volumeStep";
+import { scopedSelectorList, steamClassSelectors } from "./steamClasses";
+
+// Readable names match Decky 3.3.1's Steam; class maps add Decky 4.0's renamed classes.
+function keyboardOnTopSelectors(): string {
+  return [
+    'body > [class*="virtualkeyboard"]', 'body > [class*="VirtualKeyboard"]',
+    'body [class*="virtualkeyboard_Keyboard"]', 'body [class*="VirtualKeyboard_Keyboard"]',
+    ...steamClassSelectors(["VirtualKeyboard", "VirtualKeyboardContainer", "StandaloneKeyboard"], false).map((selector) => `body ${selector}`),
+  ].join(",");
+}
 
 // Your Music has no brand colour: Core's crimson in every theme (gold is retired).
 const LOCAL_ACCENT = "var(--mix-accent, #D7263D)";
@@ -265,9 +275,7 @@ function LocalMusicPickerModal({ initialPath, closeModal, onAdd }: {
   return (
     <ModalRoot closeModal={closeModal} onCancel={closeModal} onEscKeypress={closeModal}>
       <style>{`
-        html:has(.npLocalPicker) [class*="ModalPosition"],
-        html:has(.npLocalPicker) [class*="ModalDialog"],
-        html:has(.npLocalPicker) [class*="ModalOverlay"]{z-index:2147483647!important}
+        ${scopedSelectorList(["html:has(.npLocalPicker)"], steamClassSelectors(["ModalPosition", "ModalDialog", "ModalOverlay"]))}{z-index:2147483647!important}
         .npLocalPicker button{text-align:left!important}
         .npLocalPicker button>span{justify-content:flex-start!important}
         .npLocalPicker button.npLocalPickerBack>span{width:100%!important;height:100%!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
@@ -1349,7 +1357,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
         .npLocalCustomTabs{z-index:200!important;isolation:isolate;transform:none!important}
         .npLocalTvScroll{z-index:10!important}
         .npLocalTabContent{left:0!important;right:auto!important;width:100%!important;max-width:100%!important;transform-origin:center top!important}
-        body > [class*="virtualkeyboard"],body > [class*="VirtualKeyboard"],body [class*="virtualkeyboard_Keyboard"],body [class*="VirtualKeyboard_Keyboard"]{z-index:2147483647!important}
+        ${keyboardOnTopSelectors()}{z-index:2147483647!important}
         .npLocalTvCard:focus,.npLocalTvCard.gpfocus,.npLocalTvTrack:focus,.npLocalTvTrack.gpfocus{transform:none!important}
         .npLocalTvCard{width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important}
         .npLocalCoverButton:focus,.npLocalCoverButton.gpfocus{box-shadow:var(--mix-cover-focus, 0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(215,38,61,.58),0 24px 70px rgba(0,0,0,.42))!important}

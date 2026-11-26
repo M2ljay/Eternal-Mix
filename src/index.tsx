@@ -26,6 +26,8 @@ import { getMixTheme, setMixTheme, THEME_ACCENT, useCoreRoot, useMixTheme, useQa
 import { CORE_ROOT_CSS, CORE_SERVICE_ACCENT } from "./corePalette";
 import { PLUGIN_CREDITS, PLUGIN_DISPLAY_NAME, PLUGIN_VOLUME } from "./version";
 import { steppedVolume } from "./volumeStep";
+import { scopedSelectorList, steamClassSelectors } from "./steamClasses";
+
 
 const emptySnapshot: Snapshot = {
   selectedPlayer: "",
@@ -638,14 +640,31 @@ const fullscreenTouchedDocuments = new Set<Document>();
 const fullscreenSavedStyles = new Map<HTMLElement, { values: [string, string, string][]; marker: string | null }>();
 let fullscreenUiDisposed = false;
 
+// Steam chrome hidden while a fullscreen view is open, by class-map key.
+const STEAM_CHROME_CLASS_NAMES = [
+  "BasicFooter", "FooterLegend", "QuickAccessFooter", "GamepadFooter",
+  "GamepadHeader", "HeaderStatus", "StatusIcons", "TopBar",
+] as const;
+const STEAM_KEYBOARD_CLASS_NAMES = ["VirtualKeyboard", "VirtualKeyboardContainer", "StandaloneKeyboard"] as const;
+
+function fullscreenChromeCssSelectors(): string {
+  return scopedSelectorList(["html:has(.npFullscreenRoot)", "html.npFullscreenActive"], steamClassSelectors(STEAM_CHROME_CLASS_NAMES));
+}
+
 // Verified against the supplied Steam UI chunk (18 September 2026). Native
 // CSS-module builds do not contain the readable BasicFooter/Keyboard names.
-const steamKeyboardSelector = [
-  "._33MO29eFMotoHmrmT1-6sw", ".Oel3OSshpNqQ5hIOrC1Z5",
-  "._45rH7-kY4P2uVEb3TxZhm", "._19zHK8nTq8UXEJGUbHczuE",
-  "._1fMXTJK26Av1xwzGL5RI86",
-  '[class*="VirtualKeyboard"]', '[class*="virtualkeyboard"]',
-].join(",");
+// The hashes are Decky 3.3.1's Steam; class maps cover Decky 4.0's renamed classes.
+let steamKeyboardSelectorCache = "";
+function steamKeyboardSelector(): string {
+  if (!steamKeyboardSelectorCache) steamKeyboardSelectorCache = [
+    "._33MO29eFMotoHmrmT1-6sw", ".Oel3OSshpNqQ5hIOrC1Z5",
+    "._45rH7-kY4P2uVEb3TxZhm", "._19zHK8nTq8UXEJGUbHczuE",
+    "._1fMXTJK26Av1xwzGL5RI86",
+    ...steamClassSelectors(STEAM_KEYBOARD_CLASS_NAMES),
+    '[class*="virtualkeyboard"]',
+  ].join(",");
+  return steamKeyboardSelectorCache;
+}
 
 function steamWindowStore(): any {
   try { return (Router as any)?.WindowStore; } catch { return undefined; }
@@ -692,22 +711,19 @@ function performSteamNavigation(route?: string): boolean {
   return false;
 }
 
-const fullscreenChromeSelectors = [
-  "#header",
-  "._1E_SL1bTibeQ3PQRBZoS_-", // Steam header
-  "._3T1iFy2maYycwqgFuzERyf", // BasicFooter
-  "._2JJDHoMl4ArT89aNzlYM3N", // FooterLegend
-  ".VdbQ_picJ9tv7JtnXP8eZ",   // QuickAccessFooter
-  '[class*="BasicFooter"]',
-  '[class*="FooterLegend"]',
-  '[class*="QuickAccessFooter"]',
-  '[class*="GamepadFooter"]',
-  '[class*="GamepadHeader"]',
-  '[class*="HeaderStatus"]',
-  '[class*="StatusIcons"]',
-  '[class*="TopBar"]',
-  '[data-np-fullscreen-chrome="true"]',
-];
+let fullscreenChromeSelectorsCache: string[] = [];
+function fullscreenChromeSelectors(): string[] {
+  if (!fullscreenChromeSelectorsCache.length) fullscreenChromeSelectorsCache = [
+    "#header",
+    "._1E_SL1bTibeQ3PQRBZoS_-", // Steam header
+    "._3T1iFy2maYycwqgFuzERyf", // BasicFooter
+    "._2JJDHoMl4ArT89aNzlYM3N", // FooterLegend
+    ".VdbQ_picJ9tv7JtnXP8eZ",   // QuickAccessFooter
+    ...steamClassSelectors(STEAM_CHROME_CLASS_NAMES),
+    '[data-np-fullscreen-chrome="true"]',
+  ];
+  return fullscreenChromeSelectorsCache;
+}
 
 function fullscreenSuppressionDocuments(): Document[] {
   if (typeof document === "undefined") return [];
@@ -762,7 +778,7 @@ body.npFullscreenActive [data-np-fullscreen-chrome="true"] {
 }
 
 function isSteamVirtualKeyboardElement(element: HTMLElement | null): boolean {
-  if (element?.closest(steamKeyboardSelector) || element?.querySelector(steamKeyboardSelector)) return true;
+  if (element?.closest(steamKeyboardSelector()) || element?.querySelector(steamKeyboardSelector())) return true;
   let current = element;
   for (let depth = 0; current && depth < 10; depth += 1, current = current.parentElement) {
     const className = typeof current.className === "string" ? current.className : "";
@@ -811,7 +827,7 @@ function hideElementImmediately(element: HTMLElement) {
 
 function markFullscreenChrome(targetDocument: Document = document) {
   if (!targetDocument.documentElement.classList.contains("npFullscreenActive")) return;
-  targetDocument.querySelectorAll<HTMLElement>(fullscreenChromeSelectors.join(",")).forEach((element) => {
+  targetDocument.querySelectorAll<HTMLElement>(fullscreenChromeSelectors().join(",")).forEach((element) => {
     if (element.closest(".npFullscreenRoot") || isSteamVirtualKeyboardElement(element)) {
       restoreFullscreenElement(element);
     } else {
@@ -1740,22 +1756,7 @@ function FullscreenRoute() {
           font-family: inherit;
         }
 
-        html:has(.npFullscreenRoot) [class*="BasicFooter"],
-        html:has(.npFullscreenRoot) [class*="FooterLegend"],
-        html:has(.npFullscreenRoot) [class*="QuickAccessFooter"],
-        html:has(.npFullscreenRoot) [class*="GamepadFooter"],
-        html:has(.npFullscreenRoot) [class*="GamepadHeader"],
-        html:has(.npFullscreenRoot) [class*="HeaderStatus"],
-        html:has(.npFullscreenRoot) [class*="StatusIcons"],
-        html:has(.npFullscreenRoot) [class*="TopBar"],
-        html.npFullscreenActive [class*="BasicFooter"],
-        html.npFullscreenActive [class*="FooterLegend"],
-        html.npFullscreenActive [class*="QuickAccessFooter"],
-        html.npFullscreenActive [class*="GamepadFooter"],
-        html.npFullscreenActive [class*="GamepadHeader"],
-        html.npFullscreenActive [class*="HeaderStatus"],
-        html.npFullscreenActive [class*="StatusIcons"],
-        html.npFullscreenActive [class*="TopBar"] {
+        ${fullscreenChromeCssSelectors()} {
           opacity: 0 !important;
           pointer-events: none !important;
           visibility: hidden !important;

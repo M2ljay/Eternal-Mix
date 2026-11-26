@@ -29,6 +29,11 @@ def main():
     start = next(bundle.index(marker) for marker in ('let fullscreenChromeObservers =', 'var fullscreenChromeObservers =') if marker in bundle)
     end = bundle.index('function OceanLayer()', start)
     section = bundle[start:end]
+    # The section reads Steam class maps through src/steamClasses.ts; run that
+    # module's bundled code ahead of it.
+    helper_start = next(bundle.index(marker) for marker in ('const NAMED_CLASS_MODULES =', 'var NAMED_CLASS_MODULES =') if marker in bundle)
+    helper_end = bundle.index('\n}', bundle.index('function scopedSelectorList(', helper_start)) + 2
+    section = bundle[helper_start:helper_end] + '\n' + section
     # esbuild reaches Steam's globals through module-level aliases
     # (import_ui7 = __toESM(require_ui()), ...). The fixture runs this section
     # on its own, so point any alias it uses at the global it stands for.

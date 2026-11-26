@@ -5189,6 +5189,110 @@ function steppedVolume(current, direction, step = VOLUME_STEP) {
     return Math.max(0, Math.min(100, next));
 }
 
+// Steam class lookups that work on both Decky loaders.
+//
+// Decky 3.3.1 runs on the webpack Steam client with @decky/ui 4; Decky 4.0 runs
+// on the ES-module client with @decky/ui 5, and that client renamed nearly every
+// CSS class. A class-map key ("BasicFooter") keeps its name; only the value (the
+// class Steam actually renders) changes. @decky/ui is supplied by the loader at
+// runtime, so its class maps are probed, never assumed: a missing map only means
+// fewer selectors, never an error.
+
+// Named class modules both @decky/ui 4 and 5 export (5 fills them per Steam build).
+const NAMED_CLASS_MODULES = [
+    "footerClasses",
+    "gamepadDialogClasses",
+    "gamepadUIClasses",
+    "mainMenuAppRunningClasses",
+    "quickAccessMenuClasses",
+];
+const valueCache = new Map();
+let warned = false;
+function warnOnce$1(error) {
+    if (warned)
+        return;
+    warned = true;
+    try {
+        console.warn("[Awesome Mix] Steam class maps unavailable; using readable class names only", error);
+    }
+    catch { /* console may be gone */ }
+}
+function cssEscapeClass(value) {
+    try {
+        if (typeof CSS !== "undefined" && typeof CSS.escape === "function")
+            return CSS.escape(value);
+    }
+    catch { /* fall through */ }
+    const lead = /^-?\d/.test(value) ? (value[0] === "-" ? 1 : 0) : -1;
+    return Array.from(value, (c, i) => (i === lead ? `\\3${c} ` : /[\w-]/.test(c) ? c : `\\${c}`)).join("");
+}
+/** Class strings Steam renders for a class-map key, from every class map the loader offers. */
+function steamClassValues(name) {
+    const cached = valueCache.get(name);
+    if (cached)
+        return cached;
+    const values = [];
+    const add = (value) => {
+        if (typeof value !== "string")
+            return;
+        const normalized = value.trim().split(/\s+/).filter(Boolean).join(" ");
+        if (normalized && !values.includes(normalized))
+            values.push(normalized);
+    };
+    try {
+        const dfl = DFL;
+        for (const moduleName of NAMED_CLASS_MODULES) {
+            try {
+                add(dfl?.[moduleName]?.[name]);
+            }
+            catch { /* a getter may throw */ }
+        }
+        const maps = dfl?.classMap;
+        if (Array.isArray(maps))
+            for (const map of maps) {
+                try {
+                    add(map?.[name]);
+                }
+                catch { /* skip a broken map */ }
+            }
+    }
+    catch (error) {
+        warnOnce$1(error);
+    }
+    valueCache.set(name, values);
+    return values;
+}
+/**
+ * CSS selectors for Steam elements known by class-map key: the class-map value
+ * (current Steam) first, then (unless includeReadable is false) the readable-name
+ * match older builds rendered.
+ */
+function steamClassSelectors(names, includeReadable = true) {
+    const selectors = [];
+    const add = (selector) => { if (!selectors.includes(selector))
+        selectors.push(selector); };
+    for (const name of names) {
+        for (const value of steamClassValues(name))
+            add(value.split(" ").map((c) => `.${cssEscapeClass(c)}`).join(""));
+    }
+    if (includeReadable)
+        for (const name of names)
+            add(`[class*="${name}"]`);
+    return selectors;
+}
+/** Selector list with each entry prefixed by every scope, joined for a stylesheet. */
+function scopedSelectorList(scopes, selectors) {
+    return scopes.flatMap((scope) => selectors.map((selector) => `${scope} ${selector}`)).join(",\n");
+}
+
+// Readable names match Decky 3.3.1's Steam; class maps add Decky 4.0's renamed classes.
+function keyboardOnTopSelectors() {
+    return [
+        'body > [class*="virtualkeyboard"]', 'body > [class*="VirtualKeyboard"]',
+        'body [class*="virtualkeyboard_Keyboard"]', 'body [class*="VirtualKeyboard_Keyboard"]',
+        ...steamClassSelectors(["VirtualKeyboard", "VirtualKeyboardContainer", "StandaloneKeyboard"], false).map((selector) => `body ${selector}`),
+    ].join(",");
+}
 // Your Music has no brand colour: Core's crimson in every theme (gold is retired).
 const LOCAL_ACCENT = "var(--mix-accent, #D7263D)";
 const COVER_CACHE = new Map();
@@ -5421,9 +5525,7 @@ function LocalMusicPickerModal({ initialPath, closeModal, onAdd }) {
         }
     }
     return (SP_JSX.jsxs(DFL.ModalRoot, { closeModal: closeModal, onCancel: closeModal, onEscKeypress: closeModal, children: [SP_JSX.jsx("style", { children: `
-        html:has(.npLocalPicker) [class*="ModalPosition"],
-        html:has(.npLocalPicker) [class*="ModalDialog"],
-        html:has(.npLocalPicker) [class*="ModalOverlay"]{z-index:2147483647!important}
+        ${scopedSelectorList(["html:has(.npLocalPicker)"], steamClassSelectors(["ModalPosition", "ModalDialog", "ModalOverlay"]))}{z-index:2147483647!important}
         .npLocalPicker button{text-align:left!important}
         .npLocalPicker button>span{justify-content:flex-start!important}
         .npLocalPicker button.npLocalPickerBack>span{width:100%!important;height:100%!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
@@ -6255,7 +6357,7 @@ function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
         .npLocalCustomTabs{z-index:200!important;isolation:isolate;transform:none!important}
         .npLocalTvScroll{z-index:10!important}
         .npLocalTabContent{left:0!important;right:auto!important;width:100%!important;max-width:100%!important;transform-origin:center top!important}
-        body > [class*="virtualkeyboard"],body > [class*="VirtualKeyboard"],body [class*="virtualkeyboard_Keyboard"],body [class*="VirtualKeyboard_Keyboard"]{z-index:2147483647!important}
+        ${keyboardOnTopSelectors()}{z-index:2147483647!important}
         .npLocalTvCard:focus,.npLocalTvCard.gpfocus,.npLocalTvTrack:focus,.npLocalTvTrack.gpfocus{transform:none!important}
         .npLocalTvCard{width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important}
         .npLocalCoverButton:focus,.npLocalCoverButton.gpfocus{box-shadow:var(--mix-cover-focus, 0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(215,38,61,.58),0 24px 70px rgba(0,0,0,.42))!important}
@@ -39769,14 +39871,30 @@ const fullscreenBackRestoreTimers = new Set();
 const fullscreenTouchedDocuments = new Set();
 const fullscreenSavedStyles = new Map();
 let fullscreenUiDisposed = false;
+// Steam chrome hidden while a fullscreen view is open, by class-map key.
+const STEAM_CHROME_CLASS_NAMES = [
+    "BasicFooter", "FooterLegend", "QuickAccessFooter", "GamepadFooter",
+    "GamepadHeader", "HeaderStatus", "StatusIcons", "TopBar",
+];
+const STEAM_KEYBOARD_CLASS_NAMES = ["VirtualKeyboard", "VirtualKeyboardContainer", "StandaloneKeyboard"];
+function fullscreenChromeCssSelectors() {
+    return scopedSelectorList(["html:has(.npFullscreenRoot)", "html.npFullscreenActive"], steamClassSelectors(STEAM_CHROME_CLASS_NAMES));
+}
 // Verified against the supplied Steam UI chunk (18 September 2026). Native
 // CSS-module builds do not contain the readable BasicFooter/Keyboard names.
-const steamKeyboardSelector = [
-    "._33MO29eFMotoHmrmT1-6sw", ".Oel3OSshpNqQ5hIOrC1Z5",
-    "._45rH7-kY4P2uVEb3TxZhm", "._19zHK8nTq8UXEJGUbHczuE",
-    "._1fMXTJK26Av1xwzGL5RI86",
-    '[class*="VirtualKeyboard"]', '[class*="virtualkeyboard"]',
-].join(",");
+// The hashes are Decky 3.3.1's Steam; class maps cover Decky 4.0's renamed classes.
+let steamKeyboardSelectorCache = "";
+function steamKeyboardSelector() {
+    if (!steamKeyboardSelectorCache)
+        steamKeyboardSelectorCache = [
+            "._33MO29eFMotoHmrmT1-6sw", ".Oel3OSshpNqQ5hIOrC1Z5",
+            "._45rH7-kY4P2uVEb3TxZhm", "._19zHK8nTq8UXEJGUbHczuE",
+            "._1fMXTJK26Av1xwzGL5RI86",
+            ...steamClassSelectors(STEAM_KEYBOARD_CLASS_NAMES),
+            '[class*="virtualkeyboard"]',
+        ].join(",");
+    return steamKeyboardSelectorCache;
+}
 function steamWindowStore() {
     try {
         return DFL.Router?.WindowStore;
@@ -39838,22 +39956,20 @@ function performSteamNavigation(route) {
     forceRestoreFullscreenChrome();
     return false;
 }
-const fullscreenChromeSelectors = [
-    "#header",
-    "._1E_SL1bTibeQ3PQRBZoS_-", // Steam header
-    "._3T1iFy2maYycwqgFuzERyf", // BasicFooter
-    "._2JJDHoMl4ArT89aNzlYM3N", // FooterLegend
-    ".VdbQ_picJ9tv7JtnXP8eZ", // QuickAccessFooter
-    '[class*="BasicFooter"]',
-    '[class*="FooterLegend"]',
-    '[class*="QuickAccessFooter"]',
-    '[class*="GamepadFooter"]',
-    '[class*="GamepadHeader"]',
-    '[class*="HeaderStatus"]',
-    '[class*="StatusIcons"]',
-    '[class*="TopBar"]',
-    '[data-np-fullscreen-chrome="true"]',
-];
+let fullscreenChromeSelectorsCache = [];
+function fullscreenChromeSelectors() {
+    if (!fullscreenChromeSelectorsCache.length)
+        fullscreenChromeSelectorsCache = [
+            "#header",
+            "._1E_SL1bTibeQ3PQRBZoS_-", // Steam header
+            "._3T1iFy2maYycwqgFuzERyf", // BasicFooter
+            "._2JJDHoMl4ArT89aNzlYM3N", // FooterLegend
+            ".VdbQ_picJ9tv7JtnXP8eZ", // QuickAccessFooter
+            ...steamClassSelectors(STEAM_CHROME_CLASS_NAMES),
+            '[data-np-fullscreen-chrome="true"]',
+        ];
+    return fullscreenChromeSelectorsCache;
+}
 function fullscreenSuppressionDocuments() {
     if (typeof document === "undefined")
         return [];
@@ -39937,7 +40053,7 @@ body.npFullscreenActive [data-np-fullscreen-chrome="true"] {
         style.textContent = css;
 }
 function isSteamVirtualKeyboardElement(element) {
-    if (element?.closest(steamKeyboardSelector) || element?.querySelector(steamKeyboardSelector))
+    if (element?.closest(steamKeyboardSelector()) || element?.querySelector(steamKeyboardSelector()))
         return true;
     let current = element;
     for (let depth = 0; current && depth < 10; depth += 1, current = current.parentElement) {
@@ -39988,7 +40104,7 @@ function hideElementImmediately(element) {
 function markFullscreenChrome(targetDocument = document) {
     if (!targetDocument.documentElement.classList.contains("npFullscreenActive"))
         return;
-    targetDocument.querySelectorAll(fullscreenChromeSelectors.join(",")).forEach((element) => {
+    targetDocument.querySelectorAll(fullscreenChromeSelectors().join(",")).forEach((element) => {
         if (element.closest(".npFullscreenRoot") || isSteamVirtualKeyboardElement(element)) {
             restoreFullscreenElement(element);
         }
@@ -40857,22 +40973,7 @@ function FullscreenRoute() {
           font-family: inherit;
         }
 
-        html:has(.npFullscreenRoot) [class*="BasicFooter"],
-        html:has(.npFullscreenRoot) [class*="FooterLegend"],
-        html:has(.npFullscreenRoot) [class*="QuickAccessFooter"],
-        html:has(.npFullscreenRoot) [class*="GamepadFooter"],
-        html:has(.npFullscreenRoot) [class*="GamepadHeader"],
-        html:has(.npFullscreenRoot) [class*="HeaderStatus"],
-        html:has(.npFullscreenRoot) [class*="StatusIcons"],
-        html:has(.npFullscreenRoot) [class*="TopBar"],
-        html.npFullscreenActive [class*="BasicFooter"],
-        html.npFullscreenActive [class*="FooterLegend"],
-        html.npFullscreenActive [class*="QuickAccessFooter"],
-        html.npFullscreenActive [class*="GamepadFooter"],
-        html.npFullscreenActive [class*="GamepadHeader"],
-        html.npFullscreenActive [class*="HeaderStatus"],
-        html.npFullscreenActive [class*="StatusIcons"],
-        html.npFullscreenActive [class*="TopBar"] {
+        ${fullscreenChromeCssSelectors()} {
           opacity: 0 !important;
           pointer-events: none !important;
           visibility: hidden !important;

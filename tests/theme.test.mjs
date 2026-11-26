@@ -43,7 +43,7 @@ test("the chosen theme is stored under the nowPlaying prefix and wins", () => {
 });
 
 test("Core variables use only the approved palette", () => {
-  const allowed = new Set(["#000000", "#1A1D21", "#2A2F36", "#C9D1D9", "#9AA4AE", "#FFFFFF", "#E6EAEE", "#D7263D", "#6FA37F", "#C98B4A"]);
+  const allowed = new Set(["#000000", "#1A1D21", "#2A2F36", "#C9D1D9", "#9AA4AE", "#FFFFFF", "#E6EAEE", "#D7263D", "#EA5A68", "#6FA37F", "#C98B4A"]);
   const text = JSON.stringify(palette.CORE_VARS) + palette.CORE_ROOT_CSS;
   for (const hex of text.match(/#[0-9A-Fa-f]{6}\b/g)) assert.ok(allowed.has(hex.toUpperCase()), hex);
   assert.doesNotMatch(text, /#d4a72c|#d9a337|#ffc83c|#66c0f4|#ff0033|#1db954/i);

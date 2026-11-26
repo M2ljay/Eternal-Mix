@@ -49,7 +49,7 @@ export function SurroundUpmixControls({ accent = "var(--np-accent, var(--mix-acc
       style={{ flex: 1, minWidth: 0, height: 40, minHeight: 40, padding: 0, opacity: mode === target ? 1 : 0.6, border: mode === target ? `1px solid ${accent}` : undefined }}
       onClick={() => choose(target)}
     >
-      <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: mode === target ? accent : undefined }}>{target}</span>
+      <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: mode === target ? `var(--mix-accent-text, ${accent})` : undefined }}>{target}</span>
     </DialogButton>
   );
 
@@ -63,7 +63,7 @@ export function SurroundUpmixControls({ accent = "var(--np-accent, var(--mix-acc
       `}</style>
       <DialogButton style={{ width: "100%", minWidth: "100%" }} onClick={() => setExpanded((value) => !value)}>
         <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px", boxSizing: "border-box" }}>
-          <span style={{ fontWeight: 600 }}>{t.surroundUpmix}{mode !== "off" ? <span style={{ color: accent, marginLeft: 8, fontSize: ".82em" }}>{mode}</span> : null}</span>
+          <span style={{ fontWeight: 600 }}>{t.surroundUpmix}{mode !== "off" ? <span style={{ color: `var(--mix-accent-text, ${accent})`, marginLeft: 8, fontSize: ".82em" }}>{mode}</span> : null}</span>
           {expanded ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
         </span>
       </DialogButton>

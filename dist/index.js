@@ -5063,12 +5063,16 @@ const CORE = {
     white: "#FFFFFF",
     text: "#E6EAEE",
     crimson: "#D7263D",
+    // Crimson words: #D7263D as text on black/gunmetal is under 4.5:1. Keep
+    // `crimson` for fills, bars, dots and rings.
+    crimsonText: "#EA5A68",
     green: "#6FA37F",
     amber: "#C98B4A",
 };
 const CORE_VARS = {
     "--mix-accent": CORE.crimson,
     "--mix-on-accent": CORE.white,
+    "--mix-accent-text": CORE.crimsonText,
     "--mix-bg": CORE.black,
     "--mix-surface": CORE.gunmetal,
     "--mix-surface-2": CORE.gunmetalRaised,
@@ -5088,9 +5092,8 @@ const CORE_VARS = {
     "--mix-glow-warm": CORE.crimson,
     "--mix-glow-cool": CORE.steel,
     "--mix-error": CORE.crimson,
-    // Crimson text on black is below 4.5:1, so problems are shown as readable
-    // text beside a crimson bar.
-    "--mix-error-text": CORE.text,
+    // Problems: crimson text in its readable tint, beside a crimson bar.
+    "--mix-error-text": CORE.crimsonText,
     "--mix-error-bar": `inset 3px 0 0 ${CORE.crimson}`,
     "--mix-error-pad": "9px",
     "--mix-ok": CORE.green,
@@ -6542,13 +6545,13 @@ function SurroundUpmixControls({ accent = "var(--np-accent, var(--mix-accent, #D
         event?.stopPropagation?.();
         setVol(index, (volumes[index] ?? 100) + delta);
     };
-    const modeButton = (target) => (SP_JSX.jsx(DFL.DialogButton, { style: { flex: 1, minWidth: 0, height: 40, minHeight: 40, padding: 0, opacity: mode === target ? 1 : 0.6, border: mode === target ? `1px solid ${accent}` : undefined }, onClick: () => choose(target), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: mode === target ? accent : undefined }, children: target }) }));
+    const modeButton = (target) => (SP_JSX.jsx(DFL.DialogButton, { style: { flex: 1, minWidth: 0, height: 40, minHeight: 40, padding: 0, opacity: mode === target ? 1 : 0.6, border: mode === target ? `1px solid ${accent}` : undefined }, onClick: () => choose(target), children: SP_JSX.jsx("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: mode === target ? `var(--mix-accent-text, ${accent})` : undefined }, children: target }) }));
     return (SP_JSX.jsxs("div", { style: { width: "100%", boxSizing: "border-box", padding: "12px", borderRadius: "10px", border: "1px solid var(--mix-line, rgba(255,255,255,0.10))", background: "var(--mix-surface, rgba(255,255,255,0.035))", ["--sp-accent"]: accent, ...cardStyle }, children: [SP_JSX.jsx("style", { children: `
         .npSpeakerRow.gpfocus, .npSpeakerRow:focus, .npSpeakerRow:focus-visible {
           border-color: var(--sp-accent, #fff) !important;
           box-shadow: var(--mix-focus, 0 0 0 1px var(--sp-accent, #fff), 0 0 14px color-mix(in srgb, var(--sp-accent, #fff) 40%, transparent)) !important;
         }
-      ` }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "100%", minWidth: "100%" }, onClick: () => setExpanded((value) => !value), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px", boxSizing: "border-box" }, children: [SP_JSX.jsxs("span", { style: { fontWeight: 600 }, children: [t.surroundUpmix, mode !== "off" ? SP_JSX.jsx("span", { style: { color: accent, marginLeft: 8, fontSize: ".82em" }, children: mode }) : null] }), expanded ? SP_JSX.jsx(FaChevronUp, { size: 12 }) : SP_JSX.jsx(FaChevronDown, { size: 12 })] }) }), expanded ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("p", { style: { margin: "9px 4px 8px", fontSize: "0.68em", lineHeight: 1.42, opacity: 0.6 }, children: t.surroundUpmixHint }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "8px" }, children: [modeButton("5.1"), modeButton("7.1")] }), channels > 0 ? (SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", marginTop: "8px" }, children: SPEAKER_LABELS.slice(0, channels).map((label, index) => (SP_JSX.jsxs(DFL.Focusable, { className: "npSpeakerRow", role: "slider", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudge(index), onKeyDown: nudge(index), tabIndex: 0, ...{ focusable: true }, "aria-label": label, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volumes[index], style: { display: "grid", gridTemplateColumns: "48px minmax(0,1fr) 40px", alignItems: "center", gap: "10px", padding: "8px 10px", borderRadius: "7px", border: "1px solid var(--mix-line, rgba(255,255,255,.10))", background: "var(--mix-surface, rgba(255,255,255,.03))" }, children: [SP_JSX.jsx("span", { style: { fontSize: ".76em", fontWeight: 700 }, children: label }), SP_JSX.jsx("div", { style: { position: "relative", height: "6px", borderRadius: "999px", background: "var(--mix-track, rgba(255,255,255,.15))", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, width: `${volumes[index]}%`, background: accent, borderRadius: "999px" } }) }), SP_JSX.jsx("strong", { style: { fontSize: ".72em", textAlign: "right", fontVariantNumeric: "tabular-nums" }, children: volumes[index] })] }, label))) })) : null] })) : null] }));
+      ` }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "100%", minWidth: "100%" }, onClick: () => setExpanded((value) => !value), children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 10px", boxSizing: "border-box" }, children: [SP_JSX.jsxs("span", { style: { fontWeight: 600 }, children: [t.surroundUpmix, mode !== "off" ? SP_JSX.jsx("span", { style: { color: `var(--mix-accent-text, ${accent})`, marginLeft: 8, fontSize: ".82em" }, children: mode }) : null] }), expanded ? SP_JSX.jsx(FaChevronUp, { size: 12 }) : SP_JSX.jsx(FaChevronDown, { size: 12 })] }) }), expanded ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("p", { style: { margin: "9px 4px 8px", fontSize: "0.68em", lineHeight: 1.42, opacity: 0.6 }, children: t.surroundUpmixHint }), SP_JSX.jsxs(DFL.Focusable, { "flow-children": "horizontal", style: { display: "flex", gap: "8px" }, children: [modeButton("5.1"), modeButton("7.1")] }), channels > 0 ? (SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", marginTop: "8px" }, children: SPEAKER_LABELS.slice(0, channels).map((label, index) => (SP_JSX.jsxs(DFL.Focusable, { className: "npSpeakerRow", role: "slider", noFocusRing: true, onActivate: () => undefined, onButtonDown: nudge(index), onKeyDown: nudge(index), tabIndex: 0, ...{ focusable: true }, "aria-label": label, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": volumes[index], style: { display: "grid", gridTemplateColumns: "48px minmax(0,1fr) 40px", alignItems: "center", gap: "10px", padding: "8px 10px", borderRadius: "7px", border: "1px solid var(--mix-line, rgba(255,255,255,.10))", background: "var(--mix-surface, rgba(255,255,255,.03))" }, children: [SP_JSX.jsx("span", { style: { fontSize: ".76em", fontWeight: 700 }, children: label }), SP_JSX.jsx("div", { style: { position: "relative", height: "6px", borderRadius: "999px", background: "var(--mix-track, rgba(255,255,255,.15))", overflow: "hidden" }, children: SP_JSX.jsx("div", { style: { position: "absolute", inset: 0, width: `${volumes[index]}%`, background: accent, borderRadius: "999px" } }) }), SP_JSX.jsx("strong", { style: { fontSize: ".72em", textAlign: "right", fontVariantNumeric: "tabular-nums" }, children: volumes[index] })] }, label))) })) : null] })) : null] }));
 }
 
 function SmoothProgressFill({ position, duration, playing, sampledAt, style, rate = 1 }) {

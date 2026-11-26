@@ -13,6 +13,9 @@ export const CORE = {
   white: "#FFFFFF",
   text: "#E6EAEE",
   crimson: "#D7263D",
+  // Crimson words: #D7263D as text on black/gunmetal is under 4.5:1. Keep
+  // `crimson` for fills, bars, dots and rings.
+  crimsonText: "#EA5A68",
   green: "#6FA37F",
   amber: "#C98B4A",
 } as const;
@@ -20,6 +23,7 @@ export const CORE = {
 export const CORE_VARS = {
   "--mix-accent": CORE.crimson,
   "--mix-on-accent": CORE.white,
+  "--mix-accent-text": CORE.crimsonText,
   "--mix-bg": CORE.black,
   "--mix-surface": CORE.gunmetal,
   "--mix-surface-2": CORE.gunmetalRaised,
@@ -39,9 +43,8 @@ export const CORE_VARS = {
   "--mix-glow-warm": CORE.crimson,
   "--mix-glow-cool": CORE.steel,
   "--mix-error": CORE.crimson,
-  // Crimson text on black is below 4.5:1, so problems are shown as readable
-  // text beside a crimson bar.
-  "--mix-error-text": CORE.text,
+  // Problems: crimson text in its readable tint, beside a crimson bar.
+  "--mix-error-text": CORE.crimsonText,
   "--mix-error-bar": `inset 3px 0 0 ${CORE.crimson}`,
   "--mix-error-pad": "9px",
   "--mix-ok": CORE.green,

@@ -1,4 +1,5 @@
 import { definePlugin, routerHook, toaster } from "@decky/api";
+import { DUCK_STORAGE_KEY, installGameDucking, type Volumes } from "./gameDucking";
 import { DialogButton, Focusable, GamepadButton, Navigation, PanelSection, PanelSectionRow, Router } from "@decky/ui";
 import { Component, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
@@ -2377,6 +2378,7 @@ function FullscreenSettingsRoute() {
   const [fullscreenEffect, setFullscreenEffectState] = useState<FullscreenEffectKey>(loadFullscreenEffect);
   const [topbar, setTopbar] = useState(false);
   const [topbarLeft, setTopbarLeft] = useState(false);
+  const [duckGames, setDuckGames] = useState<boolean>(duckForGamesEnabled);
   const [restartingServices, setRestartingServices] = useState(false);
   const [exportingDiagnostics, setExportingDiagnostics] = useState(false);
   const [sourceBehavior, setSourceBehavior] = useState<SourceBehaviorSettings>(defaultSourceBehaviorSettings);
@@ -2570,6 +2572,11 @@ function FullscreenSettingsRoute() {
             <section className="npSettingsCard" style={card}>
               <h2 style={heading}>{t.settingsFullscreenControls}</h2>
               <FullscreenControlsLegend />
+            </section>
+
+            <section className="npSettingsCard" style={card}>
+              <h2 style={heading}>{t.gamesSection}</h2>
+              <DialogButton style={{ ...optionButton, opacity: duckGames ? 1 : .58 }} onClick={() => { const next = !duckGames; setDuckGames(next); setDuckForGames(next); }}><span style={optionContent}><span>{t.duckForGames}</span><span style={{ marginLeft: "auto" }}>{duckGames ? <FaCheck /> : null}</span></span></DialogButton>
             </section>
 
             <section className="npSettingsCard" style={card}>
@@ -4233,8 +4240,58 @@ function NowPlayingTitle() {
   );
 }
 
+function duckForGamesEnabled(): boolean {
+  try { return window.localStorage.getItem(DUCK_STORAGE_KEY) !== "off"; } catch { return true; }
+}
+
+function setDuckForGames(enabled: boolean) {
+  try { window.localStorage.setItem(DUCK_STORAGE_KEY, enabled ? "on" : "off"); } catch { /* storage unavailable */ }
+}
+
+// Music steps aside while a game runs (src/gameDucking.ts). The music apps themselves
+// can be Steam shortcuts, so a running app whose name is a music service never ducks.
+function startGameDucking(): () => void {
+  const client = (window as any).SteamClient;
+  if (typeof client?.GameSessions?.RegisterForAppLifetimeNotifications !== "function") return () => {};
+  const remote: MusicAppKey[] = ["youtubeMusic", "appleMusic"];
+  return installGameDucking({
+    subscribe: (callback) => {
+      const handle = client.GameSessions.RegisterForAppLifetimeNotifications((n: any) => callback(Number(n?.unAppID) || 0, Boolean(n?.bRunning)));
+      return () => { try { handle?.unregister?.(); } catch { /* already gone */ } };
+    },
+    read: async () => {
+      const volumes: Volumes = {};
+      for (const key of remote) {
+        try {
+          const result: any = await python.getAppVolume(key);
+          if (result?.ok && Number.isFinite(result.volume)) volumes[key] = Number(result.volume);
+        } catch { /* not running */ }
+      }
+      const local = localAudioPlayer.getSnapshot();
+      if (local.status === "Playing") volumes.localMusic = local.volume;
+      return volumes;
+    },
+    write: async (volumes) => {
+      for (const [key, value] of Object.entries(volumes)) {
+        if (key === "localMusic") localAudioPlayer.setVolume(value);
+        else await python.setAppVolume(value, key);
+      }
+    },
+    enabled: duckForGamesEnabled,
+    ignore: (appId) => {
+      try {
+        const name = String((window as any).appStore?.GetAppOverviewByAppID?.(appId)?.display_name ?? "");
+        return /youtube music|apple music|spotify|awesome mix/i.test(name);
+      } catch { return false; }
+    },
+  });
+}
+
+let stopGameDucking: () => void = () => {};
+
 export default definePlugin(() => {
   fullscreenUiDisposed = false;
+  try { stopGameDucking = startGameDucking(); } catch { stopGameDucking = () => {}; }
   routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
   routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
   routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
@@ -4252,6 +4309,7 @@ export default definePlugin(() => {
     onDismount() {
       fullscreenUiDisposed = true;
       forceRestoreFullscreenChrome();
+      try { stopGameDucking(); } catch { /* best effort */ }
       publishPlaybackActivity(false, "Stopped", "", "", "");
       localAudioPlayer.destroy();
       routerHook.removeRoute(FULLSCREEN_ROUTE);

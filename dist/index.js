@@ -24,6 +24,90 @@ const definePlugin = (fn) => {
     };
 };
 
+// Awesome Mix steps aside for games: while a game runs, the music fades down to a
+// quarter of its volume, and when the last game closes it fades back to exactly where it
+// was. Only the live volume moves; the saved per-source volumes are never touched, so a
+// crash mid-game leaves nothing to undo. Self-contained so the tests can load it alone.
+const DUCK_STORAGE_KEY = "nowPlaying:duckForGames:v1";
+const DUCK_FACTOR = 0.25;
+const FADE_STEPS = 6;
+const FADE_STEP_MS = 150;
+function duckedVolumes(volumes) {
+    return Object.fromEntries(Object.entries(volumes).map(([key, value]) => [key, Math.round(value * DUCK_FACTOR)]));
+}
+function fadeFrames(from, to, steps = FADE_STEPS) {
+    const frames = [];
+    for (let step = 1; step <= steps; step++) {
+        frames.push(Object.fromEntries(Object.keys(to).map(key => {
+            const start = from[key] ?? to[key];
+            return [key, Math.round(start + (to[key] - start) * step / steps)];
+        })));
+    }
+    return frames;
+}
+function installGameDucking(deps) {
+    const running = new Set();
+    const wait = deps.wait ?? ((ms) => new Promise(resolve => setTimeout(resolve, ms)));
+    let saved = null;
+    let current = {};
+    let generation = 0;
+    let disposed = false;
+    async function fade(target, id) {
+        for (const frame of fadeFrames(current, target)) {
+            if (disposed || id !== generation)
+                return;
+            current = frame;
+            try {
+                await deps.write(frame);
+            }
+            catch { /* A source that is not running ignores this. */ }
+            await wait(FADE_STEP_MS);
+        }
+    }
+    async function update() {
+        const id = ++generation;
+        if (running.size > 0 && saved === null) {
+            if (!deps.enabled())
+                return;
+            let volumes;
+            try {
+                volumes = await deps.read();
+            }
+            catch {
+                return;
+            }
+            if (id !== generation || disposed || Object.keys(volumes).length === 0)
+                return;
+            saved = volumes;
+            current = { ...volumes };
+            await fade(duckedVolumes(volumes), id);
+        }
+        else if (running.size === 0 && saved !== null) {
+            const target = saved;
+            saved = null;
+            await fade(target, id);
+        }
+    }
+    const unsubscribe = deps.subscribe((appId, isRunning) => {
+        if (!appId || deps.ignore?.(appId))
+            return;
+        if (isRunning)
+            running.add(appId);
+        else
+            running.delete(appId);
+        void update();
+    });
+    return () => {
+        disposed = true;
+        unsubscribe();
+        // Leaving mid-game (plugin reload): put the music back at once.
+        if (saved !== null) {
+            void deps.write(saved).catch(() => undefined);
+            saved = null;
+        }
+    };
+}
+
 var DefaultContext = {
   color: undefined,
   size: undefined,
@@ -521,7 +605,9 @@ var en = {
 		playbackSpeedLabel: "Playback speed",
 		playbackPositionLabel: "Playback position",
 		appearanceSection: "Appearance",
-		matchSteamTheme: "Match Steam theme in quick access"
+		matchSteamTheme: "Match Steam theme in quick access",
+		gamesSection: "Games",
+		duckForGames: "Lower the music while a game runs"
 	},
 	localMusic: {
 		albums: "Albums",
@@ -813,7 +899,9 @@ var it = {
 		playbackSpeedLabel: "Velocità di riproduzione",
 		playbackPositionLabel: "Posizione di riproduzione",
 		appearanceSection: "Aspetto",
-		matchSteamTheme: "Usa i colori del tema Steam nel menu rapido"
+		matchSteamTheme: "Usa i colori del tema Steam nel menu rapido",
+		gamesSection: "Giochi",
+		duckForGames: "Abbassa la musica mentre un gioco è aperto"
 	},
 	localMusic: {
 		albums: "Album",
@@ -1105,7 +1193,9 @@ var es = {
 		playbackSpeedLabel: "Velocidad de reproducción",
 		playbackPositionLabel: "Posición de reproducción",
 		appearanceSection: "Apariencia",
-		matchSteamTheme: "Usar los colores del tema de Steam en el menú rápido"
+		matchSteamTheme: "Usar los colores del tema de Steam en el menú rápido",
+		gamesSection: "Juegos",
+		duckForGames: "Bajar la música mientras hay un juego abierto"
 	},
 	localMusic: {
 		albums: "Álbumes",
@@ -1397,7 +1487,9 @@ var fr = {
 		playbackSpeedLabel: "Vitesse de lecture",
 		playbackPositionLabel: "Position de lecture",
 		appearanceSection: "Apparence",
-		matchSteamTheme: "Suivre le thème Steam dans le menu rapide"
+		matchSteamTheme: "Suivre le thème Steam dans le menu rapide",
+		gamesSection: "Jeux",
+		duckForGames: "Baisser la musique pendant qu’un jeu est ouvert"
 	},
 	localMusic: {
 		albums: "Albums",
@@ -1689,7 +1781,9 @@ var de = {
 		playbackSpeedLabel: "Wiedergabegeschwindigkeit",
 		playbackPositionLabel: "Wiedergabeposition",
 		appearanceSection: "Darstellung",
-		matchSteamTheme: "Steam-Design im Schnellzugriff übernehmen"
+		matchSteamTheme: "Steam-Design im Schnellzugriff übernehmen",
+		gamesSection: "Spiele",
+		duckForGames: "Musik leiser stellen, während ein Spiel läuft"
 	},
 	localMusic: {
 		albums: "Alben",
@@ -1981,7 +2075,9 @@ var ru = {
 		playbackSpeedLabel: "Скорость воспроизведения",
 		playbackPositionLabel: "Позиция воспроизведения",
 		appearanceSection: "Оформление",
-		matchSteamTheme: "Цвета темы Steam в меню быстрого доступа"
+		matchSteamTheme: "Цвета темы Steam в меню быстрого доступа",
+		gamesSection: "Игры",
+		duckForGames: "Приглушать музыку, пока запущена игра"
 	},
 	localMusic: {
 		albums: "Альбомы",
@@ -2273,7 +2369,9 @@ var ja = {
 		playbackSpeedLabel: "再生速度",
 		playbackPositionLabel: "再生位置",
 		appearanceSection: "外観",
-		matchSteamTheme: "クイックアクセスで Steam テーマの色を使う"
+		matchSteamTheme: "クイックアクセスで Steam テーマの色を使う",
+		gamesSection: "ゲーム",
+		duckForGames: "ゲーム中は音楽を小さくする"
 	},
 	localMusic: {
 		albums: "アルバム",
@@ -2565,7 +2663,9 @@ var ko = {
 		playbackSpeedLabel: "재생 속도",
 		playbackPositionLabel: "재생 위치",
 		appearanceSection: "모양",
-		matchSteamTheme: "빠른 메뉴에 Steam 테마 색상 사용"
+		matchSteamTheme: "빠른 메뉴에 Steam 테마 색상 사용",
+		gamesSection: "게임",
+		duckForGames: "게임 실행 중에는 음악 볼륨 낮추기"
 	},
 	localMusic: {
 		albums: "앨범",
@@ -2857,7 +2957,9 @@ var zh = {
 		playbackSpeedLabel: "播放速度",
 		playbackPositionLabel: "播放位置",
 		appearanceSection: "外观",
-		matchSteamTheme: "快速访问菜单使用 Steam 主题配色"
+		matchSteamTheme: "快速访问菜单使用 Steam 主题配色",
+		gamesSection: "游戏",
+		duckForGames: "游戏运行时调低音乐"
 	},
 	localMusic: {
 		albums: "专辑",
@@ -3155,7 +3257,9 @@ var catalogs = {
 		playbackSpeedLabel: "Velocidade de reprodução",
 		playbackPositionLabel: "Posição da reprodução",
 		appearanceSection: "Aparência",
-		matchSteamTheme: "Usar as cores do tema do Steam no menu rápido"
+		matchSteamTheme: "Usar as cores do tema do Steam no menu rápido",
+		gamesSection: "Jogos",
+		duckForGames: "Abaixar a música enquanto um jogo está aberto"
 	},
 	localMusic: {
 		albums: "Álbuns",
@@ -6097,7 +6201,7 @@ function formatMegabytes(bytes) {
     return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
 }
 
-var version = "1.0.2";
+var version = "1.0.3";
 var packageInfo = {
 	version: version};
 
@@ -41154,6 +41258,7 @@ function FullscreenSettingsRoute() {
     const [fullscreenEffect, setFullscreenEffectState] = SP_REACT.useState(loadFullscreenEffect);
     const [topbar, setTopbar] = SP_REACT.useState(false);
     const [topbarLeft, setTopbarLeft$1] = SP_REACT.useState(false);
+    const [duckGames, setDuckGames] = SP_REACT.useState(duckForGamesEnabled);
     const [restartingServices, setRestartingServices] = SP_REACT.useState(false);
     const [exportingDiagnostics, setExportingDiagnostics] = SP_REACT.useState(false);
     const [sourceBehavior, setSourceBehavior] = SP_REACT.useState(defaultSourceBehaviorSettings);
@@ -41307,7 +41412,7 @@ function FullscreenSettingsRoute() {
                                                 const active = coverSource === source;
                                                 const label = source === "online" ? (t.coverSourceOnline) : (t.coverSourceWindows);
                                                 return SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: active ? 1 : .58 }, onClick: () => selectCover(source), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: label }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: active ? SP_JSX.jsx(FaCheck, {}) : null })] }) }, source);
-                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: heading, buttonStyle: optionButton, contentStyle: optionContent }) })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
+                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.gamesSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: duckGames ? 1 : .58 }, onClick: () => { const next = !duckGames; setDuckGames(next); setDuckForGames(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: t.duckForGames }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: duckGames ? SP_JSX.jsx(FaCheck, {}) : null })] }) })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: heading, buttonStyle: optionButton, contentStyle: optionContent }) })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
 }
 function RepeatIcon(props) {
     const isTrack = props.repeatMode === "Track";
@@ -42496,8 +42601,79 @@ function NowPlayingTitle() {
     const label = app ? appDisplayLabel(app, t) : PLUGIN_DISPLAY_NAME;
     return (SP_JSX.jsx("div", { "aria-label": label, title: label, style: { display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%", minWidth: "34px", height: "34px", marginLeft: "auto", paddingRight: "8px", boxSizing: "border-box" }, children: SP_JSX.jsx(Icon, { size: 20, style: { display: "block", flexShrink: 0 } }) }));
 }
+function duckForGamesEnabled() {
+    try {
+        return window.localStorage.getItem(DUCK_STORAGE_KEY) !== "off";
+    }
+    catch {
+        return true;
+    }
+}
+function setDuckForGames(enabled) {
+    try {
+        window.localStorage.setItem(DUCK_STORAGE_KEY, enabled ? "on" : "off");
+    }
+    catch { /* storage unavailable */ }
+}
+// Music steps aside while a game runs (src/gameDucking.ts). The music apps themselves
+// can be Steam shortcuts, so a running app whose name is a music service never ducks.
+function startGameDucking() {
+    const client = window.SteamClient;
+    if (typeof client?.GameSessions?.RegisterForAppLifetimeNotifications !== "function")
+        return () => { };
+    const remote = ["youtubeMusic", "appleMusic"];
+    return installGameDucking({
+        subscribe: (callback) => {
+            const handle = client.GameSessions.RegisterForAppLifetimeNotifications((n) => callback(Number(n?.unAppID) || 0, Boolean(n?.bRunning)));
+            return () => { try {
+                handle?.unregister?.();
+            }
+            catch { /* already gone */ } };
+        },
+        read: async () => {
+            const volumes = {};
+            for (const key of remote) {
+                try {
+                    const result = await getAppVolume(key);
+                    if (result?.ok && Number.isFinite(result.volume))
+                        volumes[key] = Number(result.volume);
+                }
+                catch { /* not running */ }
+            }
+            const local = localAudioPlayer.getSnapshot();
+            if (local.status === "Playing")
+                volumes.localMusic = local.volume;
+            return volumes;
+        },
+        write: async (volumes) => {
+            for (const [key, value] of Object.entries(volumes)) {
+                if (key === "localMusic")
+                    localAudioPlayer.setVolume(value);
+                else
+                    await setAppVolume(value, key);
+            }
+        },
+        enabled: duckForGamesEnabled,
+        ignore: (appId) => {
+            try {
+                const name = String(window.appStore?.GetAppOverviewByAppID?.(appId)?.display_name ?? "");
+                return /youtube music|apple music|spotify|awesome mix/i.test(name);
+            }
+            catch {
+                return false;
+            }
+        },
+    });
+}
+let stopGameDucking = () => { };
 var index = definePlugin(() => {
     fullscreenUiDisposed = false;
+    try {
+        stopGameDucking = startGameDucking();
+    }
+    catch {
+        stopGameDucking = () => { };
+    }
     routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
     routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
     routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
@@ -42510,6 +42686,10 @@ var index = definePlugin(() => {
         onDismount() {
             fullscreenUiDisposed = true;
             forceRestoreFullscreenChrome();
+            try {
+                stopGameDucking();
+            }
+            catch { /* best effort */ }
             publishPlaybackActivity(false, "Stopped", "", "", "");
             localAudioPlayer.destroy();
             routerHook.removeRoute(FULLSCREEN_ROUTE);

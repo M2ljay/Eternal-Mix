@@ -83,7 +83,9 @@
       "playbackSpeedLabel": "Playback speed",
       "playbackPositionLabel": "Playback position",
       "appearanceSection": "Appearance",
-      "matchSteamTheme": "Match Steam theme in quick access"
+      "matchSteamTheme": "Match Steam theme in quick access",
+      "gamesSection": "Games",
+      "duckForGames": "Lower the music while a game runs"
     },
     "localMusic": {
       "albums": "Albums",
@@ -375,7 +377,9 @@
       "playbackSpeedLabel": "Velocità di riproduzione",
       "playbackPositionLabel": "Posizione di riproduzione",
       "appearanceSection": "Aspetto",
-      "matchSteamTheme": "Usa i colori del tema Steam nel menu rapido"
+      "matchSteamTheme": "Usa i colori del tema Steam nel menu rapido",
+      "gamesSection": "Giochi",
+      "duckForGames": "Abbassa la musica mentre un gioco è aperto"
     },
     "localMusic": {
       "albums": "Album",
@@ -667,7 +671,9 @@
       "playbackSpeedLabel": "Velocidad de reproducción",
       "playbackPositionLabel": "Posición de reproducción",
       "appearanceSection": "Apariencia",
-      "matchSteamTheme": "Usar los colores del tema de Steam en el menú rápido"
+      "matchSteamTheme": "Usar los colores del tema de Steam en el menú rápido",
+      "gamesSection": "Juegos",
+      "duckForGames": "Bajar la música mientras hay un juego abierto"
     },
     "localMusic": {
       "albums": "Álbumes",
@@ -959,7 +965,9 @@
       "playbackSpeedLabel": "Vitesse de lecture",
       "playbackPositionLabel": "Position de lecture",
       "appearanceSection": "Apparence",
-      "matchSteamTheme": "Suivre le thème Steam dans le menu rapide"
+      "matchSteamTheme": "Suivre le thème Steam dans le menu rapide",
+      "gamesSection": "Jeux",
+      "duckForGames": "Baisser la musique pendant qu’un jeu est ouvert"
     },
     "localMusic": {
       "albums": "Albums",
@@ -1251,7 +1259,9 @@
       "playbackSpeedLabel": "Wiedergabegeschwindigkeit",
       "playbackPositionLabel": "Wiedergabeposition",
       "appearanceSection": "Darstellung",
-      "matchSteamTheme": "Steam-Design im Schnellzugriff übernehmen"
+      "matchSteamTheme": "Steam-Design im Schnellzugriff übernehmen",
+      "gamesSection": "Spiele",
+      "duckForGames": "Musik leiser stellen, während ein Spiel läuft"
     },
     "localMusic": {
       "albums": "Alben",
@@ -1543,7 +1553,9 @@
       "playbackSpeedLabel": "Velocidade de reprodução",
       "playbackPositionLabel": "Posição da reprodução",
       "appearanceSection": "Aparência",
-      "matchSteamTheme": "Usar as cores do tema do Steam no menu rápido"
+      "matchSteamTheme": "Usar as cores do tema do Steam no menu rápido",
+      "gamesSection": "Jogos",
+      "duckForGames": "Abaixar a música enquanto um jogo está aberto"
     },
     "localMusic": {
       "albums": "Álbuns",
@@ -1835,7 +1847,9 @@
       "playbackSpeedLabel": "Скорость воспроизведения",
       "playbackPositionLabel": "Позиция воспроизведения",
       "appearanceSection": "Оформление",
-      "matchSteamTheme": "Цвета темы Steam в меню быстрого доступа"
+      "matchSteamTheme": "Цвета темы Steam в меню быстрого доступа",
+      "gamesSection": "Игры",
+      "duckForGames": "Приглушать музыку, пока запущена игра"
     },
     "localMusic": {
       "albums": "Альбомы",
@@ -2127,7 +2141,9 @@
       "playbackSpeedLabel": "再生速度",
       "playbackPositionLabel": "再生位置",
       "appearanceSection": "外観",
-      "matchSteamTheme": "クイックアクセスで Steam テーマの色を使う"
+      "matchSteamTheme": "クイックアクセスで Steam テーマの色を使う",
+      "gamesSection": "ゲーム",
+      "duckForGames": "ゲーム中は音楽を小さくする"
     },
     "localMusic": {
       "albums": "アルバム",
@@ -2419,7 +2435,9 @@
       "playbackSpeedLabel": "재생 속도",
       "playbackPositionLabel": "재생 위치",
       "appearanceSection": "모양",
-      "matchSteamTheme": "빠른 메뉴에 Steam 테마 색상 사용"
+      "matchSteamTheme": "빠른 메뉴에 Steam 테마 색상 사용",
+      "gamesSection": "게임",
+      "duckForGames": "게임 실행 중에는 음악 볼륨 낮추기"
     },
     "localMusic": {
       "albums": "앨범",
@@ -2711,7 +2729,9 @@
       "playbackSpeedLabel": "播放速度",
       "playbackPositionLabel": "播放位置",
       "appearanceSection": "外观",
-      "matchSteamTheme": "快速访问菜单使用 Steam 主题配色"
+      "matchSteamTheme": "快速访问菜单使用 Steam 主题配色",
+      "gamesSection": "游戏",
+      "duckForGames": "游戏运行时调低音乐"
     },
     "localMusic": {
       "albums": "专辑",

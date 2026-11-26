@@ -78,8 +78,8 @@ function InstallCheckBanner(props: { check: python.InstallCheck }) {
     }
   }
 
-  const box: CSSProperties = { width: "100%", padding: "10px 12px", boxSizing: "border-box", borderRadius: 6, background: "rgba(255,120,90,0.14)", border: "1px solid rgba(255,140,110,0.45)", color: "#fff" };
-  const note: CSSProperties = { margin: "6px 0 0", fontSize: "0.85em", lineHeight: 1.35, color: "rgba(255,255,255,0.75)" };
+  const box: CSSProperties = { width: "100%", padding: "10px 12px", boxSizing: "border-box", borderRadius: 6, background: "var(--mix-surface, rgba(255,120,90,0.14))", border: "1px solid var(--mix-error, rgba(255,140,110,0.45))", color: "#fff" };
+  const note: CSSProperties = { margin: "6px 0 0", fontSize: "0.85em", lineHeight: 1.35, color: "var(--mix-steel, rgba(255,255,255,0.75))" };
   const button: CSSProperties = { width: "100%", minWidth: "100%", height: 46, minHeight: 46, marginTop: 10, padding: 0 };
   const content: CSSProperties = { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 };
 
@@ -98,7 +98,7 @@ function InstallCheckBanner(props: { check: python.InstallCheck }) {
       ) : (
         <div style={note}>{t.manual}</div>
       )}
-      {status ? <div role="status" style={{ ...note, color: status.error ? "#ffb4a8" : note.color }}>{status.text}</div> : null}
+      {status ? <div role="status" style={{ ...note, ...(status.error ? { color: "var(--mix-error-text, #ffb4a8)", boxShadow: "var(--mix-error-bar, none)", paddingLeft: "var(--mix-error-pad, 0)" } : {}) }}>{status.text}</div> : null}
     </div>
   );
 }

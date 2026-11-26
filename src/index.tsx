@@ -22,7 +22,8 @@ import { SmoothProgressFill, SmoothProgressTime } from "./smoothProgress";
 import { ReactiveParticlesLayer, PARTICLE_RESOLUTION_KEY, PARTICLE_RESOLUTION_EVENT, particlePixelRatio } from "./reactiveParticles";
 import { readVisualizerLevels } from "./visualizerAudio";
 import { nudgeManualRotation, retainVisualizerControl } from "./visualizerControl";
-import { setQamThemeMatch, THEME_ACCENT, useQamThemeMatch } from "./themeMatch";
+import { getMixTheme, setMixTheme, THEME_ACCENT, useCoreRoot, useMixTheme, useQamThemeMatch, type MixTheme } from "./themeMatch";
+import { CORE_ROOT_CSS, CORE_SERVICE_ACCENT } from "./corePalette";
 import { PLUGIN_CREDITS, PLUGIN_DISPLAY_NAME, PLUGIN_VOLUME } from "./version";
 import { steppedVolume } from "./volumeStep";
 
@@ -193,8 +194,8 @@ const legendChipStyle: CSSProperties = {
   minWidth: "20px",
   padding: "1px 6px",
   borderRadius: "5px",
-  background: "rgba(255,255,255,0.12)",
-  border: "1px solid rgba(255,255,255,0.18)",
+  background: "var(--mix-surface-2, rgba(255,255,255,0.12))",
+  border: "1px solid var(--mix-line, rgba(255,255,255,0.18))",
   fontFamily: "monospace",
   fontSize: "0.9em",
   fontWeight: 700,
@@ -224,7 +225,7 @@ const meterTrackStyle: CSSProperties = {
   maxWidth: "100%",
   height: "6px",
   borderRadius: "999px",
-  background: "rgba(255,255,255,0.18)",
+  background: "var(--mix-track, rgba(255,255,255,0.18))",
   overflow: "hidden",
   boxSizing: "border-box",
 };
@@ -232,7 +233,7 @@ const meterTrackStyle: CSSProperties = {
 const meterFillBaseStyle: CSSProperties = {
   height: "100%",
   borderRadius: "999px",
-  background: "var(--np-accent, #66c0f4)",
+  background: "var(--np-accent, #D7263D)",
   transition: "width 160ms linear",
 };
 
@@ -321,10 +322,12 @@ const musicApps: MusicAppButton[] = [
 const SERVICE_ACCENTS: Record<string, string> = {
   youtubeMusic: "#FF0033",
   appleMusic: "#FA243C",
-  localMusic: "#D9A337",
+  // Your Music has no brand colour: it takes Core's accent.
+  localMusic: CORE_SERVICE_ACCENT,
 };
 function accentForKey(key?: string): string {
-  return (key && SERVICE_ACCENTS[key]) || "#66c0f4";
+  if (getMixTheme() === "core") return CORE_SERVICE_ACCENT;
+  return (key && SERVICE_ACCENTS[key]) || CORE_SERVICE_ACCENT;
 }
 const defaultEnabledAppKeys: MusicAppKey[] = ["localMusic"];
 const defaultSourceBehaviorSettings: SourceBehaviorSettings = { autoLaunch: true, closeOnSwitch: true };
@@ -544,7 +547,7 @@ function CoverBox(props: { artUrl?: string; onActivate?: () => void; ariaLabel?:
     paddingBottom: "100%",
     borderRadius: "4px",
     overflow: "hidden",
-    background: artUrl && artUrl.trim() ? undefined : "rgba(255,255,255,0.08)",
+    background: artUrl && artUrl.trim() ? undefined : "var(--mix-surface, rgba(255,255,255,0.08))",
     boxShadow: artUrl && artUrl.trim()
       ? "0 14px 38px rgba(0,0,0,0.55)"
       : "0 14px 38px rgba(0,0,0,0.45)",
@@ -617,7 +620,7 @@ function LocalPlaybackProgress(props: { current: PlayerSnapshot | null; snapshot
   if (!state.track) return <ProgressView current={props.current} snapshotAt={props.snapshotAt} />;
   return (
     <div style={{ ...meterBoxStyle, marginTop: "6px" }}>
-      <LocalSeekBar accent="var(--np-accent, #66c0f4)" timeStyle={{ fontSize: "0.72em", opacity: 0.66, marginTop: "3px" }} />
+      <LocalSeekBar accent="var(--np-accent, #D7263D)" timeStyle={{ fontSize: "0.72em", opacity: 0.66, marginTop: "3px" }} />
       <div style={{ height: "6px" }} />
       <LocalSeekButtons buttonStyle={{ ...compactButtonStyle, fontSize: "0.8em" }} gap={CONTROL_GAP} />
     </div>
@@ -1424,6 +1427,7 @@ function FullscreenEffectLayer(props: { effect: FullscreenEffectKey; coverUrl?: 
 
 function FullscreenRoute() {
   const t = useTranslations();
+  const { coreVars, coreClass } = useCoreRoot();
   const [snapshot, setSnapshot] = useState<Snapshot>(emptySnapshot);
   const [fullscreenEffect, setFullscreenEffect] = useState<FullscreenEffectKey>(loadFullscreenEffect);
   const [effectToastLabel, setEffectToastLabel] = useState<string>("");
@@ -1682,7 +1686,7 @@ function FullscreenRoute() {
 
   return (
     <Focusable
-      className="npFullscreenRoot"
+      className={`npFullscreenRoot${coreClass}`}
       onCancel={navigateBackFromFullscreen}
       onCancelButton={navigateBackFromFullscreen}
       onButtonDown={(event: any) => {
@@ -1715,8 +1719,10 @@ function FullscreenRoute() {
         color: "#fff",
         overflow: "hidden",
         outline: "none",
+        ...coreVars,
       }}
     >
+      <style>{CORE_ROOT_CSS}</style>
       <style>{`
         .npFullscreenRoot,
         .npFullscreenRoot * {
@@ -1771,7 +1777,7 @@ function FullscreenRoute() {
           min-width: 588px;
           min-height: 588px;
           border-radius: 999px;
-          background: radial-gradient(circle, rgba(185,119,0,0.36) 0%, rgba(185,119,0,0.16) 28%, rgba(185,119,0,0) 67%);
+          background: radial-gradient(circle, color-mix(in srgb, var(--mix-glow-warm, #D7263D) 36%, transparent) 0%, color-mix(in srgb, var(--mix-glow-warm, #D7263D) 16%, transparent) 28%, transparent 67%);
           filter: blur(40px);
           opacity: 0.94;
           animation:
@@ -1790,7 +1796,7 @@ function FullscreenRoute() {
           top: 13vh;
           width: 49vw;
           height: 49vw;
-          background: radial-gradient(circle, rgba(25,119,202,0.36) 0%, rgba(25,119,202,0.16) 28%, rgba(25,119,202,0) 67%);
+          background: radial-gradient(circle, color-mix(in srgb, var(--mix-glow-cool, rgb(25,119,202)) 36%, transparent) 0%, color-mix(in srgb, var(--mix-glow-cool, rgb(25,119,202)) 16%, transparent) 28%, transparent 67%);
           animation:
             npFullscreenGlowDrift 23.8s ease-in-out infinite alternate-reverse,
             npFullscreenGlowHueCool 64s linear infinite alternate;
@@ -1843,7 +1849,7 @@ function FullscreenRoute() {
           mix-blend-mode: screen;
           background-image:
             radial-gradient(circle, rgba(255,255,255,0.2) 0, rgba(255,255,255,0.2) 0.11px, transparent 0.23px),
-            radial-gradient(circle, rgba(255,214,124,0.12) 0, rgba(255,214,124,0.12) 0.1px, transparent 0.22px),
+            radial-gradient(circle, rgba(201,209,217,0.12) 0, rgba(201,209,217,0.12) 0.1px, transparent 0.22px),
             radial-gradient(circle, rgba(65,159,244,0.1) 0, rgba(65,159,244,0.1) 0.1px, transparent 0.22px);
           background-position: 0 0, 0.45px 0.65px, 0.9px 0.25px;
           background-size: 1px 1px, 1.25px 1.25px, 1.55px 1.55px;
@@ -1958,8 +1964,8 @@ function FullscreenRoute() {
           height: var(--np-cover-w, clamp(170px, 13.6vw, 278px));
           border-radius: clamp(7px, 0.65vw, 12px);
           overflow: hidden;
-          background: rgba(255,255,255,0.08);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
+          background: var(--mix-surface, rgba(255,255,255,0.08));
+          box-shadow: 0 0 0 1px var(--mix-line, rgba(255,255,255,0.08));
           opacity: 1;
           transform-origin: left bottom;
           transition: width .5s ease, height .5s ease, opacity .5s ease;
@@ -2013,7 +2019,7 @@ function FullscreenRoute() {
           font-size: clamp(23px, 2vw, 38px);
           line-height: 1.2;
           letter-spacing: 0;
-          color: #B8B8B8;
+          color: var(--mix-steel, #B8B8B8);
           opacity: 1;
           overflow-wrap: anywhere;
           text-shadow: 0 2px 16px rgba(0,0,0,0.54);
@@ -2021,7 +2027,7 @@ function FullscreenRoute() {
         }
 
         .npFullscreenAlbum {
-          color: #808080;
+          color: var(--mix-hint, #808080);
           opacity: 1;
           font-size: clamp(20px, 1.8vw, 34px);
         }
@@ -2188,7 +2194,7 @@ function FullscreenRoute() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "rgba(255,255,255,0.07)",
+                background: "var(--mix-surface, rgba(255,255,255,0.07))",
               }}
             >
               <FaMusic size={92} />
@@ -2349,7 +2355,7 @@ function FullscreenEffectDropdown(props: { value: FullscreenEffectKey; onChange:
 function FullscreenControlsLegend() {
   const t = useTranslations();
   return (
-    <div style={{ width: "100%", padding: "10px 12px", boxSizing: "border-box", borderRadius: "8px", background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", fontSize: "0.78em", lineHeight: 1.5 }}>
+    <div style={{ width: "100%", padding: "10px 12px", boxSizing: "border-box", borderRadius: "8px", background: "var(--mix-surface, rgba(255,255,255,0.045))", border: "1px solid var(--mix-line, rgba(255,255,255,0.08))", fontSize: "0.78em", lineHeight: 1.5 }}>
       {([
         [["LB", "RB"], t.fsLegendEffect],
         [["X"], t.fsLegendView],
@@ -2360,7 +2366,7 @@ function FullscreenControlsLegend() {
         [["↑", "↓"], t.fsLegendRotate],
         [["←", "→"], t.fsLegendWake],
       ] as [string[], string][]).map(([buttons, label], index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "4px 0", borderTop: index === 0 ? undefined : "1px solid rgba(255,255,255,0.06)" }}>
+        <div key={index} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "4px 0", borderTop: index === 0 ? undefined : "1px solid var(--mix-line, rgba(255,255,255,0.06))" }}>
           <span style={{ display: "flex", gap: "4px", flexWrap: "wrap", minWidth: "92px" }}>
             {buttons.map((b) => <span key={b} style={legendChipStyle}>{b}</span>)}
           </span>
@@ -2373,6 +2379,7 @@ function FullscreenControlsLegend() {
 
 function FullscreenSettingsRoute() {
   const t = useTranslations();
+  const { coreVars, coreClass } = useCoreRoot();
   const [enabledAppKeys, setEnabledAppKeys] = useState<MusicAppKey[]>(loadEnabledAppKeys);
   const [coverSource, setCoverSourceState] = useState<CoverSource>("online");
   const [fullscreenEffect, setFullscreenEffectState] = useState<FullscreenEffectKey>(loadFullscreenEffect);
@@ -2496,11 +2503,11 @@ function FullscreenSettingsRoute() {
     minWidth: 0,
     boxSizing: "border-box",
     borderRadius: "18px",
-    border: "1px solid rgba(255,255,255,.10)",
-    background: "linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.035))",
-    backdropFilter: "blur(24px)",
+    border: "1px solid var(--mix-line, rgba(255,255,255,.10))",
+    background: "var(--mix-surface, linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.035)))",
+    backdropFilter: "var(--mix-backdrop, blur(24px))",
     padding: "20px",
-    boxShadow: "0 22px 70px rgba(0,0,0,.28)",
+    boxShadow: "var(--mix-shadow, 0 22px 70px rgba(0,0,0,.28))",
     overflow: "hidden",
   };
   const heading: CSSProperties = { margin: "0 0 14px", fontSize: "20px", fontWeight: 650 };
@@ -2509,16 +2516,17 @@ function FullscreenSettingsRoute() {
 
   return (
     <Focusable
-      className="npFullscreenRoot npFullscreenSettings"
+      className={`npFullscreenRoot npFullscreenSettings${coreClass}`}
       flow-children="vertical"
       onCancel={leaveSettings}
       onCancelButton={leaveSettings}
-      style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 2147483647, overflowY: "auto", overflowX: "hidden", background: "radial-gradient(circle at 10% 0%, rgba(217,163,55,.18), transparent 34%), radial-gradient(circle at 92% 0%, rgba(29,185,84,.13), transparent 30%), #090909", color: "#fff", padding: "28px 48px 120px", scrollPaddingBottom: 100 }}
+      style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 2147483647, overflowY: "auto", overflowX: "hidden", background: "var(--mix-bg, radial-gradient(circle at 10% 0%, rgba(215,38,61,.16), transparent 34%), #090909)", color: "#fff", padding: "28px 48px 120px", scrollPaddingBottom: 100, ...coreVars }}
     >
+      <style>{CORE_ROOT_CSS}</style>
       <style>{`
         .npFullscreenSettings,.npFullscreenSettings *{box-sizing:border-box}
         .npFullscreenSettings button{transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease!important}
-        .npFullscreenSettings button:focus,.npFullscreenSettings button.gpfocus{transform:none!important;background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.26)!important;box-shadow:0 0 0 2px rgba(255,255,255,.72),0 0 22px rgba(255,255,255,.12)!important}
+        .npFullscreenSettings button:focus,.npFullscreenSettings button.gpfocus{transform:none!important;background:var(--mix-focus-bg, rgba(255,255,255,.13))!important;border-color:var(--mix-line, rgba(255,255,255,.26))!important;box-shadow:var(--mix-focus, 0 0 0 2px rgba(255,255,255,.72),0 0 22px rgba(255,255,255,.12))!important}
         .npFullscreenSettings .npSettingsShell{width:min(1680px,100%);margin:0 auto}
         .npFullscreenSettings .npSettingsGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;width:100%}
         .npFullscreenSettings .npSettingsColumn{display:flex;flex-direction:column;gap:18px;min-width:0;width:100%}
@@ -2637,7 +2645,8 @@ function SettingsView(props: {
   onSelectFullscreenEffect: (effect: FullscreenEffectKey) => void;
   onToggleApp: (key: MusicAppKey) => void;
 }) {
-  const qamThemed = useQamThemeMatch();
+  const theme = useMixTheme();
+  const { coreVars, coreClass } = useCoreRoot();
   const t = useTranslations();
   const enabled = new Set(props.enabledAppKeys);
   const [topbar, setTopbar] = useState(false);
@@ -2718,18 +2727,19 @@ function SettingsView(props: {
 
   return (
     <Focusable
-      className="npSettingsViewRoot"
+      className={`npSettingsViewRoot${coreClass}`}
       flow-children="vertical"
       onCancel={props.onBack}
       onCancelButton={props.onBack}
-      style={{ width: "100%" }}
+      style={{ width: "100%", ...coreVars }}
     >
+      <style>{CORE_ROOT_CSS}</style>
       <style>{`
         .npSettingsViewRoot button,.npSettingsViewRoot button *{color:#fff!important;text-align:left!important}
         .npSettingsViewRoot button{font-size:.82em!important}
         .npSettingsViewRoot button>span{width:100%!important;box-sizing:border-box!important;justify-content:flex-start!important;font-size:1em!important;padding-left:10px!important;padding-right:10px!important}
         .npSettingsViewRoot button.npSettingsBackButton>span{justify-content:center!important;padding:0!important}
-        .npSettingsViewRoot button:hover,.npSettingsViewRoot button:focus,.npSettingsViewRoot button.gpfocus{color:#fff!important;background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,255,255,.22),0 0 18px rgba(255,255,255,.10)!important}
+        .npSettingsViewRoot button:hover,.npSettingsViewRoot button:focus,.npSettingsViewRoot button.gpfocus{color:#fff!important;background:var(--mix-focus-bg, rgba(255,255,255,.12))!important;border-color:var(--mix-line, rgba(255,255,255,.24))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(255,255,255,.22),0 0 18px rgba(255,255,255,.10))!important}
       `}</style>
       <PanelSection>
       <PanelSectionRow>
@@ -2805,17 +2815,15 @@ function SettingsView(props: {
 
             <div style={{ height: "12px" }} />
             <div style={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}>{t.appearanceSection}</div>
-            <Focusable style={{ ...centeredColumnStyle, gap: "6px" }} flow-children="vertical">
-              <DialogButton
-                style={{ ...wideButtonStyle, opacity: qamThemed ? 1 : 0.58 }}
-                onClick={() => setQamThemeMatch(!qamThemed)}
-              >
-                <span style={settingsButtonContentStyle}>
-                  <span>{t.matchSteamTheme}</span>
-                  <span style={settingsCheckStyle}>{qamThemed ? <FaCheck /> : null}</span>
-                </span>
-              </DialogButton>
-            </Focusable>
+            <SettingsChoiceButton
+              options={[
+                { key: "core", label: t.themeCore },
+                { key: "steam", label: t.matchSteamTheme },
+                { key: "service", label: t.themeServiceColours },
+              ]}
+              current={theme}
+              onSelect={(key) => setMixTheme(key as MixTheme)}
+            />
             <div style={{ height: "12px" }} />
             <div style={{ ...settingsGroupLabelStyle, marginBottom: "6px" }}>{t.topbarSection}</div>
             <Focusable style={{ ...centeredColumnStyle, gap: "6px" }} flow-children="vertical">
@@ -2870,7 +2878,7 @@ function SettingsView(props: {
               style={{
                 width: "100%",
                 marginBottom: "6px",
-                color: "rgba(255,255,255,0.62)",
+                color: "var(--mix-hint, rgba(255,255,255,0.62))",
                 fontSize: "0.82em",
                 lineHeight: 1.35,
               }}
@@ -2887,7 +2895,7 @@ function SettingsView(props: {
                 <span>{restartingServices ? t.restartServicesInProgress : t.restartServices}</span>
               </span>
             </DialogButton>
-            <div style={{ width: "100%", margin: "12px 0 6px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35 }}>
+            <div style={{ width: "100%", margin: "12px 0 6px", color: "var(--mix-hint, rgba(255,255,255,0.62))", fontSize: "0.82em", lineHeight: 1.35 }}>
               {t.diagnosticLogDescription}
             </div>
             <DialogButton style={wideButtonStyle} disabled={exportingDiagnostics} onClick={() => void exportDiagnostics()}>
@@ -2899,7 +2907,7 @@ function SettingsView(props: {
               buttonStyle={{ ...wideButtonStyle, marginBottom: "6px" }}
               contentStyle={settingsButtonContentStyle}
             />
-            <div style={{ width: "100%", margin: "14px 0 0", color: "rgba(255,255,255,0.52)", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }}>
+            <div style={{ width: "100%", margin: "14px 0 0", color: "var(--mix-hint, rgba(255,255,255,0.52))", fontSize: "0.78em", lineHeight: 1.35, textAlign: "center" }}>
               {PLUGIN_DISPLAY_NAME} · {PLUGIN_VOLUME}<br />{PLUGIN_CREDITS}
             </div>
             <style>{`
@@ -2936,6 +2944,7 @@ function Content() {
   const [bottomGlowFadeTop, setBottomGlowFadeTop] = useState<number>(520);
   const qamRootRef = useRef<HTMLDivElement>(null);
   const qamThemed = useQamThemeMatch();
+  const { coreVars, coreClass } = useCoreRoot();
   const volumeWrapperRef = useRef<HTMLDivElement>(null);
   const refreshingRef = useRef<boolean>(false);
   const mediaKeyRef = useRef<string>("");
@@ -3874,12 +3883,12 @@ function Content() {
         .npAlbumCoverButton:focus,
         .npAlbumCoverButton.gpfocus {
           transform: scale(1.012);
-          filter: drop-shadow(0 0 10px color-mix(in srgb, var(--np-accent, #1DB954) 32%, transparent));
+          filter: var(--mix-filter-glow, drop-shadow(0 0 10px color-mix(in srgb, var(--np-accent, #D7263D) 32%, transparent)));
         }
         .npAlbumCoverButton:focus .npAlbumCoverArtwork,
         .npAlbumCoverButton.gpfocus .npAlbumCoverArtwork {
-          outline-color: color-mix(in srgb, var(--np-accent, #1DB954) 78%, white 8%);
-          box-shadow: 0 14px 38px rgba(0,0,0,0.55), 0 0 0 1px color-mix(in srgb, var(--np-accent, #1DB954) 42%, transparent);
+          outline-color: color-mix(in srgb, var(--np-accent, #D7263D) 78%, white 8%);
+          box-shadow: 0 14px 38px rgba(0,0,0,0.55), 0 0 0 1px color-mix(in srgb, var(--np-accent, #D7263D) 42%, transparent);
         }
         .npAppVolume {
           box-sizing: border-box;
@@ -3893,8 +3902,8 @@ function Content() {
           padding: 6px 8px;
           border-radius: 6px;
           border: 1px solid transparent;
-          background: rgba(255, 255, 255, 0.04);
-          ${qamThemed ? "color: inherit;" : "color: rgba(255, 255, 255, 0.82);"}
+          background: var(--mix-surface, rgba(255, 255, 255, 0.04));
+          ${qamThemed ? "color: inherit;" : "color: var(--mix-text, rgba(255, 255, 255, 0.82));"}
           font-size: 0.86em;
           line-height: 1.15;
           outline: none;
@@ -3902,8 +3911,8 @@ function Content() {
         }
         .npAppVolume.npAppVolumeFocused,
         .npAppVolume:focus-visible {
-          border-color: color-mix(in srgb, var(--np-accent, #66c0f4) 62%, transparent);
-          box-shadow: 0 0 0 1px color-mix(in srgb, var(--np-accent, #66c0f4) 20%, transparent), 0 0 18px color-mix(in srgb, var(--np-accent, #66c0f4) 22%, transparent);
+          border-color: color-mix(in srgb, var(--np-accent, #D7263D) 62%, transparent);
+          box-shadow: var(--mix-focus, 0 0 0 1px color-mix(in srgb, var(--np-accent, #D7263D) 20%, transparent), 0 0 18px color-mix(in srgb, var(--np-accent, #D7263D) 22%, transparent));
         }
         .npAppVolume span,
         .npAppVolume strong {
@@ -3922,12 +3931,12 @@ function Content() {
           height: 18px;
           margin: 0;
           padding: 0;
-          accent-color: var(--np-accent, #66c0f4);
+          accent-color: var(--np-accent, #D7263D);
         }
         .npAppVolume input[type="range"]::-webkit-slider-runnable-track {
           height: 6px;
           border-radius: 999px;
-          background: rgba(255, 255, 255, 0.18);
+          background: var(--mix-track, rgba(255, 255, 255, 0.18));
         }
         .npAppVolume input[type="range"]::-webkit-slider-thumb {
           width: 14px;
@@ -3939,9 +3948,12 @@ function Content() {
       <PanelSectionRow>
         <div
           ref={qamRootRef}
-          style={{ ...qamCenterRowStyle, ["--np-accent" as any]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }}
+          className={coreClass.trim() || undefined}
+          style={{ ...qamCenterRowStyle, ...coreVars, ["--np-accent" as any]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }}
         >
-          <QamGlowLayer artUrl={coverUrl || coverUrlRef.current} playing={isPlaying} bottomFadeTop={bottomGlowFadeTop} />
+          <style>{CORE_ROOT_CSS}</style>
+          {/* Core has no glow backgrounds: the cover halo is left out. */}
+          {coreClass ? null : <QamGlowLayer artUrl={coverUrl || coverUrlRef.current} playing={isPlaying} bottomFadeTop={bottomGlowFadeTop} />}
           <div style={{ ...centeredColumnStyle, position: "relative", zIndex: 3 }}>
             <div style={mediaTransitionStyle}>
               <CoverBox
@@ -4049,8 +4061,8 @@ function Content() {
                       width: "4px",
                       height: "4px",
                       borderRadius: "50%",
-                      background: "var(--np-accent, #66c0f4)",
-                      boxShadow: "0 0 5px var(--np-accent, #66c0f4)",
+                      background: "var(--np-accent, #D7263D)",
+                      boxShadow: "var(--mix-shadow, 0 0 5px var(--np-accent, #D7263D))",
                       pointerEvents: "none",
                     }}
                   />
@@ -4083,8 +4095,8 @@ function Content() {
                       width: "4px",
                       height: "4px",
                       borderRadius: "50%",
-                      background: "var(--np-accent, #66c0f4)",
-                      boxShadow: "0 0 5px var(--np-accent, #66c0f4)",
+                      background: "var(--np-accent, #D7263D)",
+                      boxShadow: "var(--mix-shadow, 0 0 5px var(--np-accent, #D7263D))",
                       pointerEvents: "none",
                     }}
                   />

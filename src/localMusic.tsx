@@ -33,10 +33,12 @@ import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } f
 import type { LocalMusicCacheProgress, LocalMusicSettings } from "./python";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { LocalMusicTranslation } from "./i18n";
-import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useQamThemeMatch } from "./themeMatch";
+import { THEME_ACCENT, THEME_CARD_BG, THEME_CARD_BORDER, THEME_DIVIDER, useCoreRoot, useQamThemeMatch } from "./themeMatch";
+import { CORE_ROOT_CSS } from "./corePalette";
 import { steppedVolume } from "./volumeStep";
 
-const LOCAL_ACCENT = "#D9A337";
+// Your Music has no brand colour: Core's crimson in every theme (gold is retired).
+const LOCAL_ACCENT = "var(--mix-accent, #D7263D)";
 const COVER_CACHE = new Map<string, string>();
 const ARTIST_PROFILE_CACHE = new Map<string, string>();
 
@@ -203,7 +205,7 @@ function LocalArtwork({ item, size = 52, round = false }: { item: any; size?: nu
   const profileUrl = useLocalArtistProfile(round || itemType(item) === "artist" ? item : null);
   const url = profileUrl || coverUrl;
   return (
-    <span style={{ width: size, minWidth: size, height: size, borderRadius: round ? "50%" : "7px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.08)" }}>
+    <span style={{ width: size, minWidth: size, height: size, borderRadius: round ? "50%" : "7px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--mix-surface, rgba(255,255,255,.08))" }}>
       {url ? <img loading="lazy" src={url} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <FaMusic style={{ opacity: .42 }} />}
     </span>
   );
@@ -227,6 +229,7 @@ function LocalMusicPickerModal({ initialPath, closeModal, onAdd }: {
   closeModal: () => void;
   onAdd: (kind: "folder" | "file", path: string) => Promise<boolean>;
 }) {
+  const { coreVars, coreClass } = useCoreRoot();
   const t = useLocalTranslations();
   const [listing, setListing] = useState<LocalDirectoryListing>({ ok: true, path: initialPath, dirs: [], files: [] });
   const [manualPath, setManualPath] = useState(initialPath);
@@ -271,10 +274,11 @@ function LocalMusicPickerModal({ initialPath, closeModal, onAdd }: {
         .npLocalPicker button.npLocalPickerGo{position:relative!important;width:84px!important;min-width:84px!important;max-width:84px!important;padding:0!important}
         .npLocalPicker button.npLocalPickerGo>span{position:static!important;width:100%!important;height:100%!important;padding:0!important}
         .npLocalPicker button.npLocalPickerGo span.npLocalPickerGoLabel{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;pointer-events:none!important}
-        .npLocalPicker button.npLocalPickerConfirm{color:#fff!important;background:linear-gradient(135deg,rgba(217,163,55,.96),rgba(179,124,22,.96))!important;border:1px solid rgba(255,226,159,.42)!important;box-shadow:0 8px 24px rgba(128,82,7,.24)!important}
-        .npLocalPicker button.npLocalPickerConfirm:hover,.npLocalPicker button.npLocalPickerConfirm:focus,.npLocalPicker button.npLocalPickerConfirm.gpfocus{background:linear-gradient(135deg,#e1ad43,#c18a24)!important;border-color:rgba(255,244,211,.78)!important;box-shadow:0 0 0 2px rgba(255,255,255,.72),0 0 24px rgba(217,163,55,.38)!important}
+        .npLocalPicker button.npLocalPickerConfirm{color:#fff!important;background:#D7263D!important;border:1px solid #D7263D!important;box-shadow:none!important}
+        .npLocalPicker button.npLocalPickerConfirm:hover,.npLocalPicker button.npLocalPickerConfirm:focus,.npLocalPicker button.npLocalPickerConfirm.gpfocus{background:#D7263D!important;border-color:#FFFFFF!important;box-shadow:0 0 0 2px #FFFFFF!important}
       `}</style>
-      <Focusable className="npLocalPicker" flow-children="vertical" style={{ position: "fixed", left: "50%", top: "50%", transform: "translate(-50%,-50%)", zIndex: 2147483647, width: "min(46rem, calc(100vw - 72px))", height: "min(42rem, calc(100vh - 72px))", maxWidth: "100%", display: "grid", gridTemplateRows: "auto auto auto minmax(0,1fr)", gap: 10, padding: 18, borderRadius: 8, border: "1px solid rgba(255,255,255,.16)", background: "rgba(16,17,18,.98)", boxShadow: "0 28px 90px rgba(0,0,0,.72)", overflow: "hidden", boxSizing: "border-box" }}>
+      <style>{CORE_ROOT_CSS}</style>
+      <Focusable className={`npLocalPicker${coreClass}`} flow-children="vertical" style={{ ...coreVars, position: "fixed", left: "50%", top: "50%", transform: "translate(-50%,-50%)", zIndex: 2147483647, width: "min(46rem, calc(100vw - 72px))", height: "min(42rem, calc(100vh - 72px))", maxWidth: "100%", display: "grid", gridTemplateRows: "auto auto auto minmax(0,1fr)", gap: 10, padding: 18, borderRadius: 8, border: "1px solid var(--mix-line, rgba(255,255,255,.16))", background: "rgba(16,17,18,.98)", boxShadow: "0 28px 90px rgba(0,0,0,.72)", overflow: "hidden", boxSizing: "border-box" }}>
         <div style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>{t.pickerTitle}</div>
         <Focusable flow-children="horizontal" style={{ display: "grid", gridTemplateColumns: "auto minmax(0,1fr) auto", gap: 8 }}>
           <DialogButton className="npLocalPickerBack" style={{ width: 46, minWidth: 46, padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }} disabled={loading || adding} onClick={() => void load(parentWindowsPath(listing.path))}><span><FaArrowLeft /></span></DialogButton>
@@ -337,10 +341,10 @@ export function FanartSettingsPanel() {
         .npFanartSettingsPanel button,.npFanartSettingsPanel button *{color:#fff!important;text-align:left!important}
         .npFanartSettingsPanel button{font-size:.82em!important}
         .npFanartSettingsPanel button>span{justify-content:flex-start!important;font-size:1em!important}
-        .npFanartSettingsPanel button:hover,.npFanartSettingsPanel button:focus,.npFanartSettingsPanel button.gpfocus{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(255,255,255,.22),0 0 18px rgba(255,255,255,.10)!important}
+        .npFanartSettingsPanel button:hover,.npFanartSettingsPanel button:focus,.npFanartSettingsPanel button.gpfocus{background:var(--mix-focus-bg, rgba(255,255,255,.12))!important;border-color:var(--mix-line, rgba(255,255,255,.24))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(255,255,255,.22),0 0 18px rgba(255,255,255,.10))!important}
       `}</style>
       <div style={{ marginTop: 14, padding: "0 4px", fontSize: ".72em", fontWeight: 700, opacity: .64 }}>{t.fanartProvider}</div>
-      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: "1px solid rgba(255,255,255,.15)", background: "rgba(255,255,255,.045)" }}>
+      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: "1px solid var(--mix-line, rgba(255,255,255,.15))", background: "var(--mix-surface, rgba(255,255,255,.045))" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <DialogButton
             style={{ width: "auto", minWidth: 0, height: 30, minHeight: 30, padding: "0 9px" }}
@@ -357,7 +361,7 @@ export function FanartSettingsPanel() {
           autoComplete="off"
           placeholder={t.fanartApiKey}
           onChange={(event) => { setFanartApiKey(event.currentTarget.value); setFanartSaved(false); }}
-          style={{ width: "100%", boxSizing: "border-box", height: 36, padding: "0 10px", borderRadius: 7, background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.12)", color: "#fff", fontFamily: "monospace", fontSize: ".68em" }}
+          style={{ width: "100%", boxSizing: "border-box", height: 36, padding: "0 10px", borderRadius: 7, background: "rgba(0,0,0,.28)", border: "1px solid var(--mix-line, rgba(255,255,255,.12))", color: "#fff", fontFamily: "monospace", fontSize: ".68em" }}
         />
         <DialogButton style={{ width: "100%", minWidth: "100%", height: 38, marginTop: 6, padding: 0 }} disabled={busy} onClick={() => void saveFanartKey()}>
           <span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "flex-start", padding: "0 10px", boxSizing: "border-box", fontSize: ".82em", textAlign: "left" }}>{fanartSaved ? <FaCheck /> : <FaSyncAlt />} {fanartSaved ? t.saved : t.saveFanartApiKey}</span>
@@ -586,10 +590,10 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
         .npLocalSettingsPanel button>span{justify-content:flex-start!important;font-size:1em!important}
         .npLocalSettingsPanel button.npLocalRemoveFolderButton>span{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important}
         .npLocalSettingsPanel button.npLocalRemoveFolderButton svg{margin:0!important}
-        ${themed ? "" : `.npLocalSettingsPanel button:hover,.npLocalSettingsPanel button:focus,.npLocalSettingsPanel button.gpfocus{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.24)!important;box-shadow:0 0 0 1px rgba(217,163,55,.28),0 0 18px rgba(217,163,55,.15)!important}`}
+        ${themed ? "" : `.npLocalSettingsPanel button:hover,.npLocalSettingsPanel button:focus,.npLocalSettingsPanel button.gpfocus{background:var(--mix-focus-bg, rgba(255,255,255,.12))!important;border-color:var(--mix-line, rgba(255,255,255,.24))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(215,38,61,.28),0 0 18px rgba(215,38,61,.15))!important}`}
       `}</style>
       <div style={{ marginTop: 14, padding: "0 4px", fontSize: ".72em", fontWeight: 700, opacity: .64 }}>{t.yourMusic}</div>
-      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.28)", background: themed ? THEME_CARD_BG : "linear-gradient(145deg, rgba(217,163,55,.13), rgba(0,0,0,.22))" }}>
+      <div style={{ marginTop: 6, padding: 12, borderRadius: 10, border: themed ? THEME_CARD_BORDER : "1px solid var(--mix-line, rgba(215,38,61,.28))", background: themed ? THEME_CARD_BG : "var(--mix-surface, linear-gradient(145deg, rgba(215,38,61,.13), rgba(0,0,0,.22)))" }}>
         <p style={{ margin: "0 0 8px", fontSize: ".72em", lineHeight: 1.42, opacity: .74 }}>{t.settingsDescription}</p>
         <p style={{ margin: "0 0 10px", fontSize: ".66em", lineHeight: 1.38, opacity: .54 }}>{t.formats}</p>
         <DialogButton className="npLocalSettingsButton" style={{ width: "100%", minWidth: "100%", height: 38, padding: 0 }} disabled={busy} onClick={() => void chooseFolder()}>
@@ -616,12 +620,12 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
           <span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "flex-start", padding: "0 10px", boxSizing: "border-box", fontSize: ".82em", textAlign: "left" }}><FaCompactDisc className={cacheBusy ? "npLocalSpin" : ""} /> {cacheBusy ? t.cacheBuilding : t.createCache}</span>
         </DialogButton>
         {(cacheBusy || ["complete", "cleared", "manual_cleared", "error"].includes(cacheProgress.phase)) ? (
-          <div style={{ marginTop: 7, padding: "8px 9px", borderRadius: 7, background: "rgba(255,255,255,.045)", overflow: "hidden" }}>
+          <div style={{ marginTop: 7, padding: "8px 9px", borderRadius: 7, background: "var(--mix-surface, rgba(255,255,255,.045))", overflow: "hidden" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, fontSize: ".66em", lineHeight: 1.3 }}>
               <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", opacity: .76 }}>{cacheProgressLabel}</span>
               {cacheProgress.total > 0 ? <span style={{ flex: "0 0 auto", opacity: .5 }}>{cacheProgress.completed}/{cacheProgress.total}</span> : null}
             </div>
-            <div style={{ height: 3, marginTop: 6, borderRadius: 999, background: "rgba(255,255,255,.10)", overflow: "hidden" }}>
+            <div style={{ height: 3, marginTop: 6, borderRadius: 999, background: "var(--mix-track, rgba(255,255,255,.10))", overflow: "hidden" }}>
               <div style={{ width: cacheProgress.total > 0 ? `${cacheProgressPercent}%` : "32%", height: "100%", borderRadius: 999, background: themed ? THEME_ACCENT : LOCAL_ACCENT, transition: "width 180ms ease" }} />
             </div>
           </div>
@@ -629,10 +633,10 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
         <DialogButton className="npLocalSettingsButton" style={{ width: "100%", minWidth: "100%", height: 38, marginTop: 6, padding: 0 }} disabled={busy || cacheBusy} onClick={() => void clearCache()}>
           <span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "flex-start", padding: "0 10px", boxSizing: "border-box", fontSize: ".82em", textAlign: "left" }}><FaTimes /> {cacheProgress.phase === "clearing" ? t.cacheClearing : t.clearCache}</span>
         </DialogButton>
-        <div style={{ marginTop: 7, padding: "7px 9px", borderRadius: 7, background: "rgba(255,255,255,.035)", display: "flex", justifyContent: "space-between", gap: 8, fontSize: ".66em" }}>
+        <div style={{ marginTop: 7, padding: "7px 9px", borderRadius: 7, background: "var(--mix-surface, rgba(255,255,255,.035))", display: "flex", justifyContent: "space-between", gap: 8, fontSize: ".66em" }}>
           <span style={{ opacity: .58 }}>{t.cacheSize}</span><strong>{cacheSizeLabel} MB</strong>
         </div>
-        <div style={{ marginTop: 7, padding: "8px 9px", borderRadius: 7, background: "rgba(255,255,255,.035)" }}>
+        <div style={{ marginTop: 7, padding: "8px 9px", borderRadius: 7, background: "var(--mix-surface, rgba(255,255,255,.035))" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: ".66em" }}><span style={{ opacity: .58 }}>{t.manualBackgrounds}</span><strong>{manualBackgroundSizeLabel} MB</strong></div>
           <div style={{ marginTop: 5, fontSize: ".63em", lineHeight: 1.35, opacity: .5 }}>{t.manualBackgroundsDescription}</div>
         </div>
@@ -641,7 +645,7 @@ export function LocalMusicSettingsPanel({ selectedService: _selectedService }: {
         </DialogButton>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 6, marginTop: 10, fontSize: ".67em" }}>
           {[[t.tracksCount, stats.tracks], [t.albumsCount, stats.albums], [t.artistsCount, stats.artists]].map(([label, value]) => (
-            <div key={String(label)} style={{ padding: "7px 8px", borderRadius: 7, background: "rgba(255,255,255,.045)", display: "flex", justifyContent: "space-between", gap: 6 }}><span style={{ opacity: .62 }}>{label}</span><strong>{value}</strong></div>
+            <div key={String(label)} style={{ padding: "7px 8px", borderRadius: 7, background: "var(--mix-surface, rgba(255,255,255,.045))", display: "flex", justifyContent: "space-between", gap: 6 }}><span style={{ opacity: .62 }}>{label}</span><strong>{value}</strong></div>
           ))}
         </div>
       </div>
@@ -780,7 +784,7 @@ export const LocalMusicBrowser = memo(function LocalMusicBrowser({ openAlbumRequ
     return <>
       <DialogButton className="npLocalMinimalButton" style={{ ...qamButton, marginTop: 18 }} onClick={goBack}><span style={{ display: "flex", gap: 7, alignItems: "center", justifyContent: "center", fontSize: ".8em" }}><FaArrowLeft /> {t.back}</span></DialogButton>
       <div style={{ height: 8 }} />
-      <div style={{ display: "flex", gap: 10, padding: 10, borderRadius: 10, background: themed ? THEME_CARD_BG : "rgba(217,163,55,.10)", border: themed ? THEME_CARD_BORDER : "1px solid rgba(217,163,55,.20)" }}><LocalArtwork item={item} size={70} round={detail?.kind === "artist"} /><div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}><strong>{item?.name}</strong><span style={{ marginTop: 4, fontSize: ".7em", opacity: .58 }}>{artistText(item)}</span></div></div>
+      <div style={{ display: "flex", gap: 10, padding: 10, borderRadius: 10, background: themed ? THEME_CARD_BG : "var(--mix-surface, rgba(215,38,61,.10))", border: themed ? THEME_CARD_BORDER : "1px solid var(--mix-line, rgba(215,38,61,.20))" }}><LocalArtwork item={item} size={70} round={detail?.kind === "artist"} /><div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}><strong>{item?.name}</strong><span style={{ marginTop: 4, fontSize: ".7em", opacity: .58 }}>{artistText(item)}</span></div></div>
       {detail?.kind === "album" && albumArtist?.id ? <><div style={{ height: 7 }} /><DialogButton style={qamButton} onClick={() => void openDetail({ ...albumArtist, type: "artist" })}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}><FaUser /> {t.artist}</span></DialogButton></> : null}
       {detail?.kind === "artist" && albums.length ? <><div style={{ margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }}>{t.albums}</div>{albums.map((album: any) => <LocalItemRow key={album.id} item={album} onActivate={() => void openDetail(album)} />)}</> : null}
       <div style={{ margin: "12px 4px 6px", fontSize: ".7em", fontWeight: 700, opacity: .62 }}>{t.tracks}</div>
@@ -858,11 +862,11 @@ export const LocalMusicBrowser = memo(function LocalMusicBrowser({ openAlbumRequ
     <style>{`
       .npLocalSpin{animation:npLocalSpin 1s linear infinite}@keyframes npLocalSpin{to{transform:rotate(360deg)}}
       ${themed ? "" : `.npLocalMinimalButton,.npLocalMinimalButton *{color:#fff!important}`}
-      ${themed ? "" : `.npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:rgba(255,255,255,.11)!important;border-color:rgba(255,255,255,.19)!important;box-shadow:0 0 0 1px rgba(217,163,55,.24),0 0 18px rgba(217,163,55,.14)!important}`}
+      ${themed ? "" : `.npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:var(--mix-focus-bg, rgba(255,255,255,.11))!important;border-color:var(--mix-line, rgba(255,255,255,.19))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(215,38,61,.24),0 0 18px rgba(215,38,61,.14))!important}`}
       .npLocalSettingsButton,.npLocalSettingsButton *{text-align:left!important}
     `}</style>
-    <div aria-hidden="true" style={{ height: 2, margin: "2px 4px 4px", borderRadius: 999, background: themed ? THEME_DIVIDER : "linear-gradient(90deg,transparent,rgba(217,163,55,.68),transparent)", boxShadow: themed ? "none" : "0 0 14px rgba(217,163,55,.24)" }} />
-    <DialogButton className="npLocalMinimalButton" style={{ ...qamButton, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }} onClick={onOpenBigPicture}><span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "center", fontSize: ".76em", fontWeight: 430 }}><FaExpandArrowsAlt size={12} /> {t.bigPicture}</span></DialogButton>
+    <div aria-hidden="true" style={{ height: 2, margin: "2px 4px 4px", borderRadius: 999, background: themed ? THEME_DIVIDER : "var(--mix-divider, linear-gradient(90deg,transparent,rgba(215,38,61,.68),transparent))", boxShadow: themed ? "none" : "var(--mix-shadow, 0 0 14px rgba(215,38,61,.24))" }} />
+    <DialogButton className="npLocalMinimalButton" style={{ ...qamButton, border: "1px solid var(--mix-line, rgba(255,255,255,.075))", background: "var(--mix-surface, rgba(255,255,255,.025))" }} onClick={onOpenBigPicture}><span style={{ width: "100%", display: "flex", gap: 8, alignItems: "center", justifyContent: "center", fontSize: ".76em", fontWeight: 430 }}><FaExpandArrowsAlt size={12} /> {t.bigPicture}</span></DialogButton>
     <div style={{ height: 7 }} />
     <Focusable flow-children="grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: 6 }}>
       {(["home", "library", "search", "queue"] as BrowserTab[]).map((key) => <DialogButton key={key} style={{ width: "100%", minWidth: 0, height: 32, minHeight: 32, padding: 0, opacity: tab === key && !detail ? 1 : .58 }} onClick={() => {
@@ -885,7 +889,7 @@ function TvCard({ item, onActivate, round = false, focusKey, gridIndex, preferre
   return (
     <DialogButton preferredFocus={preferredFocus} className="npLocalTvCard" {...({ "data-np-focus-key": focusKey || undefined, "data-np-grid-index": Number.isFinite(gridIndex) ? gridIndex : undefined } as any)} onClick={onActivate} style={{ width: "100%", minWidth: 0, height: "auto", minHeight: 0, padding: 10, borderRadius: 12, overflow: "hidden", textAlign: "left" }}>
       <span style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%", minWidth: 0 }}>
-        <span style={{ width: "100%", aspectRatio: "1/1", borderRadius: round ? "50%" : 8, overflow: "hidden", background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ width: "100%", aspectRatio: "1/1", borderRadius: round ? "50%" : 8, overflow: "hidden", background: "var(--mix-surface, rgba(255,255,255,.08))", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <LocalCardImage item={item} round={round} />
         </span>
         <strong style={{ marginTop: 11, fontSize: 16, lineHeight: 1.15, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 650 }}>{item?.name}</strong>
@@ -917,6 +921,7 @@ function TvTrack({ track, index, onActivate, showArtwork = true, onFocus }: { tr
 }
 
 export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }: { onExit: () => void; onOpenVisualizer: () => void; onOpenSettings: () => void }) {
+  const { coreVars, coreClass } = useCoreRoot();
   const t = useLocalTranslations();
   const coreT = useMemo(() => getTranslations("core"), []);
   const [tab, setTab] = useState<BrowserTab>("home");
@@ -1157,9 +1162,9 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
 
   function playerCard() {
     return (
-      <Focusable className="npLocalPlayerCard" flow-children="grid" style={{ position: "relative", width: "100%", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", minHeight: 368, padding: 24, borderRadius: 20, border: "1px solid rgba(255,255,255,.09)", background: "linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16))", backdropFilter: "blur(28px)", boxShadow: "0 24px 80px rgba(0,0,0,.30)", overflow: "hidden" }}>
-        {currentCover ? <div className="npLocalPlayerGlow" aria-hidden="true" style={{ position: "absolute", inset: "-50% -15% -70% -15%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.5)", opacity: .34, pointerEvents: "none" }} /> : null}
-        <DialogButton ref={playerCoverRef} className="npLocalCoverButton" disabled={!currentAlbum?.id} onClick={() => currentAlbum?.id ? void openDetail(currentAlbum) : undefined} style={{ position: "relative", width: 320, minWidth: 320, height: 320, minHeight: 320, padding: 0, borderRadius: 14, overflow: "hidden", alignSelf: "center", background: "rgba(255,255,255,.06)", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }}>
+      <Focusable className="npLocalPlayerCard" flow-children="grid" style={{ position: "relative", width: "100%", display: "grid", gridTemplateColumns: "320px minmax(0,1fr) minmax(330px,24vw)", gap: "clamp(22px,3vw,44px)", alignItems: "stretch", minHeight: 368, padding: 24, borderRadius: 20, border: "1px solid var(--mix-line, rgba(255,255,255,.09))", background: "var(--mix-surface, linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045) 48%,rgba(0,0,0,.16)))", backdropFilter: "var(--mix-backdrop, blur(28px))", boxShadow: "var(--mix-shadow, 0 24px 80px rgba(0,0,0,.30))", overflow: "hidden" }}>
+        {currentCover ? <div className="npLocalPlayerGlow npCoreNoGlow" aria-hidden="true" style={{ position: "absolute", inset: "-50% -15% -70% -15%", background: `url(${currentCover}) center/cover no-repeat`, filter: "blur(110px) saturate(1.5)", opacity: .34, pointerEvents: "none" }} /> : null}
+        <DialogButton ref={playerCoverRef} className="npLocalCoverButton" disabled={!currentAlbum?.id} onClick={() => currentAlbum?.id ? void openDetail(currentAlbum) : undefined} style={{ position: "relative", width: 320, minWidth: 320, height: 320, minHeight: 320, padding: 0, borderRadius: 14, overflow: "hidden", alignSelf: "center", background: "var(--mix-surface, rgba(255,255,255,.06))", boxShadow: "0 24px 70px rgba(0,0,0,.42)" }}>
           {currentCover ? <img src={currentCover} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <span style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}><FaMusic size={76} style={{ opacity: .3 }} /></span>}
         </DialogButton>
         <div style={{ position: "relative", minWidth: 0, alignSelf: "center" }}>
@@ -1168,7 +1173,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
             <h1 style={{ margin: "9px 0 0", fontSize: "clamp(38px,4vw,68px)", lineHeight: 1.08, letterSpacing: "-.045em", fontWeight: 610, paddingBottom: ".12em" }}>{current?.name}</h1>
             <div style={{ marginTop: 12, fontSize: "clamp(18px,1.7vw,27px)", opacity: .72, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{artistText(current)}</div>
             {currentAlbum?.name ? <div style={{ marginTop: 7, fontSize: 16, opacity: .45, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{currentAlbum.name}</div> : null}
-            <div style={{ marginTop: 28 }}><div style={{ height: 5, borderRadius: 999, background: "rgba(255,255,255,.16)", overflow: "hidden" }}><div style={{ width: `${ratio * 100}%`, height: "100%", background: LOCAL_ACCENT, borderRadius: 999 }} /></div><div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, opacity: .48, fontVariantNumeric: "tabular-nums" }}><span>{formatDuration(position)}</span><span>{formatDuration(length)}</span></div></div>
+            <div style={{ marginTop: 28 }}><div style={{ height: 5, borderRadius: 999, background: "var(--mix-track, rgba(255,255,255,.16))", overflow: "hidden" }}><div style={{ width: `${ratio * 100}%`, height: "100%", background: LOCAL_ACCENT, borderRadius: 999 }} /></div><div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 13, opacity: .48, fontVariantNumeric: "tabular-nums" }}><span>{formatDuration(position)}</span><span>{formatDuration(length)}</span></div></div>
           </> : <h1 style={{ margin: 0, fontSize: "clamp(34px,3.4vw,58px)", lineHeight: 1.08, letterSpacing: "-.04em", fontWeight: 610 }}>{t.chooseSomething}</h1>}
         </div>
         <div style={{ position: "relative", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -1184,9 +1189,9 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
             <DialogButton disabled={!hasCurrent} aria-label={t.repeat} onClick={() => void localAudioPlayer.command("repeat")} style={{ position: "relative", width: "100%", minWidth: 0, height: 46, padding: 0, opacity: state.repeatMode !== "None" ? 1 : .62 }}><RepeatIcon one={state.repeatMode === "One"} size={17} />{state.repeatMode !== "None" ? <span aria-hidden="true" style={{ position: "absolute", top: 7, right: 8, width: 6, height: 6, borderRadius: 999, background: LOCAL_ACCENT, boxShadow: `0 0 8px ${LOCAL_ACCENT}` }} /> : null}</DialogButton>
             </Focusable>
 
-            <DialogButton className="npLocalMinimalButton" aria-label={t.fullscreen} onClick={onOpenVisualizer} style={{ width: "100%", minWidth: 0, height: 46, minHeight: 46, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }}><FaExpandArrowsAlt size={13} /> {t.fullscreen}</span></DialogButton>
+            <DialogButton className="npLocalMinimalButton" aria-label={t.fullscreen} onClick={onOpenVisualizer} style={{ width: "100%", minWidth: 0, height: 46, minHeight: 46, border: "1px solid var(--mix-line, rgba(255,255,255,.075))", background: "var(--mix-surface, rgba(255,255,255,.025))" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }}><FaExpandArrowsAlt size={13} /> {t.fullscreen}</span></DialogButton>
 
-            <DialogButton className="npLocalMinimalButton" onClick={() => setQueueExpanded((value) => !value)} style={{ gridColumn: "1 / -1", width: "100%", minWidth: 0, height: 46, border: "1px solid rgba(255,255,255,.075)", background: queueExpanded ? "rgba(217,163,55,.16)" : "rgba(255,255,255,.025)" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }}><FaListOl size={12} /> {t.queue}</span></DialogButton>
+            <DialogButton className="npLocalMinimalButton" onClick={() => setQueueExpanded((value) => !value)} style={{ gridColumn: "1 / -1", width: "100%", minWidth: 0, height: 46, border: "1px solid var(--mix-line, rgba(255,255,255,.075))", background: queueExpanded ? "var(--mix-surface-2, rgba(215,38,61,.16))" : "var(--mix-surface, rgba(255,255,255,.025))", borderColor: queueExpanded ? "var(--mix-accent, rgba(255,255,255,.075))" : undefined }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".82em", fontWeight: 430 }}><FaListOl size={12} /> {t.queue}</span></DialogButton>
             <Focusable className="npLocalAppVolume" focusClassName="npLocalAppVolumeFocused" noFocusRing onActivate={() => undefined} onButtonDown={volumeButton} onKeyDown={volumeKey} role="slider" tabIndex={0} {...({ focusable: true } as any)} aria-label={t.volume} aria-valuemin={0} aria-valuemax={100} aria-valuenow={volume} style={{ gridColumn: "1 / -1", marginTop: 0 }}>
               <span>{t.volume}</span><input type="range" min={0} max={100} step={5} value={volume} tabIndex={-1} onChange={(event) => changeVolume(Number(event.currentTarget.value))} /><strong>{volume}%</strong>
             </Focusable>
@@ -1198,7 +1203,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
 
   function renderQueuePanel() {
     return (
-      <section style={{ marginTop: 18, padding: 18, borderRadius: 16, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.035)" }}>
+      <section style={{ marginTop: 18, padding: 18, borderRadius: 16, border: "1px solid var(--mix-line, rgba(255,255,255,.08))", background: "var(--mix-surface, rgba(255,255,255,.035))" }}>
         <h2 style={{ margin: "0 0 13px", fontSize: 25, fontWeight: 650 }}>{t.queue}</h2>
         <Focusable flow-children="vertical">
           {upcomingQueue.map((track: any, index: number) => (
@@ -1268,7 +1273,7 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
     const albumArtist = item?.artists?.[0];
     return <>
       {isArtist && background ? <div className="npLocalArtistHero" aria-hidden="true" style={{ backgroundImage: `url(${background})` }}><div /></div> : null}
-      <DialogButton className="npLocalBackButton npLocalMinimalButton" onClick={navigateBack} style={{ width: 108, minWidth: 108, height: 34, minHeight: 34, padding: 0, border: "1px solid rgba(255,255,255,.075)", background: "rgba(255,255,255,.025)" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: ".72em", fontWeight: 430 }}><FaArrowLeft size={11} /> {t.back}</span></DialogButton>
+      <DialogButton className="npLocalBackButton npLocalMinimalButton" onClick={navigateBack} style={{ width: 108, minWidth: 108, height: 34, minHeight: 34, padding: 0, border: "1px solid var(--mix-line, rgba(255,255,255,.075))", background: "var(--mix-surface, rgba(255,255,255,.025))" }}><span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: ".72em", fontWeight: 430 }}><FaArrowLeft size={11} /> {t.back}</span></DialogButton>
       <div style={{ display: "grid", gridTemplateColumns: isArtist ? "1fr" : "250px minmax(0,1fr)", gap: 30, marginTop: isArtist ? 220 : 20, alignItems: "end", position: "relative" }}>
         {!isArtist ? <LocalArtwork item={item} size={250} /> : null}
         <div style={{ minWidth: 0 }}><h1 style={{ fontSize: isArtist ? "clamp(62px,7vw,104px)" : 54, lineHeight: 1, margin: 0, letterSpacing: "-.045em" }}>{item?.name}</h1>{!isArtist ? <div style={{ marginTop: 12, opacity: .62 }}>{artistText(item)}{item?.year ? ` · ${item.year}` : ""}</div> : null}<Focusable flow-children="horizontal" style={{ display: "flex", gap: 10, marginTop: 20 }}><DialogButton style={{ width: 170, minWidth: 170, height: 48 }} onClick={() => void playTracks(tracks, 0)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><FaPlay /> {t.play}</span></DialogButton>{!isArtist && albumArtist?.id ? <DialogButton style={{ width: 160, minWidth: 160, height: 48 }} onClick={() => void openDetail({ ...albumArtist, type: "artist" })}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><FaUser /> {t.artist}</span></DialogButton> : null}</Focusable></div>
@@ -1334,7 +1339,8 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
       : renderLibrary();
 
   return (
-    <Focusable className="npLocalBig npFullscreenRoot" flow-children="vertical" onCancel={navigateBack} onCancelButton={navigateBack} onButtonDown={handleRootButtonDown} style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 10, background: "#090806", color: "#fff", overflow: "hidden" }}>
+    <Focusable className={`npLocalBig npFullscreenRoot${coreClass}`} flow-children="vertical" onCancel={navigateBack} onCancelButton={navigateBack} onButtonDown={handleRootButtonDown} style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh", zIndex: 10, background: "var(--mix-bg, #090806)", color: "#fff", overflow: "hidden", ...coreVars }}>
+      <style>{CORE_ROOT_CSS}</style>
       <style>{`
         .npLocalBig,.npLocalBig *{box-sizing:border-box}
         .npLocalBig button{transition:background 120ms ease,border-color 120ms ease,box-shadow 120ms ease,opacity 120ms ease!important}
@@ -1346,30 +1352,30 @@ export function LocalMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings 
         body > [class*="virtualkeyboard"],body > [class*="VirtualKeyboard"],body [class*="virtualkeyboard_Keyboard"],body [class*="VirtualKeyboard_Keyboard"]{z-index:2147483647!important}
         .npLocalTvCard:focus,.npLocalTvCard.gpfocus,.npLocalTvTrack:focus,.npLocalTvTrack.gpfocus{transform:none!important}
         .npLocalTvCard{width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important}
-        .npLocalCoverButton:focus,.npLocalCoverButton.gpfocus{box-shadow:0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(217,163,55,.58),0 24px 70px rgba(0,0,0,.42)!important}
+        .npLocalCoverButton:focus,.npLocalCoverButton.gpfocus{box-shadow:var(--mix-cover-focus, 0 0 0 3px rgba(255,255,255,.88),0 0 0 6px rgba(215,38,61,.58),0 24px 70px rgba(0,0,0,.42))!important}
         .npLocalMinimalButton,.npLocalMinimalButton *{color:#fff!important}
-        .npLocalMinimalButton:hover,.npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.25)!important;box-shadow:0 0 0 1px rgba(217,163,55,.34),0 0 20px rgba(217,163,55,.20)!important}
-        .npLocalAppVolume{display:grid;grid-template-columns:84px minmax(0,1fr) 52px;align-items:center;gap:10px;width:100%;margin-top:14px;padding:8px 10px;border-radius:7px;border:1px solid transparent;background:rgba(255,255,255,.045);outline:none;overflow:hidden}
-        .npLocalAppVolumeFocused,.npLocalAppVolume:focus-visible{border-color:rgba(217,163,55,.66);box-shadow:0 0 0 1px rgba(217,163,55,.22),0 0 18px rgba(217,163,55,.18)}
+        .npLocalMinimalButton:hover,.npLocalMinimalButton:focus,.npLocalMinimalButton.gpfocus{background:var(--mix-focus-bg, rgba(255,255,255,.13))!important;border-color:var(--mix-line, rgba(255,255,255,.25))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(215,38,61,.34),0 0 20px rgba(215,38,61,.20))!important}
+        .npLocalAppVolume{display:grid;grid-template-columns:84px minmax(0,1fr) 52px;align-items:center;gap:10px;width:100%;margin-top:14px;padding:8px 10px;border-radius:7px;border:1px solid transparent;background:var(--mix-surface, rgba(255,255,255,.045));outline:none;overflow:hidden}
+        .npLocalAppVolumeFocused,.npLocalAppVolume:focus-visible{border-color:var(--mix-line, rgba(215,38,61,.66));background:var(--mix-focus-bg, rgba(255,255,255,.045));box-shadow:var(--mix-focus, 0 0 0 1px rgba(215,38,61,.22),0 0 18px rgba(215,38,61,.18))}
         .npLocalAppVolume input[type=range]{min-width:0;width:100%;height:18px;margin:0;padding:0;accent-color:${LOCAL_ACCENT}}
-        .npLocalAppVolume input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:rgba(255,255,255,.18)}
+        .npLocalAppVolume input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:var(--mix-track, rgba(255,255,255,.18))}
         .npLocalAppVolume input[type=range]::-webkit-slider-thumb{width:14px;height:14px;margin-top:-4px;border-radius:999px}
         .npLocalTvRow{scroll-padding-inline:0;overscroll-behavior-inline:contain}
         .npLocalTvRow::-webkit-scrollbar{display:none}
         .npLocalTvScroll::-webkit-scrollbar{width:7px;height:7px}
-        .npLocalTvScroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+        .npLocalTvScroll::-webkit-scrollbar-thumb{background:var(--mix-line, rgba(255,255,255,.16));border-radius:999px}
         .npLocalCustomTab,.npLocalCustomTab *{color:#fff!important}
-        .npLocalCustomTab{border:1px solid rgba(255,255,255,.075)!important;background:rgba(255,255,255,.025)!important}
-        .npLocalCustomTab:hover,.npLocalCustomTab:focus,.npLocalCustomTab.gpfocus{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.25)!important;box-shadow:0 0 0 1px rgba(217,163,55,.34),0 0 20px rgba(217,163,55,.20)!important}
-        .npLocalCustomTabActive{background:rgba(217,163,55,.18)!important;border-color:rgba(217,163,55,.48)!important}
+        .npLocalCustomTab{border:1px solid var(--mix-line, rgba(255,255,255,.075))!important;background:var(--mix-surface, rgba(255,255,255,.025))!important}
+        .npLocalCustomTab:hover,.npLocalCustomTab:focus,.npLocalCustomTab.gpfocus{background:var(--mix-focus-bg, rgba(255,255,255,.13))!important;border-color:var(--mix-line, rgba(255,255,255,.25))!important;box-shadow:var(--mix-focus, 0 0 0 1px rgba(215,38,61,.34),0 0 20px rgba(215,38,61,.20))!important}
+        .npLocalCustomTabActive{background:var(--mix-surface-2, rgba(215,38,61,.18))!important;border-color:var(--mix-accent, rgba(215,38,61,.48))!important}
         .npLocalTvScroll{position:absolute!important;inset:0!important;height:auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain}
         .npLocalArtistHero{position:absolute;top:-18px;left:-56px;width:100vw;aspect-ratio:16/9;background-position:center top;background-size:cover;background-repeat:no-repeat;pointer-events:none;z-index:-1}
         .npLocalArtistHero>div{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.66),rgba(0,0,0,.04) 68%,rgba(0,0,0,.14)),linear-gradient(180deg,rgba(0,0,0,.02) 42%,rgba(0,0,0,.18) 62%,rgba(0,0,0,.78) 82%,#000 100%)}
         .npLocalPlayerGlow{animation:npLocalPlayerGlow 5.6s ease-in-out infinite alternate;transform-origin:50% 50%}@keyframes npLocalPlayerGlow{from{transform:scale(1.02);opacity:.28}to{transform:scale(1.12);opacity:.42}}
         .npLocalTabContent{animation:npLocalTabEnter 150ms ease both}@keyframes npLocalTabEnter{from{opacity:.78}to{opacity:1}}
       `}</style>
-      {backgroundCover ? <div aria-hidden="true" style={{ position: "absolute", inset: "-28%", background: `url(${backgroundCover}) center/cover`, filter: "blur(130px) saturate(1.42)", opacity: detail?.kind === "album" ? .46 : .34, zIndex: 0 }} /> : null}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", background: detail?.kind === "artist" ? "#000" : "linear-gradient(180deg,rgba(9,8,6,.30),#090806 86%)" }} />
+      {backgroundCover ? <div className="npCoreNoGlow" aria-hidden="true" style={{ position: "absolute", inset: "-28%", background: `url(${backgroundCover}) center/cover`, filter: "blur(130px) saturate(1.42)", opacity: detail?.kind === "album" ? .46 : .34, zIndex: 0 }} /> : null}
+      <div className="npCoreNoGlow" aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", background: detail?.kind === "artist" ? "#000" : "linear-gradient(180deg,rgba(9,8,6,.30),#090806 86%)" }} />
       {detail ? <main className="npLocalTvScroll" style={{ position: "absolute", inset: 0, overflowY: "auto", overflowX: "hidden", padding: "18px 56px 300px", scrollPaddingBottom: 250, zIndex: 2 }}><div style={{ position: "relative", zIndex: 1 }}>{renderDetail()}</div></main> : <>
         <Focusable className="npLocalCustomTabs" flow-children="horizontal" onButtonDown={(event: any) => { if (event?.detail?.button === GamepadButton.DIR_UP) { event?.preventDefault?.(); event?.stopPropagation?.(); } }} style={{ position: "absolute", top: 24, left: 56, zIndex: 200, display: "flex", alignItems: "center", gap: 8 }}>
           {([["home", t.home, FaHome], ["search", t.search, FaSearch], ["library", t.library, FaList], ["settings", t.settings, FaCog]] as const).map(([id, label, Icon]) => (

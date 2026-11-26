@@ -74,7 +74,7 @@ export function LocalSeekBar({ accent, trackHeight = 6, timeStyle }: { accent: s
       style={{ width: "100%", padding: "6px 0", boxSizing: "border-box" }}
     >
       <style>{SEEK_CSS}</style>
-      <div className="npSeekTrack" onPointerDown={jump} style={{ width: "100%", height: `${trackHeight}px`, borderRadius: "999px", background: "rgba(255,255,255,0.18)", overflow: "hidden", cursor: "pointer" }}>
+      <div className="npSeekTrack" onPointerDown={jump} style={{ width: "100%", height: `${trackHeight}px`, borderRadius: "999px", background: "var(--mix-track, rgba(255,255,255,0.18))", overflow: "hidden", cursor: "pointer" }}>
         <SmoothProgressFill position={state.position} duration={Math.max(1, length)} playing={playing} sampledAt={sampledAt} rate={state.playbackRate} style={{ height: "100%", borderRadius: "999px", background: accent }} />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "6px", fontVariantNumeric: "tabular-nums", ...timeStyle }}>

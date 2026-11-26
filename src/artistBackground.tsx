@@ -27,7 +27,8 @@ export function ArtistBackgroundPicker({
   const [failedPreviews, setFailedPreviews] = useState<Record<string, boolean>>({});
   const [loadedPreviews, setLoadedPreviews] = useState<Record<string, string>>({});
   const searchRevisionRef = useRef(0);
-  const accent = provider === "youtubeMusic" ? "#ff0033" : "#D9A337";
+  // Core's crimson in the Core theme; YouTube red (or crimson for Your Music) otherwise.
+  const accent = `var(--mix-accent, ${provider === "youtubeMusic" ? "#ff0033" : "#D7263D"})`;
 
   const search = useCallback(async () => {
     const revision = ++searchRevisionRef.current;
@@ -127,7 +128,7 @@ export function ArtistBackgroundPicker({
   return (
     <Focusable flow-children="vertical" style={{ width: "100%" }}>
       <DialogButton
-        style={{ width: 112, minWidth: 112, height: 38, padding: 0, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.035)" }}
+        style={{ width: 112, minWidth: 112, height: 38, padding: 0, border: "1px solid var(--mix-line, rgba(255,255,255,.08))", background: "var(--mix-surface, rgba(255,255,255,.035))" }}
         onClick={onBack}
       >
         <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}><FaArrowLeft size={12} /> {t.back}</span>
@@ -164,13 +165,13 @@ export function ArtistBackgroundPicker({
                   padding: 0,
                   overflow: "hidden",
                   borderRadius: 14,
-                  border: candidate.selected ? `2px solid ${accent}` : "1px solid rgba(255,255,255,.10)",
-                  background: candidate.selected ? `linear-gradient(145deg, ${accent}22, rgba(255,255,255,.035))` : "rgba(255,255,255,.045)",
-                  boxShadow: candidate.selected ? `0 0 0 1px ${accent}55, 0 0 30px ${accent}55, 0 18px 50px rgba(0,0,0,.34)` : "none",
+                  border: candidate.selected ? `2px solid ${accent}` : "1px solid var(--mix-line, rgba(255,255,255,.10))",
+                  background: candidate.selected ? `var(--mix-surface-2, linear-gradient(145deg, color-mix(in srgb, ${accent} 13%, transparent), rgba(255,255,255,.035)))` : "var(--mix-surface, rgba(255,255,255,.045))",
+                  boxShadow: candidate.selected ? `var(--mix-shadow, 0 0 0 1px color-mix(in srgb, ${accent} 33%, transparent), 0 0 30px color-mix(in srgb, ${accent} 33%, transparent), 0 18px 50px rgba(0,0,0,.34))` : "none",
                 }}
               >
                 <span style={{ width: "100%", display: "block", textAlign: "left" }}>
-                  <span style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "rgba(255,255,255,.055)" }}>
+                  <span style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "var(--mix-surface, rgba(255,255,255,.055))" }}>
                     <span style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, opacity: loadedPreviews[candidate.id] ? 0 : .42, transition: "opacity .16s ease" }}>
                       <FaImage size={42} />
                       <span style={{ fontSize: 12 }}>{candidate.source}</span>
@@ -206,8 +207,8 @@ export function ArtistBackgroundPicker({
         </Focusable>
       ) : null}
 
-      {!loading && !items.length ? <div style={{ marginTop: 32, padding: 24, borderRadius: 14, background: "rgba(255,255,255,.04)", fontSize: 19, opacity: .62 }}>{error || t.noBackgroundsFound}</div> : null}
-      {error && items.length ? <div style={{ marginTop: 18, color: "#ff9a9a", fontSize: 16 }}>{error}</div> : null}
+      {!loading && !items.length ? <div style={{ marginTop: 32, padding: 24, borderRadius: 14, background: "var(--mix-surface, rgba(255,255,255,.04))", fontSize: 19, opacity: .62 }}>{error || t.noBackgroundsFound}</div> : null}
+      {error && items.length ? <div style={{ marginTop: 18, color: "var(--mix-error-text, #ff9a9a)", boxShadow: "var(--mix-error-bar, none)", paddingLeft: "var(--mix-error-pad, 0)", fontSize: 16 }}>{error}</div> : null}
 
       <DialogButton style={{ width: 190, minWidth: 190, height: 44, marginTop: 24 }} disabled={loading || Boolean(applyingId)} onClick={() => void search()}>
         <span style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><FaSyncAlt /> {t.refreshBackgrounds}</span>
@@ -219,8 +220,8 @@ export function ArtistBackgroundPicker({
         .npArtistBackgroundSpin { animation: npArtistBackgroundSpin .85s linear infinite; }
         .npArtistBackgroundPulse { animation: npArtistBackgroundPulse .7s ease-in-out infinite alternate; }
         .npArtistBackgroundCandidate, .npArtistBackgroundCandidate * { color:#fff!important; }
-        .npArtistBackgroundCandidate:hover, .npArtistBackgroundCandidate:focus, .npArtistBackgroundCandidate.gpfocus { color:#fff!important; border-color:${accent}!important; box-shadow:0 0 0 1px ${accent}55,0 0 26px ${accent}44,0 18px 50px rgba(0,0,0,.34)!important; }
-        .npArtistBackgroundCandidateSelected:hover, .npArtistBackgroundCandidateSelected:focus, .npArtistBackgroundCandidateSelected.gpfocus { box-shadow:0 0 0 1px ${accent}88,0 0 38px ${accent}77,0 18px 50px rgba(0,0,0,.38)!important; }
+        .npArtistBackgroundCandidate:hover, .npArtistBackgroundCandidate:focus, .npArtistBackgroundCandidate.gpfocus { color:#fff!important; border-color:${accent}!important; box-shadow:var(--mix-focus, 0 0 0 1px color-mix(in srgb, ${accent} 33%, transparent),0 0 26px color-mix(in srgb, ${accent} 27%, transparent),0 18px 50px rgba(0,0,0,.34))!important; }
+        .npArtistBackgroundCandidateSelected:hover, .npArtistBackgroundCandidateSelected:focus, .npArtistBackgroundCandidateSelected.gpfocus { box-shadow:var(--mix-focus, 0 0 0 1px color-mix(in srgb, ${accent} 53%, transparent),0 0 38px color-mix(in srgb, ${accent} 47%, transparent),0 18px 50px rgba(0,0,0,.38))!important; }
       `}</style>
     </Focusable>
   );

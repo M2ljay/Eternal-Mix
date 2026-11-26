@@ -18,6 +18,10 @@ YouTube Music (with podcasts), your own music files and Apple Music inside Steam
 > Continue listening and played marks, seeking and playback speed, play-on-select, an optional "Match Steam theme"
 > mode for the quick access panel, a chunked YouTube relay and steadier audio output. Awesome Mix then removed Spotify
 > and every source other than YouTube Music, Your Music and Apple Music.
+>
+> Themes (Settings, Appearance): **Core** (default: the Core palette of black, gunmetal, steel and one crimson accent,
+> in the quick access panel and every full-screen view), **Match Steam theme** (quick access panel follows the Steam/CSS
+> Loader theme) and **Service colours**. A "Match Steam theme" choice made before themes existed is kept.
 
 ## Versions are volumes
 
@@ -49,7 +53,7 @@ browser profile (`youtube-music-browser-profile`, a full browser profile with co
 in), the YouTube Music response cache (rebuilt on demand), temporary files, and anything else.
 
 Settings kept by Steam's browser storage (podcast resume positions and played marks, playback speed, per-source
-volume, enabled sources, visualizer choice, "Match Steam theme") are not tied to the plugin folder and carry over by
+volume, enabled sources, visualizer choice, theme) are not tied to the plugin folder and carry over by
 themselves, as do the top-bar and cover-source settings in the Windows temporary folder.
 
 After the first start of Awesome Mix, remove **Now Playing Plus** in Decky (Settings → Plugins → Uninstall). Running

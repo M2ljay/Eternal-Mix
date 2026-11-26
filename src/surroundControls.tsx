@@ -12,7 +12,7 @@ const SPEAKER_LABELS = ["FL", "FR", "C", "LFE", "SL", "SR", "BL", "BR"];
 // Single shared "Upmix surround" card (used once in the settings, not per source).
 // Expands to a 5.1 / 7.1 selector and per-speaker volumes. Applies to the
 // in-browser player (Your Music + YouTube Music).
-export function SurroundUpmixControls({ accent = "#66c0f4", cardStyle }: { accent?: string; cardStyle?: CSSProperties }) {
+export function SurroundUpmixControls({ accent = "var(--np-accent, var(--mix-accent, #D7263D))", cardStyle }: { accent?: string; cardStyle?: CSSProperties }) {
   const t = useMemo(() => getTranslations("core"), []);
   const [mode, setMode] = useState<"off" | "5.1" | "7.1">(() => localAudioPlayer.getSurroundMode());
   const [expanded, setExpanded] = useState(false);
@@ -54,11 +54,11 @@ export function SurroundUpmixControls({ accent = "#66c0f4", cardStyle }: { accen
   );
 
   return (
-    <div style={{ width: "100%", boxSizing: "border-box", padding: "12px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.035)", ["--sp-accent" as any]: accent, ...cardStyle }}>
+    <div style={{ width: "100%", boxSizing: "border-box", padding: "12px", borderRadius: "10px", border: "1px solid var(--mix-line, rgba(255,255,255,0.10))", background: "var(--mix-surface, rgba(255,255,255,0.035))", ["--sp-accent" as any]: accent, ...cardStyle }}>
       <style>{`
         .npSpeakerRow.gpfocus, .npSpeakerRow:focus, .npSpeakerRow:focus-visible {
           border-color: var(--sp-accent, #fff) !important;
-          box-shadow: 0 0 0 1px var(--sp-accent, #fff), 0 0 14px color-mix(in srgb, var(--sp-accent, #fff) 40%, transparent) !important;
+          box-shadow: var(--mix-focus, 0 0 0 1px var(--sp-accent, #fff), 0 0 14px color-mix(in srgb, var(--sp-accent, #fff) 40%, transparent)) !important;
         }
       `}</style>
       <DialogButton style={{ width: "100%", minWidth: "100%" }} onClick={() => setExpanded((value) => !value)}>
@@ -91,10 +91,10 @@ export function SurroundUpmixControls({ accent = "#66c0f4", cardStyle }: { accen
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={volumes[index]}
-                  style={{ display: "grid", gridTemplateColumns: "48px minmax(0,1fr) 40px", alignItems: "center", gap: "10px", padding: "8px 10px", borderRadius: "7px", border: "1px solid rgba(255,255,255,.10)", background: "rgba(255,255,255,.03)" }}
+                  style={{ display: "grid", gridTemplateColumns: "48px minmax(0,1fr) 40px", alignItems: "center", gap: "10px", padding: "8px 10px", borderRadius: "7px", border: "1px solid var(--mix-line, rgba(255,255,255,.10))", background: "var(--mix-surface, rgba(255,255,255,.03))" }}
                 >
                   <span style={{ fontSize: ".76em", fontWeight: 700 }}>{label}</span>
-                  <div style={{ position: "relative", height: "6px", borderRadius: "999px", background: "rgba(255,255,255,.15)", overflow: "hidden" }}>
+                  <div style={{ position: "relative", height: "6px", borderRadius: "999px", background: "var(--mix-track, rgba(255,255,255,.15))", overflow: "hidden" }}>
                     <div style={{ position: "absolute", inset: 0, width: `${volumes[index]}%`, background: accent, borderRadius: "999px" }} />
                   </div>
                   <strong style={{ fontSize: ".72em", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{volumes[index]}</strong>

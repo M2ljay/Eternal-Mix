@@ -84,6 +84,8 @@
       "playbackPositionLabel": "Playback position",
       "appearanceSection": "Appearance",
       "matchSteamTheme": "Match Steam theme in quick access",
+      "themeCore": "Core",
+      "themeServiceColours": "Service colours",
       "gamesSection": "Games",
       "duckForGames": "Lower the music while a game runs"
     },
@@ -378,6 +380,8 @@
       "playbackPositionLabel": "Posizione di riproduzione",
       "appearanceSection": "Aspetto",
       "matchSteamTheme": "Usa i colori del tema Steam nel menu rapido",
+      "themeCore": "Core",
+      "themeServiceColours": "Colori dei servizi",
       "gamesSection": "Giochi",
       "duckForGames": "Abbassa la musica mentre un gioco è aperto"
     },
@@ -672,6 +676,8 @@
       "playbackPositionLabel": "Posición de reproducción",
       "appearanceSection": "Apariencia",
       "matchSteamTheme": "Usar los colores del tema de Steam en el menú rápido",
+      "themeCore": "Core",
+      "themeServiceColours": "Colores de cada servicio",
       "gamesSection": "Juegos",
       "duckForGames": "Bajar la música mientras hay un juego abierto"
     },
@@ -966,6 +972,8 @@
       "playbackPositionLabel": "Position de lecture",
       "appearanceSection": "Apparence",
       "matchSteamTheme": "Suivre le thème Steam dans le menu rapide",
+      "themeCore": "Core",
+      "themeServiceColours": "Couleurs des services",
       "gamesSection": "Jeux",
       "duckForGames": "Baisser la musique pendant qu’un jeu est ouvert"
     },
@@ -1260,6 +1268,8 @@
       "playbackPositionLabel": "Wiedergabeposition",
       "appearanceSection": "Darstellung",
       "matchSteamTheme": "Steam-Design im Schnellzugriff übernehmen",
+      "themeCore": "Core",
+      "themeServiceColours": "Farben der Dienste",
       "gamesSection": "Spiele",
       "duckForGames": "Musik leiser stellen, während ein Spiel läuft"
     },
@@ -1554,6 +1564,8 @@
       "playbackPositionLabel": "Posição da reprodução",
       "appearanceSection": "Aparência",
       "matchSteamTheme": "Usar as cores do tema do Steam no menu rápido",
+      "themeCore": "Core",
+      "themeServiceColours": "Cores dos serviços",
       "gamesSection": "Jogos",
       "duckForGames": "Abaixar a música enquanto um jogo está aberto"
     },
@@ -1848,6 +1860,8 @@
       "playbackPositionLabel": "Позиция воспроизведения",
       "appearanceSection": "Оформление",
       "matchSteamTheme": "Цвета темы Steam в меню быстрого доступа",
+      "themeCore": "Core",
+      "themeServiceColours": "Цвета сервисов",
       "gamesSection": "Игры",
       "duckForGames": "Приглушать музыку, пока запущена игра"
     },
@@ -2142,6 +2156,8 @@
       "playbackPositionLabel": "再生位置",
       "appearanceSection": "外観",
       "matchSteamTheme": "クイックアクセスで Steam テーマの色を使う",
+      "themeCore": "Core",
+      "themeServiceColours": "サービスの色",
       "gamesSection": "ゲーム",
       "duckForGames": "ゲーム中は音楽を小さくする"
     },
@@ -2436,6 +2452,8 @@
       "playbackPositionLabel": "재생 위치",
       "appearanceSection": "모양",
       "matchSteamTheme": "빠른 메뉴에 Steam 테마 색상 사용",
+      "themeCore": "Core",
+      "themeServiceColours": "서비스 색상",
       "gamesSection": "게임",
       "duckForGames": "게임 실행 중에는 음악 볼륨 낮추기"
     },
@@ -2730,6 +2748,8 @@
       "playbackPositionLabel": "播放位置",
       "appearanceSection": "外观",
       "matchSteamTheme": "快速访问菜单使用 Steam 主题配色",
+      "themeCore": "Core",
+      "themeServiceColours": "各服务配色",
       "gamesSection": "游戏",
       "duckForGames": "游戏运行时调低音乐"
     },

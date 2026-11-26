@@ -81,7 +81,7 @@ export function MediaArtwork({ url, size = 42, round = false }: { url?: string; 
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "rgba(255,255,255,0.08)",
+        background: "var(--mix-surface, rgba(255,255,255,0.08))",
         color: "rgba(255,255,255,0.42)",
       }}
     >
@@ -253,7 +253,7 @@ export function MediaTvCard({
             aspectRatio: "1 / 1",
             borderRadius: round ? "50%" : "8px",
             overflow: "hidden",
-            background: "rgba(255,255,255,0.08)",
+            background: "var(--mix-surface, rgba(255,255,255,0.08))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -340,7 +340,7 @@ export function MediaTvTrack({
           <span style={{ display: "block", marginTop: "4px", opacity: 0.56, fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {artistText(normalized)}
           </span>
-          {progress && progress > 0 && progress < 1 ? <span className="npEpisodeProgress" style={{ display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "rgba(255,255,255,.14)", overflow: "hidden" }}><span style={{ display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 }} /></span> : null}
+          {progress && progress > 0 && progress < 1 ? <span className="npEpisodeProgress" style={{ display: "block", height: "3px", marginTop: "5px", width: "min(220px,60%)", borderRadius: "999px", background: "var(--mix-track, rgba(255,255,255,.14))", overflow: "hidden" }}><span style={{ display: "block", height: "100%", width: `${Math.round(progress * 100)}%`, background: "currentColor", opacity: 0.75 }} /></span> : null}
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: "14px", opacity: 0.62 }}>
           {status ? <span className="npEpisodeStatus" style={{ fontSize: "13px", whiteSpace: "nowrap" }}>{status}</span> : normalized?.duration_ms ? <span style={{ fontVariantNumeric: "tabular-nums", fontSize: "13px" }}>{formatTrackDuration(normalized.duration_ms)}</span> : null}

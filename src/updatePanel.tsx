@@ -95,7 +95,7 @@ export function UpdateSettingsPanel(props: {
 
   const buttonStyle: CSSProperties = { width: "100%", minWidth: "100%", height: 46, minHeight: 46, marginBottom: 8, padding: 0, ...props.buttonStyle };
   const contentStyle: CSSProperties = { width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "0 12px", boxSizing: "border-box", textAlign: "left", ...props.contentStyle };
-  const noteStyle: CSSProperties = { width: "100%", margin: "0 0 8px", color: "rgba(255,255,255,0.62)", fontSize: "0.82em", lineHeight: 1.35, whiteSpace: "pre-line" };
+  const noteStyle: CSSProperties = { width: "100%", margin: "0 0 8px", color: "var(--mix-hint, rgba(255,255,255,0.62))", fontSize: "0.82em", lineHeight: 1.35, whiteSpace: "pre-line" };
 
   return (
     <div className="npUpdateSettingsPanel" style={{ width: "100%" }}>
@@ -105,7 +105,7 @@ export function UpdateSettingsPanel(props: {
       </div>
       {offered && (
         <>
-          <div style={{ ...noteStyle, color: "#fff" }}>
+          <div style={{ ...noteStyle, color: "#fff", boxShadow: "var(--mix-warn-bar, none)", paddingLeft: "var(--mix-warn-pad, 0)" }}>
             {formatTranslation(t.available, { volume: offeredVolume, version: offered.version ?? "" })}
           </div>
           {offered.notes ? <div style={{ ...noteStyle, maxHeight: 160, overflowY: "auto" }}>{offered.notes}</div> : null}
@@ -125,7 +125,7 @@ export function UpdateSettingsPanel(props: {
         </span>
       </DialogButton>
       {status ? (
-        <div role="status" style={{ ...noteStyle, color: status.error ? "#ffb4a8" : noteStyle.color }}>
+        <div role="status" style={{ ...noteStyle, ...(status.error ? { color: "var(--mix-error-text, #ffb4a8)", boxShadow: "var(--mix-error-bar, none)", paddingLeft: "var(--mix-error-pad, 0)" } : {}) }}>
           {status.text}
         </div>
       ) : null}

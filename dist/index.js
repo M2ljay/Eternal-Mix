@@ -170,6 +170,8 @@ function FaUser (props) {
   return GenIcon({"attr":{"viewBox":"0 0 640 512"},"child":[{"tag":"path","attr":{"d":"M592 0H48A48 48 0 0 0 0 48v320a48 48 0 0 0 48 48h240v32H112a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H352v-32h240a48 48 0 0 0 48-48V48a48 48 0 0 0-48-48zm-16 352H64V64h512z"},"child":[]}]})(props);
 }function FaTimes (props) {
   return GenIcon({"attr":{"viewBox":"0 0 352 512"},"child":[{"tag":"path","attr":{"d":"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"},"child":[]}]})(props);
+}function FaThumbtack (props) {
+  return GenIcon({"attr":{"viewBox":"0 0 384 512"},"child":[{"tag":"path","attr":{"d":"M298.028 214.267L285.793 96H328c13.255 0 24-10.745 24-24V24c0-13.255-10.745-24-24-24H56C42.745 0 32 10.745 32 24v48c0 13.255 10.745 24 24 24h42.207L85.972 214.267C37.465 236.82 0 277.261 0 328c0 13.255 10.745 24 24 24h136v104.007c0 1.242.289 2.467.845 3.578l24 48c2.941 5.882 11.364 5.893 14.311 0l24-48a8.008 8.008 0 0 0 .845-3.578V352h136c13.255 0 24-10.745 24-24-.001-51.183-37.983-91.42-85.973-113.733z"},"child":[]}]})(props);
 }function FaSyncAlt (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M370.72 133.28C339.458 104.008 298.888 87.962 255.848 88c-77.458.068-144.328 53.178-162.791 126.85-1.344 5.363-6.122 9.15-11.651 9.15H24.103c-7.498 0-13.194-6.807-11.807-14.176C33.933 94.924 134.813 8 256 8c66.448 0 126.791 26.136 171.315 68.685L463.03 40.97C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.749zM32 296h134.059c21.382 0 32.09 25.851 16.971 40.971l-41.75 41.75c31.262 29.273 71.835 45.319 114.876 45.28 77.418-.07 144.315-53.144 162.787-126.849 1.344-5.363 6.122-9.15 11.651-9.15h57.304c7.498 0 13.194 6.807 11.807 14.176C478.067 417.076 377.187 504 256 504c-66.448 0-126.791-26.136-171.315-68.685L48.97 471.03C33.851 486.149 8 475.441 8 454.059V320c0-13.255 10.745-24 24-24z"},"child":[]}]})(props);
 }function FaStepForward (props) {
@@ -393,6 +395,12 @@ function youtubeMusicGetLibrary(section, maxItems = 100) {
 }
 function youtubeMusicGetDetail(kind, itemId) {
     return call("youtube_music_get_detail", kind, itemId);
+}
+function youtubeMusicGetSpeedDial(refresh = false) {
+    return call("youtube_music_get_speed_dial", refresh);
+}
+function youtubeMusicGetSpeedDialQueue(item) {
+    return call("youtube_music_get_speed_dial_queue", item);
 }
 function youtubeMusicFindSoundtrack(game, platform = "") {
     return call("youtube_music_find_soundtrack", game, platform);
@@ -842,6 +850,16 @@ var en = {
 		offerSettingDescription: "Shows a small notice when a game starts. Music never starts on its own.",
 		offerToastPlay: "Select to play {album}",
 		offerToastPick: "Open {app} to choose its soundtrack"
+	},
+	speedDial: {
+		title: "Speed dial",
+		play: "Play",
+		more: "More",
+		refresh: "Refresh speed dial",
+		openFull: "Open in full view",
+		refreshed: "Speed dial refreshed",
+		nothingToPlay: "Nothing to play here",
+		pinned: "Pinned"
 	}
 };
 var it = {
@@ -1157,6 +1175,16 @@ var it = {
 		offerSettingDescription: "Mostra un piccolo avviso quando si avvia un gioco. La musica non parte mai da sola.",
 		offerToastPlay: "Seleziona per riprodurre {album}",
 		offerToastPick: "Apri {app} per scegliere la colonna sonora"
+	},
+	speedDial: {
+		title: "Selezione rapida",
+		play: "Riproduci",
+		more: "Altro",
+		refresh: "Aggiorna selezione rapida",
+		openFull: "Apri a schermo intero",
+		refreshed: "Selezione rapida aggiornata",
+		nothingToPlay: "Niente da riprodurre qui",
+		pinned: "Fissato"
 	}
 };
 var es = {
@@ -1472,6 +1500,16 @@ var es = {
 		offerSettingDescription: "Muestra un pequeño aviso cuando empieza un juego. La música nunca empieza sola.",
 		offerToastPlay: "Selecciona para reproducir {album}",
 		offerToastPick: "Abre {app} para elegir su banda sonora"
+	},
+	speedDial: {
+		title: "Marcación rápida",
+		play: "Reproducir",
+		more: "Más",
+		refresh: "Actualizar marcación rápida",
+		openFull: "Abrir a pantalla completa",
+		refreshed: "Marcación rápida actualizada",
+		nothingToPlay: "No hay nada que reproducir",
+		pinned: "Fijado"
 	}
 };
 var fr = {
@@ -1787,6 +1825,16 @@ var fr = {
 		offerSettingDescription: "Affiche une petite notification au lancement d'un jeu. La musique ne démarre jamais seule.",
 		offerToastPlay: "Sélectionnez pour lire {album}",
 		offerToastPick: "Ouvrez {app} pour choisir sa bande originale"
+	},
+	speedDial: {
+		title: "Accès rapide",
+		play: "Lire",
+		more: "Plus",
+		refresh: "Actualiser l'accès rapide",
+		openFull: "Ouvrir en plein écran",
+		refreshed: "Accès rapide actualisé",
+		nothingToPlay: "Rien à lire ici",
+		pinned: "Épinglé"
 	}
 };
 var de = {
@@ -2102,6 +2150,16 @@ var de = {
 		offerSettingDescription: "Zeigt beim Start eines Spiels einen kleinen Hinweis. Die Musik startet nie von selbst.",
 		offerToastPlay: "Auswählen, um {album} abzuspielen",
 		offerToastPick: "{app} öffnen, um den Soundtrack zu wählen"
+	},
+	speedDial: {
+		title: "Schnellwahl",
+		play: "Abspielen",
+		more: "Mehr",
+		refresh: "Schnellwahl aktualisieren",
+		openFull: "Im Vollbild öffnen",
+		refreshed: "Schnellwahl aktualisiert",
+		nothingToPlay: "Hier gibt es nichts abzuspielen",
+		pinned: "Angeheftet"
 	}
 };
 var ru = {
@@ -2417,6 +2475,16 @@ var ru = {
 		offerSettingDescription: "Показывает небольшое уведомление при запуске игры. Музыка никогда не включается сама.",
 		offerToastPlay: "Выберите, чтобы включить {album}",
 		offerToastPick: "Откройте {app}, чтобы выбрать саундтрек"
+	},
+	speedDial: {
+		title: "Быстрый набор",
+		play: "Воспроизвести",
+		more: "Ещё",
+		refresh: "Обновить быстрый набор",
+		openFull: "Открыть во весь экран",
+		refreshed: "Быстрый набор обновлён",
+		nothingToPlay: "Здесь нечего воспроизвести",
+		pinned: "Закреплено"
 	}
 };
 var ja = {
@@ -2732,6 +2800,16 @@ var ja = {
 		offerSettingDescription: "ゲーム開始時に小さな通知を表示します。音楽が勝手に再生されることはありません。",
 		offerToastPlay: "選択して {album} を再生",
 		offerToastPick: "{app} を開いてサウンドトラックを選択"
+	},
+	speedDial: {
+		title: "スピードダイヤル",
+		play: "再生",
+		more: "その他",
+		refresh: "スピードダイヤルを更新",
+		openFull: "全画面で開く",
+		refreshed: "スピードダイヤルを更新しました",
+		nothingToPlay: "再生できるものがありません",
+		pinned: "固定済み"
 	}
 };
 var ko = {
@@ -3047,6 +3125,16 @@ var ko = {
 		offerSettingDescription: "게임이 시작되면 작은 알림을 표시합니다. 음악이 저절로 재생되지는 않습니다.",
 		offerToastPlay: "선택하여 {album} 재생",
 		offerToastPick: "{app}을(를) 열어 사운드트랙 선택"
+	},
+	speedDial: {
+		title: "단축 다이얼",
+		play: "재생",
+		more: "더보기",
+		refresh: "단축 다이얼 새로고침",
+		openFull: "전체 화면으로 열기",
+		refreshed: "단축 다이얼을 새로고침했습니다",
+		nothingToPlay: "재생할 항목이 없습니다",
+		pinned: "고정됨"
 	}
 };
 var zh = {
@@ -3362,6 +3450,16 @@ var zh = {
 		offerSettingDescription: "游戏启动时显示一条小通知。音乐绝不会自动播放。",
 		offerToastPlay: "选择以播放 {album}",
 		offerToastPick: "打开 {app} 选择原声"
+	},
+	speedDial: {
+		title: "快速拨号",
+		play: "播放",
+		more: "更多",
+		refresh: "刷新快速拨号",
+		openFull: "全屏打开",
+		refreshed: "快速拨号已刷新",
+		nothingToPlay: "没有可播放的内容",
+		pinned: "已置顶"
 	}
 };
 var catalogs = {
@@ -3683,6 +3781,16 @@ var catalogs = {
 		offerSettingDescription: "Mostra um pequeno aviso quando um jogo começa. A música nunca começa sozinha.",
 		offerToastPlay: "Selecione para tocar {album}",
 		offerToastPick: "Abra o {app} para escolher a trilha sonora"
+	},
+	speedDial: {
+		title: "Discagem rápida",
+		play: "Tocar",
+		more: "Mais",
+		refresh: "Atualizar discagem rápida",
+		openFull: "Abrir em tela cheia",
+		refreshed: "Discagem rápida atualizada",
+		nothingToPlay: "Nada para tocar aqui",
+		pinned: "Fixado"
 	}
 },
 	ru: ru,
@@ -7300,6 +7408,14 @@ async function playYouTubeMusicCollection(kind, id) {
         return false;
     }
 }
+/** Play prepared tracks (a radio queue, a show's episodes) from one of them. */
+async function playYouTubeMusicTracks(tracks, index = 0) {
+    const playable = (Array.isArray(tracks) ? tracks : []).filter((item) => itemType(item) === "track" && String(item?.videoId ?? item?.id ?? "").trim());
+    if (!playable.length)
+        return false;
+    await playItems(playable, Math.max(0, Math.min(index, playable.length - 1)));
+    return true;
+}
 // "Played" or "12 min left" for podcast episodes, with the listened fraction.
 function episodeStatus(t, track) {
     const progress = podcastProgress(track);
@@ -7619,7 +7735,7 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }) {
     return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("style", { children: `${themed ? "" : `.npYtmBrowser button:focus,.npYtmBrowser button.gpfocus{box-shadow:var(--mix-focus, 0 0 0 1px rgba(255,0,51,.55),0 0 18px rgba(255,0,51,.2))!important}.npYtmBrowser input:focus{border-color:${YOUTUBE_RED}!important}`}.npYtmBrowser .npMediaResultButton{scroll-margin-top:64px}.npYtmNavDock{position:sticky;top:-1px;z-index:4;width:calc(100% + 8px);box-sizing:border-box;margin:-2px -4px 0;padding:6px 4px 8px;background:transparent}${themed ? "" : `.npYtmBigPictureButton,.npYtmBigPictureButton:hover,.npYtmBigPictureButton:focus,.npYtmBigPictureButton.gpfocus,.npYtmBigPictureButton *{color:#fff!important}`}` }), SP_JSX.jsxs(DFL.Focusable, { className: "npYtmBrowser", "flow-children": "vertical", onCancel: detail ? () => { setDetail(null); return true; } : undefined, onCancelButton: detail ? () => { setDetail(null); return true; } : undefined, style: { width: "100%", boxSizing: "border-box" }, children: [SP_JSX.jsx("div", { "aria-hidden": "true", style: { height: "2px", margin: "2px 4px 4px", borderRadius: "999px", background: themed ? THEME_DIVIDER : "var(--mix-divider, linear-gradient(90deg,transparent,rgba(255,0,51,.62),transparent))", boxShadow: themed ? "none" : "var(--mix-shadow, 0 0 14px rgba(255,0,51,.24))" } }), !detail ? SP_JSX.jsxs("div", { className: "npYtmNavDock", children: [onOpenBigPicture ? SP_JSX.jsx(DFL.DialogButton, { className: "npYtmBigPictureButton", style: { ...fullButton, marginBottom: "6px", border: "1px solid var(--mix-line, rgba(255,255,255,.075))", background: "var(--mix-surface, rgba(255,255,255,.025))" }, onClick: onOpenBigPicture, children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontSize: ".76em", fontWeight: 430, color: themed ? undefined : "#fff" }, children: [SP_JSX.jsx(FaTv, { size: 12 }), t.bigPicture] }) }) : null, SP_JSX.jsxs(DFL.Focusable, { "flow-children": "grid", style: { display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "6px", width: "100%" }, children: [tabButton("home", t.home, SP_JSX.jsx(FaHome, {})), tabButton("search", t.search, SP_JSX.jsx(FaSearch, {})), SP_JSX.jsx("div", { style: { gridColumn: "1 / -1", minWidth: 0 }, children: tabButton("library", t.library, SP_JSX.jsx(FaList, {})) })] })] }) : null, loading ? SP_JSX.jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px", fontSize: ".72em", opacity: .62 }, children: [SP_JSX.jsx(FaSyncAlt, { className: "npYtmSpin" }), t.loadingYouTubeMusic] }) : null, detail ? renderDetail() : tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary()] })] });
 }
 const YouTubeMusicBrowser = SP_REACT.memo(YouTubeMusicBrowserContent);
-function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
+function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings, homeTop }) {
     const { coreVars, coreClass } = useCoreRoot();
     const t = SP_REACT.useMemo(translations, []);
     usePodcastProgressVersion();
@@ -7807,7 +7923,7 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
     const statusProps = (track) => { const status = episodeStatus(t, track); return status ? { status: status.label, progress: status.fraction } : {}; };
     const continueItems = continueListeningEpisodes();
     const continueRow = () => continueItems.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.continueListening }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: continueItems.map((episode, index) => SP_JSX.jsx(MediaTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(continueItems, index) }, `continue-${episode?.id}`)) })] }) : null;
-    const renderHome = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [playerCard(), continueRow(), cardRow(t.yourPlaylists, home?.playlists?.items ?? []), cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])] });
+    const renderHome = () => SP_JSX.jsxs(SP_JSX.Fragment, { children: [playerCard(), homeTop, continueRow(), cardRow(t.yourPlaylists, home?.playlists?.items ?? []), cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])] });
     const renderSearch = () => { const tracks = searchResults?.tracks?.items ?? []; const albums = searchResults?.albums?.items ?? []; const artists = searchResults?.artists?.items ?? []; const playlists = searchResults?.playlists?.items ?? []; const podcasts = searchResults?.podcasts?.items ?? []; const episodes = searchResults?.episodes?.items ?? []; return SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx(DFL.TextField, { label: t.searchYouTubeMusic, value: query, style: { width: "100%", minWidth: "100%" }, onChange: (value) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? "")), onKeyDown: (event) => { if (event?.key === "Enter")
                     void run(() => youtubeMusicSearch(query), setSearchResults); } }), SP_JSX.jsx(DFL.DialogButton, { style: { width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }, disabled: query.trim().length < 2 || loading, onClick: () => void run(() => youtubeMusicSearch(query), setSearchResults), children: SP_JSX.jsxs("span", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }, children: [SP_JSX.jsx(FaSearch, {}), t.search] }) }), cardRow(t.artists, artists, true), cardRow(t.albums, albums), tracks.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.tracks }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: tracks.map((track, index) => SP_JSX.jsx(MediaTvTrack, { track: track, index: index, onFocus: () => prefetchTrack(track), onActivate: () => void playItems(tracks, index) }, `${track?.id}-${index}`)) })] }) : null, cardRow(t.playlists, playlists), cardRow(t.podcasts, podcasts), episodes.length ? SP_JSX.jsxs("section", { style: { marginTop: "28px" }, children: [SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }, children: t.episodes }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", children: episodes.map((episode, index) => SP_JSX.jsx(MediaTvTrack, { track: episode, index: index, ...statusProps(episode), onFocus: () => prefetchTrack(episode), onActivate: () => void playItems(episodes, index) }, `${episode?.id}-${index}`)) })] }) : null, searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? SP_JSX.jsx("div", { style: { marginTop: "38px", fontSize: "19px", opacity: .55 }, children: t.noResults }) : null] }); };
     const renderLibrary = () => {
@@ -8200,7 +8316,7 @@ const gameLine = { fontSize: ".82em", color: `var(--mix-steel, ${CORE.steel})`, 
 const hint = { fontSize: ".76em", lineHeight: 1.35, color: `var(--mix-hint, ${CORE.hint})` };
 const button = { width: "100%", minWidth: "100%", maxWidth: "100%", minHeight: "34px", padding: "0 10px", lineHeight: 1.2 };
 const buttonContent = { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", fontSize: ".82em", overflow: "hidden" };
-const ellipsis = { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" };
+const ellipsis$1 = { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" };
 /** The Quick Access entry, shown only while a game runs. */
 function GameSoundtrackEntry() {
     const t = getTranslations("soundtrack");
@@ -8260,7 +8376,279 @@ function GameSoundtrackEntry() {
         return parts.filter(Boolean).join(" · ");
     };
     return (SP_JSX.jsxs("div", { className: "npGameSoundtrack", style: card, children: [SP_JSX.jsx("div", { style: label, children: t.title }), SP_JSX.jsx("div", { style: gameLine, children: formatTranslation(t.forGame, { game: game.platform ? `${game.title} · ${game.platform}` : game.title }) }), phase.name === "picking" ? (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "4px" }, children: [SP_JSX.jsx("div", { style: hint, children: t.pickTitle }), phase.candidates.map((candidate, index) => (SP_JSX.jsx(MediaRow, { item: { ...candidate, images: candidate.images ?? [] }, subtitle: typeLabel(candidate), preferredFocus: index === 0, onActivate: () => { if (!busy)
-                            void play(asPick(candidate)); } }, `${candidate.type}-${candidate.id}`))), SP_JSX.jsx(DFL.DialogButton, { style: button, onClick: () => setPhase({ name: "idle" }), children: SP_JSX.jsx("span", { style: buttonContent, children: t.cancel }) })] })) : (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px" }, children: [phase.name === "none" ? SP_JSX.jsx("div", { style: hint, children: formatTranslation(t.noneFound, { game: game.title }) }) : null, phase.name === "searching" ? SP_JSX.jsx("div", { style: hint, children: t.searching }) : null, SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void (pick ? play(pick) : search(false)), children: SP_JSX.jsxs("span", { style: buttonContent, children: [phase.name === "none" ? SP_JSX.jsx(FaRedo, {}) : SP_JSX.jsx(FaCompactDisc, {}), SP_JSX.jsx("span", { style: ellipsis, children: pick ? formatTranslation(t.playPick, { album: pick.name }) : phase.name === "none" ? t.retry : t.play })] }) }), pick ? (SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void search(true), children: SP_JSX.jsxs("span", { style: buttonContent, children: [SP_JSX.jsx(FaListUl, {}), SP_JSX.jsx("span", { style: ellipsis, children: t.choose })] }) })) : null] }))] }));
+                            void play(asPick(candidate)); } }, `${candidate.type}-${candidate.id}`))), SP_JSX.jsx(DFL.DialogButton, { style: button, onClick: () => setPhase({ name: "idle" }), children: SP_JSX.jsx("span", { style: buttonContent, children: t.cancel }) })] })) : (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px" }, children: [phase.name === "none" ? SP_JSX.jsx("div", { style: hint, children: formatTranslation(t.noneFound, { game: game.title }) }) : null, phase.name === "searching" ? SP_JSX.jsx("div", { style: hint, children: t.searching }) : null, SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void (pick ? play(pick) : search(false)), children: SP_JSX.jsxs("span", { style: buttonContent, children: [phase.name === "none" ? SP_JSX.jsx(FaRedo, {}) : SP_JSX.jsx(FaCompactDisc, {}), SP_JSX.jsx("span", { style: ellipsis$1, children: pick ? formatTranslation(t.playPick, { album: pick.name }) : phase.name === "none" ? t.retry : t.play })] }) }), pick ? (SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void search(true), children: SP_JSX.jsxs("span", { style: buttonContent, children: [SP_JSX.jsx(FaListUl, {}), SP_JSX.jsx("span", { style: ellipsis$1, children: t.choose })] }) })) : null] }))] }));
+}
+
+// YouTube Music's "Speed dial" in Awesome Mix: the shapes the backend answers with and
+// how one press plays a tile. Self-contained (no Decky imports) so the tests can load it
+// alone; the grid lives in src/speedDialPanel.tsx and the shelf parsing in mix_speed_dial.py.
+// The Quick Access grid, and the full view (YouTube Music shows 3 rows of 9).
+const COMPACT_COLUMNS = 4;
+const COMPACT_ROWS = 2;
+const FULL_COLUMNS = 9;
+const FULL_ROWS = 3;
+// Window event: the grid in Quick Access and the one in the full view stay in step.
+const SPEED_DIAL_EVENT = "nowPlaying:speedDialChanged";
+const TYPES = ["song", "album", "playlist", "artist", "mix", "podcast", "episode"];
+const REASONS = ["", "signed_out", "missing", "error"];
+function text(value, max = 300) {
+    return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+}
+/** A backend answer, checked: unknown types and tiles without an id or title are dropped. */
+function sanitizeResult(value) {
+    const raw = (value && typeof value === "object" ? value : {});
+    const items = [];
+    for (const entry of Array.isArray(raw.items) ? raw.items : []) {
+        const type = String(entry?.type ?? "");
+        const id = text(entry?.id, 200);
+        const title = text(entry?.title);
+        if (!TYPES.includes(type) || !id || !title)
+            continue;
+        items.push({
+            type,
+            id,
+            title,
+            subtitle: text(entry?.subtitle),
+            thumbnail: text(entry?.thumbnail, 2000),
+            images: Array.isArray(entry?.images) ? entry.images.filter((image) => image?.url) : [],
+            round: Boolean(entry?.round),
+            pinned: Boolean(entry?.pinned),
+            browseId: text(entry?.browseId, 200),
+            videoId: text(entry?.videoId, 64),
+            playlistId: text(entry?.playlistId, 200),
+            params: text(entry?.params, 200),
+            ...(entry?.track && typeof entry.track === "object" ? { track: entry.track } : {}),
+        });
+    }
+    const reason = REASONS.includes(raw.reason) ? raw.reason : items.length ? "" : "error";
+    return { items, reason, title: text(raw.title), fetchedAt: Number(raw.fetchedAt) || 0 };
+}
+function compactItems(items) {
+    return items.slice(0, COMPACT_COLUMNS * COMPACT_ROWS);
+}
+function fullItems(items) {
+    return items.slice(0, FULL_COLUMNS * FULL_ROWS);
+}
+/**
+ * How one press plays a tile:
+ * - album, playlist: the whole list in its own order (the existing detail path)
+ * - podcast: the episode in progress, else the latest (existing podcast resume)
+ * - episode: that episode (resumes where it was left)
+ * - song: its radio; mix: its radio queue; artist: what the tile's play button
+ *   starts, else the artist's radio, else their top songs (all from the backend)
+ */
+function playPlan(item) {
+    if (!item || !item.id)
+        return null;
+    switch (item.type) {
+        case "album":
+            return { kind: "collection", collection: "album", id: item.browseId || item.id };
+        case "playlist":
+            return { kind: "collection", collection: "playlist", id: item.playlistId || item.id };
+        case "podcast":
+            return { kind: "podcast", id: item.browseId || item.id };
+        case "episode": {
+            const track = item.track && typeof item.track === "object"
+                ? item.track
+                : { id: item.videoId || item.id, videoId: item.videoId || item.id, type: "track", name: item.title, images: item.images, sourceKey: "youtubeMusic", isPodcast: true };
+            return { kind: "episode", track };
+        }
+        case "song":
+        case "mix":
+        case "artist":
+            return { kind: "queue" };
+        default:
+            return null;
+    }
+}
+/**
+ * Which episode of a show to start: the first one (newest first, as YouTube Music lists
+ * them) that is part-way through, otherwise the latest. -1 when there is none.
+ */
+function pickEpisodeIndex(episodes, progress) {
+    if (!Array.isArray(episodes) || !episodes.length)
+        return -1;
+    for (let index = 0; index < episodes.length; index += 1) {
+        const state = progress(episodes[index]);
+        if (state && !state.played && state.positionMs > 0)
+            return index;
+    }
+    return 0;
+}
+
+const HOLD_MS = 550;
+// Last answer for this session: the grid shows at once when Quick Access reopens, then
+// the backend (30-minute cache) confirms it.
+let current = null;
+let inflight = null;
+let focusFullViewOnOpen = false;
+function publish(next) {
+    // A failed refresh keeps the tiles already shown.
+    if (next.reason === "error" && !next.items.length && current?.items.length)
+        return;
+    current = next;
+    try {
+        window.dispatchEvent(new Event(SPEED_DIAL_EVENT));
+    }
+    catch { /* window gone */ }
+}
+function loadSpeedDial(refresh = false) {
+    if (inflight && !refresh)
+        return inflight;
+    const request = youtubeMusicGetSpeedDial(refresh)
+        .then((result) => sanitizeResult(result?.ok ? result.data : { reason: "error" }))
+        .catch(() => sanitizeResult({ reason: "error" }));
+    inflight = request;
+    void request.then(publish).finally(() => { if (inflight === request)
+        inflight = null; });
+    return request;
+}
+function useSpeedDial() {
+    const [value, setValue] = SP_REACT.useState(current);
+    SP_REACT.useEffect(() => {
+        const changed = () => setValue(current);
+        window.addEventListener(SPEED_DIAL_EVENT, changed);
+        void loadSpeedDial(false);
+        return () => window.removeEventListener(SPEED_DIAL_EVENT, changed);
+    }, []);
+    return value;
+}
+function notify(body) {
+    toaster.toast({ title: getTranslations("speedDial").title, body, duration: 3500 });
+}
+/** One press: play the tile through Awesome Mix's existing YouTube Music paths. */
+async function playSpeedDialItem(item) {
+    const t = getTranslations("speedDial");
+    const plan = playPlan(item);
+    if (!plan)
+        return false;
+    try {
+        // playYouTubeMusicCollection reports its own failures.
+        if (plan.kind === "collection")
+            return await playYouTubeMusicCollection(plan.collection, plan.id);
+        let played = false;
+        if (plan.kind === "episode") {
+            played = await playYouTubeMusicTracks([plan.track], 0);
+        }
+        else if (plan.kind === "podcast") {
+            const result = await youtubeMusicGetDetail("playlist", plan.id);
+            if (!result?.ok)
+                throw new Error(String(result?.error ?? "YouTube Music request failed"));
+            const episodes = Array.isArray(result.data?.tracks) ? result.data.tracks : [];
+            const index = pickEpisodeIndex(episodes, podcastProgress);
+            played = index >= 0 && await playYouTubeMusicTracks(episodes, index);
+        }
+        else {
+            const result = await youtubeMusicGetSpeedDialQueue(item);
+            if (!result?.ok)
+                throw new Error(String(result?.error ?? "YouTube Music request failed"));
+            played = await playYouTubeMusicTracks(result.data?.tracks ?? [], 0);
+        }
+        if (!played)
+            notify(t.nothingToPlay);
+        return played;
+    }
+    catch (error) {
+        notify(localizeRuntimeMessage(error, getTranslations("youtubeMusic").genericError));
+        return false;
+    }
+}
+const TILE_CSS = [
+    ".npSpeedDialTile{outline:none;border-radius:8px;cursor:pointer;min-width:0}",
+    `.npSpeedDialArt{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:${CORE.black};border:1px solid ${CORE.gunmetalRaised};transition:box-shadow 120ms ease}`,
+    ".npSpeedDialArt img{width:100%;height:100%;display:block;object-fit:cover}",
+    // Focus: a crimson ring, no glow (Core).
+    `.npSpeedDialTile:focus .npSpeedDialArt,.npSpeedDialTile:focus-visible .npSpeedDialArt,.npSpeedDialTile.gpfocus .npSpeedDialArt{box-shadow:0 0 0 2px ${CORE.crimson};border-color:${CORE.crimson}}`,
+    `.npSpeedDialTile:focus .npSpeedDialName,.npSpeedDialTile.gpfocus .npSpeedDialName{color:${CORE.white}}`,
+    ".npSpeedDialBusy .npSpeedDialArt{opacity:.5}",
+].join("\n");
+const ellipsis = { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" };
+function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
+    const t = getTranslations("speedDial");
+    const holdTimer = SP_REACT.useRef(0);
+    const held = SP_REACT.useRef(false);
+    const cancelHold = () => {
+        if (holdTimer.current)
+            window.clearTimeout(holdTimer.current);
+        holdTimer.current = 0;
+    };
+    SP_REACT.useEffect(() => cancelHold, []);
+    const startHold = (event) => {
+        held.current = false;
+        cancelHold();
+        const anchor = event?.currentTarget ?? undefined;
+        holdTimer.current = window.setTimeout(() => { holdTimer.current = 0; held.current = true; onMore(anchor); }, HOLD_MS);
+    };
+    return (SP_JSX.jsxs(DFL.Focusable, { className: `npSpeedDialTile${busy ? " npSpeedDialBusy" : ""}`, noFocusRing: true, onActivate: () => {
+            // The click that ends a long press is not a press.
+            if (held.current) {
+                held.current = false;
+                return;
+            }
+            onPlay();
+        }, onOKActionDescription: t.play, onSecondaryButton: (event) => onMore(event?.currentTarget ?? event?.target ?? undefined), onSecondaryActionDescription: t.more, onFocus: (event) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }), onPointerDown: startHold, onPointerUp: cancelHold, onPointerLeave: cancelHold, onPointerCancel: cancelHold, onContextMenu: (event) => { event?.preventDefault?.(); cancelHold(); onMore(event?.currentTarget ?? undefined); }, style: { display: "flex", flexDirection: "column", gap: full ? "7px" : "4px", padding: full ? "4px" : "2px" }, children: [SP_JSX.jsxs("div", { className: "npSpeedDialArt", style: { borderRadius: item.round ? "50%" : full ? "8px" : "5px" }, children: [item.thumbnail ? SP_JSX.jsx("img", { src: item.thumbnail, alt: "", loading: "lazy", referrerPolicy: "no-referrer", draggable: false }) : null, item.pinned ? (SP_JSX.jsx("span", { "aria-label": t.pinned, style: { position: "absolute", top: full ? 6 : 3, right: full ? 6 : 3, display: "flex", padding: full ? 4 : 2, borderRadius: 999, background: CORE.gunmetal, color: CORE.steel }, children: SP_JSX.jsx(FaThumbtack, { size: full ? 11 : 7 }) })) : null] }), SP_JSX.jsx("div", { className: "npSpeedDialName", style: { ...ellipsis, textAlign: full ? "left" : "center", fontSize: full ? "15px" : ".62em", fontWeight: 600, lineHeight: 1.2, color: CORE.steel }, children: item.title }), full && item.subtitle ? SP_JSX.jsx("div", { style: { ...ellipsis, fontSize: "13px", lineHeight: 1.2, color: CORE.hint }, children: item.subtitle }) : null] }));
+}
+/**
+ * The Speed dial grid. `compact` is the Quick Access block (2 by 4), `full` the
+ * full-view section (up to 3 by 9). Renders nothing while there are no tiles.
+ */
+function SpeedDialGrid({ variant, onOpenFull }) {
+    const t = getTranslations("speedDial");
+    const result = useSpeedDial();
+    const [busyKey, setBusyKey] = SP_REACT.useState("");
+    const gridRef = SP_REACT.useRef(null);
+    const full = variant === "full";
+    const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
+    // "Open in full view" lands on the grid instead of the Home tab.
+    SP_REACT.useEffect(() => {
+        if (!full || !items.length || !focusFullViewOnOpen)
+            return;
+        focusFullViewOnOpen = false;
+        const timer = window.setTimeout(() => {
+            try {
+                gridRef.current?.querySelector(".npSpeedDialTile")?.focus?.();
+            }
+            catch { /* keep Steam's focus */ }
+        }, 160);
+        return () => window.clearTimeout(timer);
+    }, [full, items.length]);
+    if (!items.length)
+        return null;
+    const play = async (item) => {
+        const key = `${item.type}:${item.id}`;
+        if (busyKey)
+            return;
+        setBusyKey(key);
+        try {
+            await playSpeedDialItem(item);
+        }
+        finally {
+            setBusyKey("");
+        }
+    };
+    const more = (item, anchor) => {
+        const refresh = () => {
+            void loadSpeedDial(true).then((next) => { if (next.reason !== "error")
+                notify(t.refreshed); });
+        };
+        const openFull = () => {
+            focusFullViewOnOpen = true;
+            onOpenFull?.();
+        };
+        try {
+            DFL.showContextMenu(SP_JSX.jsxs(DFL.Menu, { label: item.title, children: [SP_JSX.jsx(DFL.MenuItem, { onSelected: refresh, children: t.refresh }), !full && onOpenFull ? SP_JSX.jsx(DFL.MenuItem, { onSelected: openFull, children: t.openFull }) : null] }), anchor);
+        }
+        catch {
+            refresh();
+        }
+    };
+    const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
+    const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: (anchor) => more(item, anchor) }, `${item.type}:${item.id}`))) }));
+    if (full) {
+        // TODO(Core UI): the Core Starfield goes behind this black area once Core supplies it.
+        return (SP_JSX.jsxs("section", { className: "npSpeedDial npSpeedDialFull", style: { marginTop: "28px", background: CORE.black }, children: [SP_JSX.jsx("style", { children: TILE_CSS }), SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }, children: t.title }), grid] }));
+    }
+    return (SP_JSX.jsxs("div", { className: "npSpeedDial npSpeedDialCompact", style: { width: "100%", boxSizing: "border-box", marginBottom: "10px", borderRadius: "10px", border: `1px solid ${CORE.gunmetalRaised}`, background: CORE.gunmetal, padding: "8px", display: "flex", flexDirection: "column", gap: "6px" }, children: [SP_JSX.jsx("style", { children: TILE_CSS }), SP_JSX.jsx("div", { style: { fontSize: ".72em", fontWeight: 800, letterSpacing: ".035em", textTransform: "uppercase", color: CORE.crimsonText }, children: t.title }), grid] }));
 }
 
 /**
@@ -42014,7 +42402,7 @@ function YouTubeMusicBigPictureRoute() {
         retainFullscreenChromeSuppression();
         return () => releaseFullscreenChromeSuppression();
     }, []);
-    return SP_JSX.jsx(YouTubeMusicBigPicture, { onExit: navigateBackFromBigPicture, onOpenVisualizer: navigateToFullscreen, onOpenSettings: navigateToFullscreenSettings });
+    return SP_JSX.jsx(YouTubeMusicBigPicture, { onExit: navigateBackFromBigPicture, onOpenVisualizer: navigateToFullscreen, onOpenSettings: navigateToFullscreenSettings, homeTop: SP_JSX.jsx(SpeedDialGrid, { variant: "full" }) });
 }
 // Plain stacked option buttons (one under another) with a check on the active
 // one. We deliberately avoid a Steam modal/dropdown: in the QAM it could pop the
@@ -43354,7 +43742,7 @@ function Content() {
           margin-top: -4px;
           border-radius: 999px;
         }
-      ` }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { ref: qamRootRef, className: coreClass.trim() || undefined, style: { ...qamCenterRowStyle, ...coreVars, ["--np-accent"]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }, children: [SP_JSX.jsx("style", { children: CORE_ROOT_CSS }), coreClass ? null : SP_JSX.jsx(QamGlowLayer, { artUrl: coverUrl || coverUrlRef.current, playing: isPlaying, bottomFadeTop: bottomGlowFadeTop }), SP_JSX.jsxs("div", { style: { ...centeredColumnStyle, position: "relative", zIndex: 3 }, children: [SP_JSX.jsxs("div", { style: mediaTransitionStyle, children: [SP_JSX.jsx(CoverBox, { artUrl: coverUrl, showPlaceholder: !coverResolving, ariaLabel: t.openCurrentAlbum, onActivate: localCoverActive ? () => void openCurrentLocalAlbum() : undefined }), SP_JSX.jsxs("div", { style: {
+      ` }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { ref: qamRootRef, className: coreClass.trim() || undefined, style: { ...qamCenterRowStyle, ...coreVars, ["--np-accent"]: qamThemed ? THEME_ACCENT : accentForKey(enabledAppKeys[0]) }, children: [SP_JSX.jsx("style", { children: CORE_ROOT_CSS }), coreClass ? null : SP_JSX.jsx(QamGlowLayer, { artUrl: coverUrl || coverUrlRef.current, playing: isPlaying, bottomFadeTop: bottomGlowFadeTop }), SP_JSX.jsxs("div", { style: { ...centeredColumnStyle, position: "relative", zIndex: 3 }, children: [enabledAppKeys[0] === "youtubeMusic" ? (SP_JSX.jsx(SpeedDialGrid, { variant: "compact", onOpenFull: navigateToYouTubeMusicBigPicture })) : null, SP_JSX.jsxs("div", { style: mediaTransitionStyle, children: [SP_JSX.jsx(CoverBox, { artUrl: coverUrl, showPlaceholder: !coverResolving, ariaLabel: t.openCurrentAlbum, onActivate: localCoverActive ? () => void openCurrentLocalAlbum() : undefined }), SP_JSX.jsxs("div", { style: {
                                                 width: "100%",
                                                 textAlign: "center",
                                                 marginTop: "14px",

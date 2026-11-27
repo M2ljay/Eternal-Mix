@@ -16,6 +16,7 @@ import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
 import { GameSoundtrackEntry, startGameSoundtrack } from "./gameSoundtrackPanel";
+import { SpeedDialGrid } from "./speedDialPanel";
 import { offerEnabled as soundtrackOfferEnabled, setOfferEnabled as setSoundtrackOfferEnabled } from "./gameSoundtrack";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { CoreTranslation } from "./i18n";
@@ -2283,7 +2284,7 @@ function YouTubeMusicBigPictureRoute() {
     retainFullscreenChromeSuppression();
     return () => releaseFullscreenChromeSuppression();
   }, []);
-  return <YouTubeMusicBigPicture onExit={navigateBackFromBigPicture} onOpenVisualizer={navigateToFullscreen} onOpenSettings={navigateToFullscreenSettings} />;
+  return <YouTubeMusicBigPicture onExit={navigateBackFromBigPicture} onOpenVisualizer={navigateToFullscreen} onOpenSettings={navigateToFullscreenSettings} homeTop={<SpeedDialGrid variant="full" />} />;
 }
 
 // Plain stacked option buttons (one under another) with a check on the active
@@ -3962,6 +3963,9 @@ function Content() {
           {/* Core has no glow backgrounds: the cover halo is left out. */}
           {coreClass ? null : <QamGlowLayer artUrl={coverUrl || coverUrlRef.current} playing={isPlaying} bottomFadeTop={bottomGlowFadeTop} />}
           <div style={{ ...centeredColumnStyle, position: "relative", zIndex: 3 }}>
+            {enabledAppKeys[0] === "youtubeMusic" ? (
+              <SpeedDialGrid variant="compact" onOpenFull={navigateToYouTubeMusicBigPicture} />
+            ) : null}
             <div style={mediaTransitionStyle}>
               <CoverBox
                 artUrl={coverUrl}

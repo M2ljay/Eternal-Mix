@@ -4670,6 +4670,12 @@ class Plugin:
     async def youtube_music_search(self, query: str) -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.search, query)
 
+    async def youtube_music_get_speed_dial(self, refresh: bool = False) -> Dict[str, Any]:
+        return await self._youtube_music_result(self._youtube_music.get_speed_dial, bool(refresh))
+
+    async def youtube_music_get_speed_dial_queue(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        return await self._youtube_music_result(self._youtube_music.get_speed_dial_queue, item if isinstance(item, dict) else {})
+
     async def youtube_music_find_soundtrack(self, game: str, platform: str = "") -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.find_soundtrack, str(game or ""), str(platform or ""))
 

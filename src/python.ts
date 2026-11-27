@@ -301,6 +301,14 @@ export function youtubeMusicGetDetail(kind: "album" | "playlist" | "artist", ite
   return call<[kind: string, itemId: string], ApiResult>("youtube_music_get_detail", kind, itemId);
 }
 
+export function youtubeMusicGetSpeedDial(refresh = false): Promise<ApiResult<unknown>> {
+  return call<[refresh: boolean], ApiResult<unknown>>("youtube_music_get_speed_dial", refresh);
+}
+
+export function youtubeMusicGetSpeedDialQueue(item: object): Promise<ApiResult<{ tracks: any[]; mode: string; playlistId: string }>> {
+  return call<[item: object], ApiResult<{ tracks: any[]; mode: string; playlistId: string }>>("youtube_music_get_speed_dial_queue", item);
+}
+
 export type SoundtrackCandidate = {
   type: "album" | "playlist";
   id: string;

@@ -1,7 +1,7 @@
 import { DialogButton, Focusable, GamepadButton, TextField } from "@decky/ui";
 import { toaster } from "@decky/api";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
   FaArrowLeft,
   FaCog,
@@ -199,6 +199,14 @@ export async function playYouTubeMusicCollection(kind: "album" | "playlist", id:
     notifyError(error);
     return false;
   }
+}
+
+/** Play prepared tracks (a radio queue, a show's episodes) from one of them. */
+export async function playYouTubeMusicTracks(tracks: any[], index = 0): Promise<boolean> {
+  const playable = (Array.isArray(tracks) ? tracks : []).filter((item: any) => itemType(item) === "track" && String(item?.videoId ?? item?.id ?? "").trim());
+  if (!playable.length) return false;
+  await playItems(playable, Math.max(0, Math.min(index, playable.length - 1)));
+  return true;
 }
 
 // "Played" or "12 min left" for podcast episodes, with the listened fraction.
@@ -563,7 +571,7 @@ function YouTubeMusicBrowserContent({ onOpenBigPicture }: BrowserProps) {
 
 export const YouTubeMusicBrowser = memo(YouTubeMusicBrowserContent);
 
-export function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }: { onExit: () => void; onOpenVisualizer: () => void; onOpenSettings?: () => void }) {
+export function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings, homeTop }: { onExit: () => void; onOpenVisualizer: () => void; onOpenSettings?: () => void; homeTop?: ReactNode }) {
   const { coreVars, coreClass } = useCoreRoot();
   const t = useMemo(translations, []);
   usePodcastProgressVersion();
@@ -735,7 +743,7 @@ export function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSetting
   const statusProps = (track: any) => { const status = episodeStatus(t, track); return status ? { status: status.label, progress: status.fraction } : {}; };
   const continueItems = continueListeningEpisodes();
   const continueRow = () => continueItems.length ? <section style={{ marginTop: "28px" }}><h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }}>{t.continueListening}</h2><Focusable flow-children="vertical">{continueItems.map((episode: any, index: number) => <MediaTvTrack key={`continue-${episode?.id}`} track={episode} index={index} {...statusProps(episode)} onFocus={() => prefetchTrack(episode)} onActivate={() => void playItems(continueItems, index)} />)}</Focusable></section> : null;
-  const renderHome = () => <>{playerCard()}{continueRow()}{cardRow(t.yourPlaylists, home?.playlists?.items ?? [])}{cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])}</>;
+  const renderHome = () => <>{playerCard()}{homeTop}{continueRow()}{cardRow(t.yourPlaylists, home?.playlists?.items ?? [])}{cardRow(t.newReleases, home?.newReleases?.items ?? home?.newForYou?.items ?? [])}</>;
   const renderSearch = () => { const tracks = searchResults?.tracks?.items ?? []; const albums = searchResults?.albums?.items ?? []; const artists = searchResults?.artists?.items ?? []; const playlists = searchResults?.playlists?.items ?? []; const podcasts = searchResults?.podcasts?.items ?? []; const episodes = searchResults?.episodes?.items ?? []; return <><TextField label={t.searchYouTubeMusic} value={query} style={{ width: "100%", minWidth: "100%" } as any} onChange={(value: any) => setQuery(typeof value === "string" ? value : String(value?.target?.value ?? ""))} onKeyDown={(event: any) => { if (event?.key === "Enter") void run(() => python.youtubeMusicSearch(query), setSearchResults); }} /><DialogButton style={{ width: "180px", minWidth: "180px", height: "46px", marginTop: "10px" }} disabled={query.trim().length < 2 || loading} onClick={() => void run(() => python.youtubeMusicSearch(query), setSearchResults)}><span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 550 }}><FaSearch />{t.search}</span></DialogButton>{cardRow(t.artists, artists, true)}{cardRow(t.albums, albums)}{tracks.length ? <section style={{ marginTop: "28px" }}><h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }}>{t.tracks}</h2><Focusable flow-children="vertical">{tracks.map((track: any, index: number) => <MediaTvTrack key={`${track?.id}-${index}`} track={track} index={index} onFocus={() => prefetchTrack(track)} onActivate={() => void playItems(tracks, index)} />)}</Focusable></section> : null}{cardRow(t.playlists, playlists)}{cardRow(t.podcasts, podcasts)}{episodes.length ? <section style={{ marginTop: "28px" }}><h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650 }}>{t.episodes}</h2><Focusable flow-children="vertical">{episodes.map((episode: any, index: number) => <MediaTvTrack key={`${episode?.id}-${index}`} track={episode} index={index} {...statusProps(episode)} onFocus={() => prefetchTrack(episode)} onActivate={() => void playItems(episodes, index)} />)}</Focusable></section> : null}{searchResults && !tracks.length && !albums.length && !artists.length && !playlists.length && !podcasts.length && !episodes.length && !loading ? <div style={{ marginTop: "38px", fontSize: "19px", opacity: .55 }}>{t.noResults}</div> : null}</>; };
   const renderLibrary = () => {
     const items = libraryItems(library, librarySection);

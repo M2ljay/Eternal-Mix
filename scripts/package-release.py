@@ -72,7 +72,7 @@ def main() -> None:
     version=json.loads((ROOT/'package.json').read_text())['version']
     for filename in ('package-lock.json',):
         assert json.loads((ROOT/filename).read_text())['version']==version,filename
-    runtime_names={'plugin.json','package.json','main.py','mix_backend.py','mix_install_check.py','mix_process_guard.py','ytmusic_service.py','mix_soundtrack.py','runtime_compat.py','legacy_migration.py','mix_identity.py','mix_update.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
+    runtime_names={'plugin.json','package.json','main.py','mix_backend.py','mix_install_check.py','mix_process_guard.py','ytmusic_service.py','mix_soundtrack.py','mix_speed_dial.py','runtime_compat.py','legacy_migration.py','mix_identity.py','mix_update.py','LICENSE','NOTICE',f'CHANGELOG_{version}.md'}
     runtime_dirs={'dist','bin','vendor','licenses','runtime_stdlib'}
     required=[ROOT/name for name in runtime_names]+[ROOT/'dist/index.js',ROOT/'runtime_stdlib/http_server.py']
     for path in required:

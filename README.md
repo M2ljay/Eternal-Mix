@@ -80,6 +80,27 @@ setting, off by default (Settings, Games), shows a small notice when a game star
 
 The matching ideas come from DeckTune by Jayden (MIT; see [NOTICE](NOTICE)).
 
+## Speed dial
+
+While YouTube Music is the source and you are signed in, the top of the Quick Access panel shows YouTube Music's own
+**Speed dial**: the artists, albums, playlists, mixes and podcasts you play most, including the ones you pinned, as
+a 2 by 4 grid. One press plays the tile:
+
+- album or playlist: the whole list, in order
+- song: its radio
+- mix or station: its radio queue
+- artist: what the tile's own play button starts on YouTube Music (usually the artist's radio), else the artist's
+  radio, else their top songs
+- podcast: the episode you are part-way through (it resumes), else the latest; an episode tile plays that episode
+
+X (or a long press, or a right click) opens **More**: **Refresh speed dial** and **Open in full view**, which opens
+the full-screen YouTube Music view with the whole grid (up to 3 rows of 9) at the top of Home. The grid is read from
+YouTube Music's home page and kept for 30 minutes; it is hidden when it is empty (signed out, or no Speed dial on
+the account). Pinning and unpinning stay in the YouTube Music app.
+
+TODO (Core UI): the black areas behind the grid are meant to show the Core Starfield. Awesome Mix has no starfield
+of its own (the Core Starfield is Core's Steam screensaver), so Core UI will supply it.
+
 ## Sources
 
 - **YouTube Music** (the main source): Home, Search and Library, podcasts (search, library tabs, episodes, resume, Continue listening, played marks), sign-in through a temporary browser window, seeking, playback speed 0.75x to 2x for podcasts, and next-track prefetching.

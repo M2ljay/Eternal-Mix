@@ -312,6 +312,16 @@
       "offerSettingDescription": "Shows a small notice when a game starts. Music never starts on its own.",
       "offerToastPlay": "Select to play {album}",
       "offerToastPick": "Open {app} to choose its soundtrack"
+    },
+    "speedDial": {
+      "title": "Speed dial",
+      "play": "Play",
+      "more": "More",
+      "refresh": "Refresh speed dial",
+      "openFull": "Open in full view",
+      "refreshed": "Speed dial refreshed",
+      "nothingToPlay": "Nothing to play here",
+      "pinned": "Pinned"
     }
   },
   "it": {
@@ -627,6 +637,16 @@
       "offerSettingDescription": "Mostra un piccolo avviso quando si avvia un gioco. La musica non parte mai da sola.",
       "offerToastPlay": "Seleziona per riprodurre {album}",
       "offerToastPick": "Apri {app} per scegliere la colonna sonora"
+    },
+    "speedDial": {
+      "title": "Selezione rapida",
+      "play": "Riproduci",
+      "more": "Altro",
+      "refresh": "Aggiorna selezione rapida",
+      "openFull": "Apri a schermo intero",
+      "refreshed": "Selezione rapida aggiornata",
+      "nothingToPlay": "Niente da riprodurre qui",
+      "pinned": "Fissato"
     }
   },
   "es": {
@@ -942,6 +962,16 @@
       "offerSettingDescription": "Muestra un pequeño aviso cuando empieza un juego. La música nunca empieza sola.",
       "offerToastPlay": "Selecciona para reproducir {album}",
       "offerToastPick": "Abre {app} para elegir su banda sonora"
+    },
+    "speedDial": {
+      "title": "Marcación rápida",
+      "play": "Reproducir",
+      "more": "Más",
+      "refresh": "Actualizar marcación rápida",
+      "openFull": "Abrir a pantalla completa",
+      "refreshed": "Marcación rápida actualizada",
+      "nothingToPlay": "No hay nada que reproducir",
+      "pinned": "Fijado"
     }
   },
   "fr": {
@@ -1257,6 +1287,16 @@
       "offerSettingDescription": "Affiche une petite notification au lancement d'un jeu. La musique ne démarre jamais seule.",
       "offerToastPlay": "Sélectionnez pour lire {album}",
       "offerToastPick": "Ouvrez {app} pour choisir sa bande originale"
+    },
+    "speedDial": {
+      "title": "Accès rapide",
+      "play": "Lire",
+      "more": "Plus",
+      "refresh": "Actualiser l'accès rapide",
+      "openFull": "Ouvrir en plein écran",
+      "refreshed": "Accès rapide actualisé",
+      "nothingToPlay": "Rien à lire ici",
+      "pinned": "Épinglé"
     }
   },
   "de": {
@@ -1572,6 +1612,16 @@
       "offerSettingDescription": "Zeigt beim Start eines Spiels einen kleinen Hinweis. Die Musik startet nie von selbst.",
       "offerToastPlay": "Auswählen, um {album} abzuspielen",
       "offerToastPick": "{app} öffnen, um den Soundtrack zu wählen"
+    },
+    "speedDial": {
+      "title": "Schnellwahl",
+      "play": "Abspielen",
+      "more": "Mehr",
+      "refresh": "Schnellwahl aktualisieren",
+      "openFull": "Im Vollbild öffnen",
+      "refreshed": "Schnellwahl aktualisiert",
+      "nothingToPlay": "Hier gibt es nichts abzuspielen",
+      "pinned": "Angeheftet"
     }
   },
   "pt-br": {
@@ -1887,6 +1937,16 @@
       "offerSettingDescription": "Mostra um pequeno aviso quando um jogo começa. A música nunca começa sozinha.",
       "offerToastPlay": "Selecione para tocar {album}",
       "offerToastPick": "Abra o {app} para escolher a trilha sonora"
+    },
+    "speedDial": {
+      "title": "Discagem rápida",
+      "play": "Tocar",
+      "more": "Mais",
+      "refresh": "Atualizar discagem rápida",
+      "openFull": "Abrir em tela cheia",
+      "refreshed": "Discagem rápida atualizada",
+      "nothingToPlay": "Nada para tocar aqui",
+      "pinned": "Fixado"
     }
   },
   "ru": {
@@ -2202,6 +2262,16 @@
       "offerSettingDescription": "Показывает небольшое уведомление при запуске игры. Музыка никогда не включается сама.",
       "offerToastPlay": "Выберите, чтобы включить {album}",
       "offerToastPick": "Откройте {app}, чтобы выбрать саундтрек"
+    },
+    "speedDial": {
+      "title": "Быстрый набор",
+      "play": "Воспроизвести",
+      "more": "Ещё",
+      "refresh": "Обновить быстрый набор",
+      "openFull": "Открыть во весь экран",
+      "refreshed": "Быстрый набор обновлён",
+      "nothingToPlay": "Здесь нечего воспроизвести",
+      "pinned": "Закреплено"
     }
   },
   "ja": {
@@ -2517,6 +2587,16 @@
       "offerSettingDescription": "ゲーム開始時に小さな通知を表示します。音楽が勝手に再生されることはありません。",
       "offerToastPlay": "選択して {album} を再生",
       "offerToastPick": "{app} を開いてサウンドトラックを選択"
+    },
+    "speedDial": {
+      "title": "スピードダイヤル",
+      "play": "再生",
+      "more": "その他",
+      "refresh": "スピードダイヤルを更新",
+      "openFull": "全画面で開く",
+      "refreshed": "スピードダイヤルを更新しました",
+      "nothingToPlay": "再生できるものがありません",
+      "pinned": "固定済み"
     }
   },
   "ko": {
@@ -2832,6 +2912,16 @@
       "offerSettingDescription": "게임이 시작되면 작은 알림을 표시합니다. 음악이 저절로 재생되지는 않습니다.",
       "offerToastPlay": "선택하여 {album} 재생",
       "offerToastPick": "{app}을(를) 열어 사운드트랙 선택"
+    },
+    "speedDial": {
+      "title": "단축 다이얼",
+      "play": "재생",
+      "more": "더보기",
+      "refresh": "단축 다이얼 새로고침",
+      "openFull": "전체 화면으로 열기",
+      "refreshed": "단축 다이얼을 새로고침했습니다",
+      "nothingToPlay": "재생할 항목이 없습니다",
+      "pinned": "고정됨"
     }
   },
   "zh": {
@@ -3147,6 +3237,16 @@
       "offerSettingDescription": "游戏启动时显示一条小通知。音乐绝不会自动播放。",
       "offerToastPlay": "选择以播放 {album}",
       "offerToastPick": "打开 {app} 选择原声"
+    },
+    "speedDial": {
+      "title": "快速拨号",
+      "play": "播放",
+      "more": "更多",
+      "refresh": "刷新快速拨号",
+      "openFull": "全屏打开",
+      "refreshed": "快速拨号已刷新",
+      "nothingToPlay": "没有可播放的内容",
+      "pinned": "已置顶"
     }
   }
 }

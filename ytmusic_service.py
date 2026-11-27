@@ -17,6 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import mix_soundtrack
+import mix_speed_dial
 
 
 class _NothingToCache(Exception):
@@ -1041,6 +1042,139 @@ class YouTubeMusicService:
             return self._cached(key, 6 * 3600.0, produce)
         except _NothingToCache as empty:
             return empty.value
+
+    SPEED_DIAL_CACHE_KEY = "speeddial:v1"
+    SPEED_DIAL_TTL = 1800.0
+
+    def _forget_cached(self, key: str) -> None:
+        with self._lock:
+            self._cache.pop(key, None)
+            try:
+                path = self._response_cache_path(key)
+                if os.path.isfile(path):
+                    os.remove(path)
+            except Exception as exc:
+                self._log(f"YouTube Music cache entry cleanup error: {exc}")
+
+    def _speed_dial_item(self, raw: Dict[str, Any]) -> Dict[str, Any]:
+        images = self._images(raw.get("thumbnails") or [])
+        originals = [entry for entry in raw.get("thumbnails") or [] if isinstance(entry, dict) and entry.get("url")]
+        # The tile shows the largest original (a few hundred pixels); `images` are the
+        # upscaled copies the player uses for covers.
+        largest = max(originals, key=lambda entry: int(entry.get("width") or 0) * int(entry.get("height") or 0)) if originals else {}
+        item: Dict[str, Any] = {
+            "type": raw.get("type") or "",
+            "id": raw.get("id") or "",
+            "title": raw.get("title") or "",
+            "subtitle": raw.get("subtitle") or "",
+            "thumbnail": str(largest.get("url") or ""),
+            "images": images,
+            "round": raw.get("type") == "artist",
+            "pinned": bool(raw.get("pinned")),
+            "browseId": raw.get("browseId") or "",
+            "videoId": raw.get("videoId") or "",
+            "playlistId": raw.get("playlistId") or "",
+            "params": raw.get("params") or "",
+        }
+        if item["type"] == "episode":
+            # Ready to play: podcast resume keys on videoId with isPodcast.
+            item["track"] = {
+                "id": item["videoId"] or item["id"],
+                "uri": f"ytmusic:track:{item['videoId'] or item['id']}",
+                "type": "track",
+                "name": item["title"],
+                "duration_ms": 0,
+                "artists": [{"name": item["subtitle"].split(" • ")[-1].strip(), "id": ""}] if item["subtitle"] else [],
+                "album": {"id": "", "name": "", "images": images},
+                "images": images,
+                "sourceKey": "youtubeMusic",
+                "videoId": item["videoId"] or item["id"],
+                "isPodcast": True,
+            }
+        return item
+
+    def get_speed_dial(self, refresh: bool = False) -> Dict[str, Any]:
+        """The home feed's Speed dial tiles. Never raises: empty with a reason instead.
+
+        reason: "" (items found), "signed_out", "missing" (no Speed dial shelf in the
+        feed) or "error" (the request failed; not cached). Cached for 30 minutes;
+        refresh=True fetches again.
+        """
+        empty = lambda reason, **extra: {"items": [], "reason": reason, "title": "", "fetchedAt": 0, **extra}
+        if not self._has_auth():
+            return empty("signed_out")
+        key = self.SPEED_DIAL_CACHE_KEY
+        if refresh:
+            self._forget_cached(key)
+
+        def produce() -> Dict[str, Any]:
+            # A request-local client: ytmusicapi's mobile (OAuth) context is not thread-safe.
+            client = self._independent_client_for_request(True)
+            with self._request_context(client):
+                response = client._send_request("browse", {"browseId": "FEmusic_home"})
+            shelf = mix_speed_dial.extract_speed_dial(response)
+            items = [self._speed_dial_item(raw) for raw in shelf["items"]]
+            if not items:
+                return empty("missing")
+            return {"items": items, "reason": "", "title": shelf["title"], "fetchedAt": time.time()}
+
+        try:
+            return self._cached(key, self.SPEED_DIAL_TTL, produce)
+        except Exception as exc:
+            self._log(f"YouTube Music speed dial unavailable: {type(exc).__name__}: {exc}")
+            return empty("error", error=str(exc))
+
+    @staticmethod
+    def _watch_track(value: Any) -> Any:
+        """A get_watch_playlist track in the shape normalize_item reads."""
+        if not isinstance(value, dict):
+            return value
+        track = dict(value)
+        if track.get("length") and not track.get("duration"):
+            track["duration"] = track.get("length")
+        return track
+
+    def get_speed_dial_queue(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        """Tracks for a song, mix or artist tile: {"tracks", "mode", "playlistId"}.
+
+        Albums, playlists, podcasts and episodes are played by the frontend through the
+        existing detail paths and are refused here.
+        """
+        request = mix_speed_dial.queue_request(item)
+        mode = request.get("mode")
+        if mode == "none":
+            raise RuntimeError("Invalid YouTube Music item")
+        client = self._independent_client_for_request()
+
+        def watch(video_id: str, playlist_id: str, radio: bool = False, shuffle: bool = False) -> Dict[str, Any]:
+            with self._request_context(client):
+                value = client.get_watch_playlist(videoId=video_id or None, playlistId=playlist_id or None,
+                                                  limit=50, radio=radio, shuffle=shuffle)
+            raw = value.get("tracks") if isinstance(value, dict) else []
+            tracks = self._normalize_many([self._watch_track(entry) for entry in raw or []], "track")
+            return {"tracks": tracks, "mode": "radio", "playlistId": str((value or {}).get("playlistId") or playlist_id or "")}
+
+        if mode == "watch":
+            result = watch(request.get("videoId", ""), request.get("playlistId", ""),
+                           bool(request.get("radio")), bool(request.get("shuffle")))
+        else:
+            channel_id = str(request.get("channelId") or "")
+            with self._request_context(client):
+                artist = client.get_artist(channel_id)
+            artist = artist if isinstance(artist, dict) else {}
+            result = {"tracks": [], "mode": "radio", "playlistId": ""}
+            for playlist_id in (artist.get("radioId"), artist.get("shuffleId")):
+                if playlist_id:
+                    try:
+                        result = watch("", str(playlist_id), shuffle=playlist_id == artist.get("shuffleId"))
+                    except Exception as exc:
+                        self._log(f"YouTube Music artist queue {playlist_id} unavailable: {exc}")
+                    if result["tracks"]:
+                        break
+            if not result["tracks"]:
+                songs = artist.get("songs") if isinstance(artist.get("songs"), dict) else {}
+                result = {"tracks": self._normalize_many(songs.get("results") or [], "track"), "mode": "top", "playlistId": ""}
+        return self._without_unavailable(result)
 
     def get_library(self, section: str, max_items: int = 100) -> Dict[str, Any]:
         if not self._has_auth():

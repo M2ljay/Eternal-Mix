@@ -1,0 +1,335 @@
+"""YouTube Music's "Speed dial" shelf: find it in the raw home feed and route a tile to playback.
+
+Pure logic, no network: ytmusic_service.YouTubeMusicService.get_speed_dial sends the
+home browse request (``FEmusic_home``) with the signed-in client and hands the raw
+response here.
+
+Why raw: ytmusicapi's get_home (parsers/browsing.parse_mixed_content) keeps only a
+shelf's title and parsed items. It drops what tells Speed dial apart from the other
+shelves (the header's avatar and strapline, ``numItemsPerColumn``, the pin menu on each
+tile), and it skips any shelf whose body has no ``contents`` (a ``gridRenderer`` keeps
+its tiles under ``items``). The shelf title is localised, so it is a hint, not the key.
+
+Known response shape (no live capture in this repository yet; see tests/test_speed_dial.py):
+  - Speed dial is the first shelf of the home section list: a
+    ``musicCarouselShelfRenderer`` with ``numItemsPerColumn`` "3" (it replaced
+    "Listen again", which used "2"), a ``musicCarouselShelfBasicHeaderRenderer`` with
+    the account avatar in ``thumbnail`` and the account name in ``strapline``, and
+    27 ``musicTwoRowItemRenderer`` tiles. Two independent YouTube Music clients
+    identify it this way: Mochy-Music's innertube HomePage.kt (numItemsPerColumn >= 3,
+    a header thumbnail, all two-row tiles) and Prism's innertube Parser.kt (stacked
+    card shelves, and ``gridRenderer`` shelves read from ``items``).
+  - Tiles use ytmusicapi's two-row item layout (navigation.py: TITLE, SUBTITLE_RUNS,
+    THUMBNAIL_RENDERER, THUMBNAIL_OVERLAY_NAVIGATION, MENU_ITEMS). A pinned tile's menu
+    offers "unpin" (``toggleMenuServiceItemRenderer`` with icon ``KEEP_OFF``), an
+    unpinned one offers "pin" (``KEEP``); ytmusicapi reads the same icons in
+    parsers/songs.parse_song_menu_data as ``pinnedToListenAgain``. Only Speed dial and
+    Listen again tiles carry that menu entry.
+
+Standard library only (typing is in Decky's frozen Python).
+"""
+from __future__ import annotations
+
+from typing import Any, Dict, List, Optional, Tuple
+
+MTRIR = "musicTwoRowItemRenderer"
+CAROUSEL = "musicCarouselShelfRenderer"
+GRID = "gridRenderer"
+
+# English names of the shelf. The client asks for hl=en, so the title is normally one of
+# these, but a title is only one signal among several (see shelf_score).
+KNOWN_TITLES = ("speed dial", "listen again")
+
+# A shelf needs at least this score to be taken for Speed dial.
+MIN_SCORE = 5
+# The full grid on YouTube Music: 3 rows of 9.
+MAX_ITEMS = 27
+
+SHUFFLE_PARAMS = {"wAEB8gECKAE%3D", "wAEB8gECKAE="}
+RADIO_PARAMS = {"wAEB"}
+
+ITEM_TYPES = ("song", "album", "playlist", "artist", "mix", "podcast", "episode")
+# Types the frontend plays through its existing detail paths (album/playlist order,
+# podcast resume); the others need a queue from the backend.
+QUEUE_TYPES = ("song", "mix", "artist")
+
+
+def _nav(value: Any, *path: Any) -> Any:
+    for key in path:
+        if isinstance(key, int):
+            if not isinstance(value, list) or not -len(value) <= key < len(value):
+                return None
+            value = value[key]
+        else:
+            if not isinstance(value, dict):
+                return None
+            value = value.get(key)
+        if value is None:
+            return None
+    return value
+
+
+def _runs_text(value: Any) -> str:
+    runs = _nav(value, "runs")
+    if isinstance(runs, list):
+        return "".join(str(run.get("text") or "") for run in runs if isinstance(run, dict)).strip()
+    return str(_nav(value, "simpleText") or "").strip()
+
+
+def _str(value: Any) -> str:
+    return str(value or "").strip() if isinstance(value, (str, int)) else ""
+
+
+def _thumbnails(renderer: Any) -> List[Dict[str, Any]]:
+    value = _nav(renderer, "thumbnailRenderer", "musicThumbnailRenderer", "thumbnail", "thumbnails")
+    if not isinstance(value, list):
+        value = _nav(renderer, "thumbnail", "musicThumbnailRenderer", "thumbnail", "thumbnails")
+    return [entry for entry in value if isinstance(entry, dict) and entry.get("url")] if isinstance(value, list) else []
+
+
+def _menu_icons(renderer: Any) -> List[str]:
+    icons: List[str] = []
+    items = _nav(renderer, "menu", "menuRenderer", "items")
+    for item in items if isinstance(items, list) else []:
+        entry = _nav(item, "toggleMenuServiceItemRenderer") or _nav(item, "menuServiceItemRenderer")
+        icon = _nav(entry, "defaultIcon", "iconType") or _nav(entry, "icon", "iconType")
+        if isinstance(icon, str):
+            icons.append(icon)
+    return icons
+
+
+def pin_state(renderer: Any) -> Optional[bool]:
+    """True when pinned, False when it can be pinned, None when the tile has no pin entry."""
+    icons = _menu_icons(renderer)
+    if "KEEP_OFF" in icons:
+        return True
+    if "KEEP" in icons:
+        return False
+    return None
+
+
+def _endpoint(value: Any) -> Dict[str, str]:
+    """videoId / playlistId / params of a watch or watch-playlist endpoint."""
+    watch = _nav(value, "watchEndpoint")
+    if isinstance(watch, dict):
+        return {
+            "videoId": _str(watch.get("videoId")),
+            "playlistId": _str(watch.get("playlistId")),
+            "params": _str(watch.get("params")),
+            "videoType": _str(_nav(watch, "watchEndpointMusicSupportedConfigs", "watchEndpointMusicConfig", "musicVideoType")),
+        }
+    playlist = _nav(value, "watchPlaylistEndpoint")
+    if isinstance(playlist, dict):
+        return {"videoId": "", "playlistId": _str(playlist.get("playlistId")), "params": _str(playlist.get("params")), "videoType": ""}
+    return {}
+
+
+def _strip_vl(value: str) -> str:
+    return value[2:] if value.startswith("VL") else value
+
+
+def _is_mix_playlist(playlist_id: str) -> bool:
+    # RD… lists are radios and mixes (RDAMVM song radio, RDEM artist radio, RDTMAK
+    # supermix). RDCLAK lists are YouTube Music's curated playlists, played in order.
+    return playlist_id.startswith("RD") and not playlist_id.startswith("RDCLAK")
+
+
+def parse_tile(renderer: Any) -> Optional[Dict[str, Any]]:
+    """One Speed dial tile (a musicTwoRowItemRenderer) as a plain item, or None."""
+    if not isinstance(renderer, dict):
+        return None
+    title = _runs_text(renderer.get("title"))
+    subtitle = _runs_text(renderer.get("subtitle"))
+    navigation = renderer.get("navigationEndpoint")
+    play = _endpoint(_nav(renderer, "thumbnailOverlay", "musicItemThumbnailOverlayRenderer", "content",
+                          "musicPlayButtonRenderer", "playNavigationEndpoint"))
+    item: Dict[str, Any] = {
+        "type": "",
+        "id": "",
+        "title": title,
+        "subtitle": subtitle,
+        "thumbnails": _thumbnails(renderer),
+        "browseId": "",
+        "videoId": "",
+        "playlistId": "",
+        "params": "",
+        "pinned": pin_state(renderer) is True,
+    }
+    watch = _endpoint(navigation)
+    browse = _nav(navigation, "browseEndpoint")
+    if watch:
+        video_id, playlist_id = watch["videoId"], watch["playlistId"]
+        item.update(videoId=video_id, playlistId=playlist_id, params=watch["params"])
+        if video_id and watch["videoType"] == "MUSIC_VIDEO_TYPE_PODCAST_EPISODE":
+            item.update(type="episode", id=video_id)
+        elif playlist_id and (not video_id or (_is_mix_playlist(playlist_id) and playlist_id != "RDAMVM" + video_id)):
+            # A station or mix: a radio list, sometimes seeded by a song. A song tile
+            # carries no list or its own song radio (RDAMVM + its id).
+            item.update(type="mix", id=playlist_id)
+        elif video_id:
+            item.update(type="song", id=video_id)
+    elif isinstance(browse, dict):
+        browse_id = _str(browse.get("browseId"))
+        page_type = _str(_nav(browse, "browseEndpointContextSupportedConfigs", "browseEndpointContextMusicConfig", "pageType"))
+        item["browseId"] = browse_id
+        if page_type in ("MUSIC_PAGE_TYPE_ALBUM", "MUSIC_PAGE_TYPE_AUDIOBOOK") or browse_id.startswith("MPRE"):
+            item.update(type="album", id=browse_id)
+        elif page_type in ("MUSIC_PAGE_TYPE_ARTIST", "MUSIC_PAGE_TYPE_USER_CHANNEL", "MUSIC_PAGE_TYPE_LIBRARY_ARTIST") or browse_id.startswith(("UC", "MPLA")):
+            channel = browse_id[4:] if browse_id.startswith("MPLA") else browse_id
+            item.update(type="artist", id=channel, browseId=channel)
+        elif page_type == "MUSIC_PAGE_TYPE_PODCAST_SHOW_DETAIL_PAGE" or browse_id.startswith("MPSP"):
+            item.update(type="podcast", id=browse_id)
+        elif page_type == "MUSIC_PAGE_TYPE_PLAYLIST" or browse_id.startswith("VL"):
+            playlist_id = _strip_vl(browse_id)
+            item.update(type="mix" if _is_mix_playlist(playlist_id) else "playlist", id=playlist_id, playlistId=playlist_id)
+        if play:
+            # The tile's play button: what YouTube Music itself starts from the tile.
+            item["videoId"] = item["videoId"] or play["videoId"]
+            if item["type"] in ("artist", "mix"):
+                item["playlistId"] = play["playlistId"] or item["playlistId"]
+                item["params"] = play["params"]
+    if item["type"] not in ITEM_TYPES or not item["id"] or not title:
+        return None
+    return item
+
+
+def _shelf_body(row: Any) -> Tuple[str, Dict[str, Any], List[Any]]:
+    if not isinstance(row, dict):
+        return "", {}, []
+    body = row.get(CAROUSEL)
+    if isinstance(body, dict):
+        contents = body.get("contents")
+        return CAROUSEL, body, contents if isinstance(contents, list) else []
+    body = row.get(GRID)
+    if isinstance(body, dict):
+        items = body.get("items")
+        return GRID, body, items if isinstance(items, list) else []
+    return "", {}, []
+
+
+def shelf_title(row: Any) -> str:
+    kind, body, _ = _shelf_body(row)
+    if kind == CAROUSEL:
+        return _runs_text(_nav(body, "header", "musicCarouselShelfBasicHeaderRenderer", "title"))
+    if kind == GRID:
+        return _runs_text(_nav(body, "header", "gridHeaderRenderer", "title"))
+    return ""
+
+
+def shelf_score(row: Any) -> int:
+    """How much a home shelf looks like Speed dial; 0 when it cannot be."""
+    kind, body, entries = _shelf_body(row)
+    if not kind:
+        return 0
+    tiles = [entry.get(MTRIR) for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MTRIR), dict)]
+    # Quick picks and other song-row shelves use list rows, never two-row tiles.
+    if len(tiles) < 2 or len(tiles) * 5 < len(entries) * 4:
+        return 0
+    score = 0
+    try:
+        per_column = int(str(body.get("numItemsPerColumn") or "1"))
+    except ValueError:
+        per_column = 1
+    if per_column >= 3:
+        score += 3
+    elif per_column == 2:
+        score += 2
+    if kind == GRID:
+        score += 2
+    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
+    if _nav(header, "thumbnail"):
+        score += 2  # the account avatar
+    if _runs_text(header.get("strapline") if isinstance(header, dict) else None):
+        score += 1  # the account name
+    pin_capable = sum(1 for tile in tiles if pin_state(tile) is not None)
+    if pin_capable * 2 >= len(tiles):
+        score += 3
+    if shelf_title(row).casefold() in KNOWN_TITLES:
+        score += 3
+    return score
+
+
+def home_rows(response: Any) -> List[Any]:
+    """The home feed's shelves, in order: the usual section list, else any shelf found in it."""
+    tabs = _nav(response, "contents", "singleColumnBrowseResultsRenderer", "tabs")
+    for tab in tabs if isinstance(tabs, list) else []:
+        rows = _nav(tab, "tabRenderer", "content", "sectionListRenderer", "contents")
+        if isinstance(rows, list):
+            return rows
+    # Other clients (the mobile one used for OAuth) wrap the list differently: walk it.
+    found: List[Any] = []
+
+    def walk(value: Any, depth: int) -> None:
+        if depth > 14 or len(found) > 60:
+            return
+        if isinstance(value, dict):
+            if CAROUSEL in value or GRID in value:
+                found.append(value)
+                return
+            for child in value.values():
+                walk(child, depth + 1)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child, depth + 1)
+
+    walk(response, 0)
+    return found
+
+
+def extract_speed_dial(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+    """{"found", "title", "score", "items"} for the Speed dial shelf of a raw home response."""
+    best: Optional[Tuple[int, Any]] = None
+    for row in home_rows(response):
+        score = shelf_score(row)
+        if score >= MIN_SCORE and (best is None or score > best[0]):
+            best = (score, row)
+    if best is None:
+        return {"found": False, "title": "", "score": 0, "items": []}
+    score, row = best
+    _, _, entries = _shelf_body(row)
+    items: List[Dict[str, Any]] = []
+    seen = set()
+    for entry in entries:
+        item = parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None)
+        if not item or (item["type"], item["id"]) in seen:
+            continue
+        seen.add((item["type"], item["id"]))
+        items.append(item)
+        if len(items) >= max_items:
+            break
+    return {"found": True, "title": shelf_title(row), "score": score, "items": items}
+
+
+def queue_request(item: Any) -> Dict[str, Any]:
+    """How the backend builds the play queue for a song, mix or artist tile.
+
+    {"mode": "watch", "videoId", "playlistId", "radio", "shuffle"} for a watch queue
+    (ytmusicapi get_watch_playlist), {"mode": "artist", "channelId"} for an artist
+    without a play button (artist radio, else top songs), {"mode": "none"} otherwise.
+    """
+    if not isinstance(item, dict):
+        return {"mode": "none"}
+    kind = _str(item.get("type"))
+    video_id = _str(item.get("videoId"))
+    playlist_id = _strip_vl(_str(item.get("playlistId")))
+    params = _str(item.get("params"))
+    if kind == "song":
+        video_id = video_id or _str(item.get("id"))
+        if not video_id:
+            return {"mode": "none"}
+        # Song radio, as YouTube Music starts it from a song: the song first, then RDAMVM + id.
+        return {"mode": "watch", "videoId": video_id, "playlistId": "RDAMVM" + video_id, "radio": False, "shuffle": False}
+    if kind == "mix":
+        playlist_id = playlist_id or _strip_vl(_str(item.get("id")))
+        if not playlist_id:
+            return {"mode": "none"}
+        return {"mode": "watch", "videoId": video_id, "playlistId": playlist_id,
+                "radio": params in RADIO_PARAMS, "shuffle": params in SHUFFLE_PARAMS}
+    if kind == "artist":
+        if playlist_id or video_id:
+            # The tile's own play button (usually the artist's radio or a shuffle of their songs).
+            return {"mode": "watch", "videoId": video_id, "playlistId": playlist_id,
+                    "radio": params in RADIO_PARAMS, "shuffle": params in SHUFFLE_PARAMS and bool(playlist_id)}
+        channel = _str(item.get("browseId")) or _str(item.get("id"))
+        return {"mode": "artist", "channelId": channel} if channel else {"mode": "none"}
+    return {"mode": "none"}

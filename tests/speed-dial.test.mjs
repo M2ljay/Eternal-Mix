@@ -1,0 +1,77 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import ts from "typescript";
+
+const source = readFileSync(new URL("../src/speedDial.ts", import.meta.url), "utf8");
+const js = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS } }).outputText;
+const mod = { exports: {} };
+new Function("module", "exports", js)(mod, mod.exports);
+const {
+  SPEED_DIAL_EVENT, COMPACT_COLUMNS, COMPACT_ROWS, FULL_COLUMNS, FULL_ROWS,
+  sanitizeResult, compactItems, fullItems, playPlan, pickEpisodeIndex,
+} = mod.exports;
+
+function tile(type, id, extra = {}) {
+  return { type, id, title: `${type} ${id}`, subtitle: "", thumbnail: "", images: [], round: false, pinned: false,
+    browseId: "", videoId: "", playlistId: "", params: "", ...extra };
+}
+
+test("the window event keeps the nowPlaying prefix", () => {
+  assert.match(SPEED_DIAL_EVENT, /^nowPlaying:/);
+});
+
+test("grids: 2 by 4 in Quick Access, up to 3 by 9 in the full view", () => {
+  assert.equal(COMPACT_COLUMNS * COMPACT_ROWS, 8);
+  assert.equal(FULL_COLUMNS * FULL_ROWS, 27);
+  const items = Array.from({ length: 30 }, (_, index) => tile("album", `MPRE${index}`));
+  assert.equal(compactItems(items).length, 8);
+  assert.equal(fullItems(items).length, 27);
+  assert.equal(compactItems(items.slice(0, 3)).length, 3);
+});
+
+test("play routing per tile type", () => {
+  assert.deepEqual(playPlan(tile("album", "MPREb_1", { browseId: "MPREb_1" })), { kind: "collection", collection: "album", id: "MPREb_1" });
+  assert.deepEqual(playPlan(tile("playlist", "PL1", { playlistId: "PL1" })), { kind: "collection", collection: "playlist", id: "PL1" });
+  assert.deepEqual(playPlan(tile("podcast", "MPSPPL1", { browseId: "MPSPPL1" })), { kind: "podcast", id: "MPSPPL1" });
+  for (const type of ["song", "mix", "artist"]) assert.deepEqual(playPlan(tile(type, "x1")), { kind: "queue" }, type);
+  const track = { id: "ep1", videoId: "ep1", type: "track", isPodcast: true, sourceKey: "youtubeMusic" };
+  assert.deepEqual(playPlan(tile("episode", "ep1", { videoId: "ep1", track })), { kind: "episode", track });
+  // Without the backend's ready track, an episode is still a resumable podcast track.
+  const built = playPlan(tile("episode", "ep2", { videoId: "ep2" }));
+  assert.equal(built.kind, "episode");
+  assert.deepEqual([built.track.videoId, built.track.isPodcast, built.track.sourceKey, built.track.type], ["ep2", true, "youtubeMusic", "track"]);
+  assert.equal(playPlan(tile("video", "v1")), null);
+  assert.equal(playPlan(null), null);
+});
+
+test("a podcast resumes the episode in progress, else plays the latest", () => {
+  const episodes = [{ videoId: "new" }, { videoId: "mid" }, { videoId: "old" }];
+  const progress = (map) => (episode) => map[episode.videoId] ?? null;
+  assert.equal(pickEpisodeIndex(episodes, progress({})), 0);
+  assert.equal(pickEpisodeIndex(episodes, progress({ mid: { played: false, positionMs: 600000, lengthMs: 3600000 } })), 1);
+  assert.equal(pickEpisodeIndex(episodes, progress({ new: { played: true, positionMs: 0, lengthMs: 0 }, old: { played: false, positionMs: 20000, lengthMs: 1 } })), 2);
+  assert.equal(pickEpisodeIndex([], progress({})), -1);
+});
+
+test("answers are checked: unknown types and empty tiles are dropped, reasons kept", () => {
+  const result = sanitizeResult({ items: [tile("album", "MPRE1"), { type: "video", id: "v", title: "t" }, { type: "song", id: "", title: "x" },
+    { type: "song", id: "s1", title: "  " }], reason: "", title: "Speed dial", fetchedAt: 5 });
+  assert.deepEqual(result.items.map((item) => item.id), ["MPRE1"]);
+  assert.equal(result.reason, "");
+  assert.deepEqual(sanitizeResult({ items: [], reason: "signed_out" }).reason, "signed_out");
+  assert.deepEqual(sanitizeResult({ items: [], reason: "missing" }).reason, "missing");
+  assert.deepEqual(sanitizeResult(undefined), { items: [], reason: "error", title: "", fetchedAt: 0 });
+  assert.equal(sanitizeResult({ items: [], reason: "bogus" }).reason, "error");
+});
+
+test("the grid shows only for YouTube Music, uses the Core palette and never gold", () => {
+  const panel = readFileSync(new URL("../src/speedDialPanel.tsx", import.meta.url), "utf8");
+  const index = readFileSync(new URL("../src/index.tsx", import.meta.url), "utf8");
+  assert.match(index, /enabledAppKeys\[0\] === "youtubeMusic" \? \(\s*<SpeedDialGrid variant="compact"/);
+  assert.match(index, /homeTop=\{<SpeedDialGrid variant="full" \/>\}/);
+  assert.match(panel, /CORE\.crimson\b/);
+  assert.match(panel, /CORE\.crimsonText/);
+  assert.doesNotMatch(panel, /gold|#ffd700|#d4af37|#c9a227/i);
+  assert.match(panel, /if \(!items\.length\) return null;/);
+});

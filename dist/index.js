@@ -194,6 +194,8 @@ function FaUser (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M470.38 1.51L150.41 96A32 32 0 0 0 128 126.51v261.41A139 139 0 0 0 96 384c-53 0-96 28.66-96 64s43 64 96 64 96-28.66 96-64V214.32l256-75v184.61a138.4 138.4 0 0 0-32-3.93c-53 0-96 28.66-96 64s43 64 96 64 96-28.65 96-64V32a32 32 0 0 0-41.62-30.49z"},"child":[]}]})(props);
 }function FaList (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M80 368H16a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-64a16 16 0 0 0-16-16zm0-320H16A16 16 0 0 0 0 64v64a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16zm0 160H16a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-64a16 16 0 0 0-16-16zm416 176H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"},"child":[]}]})(props);
+}function FaListUl (props) {
+  return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M48 48a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm0 160a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm0 160a48 48 0 1 0 48 48 48 48 0 0 0-48-48zm448 16H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"},"child":[]}]})(props);
 }function FaListOl (props) {
   return GenIcon({"attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M61.77 401l17.5-20.15a19.92 19.92 0 0 0 5.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h22.83a157.41 157.41 0 0 0-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33 0 15.94 2.44 15.94 9.09 0 4.72-4.2 8.22-14.36 8.22a41.54 41.54 0 0 1-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16 0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 320H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM16 160h64a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H64V40a8 8 0 0 0-8-8H32a8 8 0 0 0-7.14 4.42l-8 16A8 8 0 0 0 24 64h8v64H16a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8zm-3.91 160H80a8 8 0 0 0 8-8v-16a8 8 0 0 0-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44 0-29.06-25-39.56-44.47-39.56-21.36 0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44 0 0 1 9.46-3.84c3.33 0 9.28 1.56 9.28 8.75C51 248.19 0 257.31 0 304.59v4C0 316 5.08 320 12.09 320z"},"child":[]}]})(props);
 }function FaImage (props) {
@@ -391,6 +393,12 @@ function youtubeMusicGetLibrary(section, maxItems = 100) {
 }
 function youtubeMusicGetDetail(kind, itemId) {
     return call("youtube_music_get_detail", kind, itemId);
+}
+function youtubeMusicFindSoundtrack(game, platform = "") {
+    return call("youtube_music_find_soundtrack", game, platform);
+}
+function getCollectorNowPlaying(appId) {
+    return call("get_collector_now_playing", appId);
 }
 function youtubeMusicPrepareStream(videoId) {
     return call("youtube_music_prepare_stream", videoId);
@@ -815,6 +823,25 @@ var en = {
 		reinstall: "Reinstall {volume}",
 		downloading: "Downloading and checking the installer…",
 		manual: "Install the zip from the release branch by hand."
+	},
+	soundtrack: {
+		title: "Game soundtrack",
+		play: "Play this game's soundtrack",
+		playPick: "Play {album}",
+		choose: "Choose another soundtrack",
+		searching: "Looking for the soundtrack…",
+		noneFound: "No soundtrack album found for {game}",
+		pickTitle: "Which soundtrack?",
+		forGame: "For {game}",
+		album: "Album",
+		playlist: "Playlist",
+		retry: "Search again",
+		cancel: "Cancel",
+		empty: "This soundtrack has no playable tracks",
+		offerSetting: "Offer the game's soundtrack on launch",
+		offerSettingDescription: "Shows a small notice when a game starts. Music never starts on its own.",
+		offerToastPlay: "Select to play {album}",
+		offerToastPick: "Open {app} to choose its soundtrack"
 	}
 };
 var it = {
@@ -1111,6 +1138,25 @@ var it = {
 		reinstall: "Reinstalla {volume}",
 		downloading: "Download e verifica del programma di installazione…",
 		manual: "Installa a mano lo zip dal ramo release."
+	},
+	soundtrack: {
+		title: "Colonna sonora del gioco",
+		play: "Riproduci la colonna sonora di questo gioco",
+		playPick: "Riproduci {album}",
+		choose: "Scegli un'altra colonna sonora",
+		searching: "Ricerca della colonna sonora…",
+		noneFound: "Nessun album della colonna sonora trovato per {game}",
+		pickTitle: "Quale colonna sonora?",
+		forGame: "Per {game}",
+		album: "Album",
+		playlist: "Playlist",
+		retry: "Cerca di nuovo",
+		cancel: "Annulla",
+		empty: "Questa colonna sonora non ha brani riproducibili",
+		offerSetting: "Proponi la colonna sonora all'avvio del gioco",
+		offerSettingDescription: "Mostra un piccolo avviso quando si avvia un gioco. La musica non parte mai da sola.",
+		offerToastPlay: "Seleziona per riprodurre {album}",
+		offerToastPick: "Apri {app} per scegliere la colonna sonora"
 	}
 };
 var es = {
@@ -1407,6 +1453,25 @@ var es = {
 		reinstall: "Reinstalar {volume}",
 		downloading: "Descargando y comprobando el instalador…",
 		manual: "Instala a mano el zip de la rama release."
+	},
+	soundtrack: {
+		title: "Banda sonora del juego",
+		play: "Reproducir la banda sonora de este juego",
+		playPick: "Reproducir {album}",
+		choose: "Elegir otra banda sonora",
+		searching: "Buscando la banda sonora…",
+		noneFound: "No se encontró ningún álbum de banda sonora para {game}",
+		pickTitle: "¿Qué banda sonora?",
+		forGame: "Para {game}",
+		album: "Álbum",
+		playlist: "Lista",
+		retry: "Buscar de nuevo",
+		cancel: "Cancelar",
+		empty: "Esta banda sonora no tiene pistas reproducibles",
+		offerSetting: "Ofrecer la banda sonora al iniciar un juego",
+		offerSettingDescription: "Muestra un pequeño aviso cuando empieza un juego. La música nunca empieza sola.",
+		offerToastPlay: "Selecciona para reproducir {album}",
+		offerToastPick: "Abre {app} para elegir su banda sonora"
 	}
 };
 var fr = {
@@ -1703,6 +1768,25 @@ var fr = {
 		reinstall: "Réinstaller {volume}",
 		downloading: "Téléchargement et vérification du programme d'installation…",
 		manual: "Installez à la main le zip de la branche release."
+	},
+	soundtrack: {
+		title: "Bande originale du jeu",
+		play: "Lire la bande originale de ce jeu",
+		playPick: "Lire {album}",
+		choose: "Choisir une autre bande originale",
+		searching: "Recherche de la bande originale…",
+		noneFound: "Aucun album de bande originale trouvé pour {game}",
+		pickTitle: "Quelle bande originale ?",
+		forGame: "Pour {game}",
+		album: "Album",
+		playlist: "Playlist",
+		retry: "Rechercher à nouveau",
+		cancel: "Annuler",
+		empty: "Cette bande originale n'a aucune piste lisible",
+		offerSetting: "Proposer la bande originale au lancement du jeu",
+		offerSettingDescription: "Affiche une petite notification au lancement d'un jeu. La musique ne démarre jamais seule.",
+		offerToastPlay: "Sélectionnez pour lire {album}",
+		offerToastPick: "Ouvrez {app} pour choisir sa bande originale"
 	}
 };
 var de = {
@@ -1999,6 +2083,25 @@ var de = {
 		reinstall: "{volume} neu installieren",
 		downloading: "Installationspaket wird heruntergeladen und geprüft…",
 		manual: "Installiere das Zip aus dem release-Branch von Hand."
+	},
+	soundtrack: {
+		title: "Spiel-Soundtrack",
+		play: "Soundtrack dieses Spiels abspielen",
+		playPick: "{album} abspielen",
+		choose: "Anderen Soundtrack wählen",
+		searching: "Soundtrack wird gesucht…",
+		noneFound: "Kein Soundtrack-Album für {game} gefunden",
+		pickTitle: "Welcher Soundtrack?",
+		forGame: "Für {game}",
+		album: "Album",
+		playlist: "Playlist",
+		retry: "Erneut suchen",
+		cancel: "Abbrechen",
+		empty: "Dieser Soundtrack hat keine abspielbaren Titel",
+		offerSetting: "Soundtrack beim Spielstart anbieten",
+		offerSettingDescription: "Zeigt beim Start eines Spiels einen kleinen Hinweis. Die Musik startet nie von selbst.",
+		offerToastPlay: "Auswählen, um {album} abzuspielen",
+		offerToastPick: "{app} öffnen, um den Soundtrack zu wählen"
 	}
 };
 var ru = {
@@ -2295,6 +2398,25 @@ var ru = {
 		reinstall: "Переустановить {volume}",
 		downloading: "Загрузка и проверка установщика…",
 		manual: "Установите zip из ветки release вручную."
+	},
+	soundtrack: {
+		title: "Саундтрек игры",
+		play: "Включить саундтрек этой игры",
+		playPick: "Включить {album}",
+		choose: "Выбрать другой саундтрек",
+		searching: "Поиск саундтрека…",
+		noneFound: "Альбом саундтрека для {game} не найден",
+		pickTitle: "Какой саундтрек?",
+		forGame: "Для {game}",
+		album: "Альбом",
+		playlist: "Плейлист",
+		retry: "Искать снова",
+		cancel: "Отмена",
+		empty: "В этом саундтреке нет доступных треков",
+		offerSetting: "Предлагать саундтрек при запуске игры",
+		offerSettingDescription: "Показывает небольшое уведомление при запуске игры. Музыка никогда не включается сама.",
+		offerToastPlay: "Выберите, чтобы включить {album}",
+		offerToastPick: "Откройте {app}, чтобы выбрать саундтрек"
 	}
 };
 var ja = {
@@ -2591,6 +2713,25 @@ var ja = {
 		reinstall: "{volume} を再インストール",
 		downloading: "インストーラーをダウンロードして確認しています…",
 		manual: "release ブランチの zip を手動でインストールしてください。"
+	},
+	soundtrack: {
+		title: "ゲームのサウンドトラック",
+		play: "このゲームのサウンドトラックを再生",
+		playPick: "{album} を再生",
+		choose: "別のサウンドトラックを選ぶ",
+		searching: "サウンドトラックを検索中…",
+		noneFound: "{game} のサウンドトラックアルバムが見つかりません",
+		pickTitle: "どのサウンドトラック？",
+		forGame: "{game} 用",
+		album: "アルバム",
+		playlist: "プレイリスト",
+		retry: "もう一度検索",
+		cancel: "キャンセル",
+		empty: "このサウンドトラックには再生できる曲がありません",
+		offerSetting: "ゲーム起動時にサウンドトラックを提案",
+		offerSettingDescription: "ゲーム開始時に小さな通知を表示します。音楽が勝手に再生されることはありません。",
+		offerToastPlay: "選択して {album} を再生",
+		offerToastPick: "{app} を開いてサウンドトラックを選択"
 	}
 };
 var ko = {
@@ -2887,6 +3028,25 @@ var ko = {
 		reinstall: "{volume} 다시 설치",
 		downloading: "설치 파일을 다운로드하고 확인하는 중…",
 		manual: "release 브랜치의 zip을 직접 설치하세요."
+	},
+	soundtrack: {
+		title: "게임 사운드트랙",
+		play: "이 게임의 사운드트랙 재생",
+		playPick: "{album} 재생",
+		choose: "다른 사운드트랙 선택",
+		searching: "사운드트랙 찾는 중…",
+		noneFound: "{game}의 사운드트랙 앨범을 찾을 수 없습니다",
+		pickTitle: "어떤 사운드트랙인가요?",
+		forGame: "{game}용",
+		album: "앨범",
+		playlist: "플레이리스트",
+		retry: "다시 검색",
+		cancel: "취소",
+		empty: "이 사운드트랙에는 재생 가능한 트랙이 없습니다",
+		offerSetting: "게임 시작 시 사운드트랙 제안",
+		offerSettingDescription: "게임이 시작되면 작은 알림을 표시합니다. 음악이 저절로 재생되지는 않습니다.",
+		offerToastPlay: "선택하여 {album} 재생",
+		offerToastPick: "{app}을(를) 열어 사운드트랙 선택"
 	}
 };
 var zh = {
@@ -3183,6 +3343,25 @@ var zh = {
 		reinstall: "重新安装 {volume}",
 		downloading: "正在下载并校验安装包…",
 		manual: "请手动安装 release 分支中的 zip。"
+	},
+	soundtrack: {
+		title: "游戏原声",
+		play: "播放此游戏的原声音乐",
+		playPick: "播放 {album}",
+		choose: "选择其他原声",
+		searching: "正在查找原声…",
+		noneFound: "未找到 {game} 的原声专辑",
+		pickTitle: "选择哪张原声？",
+		forGame: "用于 {game}",
+		album: "专辑",
+		playlist: "播放列表",
+		retry: "重新搜索",
+		cancel: "取消",
+		empty: "此原声没有可播放的曲目",
+		offerSetting: "游戏启动时推荐原声",
+		offerSettingDescription: "游戏启动时显示一条小通知。音乐绝不会自动播放。",
+		offerToastPlay: "选择以播放 {album}",
+		offerToastPick: "打开 {app} 选择原声"
 	}
 };
 var catalogs = {
@@ -3485,6 +3664,25 @@ var catalogs = {
 		reinstall: "Reinstalar {volume}",
 		downloading: "Baixando e verificando o instalador…",
 		manual: "Instale manualmente o zip do branch release."
+	},
+	soundtrack: {
+		title: "Trilha sonora do jogo",
+		play: "Tocar a trilha sonora deste jogo",
+		playPick: "Tocar {album}",
+		choose: "Escolher outra trilha sonora",
+		searching: "Procurando a trilha sonora…",
+		noneFound: "Nenhum álbum de trilha sonora encontrado para {game}",
+		pickTitle: "Qual trilha sonora?",
+		forGame: "Para {game}",
+		album: "Álbum",
+		playlist: "Playlist",
+		retry: "Buscar novamente",
+		cancel: "Cancelar",
+		empty: "Esta trilha sonora não tem faixas reproduzíveis",
+		offerSetting: "Oferecer a trilha sonora ao iniciar o jogo",
+		offerSettingDescription: "Mostra um pequeno aviso quando um jogo começa. A música nunca começa sozinha.",
+		offerToastPlay: "Selecione para tocar {album}",
+		offerToastPick: "Abra o {app} para escolher a trilha sonora"
 	}
 },
 	ru: ru,
@@ -7084,6 +7282,24 @@ async function playItems(items, index = 0) {
         notifyError(error);
     }
 }
+/** Queue a whole album or playlist from its first track, in its own (release) order. */
+async function playYouTubeMusicCollection(kind, id) {
+    try {
+        const result = await youtubeMusicGetDetail(kind, id);
+        if (!result?.ok)
+            throw new Error(String(result?.error ?? "YouTube Music request failed"));
+        const tracks = (Array.isArray(result.data?.tracks) ? result.data.tracks : [])
+            .filter((item) => itemType(item) === "track" && String(item?.videoId ?? item?.id ?? "").trim());
+        if (!tracks.length)
+            return false;
+        await playItems(tracks, 0);
+        return true;
+    }
+    catch (error) {
+        notifyError(error);
+        return false;
+    }
+}
 // "Played" or "12 min left" for podcast episodes, with the listened fraction.
 function episodeStatus(t, track) {
     const progress = podcastProgress(track);
@@ -7657,6 +7873,394 @@ function YouTubeMusicBigPicture({ onExit, onOpenVisualizer, onOpenSettings }) {
                             event?.preventDefault?.();
                             event?.stopPropagation?.();
                         } }, style: { position: "absolute", top: 24, left: 56, zIndex: 200, display: "flex", alignItems: "center", gap: 8 }, children: [["home", t.home, FaHome], ["search", t.search, FaSearch], ["library", t.library, FaList], ["settings", t.settings, FaCog]].map(([id, label, Icon]) => SP_JSX.jsx(DFL.DialogButton, { ref: id === "home" ? homeTabRef : undefined, className: `npYtmTab${id !== "settings" && tab === id ? " npYtmTabActive" : ""}`, onClick: () => id === "settings" ? onOpenSettings?.() : switchTab(id), style: { width: 138, minWidth: 138, height: 38, minHeight: 38, padding: 0 }, children: SP_JSX.jsxs("span", { style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: ".76em", fontWeight: 540 }, children: [SP_JSX.jsx(Icon, { size: 13 }), label] }) }, id)) }), SP_JSX.jsx("main", { ref: scrollRef, className: "npYtmTvScroll", style: { padding: "112px 56px 300px", scrollPaddingTop: 112, scrollPaddingBottom: 250 }, children: SP_JSX.jsx("div", { style: { position: "relative", zIndex: 1, width: "100%" }, children: tab === "home" ? renderHome() : tab === "search" ? renderSearch() : renderLibrary() }) })] }) : SP_JSX.jsx("main", { ref: scrollRef, className: "npYtmTvScroll", style: { padding: "18px 56px 300px", scrollPaddingBottom: 250 }, children: SP_JSX.jsx("div", { style: { position: "relative", zIndex: 1, width: "100%" }, children: renderDetail() }) })] });
+}
+
+// "Play this game's soundtrack": which game is running, and which soundtrack the user
+// picked for it last time. Self-contained (no Decky imports) so the tests can load it
+// alone; the panel and the Steam hooks live in src/gameSoundtrackPanel.tsx, and the
+// album search and ranking in mix_soundtrack.py.
+// localStorage keys keep the upstream `nowPlaying` prefix, like every other key here.
+const PICK_STORAGE_KEY = "nowPlaying:gameSoundtrack:v1";
+const OFFER_STORAGE_KEY = "nowPlaying:gameSoundtrackOffer:v1";
+const MAX_REMEMBERED = 200;
+// The Collector (Eternal-Collector) publishes the running ROM here; see its
+// docs/architecture/now-playing-presence.md. Version 1 only; anything else is ignored.
+const COLLECTOR_WINDOW_KEY = "__eternalNowPlaying";
+const COLLECTOR_EVENT = "eternal_now_playing";
+// Music apps can be Steam shortcuts; they are never "the game".
+const MUSIC_APP = /youtube music|apple music|spotify|awesome mix/i;
+function oneLine(value, max = 128) {
+    return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+}
+/** Comparison form (mirrors mix_soundtrack.normalize_text): no accents, no case, no punctuation. */
+function normalizeTitle(value) {
+    return String(value ?? "")
+        .replace(/[™®©]/g, "")
+        .normalize("NFKD")
+        .replace(/[̀-ͯ]/g, "")
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/(?<=[\p{L}\p{N}])-(?=[\p{L}\p{N}])/gu, "")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+}
+function isMusicApp(name) {
+    return MUSIC_APP.test(String(name ?? ""));
+}
+/** The Collector's record for this app id, from its window document or file document. */
+function collectorRecord(document, appId) {
+    const doc = document;
+    if (!doc || typeof doc !== "object" || doc.v !== 1 || !doc.records || typeof doc.records !== "object")
+        return null;
+    const record = doc.records[String(appId)];
+    if (!record || typeof record !== "object")
+        return null;
+    const name = oneLine(record.name);
+    return name ? { name, platform: oneLine(record.platform) } : null;
+}
+/** A per-game key that survives renames of the Steam shortcut: ROMs by title and console. */
+function gameKey(source, appId, title, platform = "") {
+    if (source === "collector" && title)
+        return `rom:${normalizeTitle(title)}|${normalizeTitle(platform)}`;
+    return appId > 0 ? `steam:${appId}` : `name:${normalizeTitle(title)}`;
+}
+/** The game to find a soundtrack for: The Collector's ROM title and console first, else Steam's name. */
+function resolveRunningGame(appId, steamName, collector) {
+    if (!appId)
+        return null;
+    if (collector?.name) {
+        return { appId, title: collector.name, platform: collector.platform, source: "collector", key: gameKey("collector", appId, collector.name, collector.platform) };
+    }
+    const title = oneLine(steamName, 180);
+    if (!title || isMusicApp(title))
+        return null;
+    return { appId, title, platform: "", source: "steam", key: gameKey("steam", appId, title) };
+}
+function readPicks(storage) {
+    try {
+        const value = JSON.parse(storage.getItem(PICK_STORAGE_KEY) ?? "{}");
+        return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    }
+    catch {
+        return {};
+    }
+}
+function recallPick(storage, key) {
+    const pick = readPicks(storage)[key];
+    if (!pick || (pick.kind !== "album" && pick.kind !== "playlist") || !pick.id)
+        return null;
+    return pick;
+}
+/** Remember the pick for this game; the oldest picks go past MAX_REMEMBERED. */
+function rememberPick(storage, key, pick, now = Date.now()) {
+    if (!key || !pick?.id || (pick.kind !== "album" && pick.kind !== "playlist"))
+        return;
+    const picks = readPicks(storage);
+    picks[key] = { kind: pick.kind, id: String(pick.id), name: oneLine(pick.name, 200), artist: oneLine(pick.artist, 200), image: String(pick.image ?? "").slice(0, 2048), at: now };
+    const kept = Object.entries(picks).sort((left, right) => Number(right[1]?.at || 0) - Number(left[1]?.at || 0)).slice(0, MAX_REMEMBERED);
+    try {
+        storage.setItem(PICK_STORAGE_KEY, JSON.stringify(Object.fromEntries(kept)));
+    }
+    catch { /* storage full or unavailable */ }
+}
+/** Auto-offer on game launch: off unless the user turned it on. */
+function offerEnabled(storage) {
+    try {
+        return storage?.getItem(OFFER_STORAGE_KEY) === "on";
+    }
+    catch {
+        return false;
+    }
+}
+function setOfferEnabled(storage, enabled) {
+    try {
+        storage?.setItem(OFFER_STORAGE_KEY, enabled ? "on" : "off");
+    }
+    catch { /* storage unavailable */ }
+}
+/**
+ * The running game: the most recently started app that is still running. Listeners hear
+ * every change, and `started` is true only for a launch seen while listening (the toast).
+ */
+function createRunningGameTracker(deps) {
+    const running = [];
+    const listeners = new Set();
+    const notify = (started) => { const id = current(); for (const listener of listeners) {
+        try {
+            listener(id, started);
+        }
+        catch { /* one listener cannot stop the others */ }
+    } };
+    function current() { return running.length ? running[running.length - 1] : 0; }
+    try {
+        const first = Number(deps.initial?.() || 0);
+        if (first > 0 && !deps.ignore?.(first))
+            running.push(first);
+    }
+    catch { /* nothing known yet */ }
+    const unsubscribe = deps.subscribe((appId, isRunning) => {
+        if (!appId || deps.ignore?.(appId))
+            return;
+        const index = running.indexOf(appId);
+        if (isRunning) {
+            if (index >= 0)
+                return;
+            running.push(appId);
+            notify(true);
+        }
+        else if (index >= 0) {
+            running.splice(index, 1);
+            notify(false);
+        }
+    });
+    return {
+        current,
+        listen(listener) { listeners.add(listener); return () => { listeners.delete(listener); }; },
+        stop() { listeners.clear(); unsubscribe(); },
+    };
+}
+
+const RUNNING_GAME_EVENT = "nowPlaying:runningGameChanged";
+// The Collector publishes its record right after the session starts; give it a moment.
+const LAUNCH_SETTLE_MS = 1500;
+let tracker = null;
+function storage() {
+    try {
+        return window.localStorage;
+    }
+    catch {
+        return undefined;
+    }
+}
+function steamName(appId) {
+    try {
+        return String(window.appStore?.GetAppOverviewByAppID?.(appId)?.display_name ?? "");
+    }
+    catch {
+        return "";
+    }
+}
+function mainRunningAppId() {
+    try {
+        const router = DFL.Router;
+        const app = router?.MainRunningApp ?? window.SteamUIStore?.MainRunningApp;
+        return Number(app?.appid ?? app?.unAppID ?? 0) || 0;
+    }
+    catch {
+        return 0;
+    }
+}
+/** The running game, with The Collector's ROM title when it has one. Never throws. */
+async function currentRunningGame() {
+    const appId = tracker?.current() ?? 0;
+    if (!appId)
+        return null;
+    let record = collectorRecord(window[COLLECTOR_WINDOW_KEY], appId);
+    if (!record && appId > 0x7fffffff) {
+        // Non-Steam shortcut and no window record (e.g. Awesome Mix reloaded): try the file.
+        try {
+            const result = await getCollectorNowPlaying(appId);
+            record = result?.ok && result.data?.name ? { name: String(result.data.name), platform: String(result.data.platform ?? "") } : null;
+        }
+        catch {
+            record = null;
+        }
+    }
+    return resolveRunningGame(appId, steamName(appId), record);
+}
+function candidateArtist(candidate) {
+    if ("artist" in candidate)
+        return candidate.artist;
+    const names = (candidate.artists ?? []).map((artist) => String(artist?.name ?? "")).filter(Boolean);
+    return names.join(", ") || String(candidate.owner?.display_name ?? "");
+}
+function candidateImage(candidate) {
+    const images = [...(candidate.images ?? [])].filter((image) => image?.url);
+    images.sort((left, right) => Number(right.width || 0) * Number(right.height || 0) - Number(left.width || 0) * Number(left.height || 0));
+    return String(images[0]?.url ?? "");
+}
+function asPick(candidate) {
+    return { kind: candidate.type, id: candidate.id, name: candidate.name, artist: candidateArtist(candidate), image: candidateImage(candidate) };
+}
+async function playPick(game, pick) {
+    const played = await playYouTubeMusicCollection(pick.kind, pick.id);
+    if (played) {
+        const store = storage();
+        if (store)
+            rememberPick(store, game.key, pick);
+    }
+    else {
+        const t = getTranslations("soundtrack");
+        toaster.toast({ title: t.title, body: t.empty, duration: 3500 });
+    }
+    return played;
+}
+function openQuickAccess() {
+    try {
+        DFL.Navigation.OpenQuickAccessMenu(DFL.QuickAccessTab.Decky);
+    }
+    catch {
+        try {
+            DFL.Navigation.OpenQuickAccessMenu();
+        }
+        catch { /* nothing else to open */ }
+    }
+}
+async function offerOnLaunch(appName) {
+    await new Promise((resolve) => window.setTimeout(resolve, LAUNCH_SETTLE_MS));
+    const game = await currentRunningGame();
+    if (!game)
+        return;
+    const t = getTranslations("soundtrack");
+    const store = storage();
+    const pick = store ? recallPick(store, game.key) : null;
+    toaster.toast({
+        title: game.title,
+        body: pick ? formatTranslation(t.offerToastPlay, { album: pick.name }) : formatTranslation(t.offerToastPick, { app: appName }),
+        duration: 6000,
+        // Only on the user's press: the notice itself never plays anything.
+        onClick: () => { if (pick)
+            void playPick(game, pick);
+        else
+            openQuickAccess(); },
+    });
+}
+/**
+ * Follow the running game for the panel and, when the setting is on and YouTube Music is
+ * the active source, offer the soundtrack with a small notice on launch. Returns the stop.
+ */
+function startGameSoundtrack(options) {
+    const client = window.SteamClient;
+    if (typeof client?.GameSessions?.RegisterForAppLifetimeNotifications !== "function")
+        return () => { };
+    const announce = () => { try {
+        window.dispatchEvent(new Event(RUNNING_GAME_EVENT));
+    }
+    catch { /* window gone */ } };
+    tracker = createRunningGameTracker({
+        subscribe: (callback) => {
+            const handle = client.GameSessions.RegisterForAppLifetimeNotifications((n) => callback(Number(n?.unAppID) || 0, Boolean(n?.bRunning)));
+            return () => { try {
+                handle?.unregister?.();
+            }
+            catch { /* already gone */ } };
+        },
+        initial: mainRunningAppId,
+        ignore: (appId) => isMusicApp(steamName(appId)),
+    });
+    const unlisten = tracker.listen((appId, started) => {
+        announce();
+        if (started && appId && offerEnabled(storage()) && options.available())
+            void offerOnLaunch(options.appName).catch(() => undefined);
+    });
+    window.addEventListener(COLLECTOR_EVENT, announce);
+    return () => {
+        window.removeEventListener(COLLECTOR_EVENT, announce);
+        unlisten();
+        tracker?.stop();
+        tracker = null;
+    };
+}
+function useRunningGame() {
+    const [game, setGame] = SP_REACT.useState(null);
+    SP_REACT.useEffect(() => {
+        let serial = 0;
+        const refresh = () => {
+            const id = ++serial;
+            void currentRunningGame().then((next) => {
+                if (id !== serial)
+                    return;
+                setGame((previous) => previous?.key === next?.key && previous?.title === next?.title ? previous : next);
+            });
+        };
+        refresh();
+        window.addEventListener(RUNNING_GAME_EVENT, refresh);
+        window.addEventListener(COLLECTOR_EVENT, refresh);
+        return () => {
+            serial += 1;
+            window.removeEventListener(RUNNING_GAME_EVENT, refresh);
+            window.removeEventListener(COLLECTOR_EVENT, refresh);
+        };
+    }, []);
+    return game;
+}
+const card = {
+    width: "100%",
+    boxSizing: "border-box",
+    borderRadius: "10px",
+    border: `1px solid var(--mix-line, ${CORE.gunmetalRaised})`,
+    background: `var(--mix-surface, ${CORE.gunmetal})`,
+    padding: "10px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "6px",
+};
+const label = { fontSize: ".72em", fontWeight: 800, letterSpacing: ".035em", textTransform: "uppercase", color: `var(--mix-accent-text, ${CORE.crimsonText})` };
+const gameLine = { fontSize: ".82em", color: `var(--mix-steel, ${CORE.steel})`, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" };
+const hint = { fontSize: ".76em", lineHeight: 1.35, color: `var(--mix-hint, ${CORE.hint})` };
+const button = { width: "100%", minWidth: "100%", maxWidth: "100%", minHeight: "34px", padding: "0 10px", lineHeight: 1.2 };
+const buttonContent = { display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", fontSize: ".82em", overflow: "hidden" };
+const ellipsis = { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" };
+/** The Quick Access entry, shown only while a game runs. */
+function GameSoundtrackEntry() {
+    const t = getTranslations("soundtrack");
+    const game = useRunningGame();
+    const [phase, setPhase] = SP_REACT.useState({ name: "idle" });
+    const [busy, setBusy] = SP_REACT.useState(false);
+    const [pickVersion, setPickVersion] = SP_REACT.useState(0);
+    const gameKeyRef = SP_REACT.useRef("");
+    SP_REACT.useEffect(() => {
+        if (gameKeyRef.current !== (game?.key ?? "")) {
+            gameKeyRef.current = game?.key ?? "";
+            setPhase({ name: "idle" });
+        }
+    }, [game?.key]);
+    if (!game)
+        return null;
+    const store = storage();
+    const pick = store ? recallPick(store, game.key) : null;
+    const play = async (chosen) => {
+        setBusy(true);
+        try {
+            if (await playPick(game, chosen)) {
+                setPhase({ name: "idle" });
+                setPickVersion((v) => v + 1);
+            }
+        }
+        finally {
+            setBusy(false);
+        }
+    };
+    const search = async (offerChoice) => {
+        const key = game.key;
+        setPhase({ name: "searching" });
+        let result;
+        try {
+            const answer = await youtubeMusicFindSoundtrack(game.title, game.platform);
+            result = answer?.ok ? answer.data : undefined;
+        }
+        catch {
+            result = undefined;
+        }
+        if (gameKeyRef.current !== key)
+            return;
+        const candidates = (result?.candidates ?? []).slice(0, 3);
+        if (!candidates.length) {
+            setPhase({ name: "none" });
+            return;
+        }
+        if (result?.confident && !offerChoice) {
+            await play(asPick(candidates[0]));
+            return;
+        }
+        setPhase({ name: "picking", candidates });
+    };
+    const typeLabel = (candidate) => {
+        const parts = [candidate.type === "album" ? t.album : t.playlist, candidateArtist(candidate), candidate.release_date ?? ""];
+        return parts.filter(Boolean).join(" · ");
+    };
+    return (SP_JSX.jsxs("div", { className: "npGameSoundtrack", style: card, children: [SP_JSX.jsx("div", { style: label, children: t.title }), SP_JSX.jsx("div", { style: gameLine, children: formatTranslation(t.forGame, { game: game.platform ? `${game.title} · ${game.platform}` : game.title }) }), phase.name === "picking" ? (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "4px" }, children: [SP_JSX.jsx("div", { style: hint, children: t.pickTitle }), phase.candidates.map((candidate, index) => (SP_JSX.jsx(MediaRow, { item: { ...candidate, images: candidate.images ?? [] }, subtitle: typeLabel(candidate), preferredFocus: index === 0, onActivate: () => { if (!busy)
+                            void play(asPick(candidate)); } }, `${candidate.type}-${candidate.id}`))), SP_JSX.jsx(DFL.DialogButton, { style: button, onClick: () => setPhase({ name: "idle" }), children: SP_JSX.jsx("span", { style: buttonContent, children: t.cancel }) })] })) : (SP_JSX.jsxs(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px" }, children: [phase.name === "none" ? SP_JSX.jsx("div", { style: hint, children: formatTranslation(t.noneFound, { game: game.title }) }) : null, phase.name === "searching" ? SP_JSX.jsx("div", { style: hint, children: t.searching }) : null, SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void (pick ? play(pick) : search(false)), children: SP_JSX.jsxs("span", { style: buttonContent, children: [phase.name === "none" ? SP_JSX.jsx(FaRedo, {}) : SP_JSX.jsx(FaCompactDisc, {}), SP_JSX.jsx("span", { style: ellipsis, children: pick ? formatTranslation(t.playPick, { album: pick.name }) : phase.name === "none" ? t.retry : t.play })] }) }), pick ? (SP_JSX.jsx(DFL.DialogButton, { style: button, disabled: busy || phase.name === "searching", onClick: () => void search(true), children: SP_JSX.jsxs("span", { style: buttonContent, children: [SP_JSX.jsx(FaListUl, {}), SP_JSX.jsx("span", { style: ellipsis, children: t.choose })] }) })) : null] }))] }));
 }
 
 /**
@@ -41478,6 +42082,8 @@ function FullscreenSettingsRoute() {
     const [topbar, setTopbar] = SP_REACT.useState(false);
     const [topbarLeft, setTopbarLeft$1] = SP_REACT.useState(false);
     const [duckGames, setDuckGames] = SP_REACT.useState(duckForGamesEnabled);
+    const [offerSoundtrack, setOfferSoundtrack] = SP_REACT.useState(() => offerEnabled(soundtrackStorage()));
+    const soundtrackText = getTranslations("soundtrack");
     const [restartingServices, setRestartingServices] = SP_REACT.useState(false);
     const [exportingDiagnostics, setExportingDiagnostics] = SP_REACT.useState(false);
     const [sourceBehavior, setSourceBehavior] = SP_REACT.useState(defaultSourceBehaviorSettings);
@@ -41631,7 +42237,7 @@ function FullscreenSettingsRoute() {
                                                 const active = coverSource === source;
                                                 const label = source === "online" ? (t.coverSourceOnline) : (t.coverSourceWindows);
                                                 return SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: active ? 1 : .58 }, onClick: () => selectCover(source), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: label }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: active ? SP_JSX.jsx(FaCheck, {}) : null })] }) }, source);
-                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.gamesSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: duckGames ? 1 : .58 }, onClick: () => { const next = !duckGames; setDuckGames(next); setDuckForGames(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: t.duckForGames }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: duckGames ? SP_JSX.jsx(FaCheck, {}) : null })] }) })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: heading, buttonStyle: optionButton, contentStyle: optionContent }) })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
+                                            })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenEffect }), SP_JSX.jsx(FullscreenEffectDropdown, { value: fullscreenEffect, onChange: selectEffect }), SP_JSX.jsx(ParticleResolutionSelector, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.settingsFullscreenControls }), SP_JSX.jsx(FullscreenControlsLegend, {})] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.gamesSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: duckGames ? 1 : .58 }, onClick: () => { const next = !duckGames; setDuckGames(next); setDuckForGames(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: t.duckForGames }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: duckGames ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: offerSoundtrack ? 1 : .58 }, onClick: () => { const next = !offerSoundtrack; setOfferSoundtrack(next); setOfferEnabled(soundtrackStorage(), next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: soundtrackText.offerSetting }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: offerSoundtrack ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "4px 0 8px", opacity: .58, lineHeight: 1.4 }, children: soundtrackText.offerSettingDescription })] }), SP_JSX.jsxs("section", { className: "npSettingsCard", style: card, children: [SP_JSX.jsx("h2", { style: heading, children: t.topbarSection }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar ? 1 : .58 }, onClick: () => { const next = !topbar; setTopbar(next); void setTopbarEnabled(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarTrackLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx(DFL.DialogButton, { style: { ...optionButton, opacity: topbar && topbarLeft ? 1 : .58 }, disabled: !topbar, onClick: () => { const next = !topbarLeft; setTopbarLeft$1(next); void setTopbarLeft(next); }, children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx("span", { children: topbarLeftLabel }), SP_JSX.jsx("span", { style: { marginLeft: "auto" }, children: topbar && topbarLeft ? SP_JSX.jsx(FaCheck, {}) : null })] }) }), SP_JSX.jsx("div", { style: { margin: "12px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.restartServicesDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: restartingServices, onClick: () => void restartServices(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaSyncAlt, { className: restartingServices ? "npRestartSpin" : undefined }), " ", t.restartServices] }) }), SP_JSX.jsx("div", { style: { margin: "14px 0 8px", opacity: .58, lineHeight: 1.4 }, children: t.diagnosticLogDescription }), SP_JSX.jsx(DFL.DialogButton, { style: optionButton, disabled: exportingDiagnostics, onClick: () => void exportDiagnostics(), children: SP_JSX.jsxs("span", { style: optionContent, children: [SP_JSX.jsx(FaFileAlt, {}), " ", t.exportDiagnosticLog] }) })] }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(UpdateSettingsPanel, { titleStyle: heading, buttonStyle: optionButton, contentStyle: optionContent }) })] }), SP_JSX.jsxs(DFL.Focusable, { className: "npSettingsColumn", "flow-children": "vertical", children: [SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(LocalMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(YouTubeMusicSettingsPanel, { selectedService: enabledAppKeys[0] ?? "localMusic" }) }), SP_JSX.jsx("section", { className: "npSettingsCard", style: card, children: SP_JSX.jsx(FanartSettingsPanel, {}) })] })] })] })] }));
 }
 function RepeatIcon(props) {
     const isTrack = props.repeatMode === "Track";
@@ -42800,7 +43406,7 @@ function Content() {
                                                         pointerEvents: "none",
                                                     } })) : null] })] }), SP_JSX.jsx("div", { style: { height: "8px" } }), SP_JSX.jsxs(DFL.Focusable, { ref: volumeWrapperRef, className: "npAppVolume", focusClassName: "npAppVolumeFocused", noFocusRing: true, onActivate: () => undefined, onButtonDown: handleVolumeButtonDown, onKeyDown: handleVolumeKeyDown, role: "slider", tabIndex: 0, "aria-label": t.volume, "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(appVolume), style: { opacity: current && volumeReady ? 1 : 0.46 }, children: [SP_JSX.jsx("span", { children: t.volume }), SP_JSX.jsx("input", { type: "range", value: Math.round(appVolume), min: 0, max: 100, step: 1, disabled: !current, tabIndex: -1, onChange: (event) => changeAppVolume(Number(event.currentTarget.value)) }), SP_JSX.jsxs("strong", { children: [Math.round(appVolume), "%"] })] }), snapshot.players.length > 1 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "14px" } }), SP_JSX.jsx(DFL.Focusable, { "flow-children": "vertical", style: { display: "flex", flexDirection: "column", gap: "6px", width: "100%" }, children: snapshot.players.map((player) => (SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: busy, onClick: () => void runAction(async () => {
                                                     await setMediaPlayer(player.id);
-                                                }), children: SP_JSX.jsx("span", { style: buttonContentStyle, children: (player.id === snapshot.selectedPlayer ? "\u2022 " : "") + player.name }) }, player.id))) })] })) : null, SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: navigateToFullscreen, children: SP_JSX.jsx(FaExpandAlt, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: () => setShowSettings(true), children: SP_JSX.jsx(FaCog, {}) })] }), enabledAppKeys[0] === "localMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(LocalMusicBrowser, { openAlbumRequest: localAlbumRequest, onOpenBigPicture: navigateToLocalMusicBigPicture })] })) : null, enabledAppKeys[0] === "youtubeMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(YouTubeMusicBrowser, { onOpenBigPicture: navigateToYouTubeMusicBigPicture, onOpenSettings: () => setShowSettings(true) })] })) : null, enabledApps.length > 0 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.Focusable, { style: { ...centeredColumnStyle, gap: "6px" }, "flow-children": "vertical", children: enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "youtubeMusic").map((app) => {
+                                                }), children: SP_JSX.jsx("span", { style: buttonContentStyle, children: (player.id === snapshot.selectedPlayer ? "\u2022 " : "") + player.name }) }, player.id))) })] })) : null, SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsxs(DFL.Focusable, { style: controlsWrapStyle, "flow-children": "horizontal", children: [SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: navigateToFullscreen, children: SP_JSX.jsx(FaExpandAlt, {}) }), SP_JSX.jsx(DFL.DialogButton, { style: splitWideButtonStyle, onClick: () => setShowSettings(true), children: SP_JSX.jsx(FaCog, {}) })] }), enabledAppKeys[0] === "localMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(LocalMusicBrowser, { openAlbumRequest: localAlbumRequest, onOpenBigPicture: navigateToLocalMusicBigPicture })] })) : null, enabledAppKeys[0] === "youtubeMusic" ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(GameSoundtrackEntry, {}), SP_JSX.jsx("div", { style: { height: "10px" } }), SP_JSX.jsx(YouTubeMusicBrowser, { onOpenBigPicture: navigateToYouTubeMusicBigPicture, onOpenSettings: () => setShowSettings(true) })] })) : null, enabledApps.length > 0 ? (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsx("div", { style: { height: "6px" } }), SP_JSX.jsx(DFL.Focusable, { style: { ...centeredColumnStyle, gap: "6px" }, "flow-children": "vertical", children: enabledApps.filter((app) => app.key !== "localMusic" && app.key !== "youtubeMusic").map((app) => {
                                                 const Icon = app.Icon;
                                                 return (SP_JSX.jsx(DFL.DialogButton, { style: wideButtonStyle, disabled: busy, onClick: () => void (activeAppRunning ? closeMusicApp$1(app) : openMusicApp(app)), children: SP_JSX.jsxs("span", { style: buttonContentStyle, children: [SP_JSX.jsx(Icon, {}), formatOpenAppLabel(activeAppRunning ? t.closeApp : t.openApp, appProgramLabel(app))] }) }, app.key));
                                             }) })] })) : null] })] }) })] }));
@@ -42891,6 +43497,15 @@ function startGameDucking() {
     });
 }
 let stopGameDucking = () => { };
+let stopGameSoundtrack = () => { };
+function soundtrackStorage() {
+    try {
+        return window.localStorage;
+    }
+    catch {
+        return undefined;
+    }
+}
 var index = definePlugin(() => {
     fullscreenUiDisposed = false;
     try {
@@ -42898,6 +43513,12 @@ var index = definePlugin(() => {
     }
     catch {
         stopGameDucking = () => { };
+    }
+    try {
+        stopGameSoundtrack = startGameSoundtrack({ appName: PLUGIN_DISPLAY_NAME, available: () => loadEnabledAppKeys()[0] === "youtubeMusic" });
+    }
+    catch {
+        stopGameSoundtrack = () => { };
     }
     routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
     routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
@@ -42913,6 +43534,10 @@ var index = definePlugin(() => {
             forceRestoreFullscreenChrome();
             try {
                 stopGameDucking();
+            }
+            catch { /* best effort */ }
+            try {
+                stopGameSoundtrack();
             }
             catch { /* best effort */ }
             publishPlaybackActivity(false, "Stopped", "", "", "");

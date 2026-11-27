@@ -67,6 +67,19 @@ Awesome Mix combines an instant QAM panel with a full-screen music application. 
 
 Each source keeps its own volume and status. When you switch sources, the plugin starts the new player and closes the previous one, preventing overlapping audio and unnecessary processes.
 
+## The game's own soundtrack
+
+While a game runs and YouTube Music is the source, the Quick Access panel shows **Play this game's soundtrack**. It
+looks for the game's official soundtrack album on YouTube Music ("original soundtrack" / "OST" albums first, then
+playlists), preferring the base game over DLC and bonus albums and the game's own release over remixes, covers and
+user playlists. A clear match plays at once, whole and in album order; otherwise up to three candidates are offered.
+Your choice is remembered per game, so next time it is one press, and **Choose another soundtrack** changes it.
+
+Games launched from The Collector (RomM) use the ROM's title and console instead of the shortcut's name. An optional
+setting, off by default (Settings, Games), shows a small notice when a game starts; it never plays on its own.
+
+The matching ideas come from DeckTune by Jayden (MIT; see [NOTICE](NOTICE)).
+
 ## Sources
 
 - **YouTube Music** (the main source): Home, Search and Library, podcasts (search, library tabs, episodes, resume, Continue listening, played marks), sign-in through a temporary browser window, seeking, playback speed 0.75x to 2x for podcasts, and next-track prefetching.

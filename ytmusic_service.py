@@ -16,6 +16,14 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
+import mix_soundtrack
+
+
+class _NothingToCache(Exception):
+    def __init__(self, value: Dict[str, Any]) -> None:
+        super().__init__("nothing to cache")
+        self.value = value
+
 
 class YouTubeMusicService:
     """Small ytmusicapi adapter with Now Playing-shaped responses."""
@@ -989,6 +997,50 @@ class YouTubeMusicService:
 
         # v2: results now include podcasts and episodes; skip older cached shapes.
         return self._without_unavailable(self._cached(f"search:v2:{cleaned.casefold()}", 900.0, produce))
+
+    def find_soundtrack(self, game: str, platform: str = "") -> Dict[str, Any]:
+        """Up to three soundtrack albums/playlists for a game, best first (mix_soundtrack ranks them)."""
+        title = mix_soundtrack.canonical_game_name(str(game or "")[:180])
+        platform = str(platform or "").strip()[:128]
+        queries = mix_soundtrack.search_queries(title)
+        if len(title) < 2 or not queries:
+            return {"game": title, "candidates": [], "confident": False}
+
+        def produce() -> Dict[str, Any]:
+            def fetch(query: str, search_filter: str) -> List[Dict[str, Any]]:
+                request_client = self._independent_client_for_request()
+                try:
+                    with self._request_context(request_client):
+                        values = request_client.search(query, filter=search_filter, limit=20)
+                except Exception as exc:
+                    self._log(f"YouTube Music soundtrack search ({search_filter}) error: {type(exc).__name__}: {exc}")
+                    return []
+                forced = "album" if search_filter == "albums" else "playlist"
+                items: List[Dict[str, Any]] = []
+                for value in values if isinstance(values, list) else []:
+                    item = self.normalize_item(value, forced)
+                    if not item or item.get("type") != forced:
+                        continue
+                    if isinstance(value, dict):
+                        item["albumType"] = str(value.get("type") or "") if forced == "album" else ""
+                        item["itemCount"] = value.get("itemCount") if forced == "playlist" else None
+                    items.append(item)
+                return items
+
+            with ThreadPoolExecutor(max_workers=len(queries), thread_name_prefix="NowPlaying-YTM-Soundtrack") as pool:
+                futures = [pool.submit(fetch, query, search_filter) for query, search_filter in queries]
+                found = [item for future in futures for item in future.result()]
+            ranked = mix_soundtrack.rank_candidates(title, found, platform)
+            if not ranked["candidates"]:
+                # Nothing found is often a failed request: answer it, never cache it.
+                raise _NothingToCache(ranked)
+            return ranked
+
+        key = f"soundtrack:v1:{mix_soundtrack.normalize_text(title)}|{mix_soundtrack.normalize_text(platform)}"
+        try:
+            return self._cached(key, 6 * 3600.0, produce)
+        except _NothingToCache as empty:
+            return empty.value
 
     def get_library(self, section: str, max_items: int = 100) -> Dict[str, Any]:
         if not self._has_auth():

@@ -293,6 +293,25 @@
       "reinstall": "Reinstall {volume}",
       "downloading": "Downloading and checking the installer…",
       "manual": "Install the zip from the release branch by hand."
+    },
+    "soundtrack": {
+      "title": "Game soundtrack",
+      "play": "Play this game's soundtrack",
+      "playPick": "Play {album}",
+      "choose": "Choose another soundtrack",
+      "searching": "Looking for the soundtrack…",
+      "noneFound": "No soundtrack album found for {game}",
+      "pickTitle": "Which soundtrack?",
+      "forGame": "For {game}",
+      "album": "Album",
+      "playlist": "Playlist",
+      "retry": "Search again",
+      "cancel": "Cancel",
+      "empty": "This soundtrack has no playable tracks",
+      "offerSetting": "Offer the game's soundtrack on launch",
+      "offerSettingDescription": "Shows a small notice when a game starts. Music never starts on its own.",
+      "offerToastPlay": "Select to play {album}",
+      "offerToastPick": "Open {app} to choose its soundtrack"
     }
   },
   "it": {
@@ -589,6 +608,25 @@
       "reinstall": "Reinstalla {volume}",
       "downloading": "Download e verifica del programma di installazione…",
       "manual": "Installa a mano lo zip dal ramo release."
+    },
+    "soundtrack": {
+      "title": "Colonna sonora del gioco",
+      "play": "Riproduci la colonna sonora di questo gioco",
+      "playPick": "Riproduci {album}",
+      "choose": "Scegli un'altra colonna sonora",
+      "searching": "Ricerca della colonna sonora…",
+      "noneFound": "Nessun album della colonna sonora trovato per {game}",
+      "pickTitle": "Quale colonna sonora?",
+      "forGame": "Per {game}",
+      "album": "Album",
+      "playlist": "Playlist",
+      "retry": "Cerca di nuovo",
+      "cancel": "Annulla",
+      "empty": "Questa colonna sonora non ha brani riproducibili",
+      "offerSetting": "Proponi la colonna sonora all'avvio del gioco",
+      "offerSettingDescription": "Mostra un piccolo avviso quando si avvia un gioco. La musica non parte mai da sola.",
+      "offerToastPlay": "Seleziona per riprodurre {album}",
+      "offerToastPick": "Apri {app} per scegliere la colonna sonora"
     }
   },
   "es": {
@@ -885,6 +923,25 @@
       "reinstall": "Reinstalar {volume}",
       "downloading": "Descargando y comprobando el instalador…",
       "manual": "Instala a mano el zip de la rama release."
+    },
+    "soundtrack": {
+      "title": "Banda sonora del juego",
+      "play": "Reproducir la banda sonora de este juego",
+      "playPick": "Reproducir {album}",
+      "choose": "Elegir otra banda sonora",
+      "searching": "Buscando la banda sonora…",
+      "noneFound": "No se encontró ningún álbum de banda sonora para {game}",
+      "pickTitle": "¿Qué banda sonora?",
+      "forGame": "Para {game}",
+      "album": "Álbum",
+      "playlist": "Lista",
+      "retry": "Buscar de nuevo",
+      "cancel": "Cancelar",
+      "empty": "Esta banda sonora no tiene pistas reproducibles",
+      "offerSetting": "Ofrecer la banda sonora al iniciar un juego",
+      "offerSettingDescription": "Muestra un pequeño aviso cuando empieza un juego. La música nunca empieza sola.",
+      "offerToastPlay": "Selecciona para reproducir {album}",
+      "offerToastPick": "Abre {app} para elegir su banda sonora"
     }
   },
   "fr": {
@@ -1181,6 +1238,25 @@
       "reinstall": "Réinstaller {volume}",
       "downloading": "Téléchargement et vérification du programme d'installation…",
       "manual": "Installez à la main le zip de la branche release."
+    },
+    "soundtrack": {
+      "title": "Bande originale du jeu",
+      "play": "Lire la bande originale de ce jeu",
+      "playPick": "Lire {album}",
+      "choose": "Choisir une autre bande originale",
+      "searching": "Recherche de la bande originale…",
+      "noneFound": "Aucun album de bande originale trouvé pour {game}",
+      "pickTitle": "Quelle bande originale ?",
+      "forGame": "Pour {game}",
+      "album": "Album",
+      "playlist": "Playlist",
+      "retry": "Rechercher à nouveau",
+      "cancel": "Annuler",
+      "empty": "Cette bande originale n'a aucune piste lisible",
+      "offerSetting": "Proposer la bande originale au lancement du jeu",
+      "offerSettingDescription": "Affiche une petite notification au lancement d'un jeu. La musique ne démarre jamais seule.",
+      "offerToastPlay": "Sélectionnez pour lire {album}",
+      "offerToastPick": "Ouvrez {app} pour choisir sa bande originale"
     }
   },
   "de": {
@@ -1477,6 +1553,25 @@
       "reinstall": "{volume} neu installieren",
       "downloading": "Installationspaket wird heruntergeladen und geprüft…",
       "manual": "Installiere das Zip aus dem release-Branch von Hand."
+    },
+    "soundtrack": {
+      "title": "Spiel-Soundtrack",
+      "play": "Soundtrack dieses Spiels abspielen",
+      "playPick": "{album} abspielen",
+      "choose": "Anderen Soundtrack wählen",
+      "searching": "Soundtrack wird gesucht…",
+      "noneFound": "Kein Soundtrack-Album für {game} gefunden",
+      "pickTitle": "Welcher Soundtrack?",
+      "forGame": "Für {game}",
+      "album": "Album",
+      "playlist": "Playlist",
+      "retry": "Erneut suchen",
+      "cancel": "Abbrechen",
+      "empty": "Dieser Soundtrack hat keine abspielbaren Titel",
+      "offerSetting": "Soundtrack beim Spielstart anbieten",
+      "offerSettingDescription": "Zeigt beim Start eines Spiels einen kleinen Hinweis. Die Musik startet nie von selbst.",
+      "offerToastPlay": "Auswählen, um {album} abzuspielen",
+      "offerToastPick": "{app} öffnen, um den Soundtrack zu wählen"
     }
   },
   "pt-br": {
@@ -1773,6 +1868,25 @@
       "reinstall": "Reinstalar {volume}",
       "downloading": "Baixando e verificando o instalador…",
       "manual": "Instale manualmente o zip do branch release."
+    },
+    "soundtrack": {
+      "title": "Trilha sonora do jogo",
+      "play": "Tocar a trilha sonora deste jogo",
+      "playPick": "Tocar {album}",
+      "choose": "Escolher outra trilha sonora",
+      "searching": "Procurando a trilha sonora…",
+      "noneFound": "Nenhum álbum de trilha sonora encontrado para {game}",
+      "pickTitle": "Qual trilha sonora?",
+      "forGame": "Para {game}",
+      "album": "Álbum",
+      "playlist": "Playlist",
+      "retry": "Buscar novamente",
+      "cancel": "Cancelar",
+      "empty": "Esta trilha sonora não tem faixas reproduzíveis",
+      "offerSetting": "Oferecer a trilha sonora ao iniciar o jogo",
+      "offerSettingDescription": "Mostra um pequeno aviso quando um jogo começa. A música nunca começa sozinha.",
+      "offerToastPlay": "Selecione para tocar {album}",
+      "offerToastPick": "Abra o {app} para escolher a trilha sonora"
     }
   },
   "ru": {
@@ -2069,6 +2183,25 @@
       "reinstall": "Переустановить {volume}",
       "downloading": "Загрузка и проверка установщика…",
       "manual": "Установите zip из ветки release вручную."
+    },
+    "soundtrack": {
+      "title": "Саундтрек игры",
+      "play": "Включить саундтрек этой игры",
+      "playPick": "Включить {album}",
+      "choose": "Выбрать другой саундтрек",
+      "searching": "Поиск саундтрека…",
+      "noneFound": "Альбом саундтрека для {game} не найден",
+      "pickTitle": "Какой саундтрек?",
+      "forGame": "Для {game}",
+      "album": "Альбом",
+      "playlist": "Плейлист",
+      "retry": "Искать снова",
+      "cancel": "Отмена",
+      "empty": "В этом саундтреке нет доступных треков",
+      "offerSetting": "Предлагать саундтрек при запуске игры",
+      "offerSettingDescription": "Показывает небольшое уведомление при запуске игры. Музыка никогда не включается сама.",
+      "offerToastPlay": "Выберите, чтобы включить {album}",
+      "offerToastPick": "Откройте {app}, чтобы выбрать саундтрек"
     }
   },
   "ja": {
@@ -2365,6 +2498,25 @@
       "reinstall": "{volume} を再インストール",
       "downloading": "インストーラーをダウンロードして確認しています…",
       "manual": "release ブランチの zip を手動でインストールしてください。"
+    },
+    "soundtrack": {
+      "title": "ゲームのサウンドトラック",
+      "play": "このゲームのサウンドトラックを再生",
+      "playPick": "{album} を再生",
+      "choose": "別のサウンドトラックを選ぶ",
+      "searching": "サウンドトラックを検索中…",
+      "noneFound": "{game} のサウンドトラックアルバムが見つかりません",
+      "pickTitle": "どのサウンドトラック？",
+      "forGame": "{game} 用",
+      "album": "アルバム",
+      "playlist": "プレイリスト",
+      "retry": "もう一度検索",
+      "cancel": "キャンセル",
+      "empty": "このサウンドトラックには再生できる曲がありません",
+      "offerSetting": "ゲーム起動時にサウンドトラックを提案",
+      "offerSettingDescription": "ゲーム開始時に小さな通知を表示します。音楽が勝手に再生されることはありません。",
+      "offerToastPlay": "選択して {album} を再生",
+      "offerToastPick": "{app} を開いてサウンドトラックを選択"
     }
   },
   "ko": {
@@ -2661,6 +2813,25 @@
       "reinstall": "{volume} 다시 설치",
       "downloading": "설치 파일을 다운로드하고 확인하는 중…",
       "manual": "release 브랜치의 zip을 직접 설치하세요."
+    },
+    "soundtrack": {
+      "title": "게임 사운드트랙",
+      "play": "이 게임의 사운드트랙 재생",
+      "playPick": "{album} 재생",
+      "choose": "다른 사운드트랙 선택",
+      "searching": "사운드트랙 찾는 중…",
+      "noneFound": "{game}의 사운드트랙 앨범을 찾을 수 없습니다",
+      "pickTitle": "어떤 사운드트랙인가요?",
+      "forGame": "{game}용",
+      "album": "앨범",
+      "playlist": "플레이리스트",
+      "retry": "다시 검색",
+      "cancel": "취소",
+      "empty": "이 사운드트랙에는 재생 가능한 트랙이 없습니다",
+      "offerSetting": "게임 시작 시 사운드트랙 제안",
+      "offerSettingDescription": "게임이 시작되면 작은 알림을 표시합니다. 음악이 저절로 재생되지는 않습니다.",
+      "offerToastPlay": "선택하여 {album} 재생",
+      "offerToastPick": "{app}을(를) 열어 사운드트랙 선택"
     }
   },
   "zh": {
@@ -2957,6 +3128,25 @@
       "reinstall": "重新安装 {volume}",
       "downloading": "正在下载并校验安装包…",
       "manual": "请手动安装 release 分支中的 zip。"
+    },
+    "soundtrack": {
+      "title": "游戏原声",
+      "play": "播放此游戏的原声音乐",
+      "playPick": "播放 {album}",
+      "choose": "选择其他原声",
+      "searching": "正在查找原声…",
+      "noneFound": "未找到 {game} 的原声专辑",
+      "pickTitle": "选择哪张原声？",
+      "forGame": "用于 {game}",
+      "album": "专辑",
+      "playlist": "播放列表",
+      "retry": "重新搜索",
+      "cancel": "取消",
+      "empty": "此原声没有可播放的曲目",
+      "offerSetting": "游戏启动时推荐原声",
+      "offerSettingDescription": "游戏启动时显示一条小通知。音乐绝不会自动播放。",
+      "offerToastPlay": "选择以播放 {album}",
+      "offerToastPick": "打开 {app} 选择原声"
     }
   }
 }

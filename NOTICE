@@ -104,3 +104,33 @@ Python versions predating mimetypes.guess_file_type. Source and shipped hashes
 are recorded in runtime_stdlib/PROVENANCE.json. Complete PSF and related license
 notices are retained in licenses/Python-stdlib-LICENSE.txt. The existing vendor
 html package is used only when the host runtime does not supply it.
+
+Game soundtrack matching
+------------------------
+mix_soundtrack.py adapts ideas and parts of the code (text normalisation, the
+store-edition suffix pattern, the remix/cover word list, the DLC markers and the
+"official album first" weighting) from DeckTune's soundtrack.py, by Jayden.
+Repository: https://github.com/Brick098TheFirst/Decktune
+
+DeckTune is licensed under the MIT License:
+Copyright (c) 2026 Jayden
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software. Any use, copy, modification,
+redistribution, or commercial use of the Software must credit the original
+author (Jayden).
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

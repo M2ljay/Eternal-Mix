@@ -53,6 +53,7 @@ import decky_plugin
 from ytmusic_service import YouTubeMusicService
 from legacy_migration import migrate_legacy_settings
 import mix_identity
+import mix_soundtrack
 import mix_update
 
 TOPBAR_CEF_PORT = 8080
@@ -4668,6 +4669,21 @@ class Plugin:
 
     async def youtube_music_search(self, query: str) -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.search, query)
+
+    async def youtube_music_find_soundtrack(self, game: str, platform: str = "") -> Dict[str, Any]:
+        return await self._youtube_music_result(self._youtube_music.find_soundtrack, str(game or ""), str(platform or ""))
+
+    async def get_collector_now_playing(self, app_id: int) -> Dict[str, Any]:
+        """The Collector's ROM title and console for a running shortcut (its file); empty when absent."""
+        try:
+            home = getattr(decky_plugin, "DECKY_HOME", None) or os.environ.get("DECKY_HOME", "")
+            paths = mix_soundtrack.collector_file_paths(str(home or ""), self._resolve_runtime_dir())
+            record = await asyncio.get_running_loop().run_in_executor(
+                None, mix_soundtrack.read_collector_record, paths, int(app_id or 0))
+            return {"ok": True, "data": record or {}}
+        except Exception as exc:
+            self._log(f"Collector now playing unavailable: {type(exc).__name__}: {exc}")
+            return {"ok": True, "data": {}}
 
     async def youtube_music_get_library(self, section: str, max_items: int = 100) -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.get_library, section, max_items)

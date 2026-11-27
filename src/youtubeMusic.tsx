@@ -185,6 +185,22 @@ async function playItems(items: any[], index = 0) {
   }
 }
 
+/** Queue a whole album or playlist from its first track, in its own (release) order. */
+export async function playYouTubeMusicCollection(kind: "album" | "playlist", id: string): Promise<boolean> {
+  try {
+    const result = await python.youtubeMusicGetDetail(kind, id);
+    if (!result?.ok) throw new Error(String(result?.error ?? "YouTube Music request failed"));
+    const tracks = (Array.isArray(result.data?.tracks) ? result.data.tracks : [])
+      .filter((item: any) => itemType(item) === "track" && String(item?.videoId ?? item?.id ?? "").trim());
+    if (!tracks.length) return false;
+    await playItems(tracks, 0);
+    return true;
+  } catch (error) {
+    notifyError(error);
+    return false;
+  }
+}
+
 // "Played" or "12 min left" for podcast episodes, with the listened fraction.
 function episodeStatus(t: any, track: any): { label: string; fraction: number } | null {
   const progress = podcastProgress(track);

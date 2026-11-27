@@ -301,6 +301,28 @@ export function youtubeMusicGetDetail(kind: "album" | "playlist" | "artist", ite
   return call<[kind: string, itemId: string], ApiResult>("youtube_music_get_detail", kind, itemId);
 }
 
+export type SoundtrackCandidate = {
+  type: "album" | "playlist";
+  id: string;
+  name: string;
+  artists?: { name: string; id?: string }[];
+  owner?: { display_name?: string };
+  images?: { url: string; width?: number; height?: number }[];
+  release_date?: string;
+  albumType?: string;
+  itemCount?: number | null;
+  score: number;
+};
+export type SoundtrackSearch = { game: string; candidates: SoundtrackCandidate[]; confident: boolean };
+
+export function youtubeMusicFindSoundtrack(game: string, platform = ""): Promise<ApiResult<SoundtrackSearch>> {
+  return call<[game: string, platform: string], ApiResult<SoundtrackSearch>>("youtube_music_find_soundtrack", game, platform);
+}
+
+export function getCollectorNowPlaying(appId: number): Promise<ApiResult<{ name?: string; platform?: string }>> {
+  return call<[appId: number], ApiResult<{ name?: string; platform?: string }>>("get_collector_now_playing", appId);
+}
+
 export function youtubeMusicPrepareStream(videoId: string): Promise<ApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>> {
   return call<[videoId: string], ApiResult<{ url: string; durationMs?: number; title?: string; artist?: string; album?: string; thumbnail?: string }>>(
     "youtube_music_prepare_stream",

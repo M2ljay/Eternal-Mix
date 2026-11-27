@@ -15,6 +15,8 @@ import { SurroundUpmixControls } from "./surroundControls";
 import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
+import { GameSoundtrackEntry, startGameSoundtrack } from "./gameSoundtrackPanel";
+import { offerEnabled as soundtrackOfferEnabled, setOfferEnabled as setSoundtrackOfferEnabled } from "./gameSoundtrack";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { CoreTranslation } from "./i18n";
 import { getSavedSourceVolume, saveSourceVolume, SOURCE_VOLUME_CHANGED_EVENT } from "./sourceVolume";
@@ -2387,6 +2389,8 @@ function FullscreenSettingsRoute() {
   const [topbar, setTopbar] = useState(false);
   const [topbarLeft, setTopbarLeft] = useState(false);
   const [duckGames, setDuckGames] = useState<boolean>(duckForGamesEnabled);
+  const [offerSoundtrack, setOfferSoundtrack] = useState<boolean>(() => soundtrackOfferEnabled(soundtrackStorage()));
+  const soundtrackText = getTranslations("soundtrack");
   const [restartingServices, setRestartingServices] = useState(false);
   const [exportingDiagnostics, setExportingDiagnostics] = useState(false);
   const [sourceBehavior, setSourceBehavior] = useState<SourceBehaviorSettings>(defaultSourceBehaviorSettings);
@@ -2586,6 +2590,8 @@ function FullscreenSettingsRoute() {
             <section className="npSettingsCard" style={card}>
               <h2 style={heading}>{t.gamesSection}</h2>
               <DialogButton style={{ ...optionButton, opacity: duckGames ? 1 : .58 }} onClick={() => { const next = !duckGames; setDuckGames(next); setDuckForGames(next); }}><span style={optionContent}><span>{t.duckForGames}</span><span style={{ marginLeft: "auto" }}>{duckGames ? <FaCheck /> : null}</span></span></DialogButton>
+              <DialogButton style={{ ...optionButton, opacity: offerSoundtrack ? 1 : .58 }} onClick={() => { const next = !offerSoundtrack; setOfferSoundtrack(next); setSoundtrackOfferEnabled(soundtrackStorage(), next); }}><span style={optionContent}><span>{soundtrackText.offerSetting}</span><span style={{ marginLeft: "auto" }}>{offerSoundtrack ? <FaCheck /> : null}</span></span></DialogButton>
+              <div style={{ margin: "4px 0 8px", opacity: .58, lineHeight: 1.4 }}>{soundtrackText.offerSettingDescription}</div>
             </section>
 
             <section className="npSettingsCard" style={card}>
@@ -4187,6 +4193,8 @@ function Content() {
             {enabledAppKeys[0] === "youtubeMusic" ? (
               <>
                 <div style={{ height: "10px" }} />
+                <GameSoundtrackEntry />
+                <div style={{ height: "10px" }} />
                 <YouTubeMusicBrowser onOpenBigPicture={navigateToYouTubeMusicBigPicture} onOpenSettings={() => setShowSettings(true)} />
               </>
             ) : null}
@@ -4301,10 +4309,18 @@ function startGameDucking(): () => void {
 }
 
 let stopGameDucking: () => void = () => {};
+let stopGameSoundtrack: () => void = () => {};
+
+function soundtrackStorage(): Storage | undefined {
+  try { return window.localStorage; } catch { return undefined; }
+}
 
 export default definePlugin(() => {
   fullscreenUiDisposed = false;
   try { stopGameDucking = startGameDucking(); } catch { stopGameDucking = () => {}; }
+  try {
+    stopGameSoundtrack = startGameSoundtrack({ appName: PLUGIN_DISPLAY_NAME, available: () => loadEnabledAppKeys()[0] === "youtubeMusic" });
+  } catch { stopGameSoundtrack = () => {}; }
   routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
   routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
   routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
@@ -4323,6 +4339,7 @@ export default definePlugin(() => {
       fullscreenUiDisposed = true;
       forceRestoreFullscreenChrome();
       try { stopGameDucking(); } catch { /* best effort */ }
+      try { stopGameSoundtrack(); } catch { /* best effort */ }
       publishPlaybackActivity(false, "Stopped", "", "", "");
       localAudioPlayer.destroy();
       routerHook.removeRoute(FULLSCREEN_ROUTE);

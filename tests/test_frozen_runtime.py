@@ -51,7 +51,7 @@ PRELUDE = textwrap.dedent(r'''
 FULL = PRELUDE + textwrap.dedent(r'''
     assert main.BACKEND_ERROR == "", main.BACKEND_ERROR
     assert main.Plugin is not main.SafeModePlugin
-    import mix_backend, ytmusic_service, mix_update, legacy_migration
+    import mix_backend, ytmusic_service, mix_soundtrack, mix_update, legacy_migration
     # What the backend imports lazily: the YouTube Music stack (vendor/) and tags.
     service = ytmusic_service.YouTubeMusicService(os.path.join(work, "yt"), os.path.join(root, "vendor"),
                                                   lambda *_: None)

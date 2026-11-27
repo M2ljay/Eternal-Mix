@@ -95,8 +95,16 @@ a 2 by 4 grid. One press plays the tile:
 
 X (or a long press, or a right click) opens **More**: **Refresh speed dial** and **Open in full view**, which opens
 the full-screen YouTube Music view with the whole grid (up to 3 rows of 9) at the top of Home. The grid is read from
-YouTube Music's home page and kept for 30 minutes; it is hidden when it is empty (signed out, or no Speed dial on
-the account). Pinning and unpinning stay in the YouTube Music app.
+YouTube Music's home page and kept for 30 minutes. YouTube Music's web home often has no Speed dial (it may exist
+only in the mobile apps); then the grid, still labelled Speed dial, takes the closest shelf of the same home page:
+**Listen again**, else **Quick picks** (songs, which play their radio), else your library's playlists and albums.
+The full view names the stand-in in small type ("from Listen again"). The grid is hidden only when there is nothing
+at all (signed out, or an empty home and library). Pinning and unpinning stay in the YouTube Music app.
+
+Every fetch writes one `speed dial` line to `NowPlaying.log` (client, whether the Speed dial shelf was found, the
+source used, the tile count and the reason) and one line with the home page's structure (shelf and item renderer
+types, header features, counts; never titles, names, ids or images). The panel adds one `[speed-dial]` line per
+session saying whether it showed the grid and, if not, why.
 
 TODO (Core UI): the black areas behind the grid are meant to show the Core Starfield. Awesome Mix has no starfield
 of its own (the Core Starfield is Core's Steam screensaver), so Core UI will supply it.

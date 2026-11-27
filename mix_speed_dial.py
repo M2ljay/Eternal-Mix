@@ -26,6 +26,15 @@ Known response shape (no live capture in this repository yet; see tests/test_spe
     parsers/songs.parse_song_menu_data as ``pinnedToListenAgain``. Only Speed dial and
     Listen again tiles carry that menu entry.
 
+When the feed has no Speed dial (the web client often shows "Listen again" and
+"Quick picks" instead; Speed dial may exist only in the mobile apps), select_grid falls
+back to the closest shelf of the same response: Listen again (stacked two-row tiles of
+mixed kinds from the listening history, near the top), then Quick picks (list rows of
+songs). ytmusic_service adds the last fallback, the user's library.
+
+summarize_home describes a response's structure for the log (renderer types, header
+features, item counts) and never carries a title, name, id, thumbnail or account detail.
+
 Standard library only (typing is in Decky's frozen Python).
 """
 from __future__ import annotations
@@ -33,6 +42,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 
 MTRIR = "musicTwoRowItemRenderer"
+MRLIR = "musicResponsiveListItemRenderer"
 CAROUSEL = "musicCarouselShelfRenderer"
 GRID = "gridRenderer"
 
@@ -42,6 +52,18 @@ KNOWN_TITLES = ("speed dial", "listen again")
 
 # A shelf needs at least this score to be taken for Speed dial.
 MIN_SCORE = 5
+# Listen again and Quick picks sit among the first shelves of the home feed.
+TOP_ROWS = 6
+
+SOURCE_SPEED_DIAL = "speed_dial"
+SOURCE_LISTEN_AGAIN = "listen_again"
+SOURCE_QUICK_PICKS = "quick_picks"
+SOURCE_LIBRARY = "library"
+SOURCES = (SOURCE_SPEED_DIAL, SOURCE_LISTEN_AGAIN, SOURCE_QUICK_PICKS, SOURCE_LIBRARY)
+
+# English shelf names (the client asks for hl=en). For the log they become these fixed
+# keys, never the text itself.
+TITLE_KEYS = {"speed dial": SOURCE_SPEED_DIAL, "listen again": SOURCE_LISTEN_AGAIN, "quick picks": SOURCE_QUICK_PICKS}
 # The full grid on YouTube Music: 3 rows of 9.
 MAX_ITEMS = 27
 
@@ -281,23 +303,247 @@ def extract_speed_dial(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, A
     best: Optional[Tuple[int, Any]] = None
     for row in home_rows(response):
         score = shelf_score(row)
-        if score >= MIN_SCORE and (best is None or score > best[0]):
+        if score >= MIN_SCORE and _speed_dial_layout(row) and (best is None or score > best[0]):
             best = (score, row)
     if best is None:
         return {"found": False, "title": "", "score": 0, "items": []}
     score, row = best
-    _, _, entries = _shelf_body(row)
+    return {"found": True, "title": shelf_title(row), "score": score, "items": _tiles(row, max_items)}
+
+
+def _per_column(body: Dict[str, Any]) -> int:
+    try:
+        return int(str(body.get("numItemsPerColumn") or "1"))
+    except ValueError:
+        return 1
+
+
+def _title_key(row: Any) -> str:
+    return TITLE_KEYS.get(shelf_title(row).casefold(), "")
+
+
+def _speed_dial_layout(row: Any) -> bool:
+    """Speed dial's own layout: 3 or more tiles per column or a grid (Listen again stacks 2)."""
+    kind, body, _ = _shelf_body(row)
+    key = _title_key(row)
+    if key == SOURCE_LISTEN_AGAIN:
+        return False
+    return kind == GRID or _per_column(body) >= 3 or key == SOURCE_SPEED_DIAL
+
+
+def _dedupe(parsed: List[Optional[Dict[str, Any]]], max_items: int) -> List[Dict[str, Any]]:
     items: List[Dict[str, Any]] = []
     seen = set()
-    for entry in entries:
-        item = parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None)
+    for item in parsed:
         if not item or (item["type"], item["id"]) in seen:
             continue
         seen.add((item["type"], item["id"]))
         items.append(item)
         if len(items) >= max_items:
             break
-    return {"found": True, "title": shelf_title(row), "score": score, "items": items}
+    return items
+
+
+def _tiles(row: Any, max_items: int) -> List[Dict[str, Any]]:
+    _, _, entries = _shelf_body(row)
+    return _dedupe([parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
+
+
+def listen_again_score(row: Any) -> int:
+    """How much a shelf looks like Listen again; 0 when it cannot be.
+
+    Listen again: stacked two-row tiles of mixed kinds (albums, playlists, artists,
+    songs) from the listening history, with history signs: two tiles per column, the
+    account avatar and name in the header, pin entries on the tiles, or the English title.
+    One-kind shelves ("Recommended albums", "More from …", mixes) are not it.
+    """
+    kind, body, entries = _shelf_body(row)
+    if not kind:
+        return 0
+    tiles = [entry.get(MTRIR) for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MTRIR), dict)]
+    if len(tiles) < 2 or len(tiles) * 5 < len(entries) * 4:
+        return 0
+    kinds = {item["type"] for item in (parse_tile(tile) for tile in tiles) if item}
+    if len(kinds) < 2:
+        return 0
+    score = 0
+    if _per_column(body) == 2:
+        score += 2
+    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
+    if _nav(header, "thumbnail"):
+        score += 2
+    if _runs_text(header.get("strapline") if isinstance(header, dict) else None):
+        score += 1
+    if sum(1 for tile in tiles if pin_state(tile) is not None) * 2 >= len(tiles):
+        score += 3
+    if _title_key(row) == SOURCE_LISTEN_AGAIN:
+        score += 3
+    return score
+
+
+def parse_list_row(renderer: Any) -> Optional[Dict[str, Any]]:
+    """One Quick picks row (a musicResponsiveListItemRenderer) as a song item, or None."""
+    if not isinstance(renderer, dict):
+        return None
+    columns = renderer.get("flexColumns") if isinstance(renderer.get("flexColumns"), list) else []
+    texts = [_nav(column, "musicResponsiveListItemFlexColumnRenderer", "text") for column in columns]
+    title = _runs_text(texts[0]) if texts else ""
+    subtitle = " • ".join(text for text in (_runs_text(value) for value in texts[1:]) if text)
+    play = _endpoint(_nav(renderer, "overlay", "musicItemThumbnailOverlayRenderer", "content",
+                          "musicPlayButtonRenderer", "playNavigationEndpoint"))
+    title_runs = _nav(texts[0], "runs") if texts else None
+    title_watch = _endpoint(_nav(title_runs, 0, "navigationEndpoint")) if isinstance(title_runs, list) else {}
+    video_id = (_str(_nav(renderer, "playlistItemData", "videoId")) or play.get("videoId", "")
+                or title_watch.get("videoId", ""))
+    if not video_id or not title:
+        return None
+    video_type = play.get("videoType") or title_watch.get("videoType") or ""
+    return {
+        "type": "episode" if video_type == "MUSIC_VIDEO_TYPE_PODCAST_EPISODE" else "song",
+        "id": video_id,
+        "title": title,
+        "subtitle": subtitle,
+        "thumbnails": _thumbnails(renderer),
+        "browseId": "",
+        "videoId": video_id,
+        "playlistId": "",
+        "params": "",
+        "pinned": False,
+    }
+
+
+def quick_picks_score(row: Any) -> int:
+    """How much a shelf looks like Quick picks (a carousel of song rows); 0 when it cannot be."""
+    kind, body, entries = _shelf_body(row)
+    if kind != CAROUSEL:
+        return 0
+    rows = [entry for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MRLIR), dict)]
+    if len(rows) < 2 or len(rows) * 5 < len(entries) * 4:
+        return 0
+    score = 0
+    if _per_column(body) >= 3:
+        score += 2
+    if _title_key(row) == SOURCE_QUICK_PICKS:
+        score += 3
+    return score
+
+
+def _quick_pick_items(row: Any, max_items: int) -> List[Dict[str, Any]]:
+    _, _, entries = _shelf_body(row)
+    return _dedupe([parse_list_row(entry.get(MRLIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
+
+
+def select_grid(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+    """The grid to show from a raw home response, with the fallback chain.
+
+    {"found", "source", "title", "score", "items", "checked"}: Speed dial first, else
+    Listen again, else Quick picks (both among the first shelves). "checked" says, per
+    source, whether a candidate shelf was seen (a shelf whose tiles all failed to parse
+    is seen but gives no items). source is "" when nothing fits; the library fallback
+    is ytmusic_service's.
+    """
+    checked = {SOURCE_SPEED_DIAL: False, SOURCE_LISTEN_AGAIN: False, SOURCE_QUICK_PICKS: False}
+    speed = extract_speed_dial(response, max_items)
+    checked[SOURCE_SPEED_DIAL] = bool(speed["found"])
+    if speed["found"] and speed["items"]:
+        return {"found": True, "source": SOURCE_SPEED_DIAL, "title": speed["title"], "score": speed["score"],
+                "items": speed["items"], "checked": checked}
+    top = home_rows(response)[:TOP_ROWS]
+    for source, scorer, reader, minimum in (
+            (SOURCE_LISTEN_AGAIN, listen_again_score, _tiles, 3),
+            (SOURCE_QUICK_PICKS, quick_picks_score, _quick_pick_items, 2)):
+        best: Optional[Tuple[int, Any]] = None
+        for row in top:
+            score = scorer(row)
+            if score >= minimum and (best is None or score > best[0]):
+                best = (score, row)
+        if best is None:
+            continue
+        checked[source] = True
+        items = reader(best[1], max_items)
+        if items:
+            return {"found": True, "source": source, "title": shelf_title(best[1]), "score": best[0],
+                    "items": items, "checked": checked}
+    return {"found": False, "source": "", "title": "", "score": 0, "items": [], "checked": checked}
+
+
+def _renderer_name(value: Any) -> str:
+    if isinstance(value, dict):
+        for key in value:
+            if isinstance(key, str) and key.endswith("Renderer"):
+                return key
+        for key in value:
+            if isinstance(key, str):
+                return key[:60]
+    return type(value).__name__
+
+
+def _wrapper_name(response: Any) -> str:
+    if _nav(response, "contents", "singleColumnBrowseResultsRenderer", "tabs"):
+        return "singleColumnBrowseResultsRenderer"
+    if _nav(response, "contents", "twoColumnBrowseResultsRenderer"):
+        return "twoColumnBrowseResultsRenderer"
+    contents = _nav(response, "contents")
+    return _renderer_name(contents) if contents is not None else "none"
+
+
+def summarize_home(response: Any, max_rows: int = 12) -> Dict[str, Any]:
+    """The structure of a home response, safe to log.
+
+    Per top-level shelf: its renderer type, a set of header-feature flags, items per
+    column, the item count, the item renderer types with counts, and how many items
+    carry a pin entry. A known English shelf name appears only as a fixed key
+    (title=listen_again); no text, id, URL or account detail is ever copied.
+    """
+    rows = home_rows(response)
+    summary_rows: List[Dict[str, Any]] = []
+    for row in rows[:max_rows]:
+        kind, body, entries = _shelf_body(row)
+        renderer = kind or _renderer_name(row)
+        flags: List[str] = []
+        header = (_nav(body, "header", "musicCarouselShelfBasicHeaderRenderer")
+                  or _nav(body, "header", "gridHeaderRenderer") or {}) if kind else {}
+        if isinstance(header, dict) and header:
+            if _runs_text(header.get("title")):
+                flags.append("title")
+            if _runs_text(header.get("strapline")):
+                flags.append("strapline")
+            if _nav(header, "thumbnail"):
+                flags.append("avatar")
+            if _nav(header, "moreContentButton"):
+                flags.append("more")
+        key = _title_key(row) if kind else ""
+        if key:
+            flags.append("title=" + key)
+        types: Dict[str, int] = {}
+        pins = 0
+        for entry in entries:
+            name = _renderer_name(entry)
+            types[name] = types.get(name, 0) + 1
+            inner = entry.get(name) if isinstance(entry, dict) else None
+            if pin_state(inner) is not None:
+                pins += 1
+        summary_rows.append({
+            "renderer": renderer,
+            "header": flags,
+            "perColumn": _per_column(body) if kind else 0,
+            "items": len(entries),
+            "itemTypes": types,
+            "pins": pins,
+        })
+    continuation = bool(_nav(response, "contents", "singleColumnBrowseResultsRenderer", "tabs", 0, "tabRenderer",
+                             "content", "sectionListRenderer", "continuations"))
+    return {"wrapper": _wrapper_name(response), "rows": len(rows), "continuation": continuation, "shelves": summary_rows}
+
+
+def format_summary(summary: Dict[str, Any]) -> str:
+    """summarize_home's answer on one log line."""
+    parts = [f"wrapper={summary.get('wrapper')} rows={summary.get('rows')} continuation={'yes' if summary.get('continuation') else 'no'}"]
+    for index, row in enumerate(summary.get("shelves") or []):
+        types = ",".join(f"{name}:{count}" for name, count in sorted((row.get("itemTypes") or {}).items()))
+        parts.append(f"#{index} {row.get('renderer')}[{','.join(row.get('header') or []) or '-'}] perColumn={row.get('perColumn')} "
+                     f"items={row.get('items')} ({types or '-'}) pins={row.get('pins')}")
+    return " | ".join(parts)
 
 
 def queue_request(item: Any) -> Dict[str, Any]:

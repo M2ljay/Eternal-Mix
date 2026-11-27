@@ -16,7 +16,7 @@ import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
 import { GameSoundtrackEntry, startGameSoundtrack } from "./gameSoundtrackPanel";
-import { SpeedDialGrid } from "./speedDialPanel";
+import { SpeedDialGrid, reportSpeedDialOnce } from "./speedDialPanel";
 import { offerEnabled as soundtrackOfferEnabled, setOfferEnabled as setSoundtrackOfferEnabled } from "./gameSoundtrack";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { CoreTranslation } from "./i18n";
@@ -3169,6 +3169,17 @@ function Content() {
       sourceRefreshTimersRef.current.forEach((timer) => window.clearTimeout(timer));
       sourceRefreshTimersRef.current = [];
     };
+  }, [activeServiceKey, activeServiceReady]);
+
+  // Speed dial's one-time note when Quick Access does not mount the grid at all (the
+  // grid reports itself once mounted).
+  useEffect(() => {
+    if (!activeServiceReady || activeServiceKey === "youtubeMusic") return;
+    reportSpeedDialOnce("panel_compact_not_mounted", {
+      rendered: false,
+      activeService: activeServiceKey,
+      hiddenBecause: "Quick Access shows Speed dial only while YouTube Music is the selected source",
+    });
   }, [activeServiceKey, activeServiceReady]);
 
   const mediaKey = `${current?.id ?? ""}|${current?.title ?? ""}|${current?.artist ?? ""}|${current?.album ?? ""}`;

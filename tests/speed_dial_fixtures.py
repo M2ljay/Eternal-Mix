@@ -171,3 +171,87 @@ def full_home() -> Dict[str, Any]:
         plain_shelf("More from Chill Satellite", avatar=True, strapline="SIMILAR TO"),
         plain_shelf("Recommended albums"),
     ])
+
+
+# Web home feeds without Speed dial (WEB_REMIX, signed in). A 2024 report and the web
+# client's own home show "Listen again" and/or "Quick picks" as the first shelves there;
+# Speed dial may exist only in the mobile apps. Shapes from ytmusicapi's navigation paths
+# (CAROUSEL, MTRIR, MRLIR, flexColumns, playlistItemData) and parse_mixed_content.
+
+def listen_again_shelf(*, per_column: str = "2") -> Dict[str, Any]:
+    """Listen again: stacked two-row tiles of mixed kinds from the history, avatar and name in the header."""
+    tiles = [
+        tile("Sentiment", ["Album", "Chill Satellite"], browse("MPREb_listenagain0001", ALBUM), seed="la-album",
+             play=watch_playlist("OLAK5uy_listenagain000000000000000000000"), pinned=False),
+        tile("Late Night Drive", ["Playlist", "Test User"], browse("VLPLlistenagain00000000000000000000", PLAYLIST), seed="la-pl",
+             play=watch_playlist("PLlistenagain00000000000000000000"), pinned=False),
+        tile("Chill Satellite", ["Artist", "374K subscribers"], browse("UClistenagainartist0000000", ARTIST), seed="la-artist",
+             play=watch_playlist("RDEMlistenagainartist0000", "wAEB"), circle=True, pinned=False),
+        tile("Gravity", ["Song", "yetep"], watch("LAsong00001", "RDAMVMLAsong00001"), seed="la-song", pinned=False),
+        tile("Second Album", ["Album", "Someone"], browse("MPREb_listenagain0002", ALBUM), seed="la-album2", pinned=False),
+        tile("Gym Mix", ["Playlist", "Test User"], browse("VLPLlistenagaingym000000000000000", PLAYLIST), seed="la-gym", pinned=False),
+    ]
+    return speed_dial_shelf(tiles, title="Listen again", per_column=per_column)
+
+
+def web_quick_picks(count: int = 8) -> Dict[str, Any]:
+    """Quick picks as the web client sends it: song rows (musicResponsiveListItemRenderer), 4 per column."""
+    def row(index: int) -> Dict[str, Any]:
+        video_id = f"QPweb{index:06d}"
+        return {"musicResponsiveListItemRenderer": {
+            "thumbnail": {"musicThumbnailRenderer": {"thumbnail": thumbs(f"qp{index}", (60, 120))}},
+            "flexColumns": [
+                {"musicResponsiveListItemFlexColumnRenderer": {"text": {"runs": [{"text": f"Quick song {index}", "navigationEndpoint": watch(video_id)}]}}},
+                {"musicResponsiveListItemFlexColumnRenderer": {"text": {"runs": [{"text": f"Singer {index}"}, {"text": " • "}, {"text": f"Record {index}"}]}}},
+            ],
+            "overlay": {"musicItemThumbnailOverlayRenderer": {"content": {"musicPlayButtonRenderer": {
+                "playNavigationEndpoint": watch(video_id, "RDAMVM" + video_id)}}}},
+            "playlistItemData": {"videoId": video_id},
+            "menu": pin_menu(None)}}
+    return {"musicCarouselShelfRenderer": {
+        "header": {"musicCarouselShelfBasicHeaderRenderer": {"title": {"runs": [{"text": "Quick picks"}]},
+                                                             "strapline": {"runs": [{"text": "Start radio from a song"}]}}},
+        "contents": [row(index) for index in range(count)],
+        "numItemsPerColumn": "4"}}
+
+
+def mixes_shelf() -> Dict[str, Any]:
+    """"Mixed for you": one kind (mixes) only, so never Listen again."""
+    tiles = [tile(f"My Mix {index}", ["Mix"], watch_playlist(f"RDTMAK5uy_webmix{index:020d}"), seed=f"mix{index}", pinned=None)
+             for index in range(5)]
+    return {"musicCarouselShelfRenderer": {"header": {"musicCarouselShelfBasicHeaderRenderer": {"title": {"runs": [{"text": "Mixed for you"}]}}},
+                                           "contents": tiles}}
+
+
+def web_home_listen_again() -> Dict[str, Any]:
+    """Web home: Quick picks first, Listen again second, no Speed dial."""
+    return home([web_quick_picks(), listen_again_shelf(), mixes_shelf(), plain_shelf("Recommended albums")])
+
+
+def web_home_quick_picks_only() -> Dict[str, Any]:
+    """Web home with Quick picks but no Listen again (history paused or new account)."""
+    return home([web_quick_picks(), mixes_shelf(),
+                 plain_shelf("More from Chill Satellite", avatar=True, strapline="SIMILAR TO"), plain_shelf("Recommended albums")])
+
+
+def web_home_nothing_usable() -> Dict[str, Any]:
+    return home([mixes_shelf(), plain_shelf("Recommended albums")])
+
+
+def text_leaves(value: Any) -> List[str]:
+    """Every title, name, id, URL and token-like string of a fixture: none may reach the log."""
+    found: List[str] = []
+    keys = {"text", "url", "browseId", "videoId", "playlistId", "params", "feedbackToken"}
+
+    def walk(node: Any) -> None:
+        if isinstance(node, dict):
+            for key, child in node.items():
+                if key in keys and isinstance(child, str) and len(child.strip()) >= 4:
+                    found.append(child)
+                walk(child)
+        elif isinstance(node, list):
+            for child in node:
+                walk(child)
+
+    walk(value)
+    return found

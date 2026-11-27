@@ -6582,6 +6582,10 @@ class Plugin:
         if str(category or "") in {"playback", "youtubeMusic"}:
             summary = ", ".join(f"{key}={str(value)[:120]}" for key, value in list(safe_details.items())[:8])
             self._log(f"player: {str(event or '')[:80]}" + (f" ({summary})" if summary else ""))
+        elif str(category or "") == "speedDial":
+            # The Speed dial panel's one-time note: rendered or not, and why it is hidden.
+            summary = ", ".join(f"{key}={str(value)[:120]}" for key, value in list(safe_details.items())[:8])
+            self._log(f"[speed-dial] {str(event or '')[:80]}" + (f" ({summary})" if summary else ""))
         return True
 
     def _load_topbar_setting(self) -> bool:

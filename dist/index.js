@@ -859,7 +859,10 @@ var en = {
 		openFull: "Open in full view",
 		refreshed: "Speed dial refreshed",
 		nothingToPlay: "Nothing to play here",
-		pinned: "Pinned"
+		pinned: "Pinned",
+		fromListenAgain: "from Listen again",
+		fromQuickPicks: "from Quick picks",
+		fromLibrary: "from your library"
 	}
 };
 var it = {
@@ -1184,7 +1187,10 @@ var it = {
 		openFull: "Apri a schermo intero",
 		refreshed: "Selezione rapida aggiornata",
 		nothingToPlay: "Niente da riprodurre qui",
-		pinned: "Fissato"
+		pinned: "Fissato",
+		fromListenAgain: "da Ascolta di nuovo",
+		fromQuickPicks: "da Scelte rapide",
+		fromLibrary: "dalla tua raccolta"
 	}
 };
 var es = {
@@ -1509,7 +1515,10 @@ var es = {
 		openFull: "Abrir a pantalla completa",
 		refreshed: "Marcación rápida actualizada",
 		nothingToPlay: "No hay nada que reproducir",
-		pinned: "Fijado"
+		pinned: "Fijado",
+		fromListenAgain: "de Volver a escuchar",
+		fromQuickPicks: "de Selección rápida",
+		fromLibrary: "de tu biblioteca"
 	}
 };
 var fr = {
@@ -1834,7 +1843,10 @@ var fr = {
 		openFull: "Ouvrir en plein écran",
 		refreshed: "Accès rapide actualisé",
 		nothingToPlay: "Rien à lire ici",
-		pinned: "Épinglé"
+		pinned: "Épinglé",
+		fromListenAgain: "depuis À réécouter",
+		fromQuickPicks: "depuis Sélection rapide",
+		fromLibrary: "depuis votre bibliothèque"
 	}
 };
 var de = {
@@ -2159,7 +2171,10 @@ var de = {
 		openFull: "Im Vollbild öffnen",
 		refreshed: "Schnellwahl aktualisiert",
 		nothingToPlay: "Hier gibt es nichts abzuspielen",
-		pinned: "Angeheftet"
+		pinned: "Angeheftet",
+		fromListenAgain: "aus Nochmal hören",
+		fromQuickPicks: "aus Schnellauswahl",
+		fromLibrary: "aus deiner Mediathek"
 	}
 };
 var ru = {
@@ -2484,7 +2499,10 @@ var ru = {
 		openFull: "Открыть во весь экран",
 		refreshed: "Быстрый набор обновлён",
 		nothingToPlay: "Здесь нечего воспроизвести",
-		pinned: "Закреплено"
+		pinned: "Закреплено",
+		fromListenAgain: "из «Слушать снова»",
+		fromQuickPicks: "из «Быстрый выбор»",
+		fromLibrary: "из вашей медиатеки"
 	}
 };
 var ja = {
@@ -2809,7 +2827,10 @@ var ja = {
 		openFull: "全画面で開く",
 		refreshed: "スピードダイヤルを更新しました",
 		nothingToPlay: "再生できるものがありません",
-		pinned: "固定済み"
+		pinned: "固定済み",
+		fromListenAgain: "「もう一度聴く」から",
+		fromQuickPicks: "「クイック選曲」から",
+		fromLibrary: "ライブラリから"
 	}
 };
 var ko = {
@@ -3134,7 +3155,10 @@ var ko = {
 		openFull: "전체 화면으로 열기",
 		refreshed: "단축 다이얼을 새로고침했습니다",
 		nothingToPlay: "재생할 항목이 없습니다",
-		pinned: "고정됨"
+		pinned: "고정됨",
+		fromListenAgain: "'다시 듣기'에서",
+		fromQuickPicks: "'빠른 선곡'에서",
+		fromLibrary: "보관함에서"
 	}
 };
 var zh = {
@@ -3459,7 +3483,10 @@ var zh = {
 		openFull: "全屏打开",
 		refreshed: "快速拨号已刷新",
 		nothingToPlay: "没有可播放的内容",
-		pinned: "已置顶"
+		pinned: "已置顶",
+		fromListenAgain: "来自“再次收听”",
+		fromQuickPicks: "来自“快速精选”",
+		fromLibrary: "来自你的媒体库"
 	}
 };
 var catalogs = {
@@ -3790,7 +3817,10 @@ var catalogs = {
 		openFull: "Abrir em tela cheia",
 		refreshed: "Discagem rápida atualizada",
 		nothingToPlay: "Nada para tocar aqui",
-		pinned: "Fixado"
+		pinned: "Fixado",
+		fromListenAgain: "de Ouvir de novo",
+		fromQuickPicks: "de Escolhas rápidas",
+		fromLibrary: "da sua biblioteca"
 	}
 },
 	ru: ru,
@@ -8391,6 +8421,7 @@ const FULL_ROWS = 3;
 const SPEED_DIAL_EVENT = "nowPlaying:speedDialChanged";
 const TYPES = ["song", "album", "playlist", "artist", "mix", "podcast", "episode"];
 const REASONS = ["", "signed_out", "missing", "error"];
+const SOURCES = ["", "speed_dial", "listen_again", "quick_picks", "library"];
 function text(value, max = 300) {
     return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 }
@@ -8421,7 +8452,33 @@ function sanitizeResult(value) {
         });
     }
     const reason = REASONS.includes(raw.reason) ? raw.reason : items.length ? "" : "error";
-    return { items, reason, title: text(raw.title), fetchedAt: Number(raw.fetchedAt) || 0 };
+    const source = SOURCES.includes(raw.source) ? raw.source : items.length ? "speed_dial" : "";
+    return { items, reason, title: text(raw.title), source, fetchedAt: Number(raw.fetchedAt) || 0 };
+}
+/** The full view's small header hint for a fallback source; "" for Speed dial itself. */
+function sourceHintKey(source) {
+    if (source === "listen_again")
+        return "fromListenAgain";
+    if (source === "quick_picks")
+        return "fromQuickPicks";
+    if (source === "library")
+        return "fromLibrary";
+    return "";
+}
+/**
+ * The panel's one-time diagnostic: whether the grid shows and, if not, why. Plain fields
+ * only (counts and fixed words); no titles or ids.
+ */
+function panelDiagnostic(result, shown) {
+    if (!result)
+        return { rendered: false, items: 0, hiddenBecause: "no answer from the backend yet" };
+    const hiddenBecause = shown > 0 ? "" : {
+        signed_out: "not signed in to YouTube Music",
+        missing: "backend found no Speed dial, Listen again, Quick picks or library items",
+        error: "backend call failed",
+        "": "backend answered no playable tiles",
+    }[result.reason];
+    return { rendered: shown > 0, items: shown, source: result.source || "none", reason: result.reason || "ok", ...(hiddenBecause ? { hiddenBecause } : {}) };
 }
 function compactItems(items) {
     return items.slice(0, COMPACT_COLUMNS * COMPACT_ROWS);
@@ -8492,12 +8549,33 @@ function publish(next) {
     }
     catch { /* window gone */ }
 }
+// One line per event per session in NowPlaying.log (through report_diagnostic_event).
+const reported = new Set();
+function reportSpeedDialOnce(event, details) {
+    if (reported.has(event))
+        return;
+    reported.add(event);
+    try {
+        void reportDiagnosticEvent("speedDial", event, details).catch(() => { });
+    }
+    catch { /* log only */ }
+}
+function errorText(error) {
+    return String(error?.message ?? error ?? "unknown").replace(/\s+/g, " ").slice(0, 120);
+}
 function loadSpeedDial(refresh = false) {
     if (inflight && !refresh)
         return inflight;
     const request = youtubeMusicGetSpeedDial(refresh)
-        .then((result) => sanitizeResult(result?.ok ? result.data : { reason: "error" }))
-        .catch(() => sanitizeResult({ reason: "error" }));
+        .then((result) => {
+        if (!result?.ok)
+            reportSpeedDialOnce("call_failed", { error: errorText(result?.error ?? "no answer") });
+        return sanitizeResult(result?.ok ? result.data : { reason: "error" });
+    })
+        .catch((error) => {
+        reportSpeedDialOnce("call_failed", { error: errorText(error) });
+        return sanitizeResult({ reason: "error" });
+    });
     inflight = request;
     void request.then(publish).finally(() => { if (inflight === request)
         inflight = null; });
@@ -8505,13 +8583,18 @@ function loadSpeedDial(refresh = false) {
 }
 function useSpeedDial() {
     const [value, setValue] = SP_REACT.useState(current);
+    const [answered, setAnswered] = SP_REACT.useState(false);
     SP_REACT.useEffect(() => {
+        let alive = true;
         const changed = () => setValue(current);
         window.addEventListener(SPEED_DIAL_EVENT, changed);
-        void loadSpeedDial(false);
-        return () => window.removeEventListener(SPEED_DIAL_EVENT, changed);
+        void loadSpeedDial(false).then(() => { if (alive) {
+            setValue(current);
+            setAnswered(true);
+        } });
+        return () => { alive = false; window.removeEventListener(SPEED_DIAL_EVENT, changed); };
     }, []);
-    return value;
+    return { value, answered };
 }
 function notify(body) {
     toaster.toast({ title: getTranslations("speedDial").title, body, duration: 3500 });
@@ -8594,11 +8677,16 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
  */
 function SpeedDialGrid({ variant, onOpenFull }) {
     const t = getTranslations("speedDial");
-    const result = useSpeedDial();
+    const { value: result, answered } = useSpeedDial();
     const [busyKey, setBusyKey] = SP_REACT.useState("");
     const gridRef = SP_REACT.useRef(null);
     const full = variant === "full";
     const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
+    // Once per session and view, after the backend's first answer: shown or why hidden.
+    SP_REACT.useEffect(() => {
+        if (answered)
+            reportSpeedDialOnce(`panel_${variant}`, panelDiagnostic(result, items.length));
+    }, [answered]);
     // "Open in full view" lands on the grid instead of the Home tab.
     SP_REACT.useEffect(() => {
         if (!full || !items.length || !focusFullViewOnOpen)
@@ -8645,8 +8733,10 @@ function SpeedDialGrid({ variant, onOpenFull }) {
     const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
     const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: (anchor) => more(item, anchor) }, `${item.type}:${item.id}`))) }));
     if (full) {
+        const hintKey = result ? sourceHintKey(result.source) : "";
+        const hint = hintKey ? t[hintKey] : "";
         // TODO(Core UI): the Core Starfield goes behind this black area once Core supplies it.
-        return (SP_JSX.jsxs("section", { className: "npSpeedDial npSpeedDialFull", style: { marginTop: "28px", background: CORE.black }, children: [SP_JSX.jsx("style", { children: TILE_CSS }), SP_JSX.jsx("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }, children: t.title }), grid] }));
+        return (SP_JSX.jsxs("section", { className: "npSpeedDial npSpeedDialFull", style: { marginTop: "28px", background: CORE.black }, children: [SP_JSX.jsx("style", { children: TILE_CSS }), SP_JSX.jsxs("h2", { style: { margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }, children: [t.title, hint ? SP_JSX.jsx("span", { className: "npSpeedDialHint", style: { marginLeft: "12px", fontSize: "14px", fontWeight: 500, color: CORE.hint }, children: hint }) : null] }), grid] }));
     }
     return (SP_JSX.jsxs("div", { className: "npSpeedDial npSpeedDialCompact", style: { width: "100%", boxSizing: "border-box", marginBottom: "10px", borderRadius: "10px", border: `1px solid ${CORE.gunmetalRaised}`, background: CORE.gunmetal, padding: "8px", display: "flex", flexDirection: "column", gap: "6px" }, children: [SP_JSX.jsx("style", { children: TILE_CSS }), SP_JSX.jsx("div", { style: { fontSize: ".72em", fontWeight: 800, letterSpacing: ".035em", textTransform: "uppercase", color: CORE.crimsonText }, children: t.title }), grid] }));
 }
@@ -42986,6 +43076,17 @@ function Content() {
             sourceRefreshTimersRef.current.forEach((timer) => window.clearTimeout(timer));
             sourceRefreshTimersRef.current = [];
         };
+    }, [activeServiceKey, activeServiceReady]);
+    // Speed dial's one-time note when Quick Access does not mount the grid at all (the
+    // grid reports itself once mounted).
+    SP_REACT.useEffect(() => {
+        if (!activeServiceReady || activeServiceKey === "youtubeMusic")
+            return;
+        reportSpeedDialOnce("panel_compact_not_mounted", {
+            rendered: false,
+            activeService: activeServiceKey,
+            hiddenBecause: "Quick Access shows Speed dial only while YouTube Music is the selected source",
+        });
     }, [activeServiceKey, activeServiceReady]);
     const mediaKey = `${current?.id ?? ""}|${current?.title ?? ""}|${current?.artist ?? ""}|${current?.album ?? ""}`;
     const stableMediaKey = mediaKey;

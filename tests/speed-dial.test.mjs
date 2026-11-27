@@ -9,7 +9,7 @@ const mod = { exports: {} };
 new Function("module", "exports", js)(mod, mod.exports);
 const {
   SPEED_DIAL_EVENT, COMPACT_COLUMNS, COMPACT_ROWS, FULL_COLUMNS, FULL_ROWS,
-  sanitizeResult, compactItems, fullItems, playPlan, pickEpisodeIndex,
+  sanitizeResult, compactItems, fullItems, playPlan, pickEpisodeIndex, sourceHintKey, panelDiagnostic,
 } = mod.exports;
 
 function tile(type, id, extra = {}) {
@@ -61,7 +61,7 @@ test("answers are checked: unknown types and empty tiles are dropped, reasons ke
   assert.equal(result.reason, "");
   assert.deepEqual(sanitizeResult({ items: [], reason: "signed_out" }).reason, "signed_out");
   assert.deepEqual(sanitizeResult({ items: [], reason: "missing" }).reason, "missing");
-  assert.deepEqual(sanitizeResult(undefined), { items: [], reason: "error", title: "", fetchedAt: 0 });
+  assert.deepEqual(sanitizeResult(undefined), { items: [], reason: "error", title: "", source: "", fetchedAt: 0 });
   assert.equal(sanitizeResult({ items: [], reason: "bogus" }).reason, "error");
 });
 
@@ -74,4 +74,45 @@ test("the grid shows only for YouTube Music, uses the Core palette and never gol
   assert.match(panel, /CORE\.crimsonText/);
   assert.doesNotMatch(panel, /gold|#ffd700|#d4af37|#c9a227/i);
   assert.match(panel, /if \(!items\.length\) return null;/);
+});
+
+test("fallback sources: kept when known, hinted only for fallbacks", () => {
+  for (const source of ["speed_dial", "listen_again", "quick_picks", "library"]) {
+    assert.equal(sanitizeResult({ items: [tile("album", "MPRE1")], reason: "", source }).source, source);
+  }
+  // An answer from before the fallback chain had no source: it was Speed dial.
+  assert.equal(sanitizeResult({ items: [tile("album", "MPRE1")], reason: "" }).source, "speed_dial");
+  assert.equal(sanitizeResult({ items: [], reason: "missing", source: "bogus" }).source, "");
+  assert.equal(sourceHintKey("speed_dial"), "");
+  assert.equal(sourceHintKey(""), "");
+  assert.equal(sourceHintKey("listen_again"), "fromListenAgain");
+  assert.equal(sourceHintKey("quick_picks"), "fromQuickPicks");
+  assert.equal(sourceHintKey("library"), "fromLibrary");
+  const locales = JSON.parse(readFileSync(new URL("../src/locales.json", import.meta.url), "utf8"));
+  for (const [language, catalog] of Object.entries(locales)) {
+    for (const key of ["fromListenAgain", "fromQuickPicks", "fromLibrary"]) assert.ok(catalog.speedDial[key], `${language} ${key}`);
+  }
+});
+
+test("the panel diagnostic says why the grid is hidden and carries no titles or ids", () => {
+  const shown = sanitizeResult({ items: [tile("album", "MPRE_secret_1", { title: "Secret Album" })], reason: "", source: "listen_again" });
+  const details = panelDiagnostic(shown, 1);
+  assert.deepEqual(details, { rendered: true, items: 1, source: "listen_again", reason: "ok" });
+  assert.doesNotMatch(JSON.stringify(details), /Secret|MPRE_secret/);
+  assert.equal(panelDiagnostic(sanitizeResult({ items: [], reason: "signed_out" }), 0).hiddenBecause, "not signed in to YouTube Music");
+  assert.match(panelDiagnostic(sanitizeResult({ items: [], reason: "missing" }), 0).hiddenBecause, /no Speed dial, Listen again, Quick picks or library/);
+  assert.equal(panelDiagnostic(sanitizeResult({ reason: "error" }), 0).hiddenBecause, "backend call failed");
+  assert.equal(panelDiagnostic(null, 0).rendered, false);
+});
+
+test("the panel logs once through the diagnostic route, and Quick Access says when it does not mount the grid", () => {
+  const panel = readFileSync(new URL("../src/speedDialPanel.tsx", import.meta.url), "utf8");
+  const index = readFileSync(new URL("../src/index.tsx", import.meta.url), "utf8");
+  assert.match(panel, /reportDiagnosticEvent\("speedDial", event, details\)/);
+  assert.match(panel, /reportSpeedDialOnce\("call_failed"/);
+  assert.match(panel, /reportSpeedDialOnce\(`panel_\$\{variant\}`, panelDiagnostic\(result, items\.length\)\)/);
+  assert.match(index, /reportSpeedDialOnce\("panel_compact_not_mounted"/);
+  // The label stays "Speed dial"; the source hint is in the full view only.
+  assert.equal((panel.match(/sourceHintKey\(/g) ?? []).length, 1);
+  assert.ok(panel.indexOf("sourceHintKey(") > panel.indexOf("if (full) {"));
 });

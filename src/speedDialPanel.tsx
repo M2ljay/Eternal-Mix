@@ -17,9 +17,11 @@ import {
   SPEED_DIAL_EVENT,
   compactItems,
   fullItems,
+  panelDiagnostic,
   pickEpisodeIndex,
   playPlan,
   sanitizeResult,
+  sourceHintKey,
   type SpeedDialItem,
   type SpeedDialResult,
 } from "./speedDial";
@@ -39,25 +41,48 @@ function publish(next: SpeedDialResult) {
   try { window.dispatchEvent(new Event(SPEED_DIAL_EVENT)); } catch { /* window gone */ }
 }
 
+// One line per event per session in NowPlaying.log (through report_diagnostic_event).
+const reported = new Set<string>();
+
+export function reportSpeedDialOnce(event: string, details: Record<string, string | number | boolean>) {
+  if (reported.has(event)) return;
+  reported.add(event);
+  try {
+    void python.reportDiagnosticEvent("speedDial", event, details).catch(() => { /* log only */ });
+  } catch { /* log only */ }
+}
+
+function errorText(error: unknown): string {
+  return String((error as any)?.message ?? error ?? "unknown").replace(/\s+/g, " ").slice(0, 120);
+}
+
 export function loadSpeedDial(refresh = false): Promise<SpeedDialResult> {
   if (inflight && !refresh) return inflight;
   const request = python.youtubeMusicGetSpeedDial(refresh)
-    .then((result) => sanitizeResult(result?.ok ? result.data : { reason: "error" }))
-    .catch(() => sanitizeResult({ reason: "error" }));
+    .then((result) => {
+      if (!result?.ok) reportSpeedDialOnce("call_failed", { error: errorText(result?.error ?? "no answer") });
+      return sanitizeResult(result?.ok ? result.data : { reason: "error" });
+    })
+    .catch((error) => {
+      reportSpeedDialOnce("call_failed", { error: errorText(error) });
+      return sanitizeResult({ reason: "error" });
+    });
   inflight = request;
   void request.then(publish).finally(() => { if (inflight === request) inflight = null; });
   return request;
 }
 
-function useSpeedDial(): SpeedDialResult | null {
+function useSpeedDial(): { value: SpeedDialResult | null; answered: boolean } {
   const [value, setValue] = useState<SpeedDialResult | null>(current);
+  const [answered, setAnswered] = useState(false);
   useEffect(() => {
+    let alive = true;
     const changed = () => setValue(current);
     window.addEventListener(SPEED_DIAL_EVENT, changed);
-    void loadSpeedDial(false);
-    return () => window.removeEventListener(SPEED_DIAL_EVENT, changed);
+    void loadSpeedDial(false).then(() => { if (alive) { setValue(current); setAnswered(true); } });
+    return () => { alive = false; window.removeEventListener(SPEED_DIAL_EVENT, changed); };
   }, []);
-  return value;
+  return { value, answered };
 }
 
 function notify(body: string) {
@@ -172,11 +197,16 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
  */
 export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "full"; onOpenFull?: () => void }) {
   const t = getTranslations("speedDial");
-  const result = useSpeedDial();
+  const { value: result, answered } = useSpeedDial();
   const [busyKey, setBusyKey] = useState("");
   const gridRef = useRef<HTMLDivElement>(null);
   const full = variant === "full";
   const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
+
+  // Once per session and view, after the backend's first answer: shown or why hidden.
+  useEffect(() => {
+    if (answered) reportSpeedDialOnce(`panel_${variant}`, panelDiagnostic(result, items.length));
+  }, [answered]);
 
   // "Open in full view" lands on the grid instead of the Home tab.
   useEffect(() => {
@@ -239,11 +269,16 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
   );
 
   if (full) {
+    const hintKey = result ? sourceHintKey(result.source) : "";
+    const hint = hintKey ? t[hintKey] : "";
     // TODO(Core UI): the Core Starfield goes behind this black area once Core supplies it.
     return (
       <section className="npSpeedDial npSpeedDialFull" style={{ marginTop: "28px", background: CORE.black }}>
         <style>{TILE_CSS}</style>
-        <h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }}>{t.title}</h2>
+        <h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }}>
+          {t.title}
+          {hint ? <span className="npSpeedDialHint" style={{ marginLeft: "12px", fontSize: "14px", fontWeight: 500, color: CORE.hint }}>{hint}</span> : null}
+        </h2>
         {grid}
       </section>
     );

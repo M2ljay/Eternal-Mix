@@ -73,9 +73,11 @@ class ExtractionTests(unittest.TestCase):
         self.assertLess(sd.shelf_score(bare), sd.MIN_SCORE)
         self.assertFalse(sd.extract_speed_dial(fx.home([bare]))["found"])
 
-    def test_listen_again_and_grid_layouts(self):
+    def test_listen_again_is_not_speed_dial_but_grids_are(self):
+        # Listen again (two tiles per column) is the first fallback, not Speed dial itself.
         listen_again = fx.speed_dial_shelf(title="Listen again", per_column="2")
-        self.assertTrue(sd.extract_speed_dial(fx.home([listen_again]))["found"])
+        self.assertFalse(sd.extract_speed_dial(fx.home([listen_again]))["found"])
+        self.assertEqual(sd.select_grid(fx.home([listen_again]))["source"], sd.SOURCE_LISTEN_AGAIN)
         grid = {"gridRenderer": {"header": {"gridHeaderRenderer": {"title": {"runs": [{"text": "Titre localisé"}]}}},
                                  "items": fx.speed_dial_tiles()}}
         shelf = sd.extract_speed_dial(fx.home([fx.quick_picks(), grid]))
@@ -141,6 +143,7 @@ class RoutingTests(unittest.TestCase):
 
 class FakeClient:
     def __init__(self, log, response=None, fail=False, artist=None):
+        self.context = {"context": {"client": {"clientName": "WEB_REMIX", "clientVersion": "1.0"}}}
         self.log = log
         self.response = fx.full_home() if response is None else response
         self.fail = fail
@@ -163,6 +166,15 @@ class FakeClient:
             {"videoId": "next0000002", "title": "Next", "length": "4:00", "artists": [{"name": "Other", "id": "UC2"}], "thumbnail": []},
         ]}
 
+    @__import__("contextlib").contextmanager
+    def as_mobile(self):
+        saved = dict(self.context["context"]["client"])
+        self.context["context"]["client"]["clientName"] = "ANDROID_MUSIC"
+        try:
+            yield None
+        finally:
+            self.context["context"]["client"] = saved
+
     def get_artist(self, channelId):
         self.log.append(("artist", channelId))
         return self.artist if self.artist is not None else {"radioId": "RDEMsaved", "shuffleId": "RDAOsaved", "songs": {"results": []}}
@@ -173,7 +185,8 @@ class ServiceTests(unittest.TestCase):
         import tempfile
         work = tempfile.mkdtemp(prefix="mix-speed-dial-test-")
         self.addCleanup(__import__("shutil").rmtree, work, True)
-        service = ytmusic_service.YouTubeMusicService(work, str(ROOT / "vendor"), lambda *_: None)
+        self.lines = []
+        service = ytmusic_service.YouTubeMusicService(work, str(ROOT / "vendor"), self.lines.append)
         if signed_in:
             # A stand-in: the service only checks that some auth is stored.
             service.settings["auth"] = {"placeholder": "not-a-credential"}
@@ -183,7 +196,7 @@ class ServiceTests(unittest.TestCase):
 
     def test_signed_out_answers_empty_without_a_request(self):
         service, log = self.make_service(signed_in=False)
-        self.assertEqual(service.get_speed_dial(), {"items": [], "reason": "signed_out", "title": "", "fetchedAt": 0})
+        self.assertEqual(service.get_speed_dial(), {"items": [], "reason": "signed_out", "title": "", "source": "", "fetchedAt": 0})
         self.assertEqual(log, [])
 
     def test_items_are_shaped_for_the_interface(self):
@@ -230,9 +243,10 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(len(log), 2)
 
     def test_missing_shelf_answers_empty_with_a_reason(self):
-        service, log = self.make_service(response=fx.home([fx.quick_picks(), fx.plain_shelf("Recommended albums")]))
+        service, log = self.make_service(response=fx.web_home_nothing_usable())
+        service.get_library = lambda section, max_items=100: {"items": []}
         result = service.get_speed_dial()
-        self.assertEqual((result["items"], result["reason"]), ([], "missing"))
+        self.assertEqual((result["items"], result["reason"], result["source"]), ([], "missing", ""))
 
     def test_a_failed_request_answers_empty_and_is_not_cached(self):
         service, log = self.make_service(fail=True)
@@ -274,6 +288,214 @@ class ServiceTests(unittest.TestCase):
         album = by_title(service.get_speed_dial()["items"])["Sentiment"]
         with self.assertRaises(RuntimeError):
             service.get_speed_dial_queue(album)
+
+
+class FallbackTests(unittest.TestCase):
+    def test_speed_dial_comes_first(self):
+        response = fx.home([fx.web_quick_picks(), fx.listen_again_shelf(), fx.speed_dial_shelf()])
+        grid = sd.select_grid(response)
+        self.assertEqual((grid["source"], grid["title"]), (sd.SOURCE_SPEED_DIAL, "Speed dial"))
+
+    def test_listen_again_when_there_is_no_speed_dial(self):
+        grid = sd.select_grid(fx.web_home_listen_again())
+        self.assertEqual(grid["source"], sd.SOURCE_LISTEN_AGAIN)
+        self.assertEqual(grid["checked"], {sd.SOURCE_SPEED_DIAL: False, sd.SOURCE_LISTEN_AGAIN: True, sd.SOURCE_QUICK_PICKS: False})
+        self.assertEqual([(item["type"], item["id"]) for item in grid["items"]], [
+            ("album", "MPREb_listenagain0001"), ("playlist", "PLlistenagain00000000000000000000"),
+            ("artist", "UClistenagainartist0000000"), ("song", "LAsong00001"),
+            ("album", "MPREb_listenagain0002"), ("playlist", "PLlistenagaingym000000000000000")])
+
+    def test_listen_again_is_found_by_its_structure(self):
+        # Localised title, no avatar: two tiles per column, pin entries and mixed kinds remain.
+        shelf = fx.listen_again_shelf()
+        header = shelf["musicCarouselShelfRenderer"]["header"]["musicCarouselShelfBasicHeaderRenderer"]
+        header["title"] = {"runs": [{"text": "Titre localisé"}]}
+        header.pop("thumbnail")
+        self.assertEqual(sd.select_grid(fx.home([fx.web_quick_picks(), shelf]))["source"], sd.SOURCE_LISTEN_AGAIN)
+
+    def test_one_kind_shelves_are_not_listen_again(self):
+        for row in (fx.mixes_shelf(), fx.plain_shelf("Recommended albums"),
+                    fx.plain_shelf("More from Chill Satellite", avatar=True, strapline="SIMILAR TO")):
+            self.assertEqual(sd.listen_again_score(row), 0)
+
+    def test_quick_picks_when_there_is_no_listen_again(self):
+        grid = sd.select_grid(fx.web_home_quick_picks_only())
+        self.assertEqual(grid["source"], sd.SOURCE_QUICK_PICKS)
+        self.assertEqual(len(grid["items"]), 8)
+        first = grid["items"][0]
+        self.assertEqual((first["type"], first["id"], first["videoId"], first["title"], first["subtitle"]),
+                         ("song", "QPweb000000", "QPweb000000", "Quick song 0", "Singer 0 • Record 0"))
+        self.assertEqual(len(first["thumbnails"]), 2)
+        # A Quick picks tile plays like a song tile: its radio.
+        self.assertEqual(sd.queue_request(first)["playlistId"], "RDAMVMQPweb000000")
+
+    def test_unplayable_listen_again_falls_through_to_quick_picks(self):
+        shelf = fx.listen_again_shelf()
+        for entry in shelf["musicCarouselShelfRenderer"]["contents"]:
+            entry["musicTwoRowItemRenderer"].pop("navigationEndpoint")
+        grid = sd.select_grid(fx.home([fx.web_quick_picks(), shelf]))
+        # Unparseable tiles have no kinds, so the shelf is not even a Listen again candidate.
+        self.assertEqual(grid["source"], sd.SOURCE_QUICK_PICKS)
+
+    def test_fallbacks_only_look_at_the_first_shelves(self):
+        rows = [fx.plain_shelf(f"Recommended {index}") for index in range(sd.TOP_ROWS)] + [fx.listen_again_shelf(), fx.web_quick_picks()]
+        self.assertFalse(sd.select_grid(fx.home(rows))["found"])
+
+    def test_nothing_usable(self):
+        grid = sd.select_grid(fx.web_home_nothing_usable())
+        self.assertEqual((grid["found"], grid["source"], grid["items"]), (False, "", []))
+        for value in (None, {}, "x", fx.home([])):
+            self.assertFalse(sd.select_grid(value)["found"])
+
+
+class SummaryTests(unittest.TestCase):
+    def test_structure_is_described(self):
+        summary = sd.summarize_home(fx.web_home_listen_again())
+        self.assertEqual((summary["wrapper"], summary["rows"], summary["continuation"]), ("singleColumnBrowseResultsRenderer", 4, False))
+        quick, listen = summary["shelves"][0], summary["shelves"][1]
+        self.assertEqual(quick, {"renderer": "musicCarouselShelfRenderer", "header": ["title", "strapline", "title=quick_picks"],
+                                 "perColumn": 4, "items": 8, "itemTypes": {"musicResponsiveListItemRenderer": 8}, "pins": 0})
+        self.assertEqual(listen["header"], ["title", "strapline", "avatar", "title=listen_again"])
+        self.assertEqual((listen["perColumn"], listen["items"], listen["itemTypes"], listen["pins"]),
+                         (2, 6, {"musicTwoRowItemRenderer": 6}, 6))
+        self.assertEqual(summary["shelves"][2]["header"], ["title"])
+
+    def test_summary_carries_no_titles_ids_or_thumbnails(self):
+        for response in (fx.full_home(), fx.web_home_listen_again(), fx.web_home_quick_picks_only()):
+            line = sd.format_summary(sd.summarize_home(response))
+            self.assertIn("musicCarouselShelfRenderer", line)
+            leaves = fx.text_leaves(response)
+            self.assertTrue(leaves)
+            for leaf in leaves:
+                self.assertNotIn(leaf, line)
+            self.assertNotIn("googleusercontent", line)
+
+    def test_odd_shapes_are_summarised_without_failing(self):
+        response = fx.home([{"musicTastebuilderShelfRenderer": {"primaryText": {"runs": [{"text": "Private words"}]}}}, None, "x"])
+        line = sd.format_summary(sd.summarize_home(response))
+        self.assertIn("musicTastebuilderShelfRenderer", line)
+        self.assertNotIn("Private words", line)
+        self.assertEqual(sd.summarize_home(None)["rows"], 0)
+
+
+class ServiceFallbackTests(unittest.TestCase):
+    """The service's fallback chain and its log lines."""
+
+    make_service = ServiceTests.make_service
+
+    LIBRARY = {
+        "playlists": {"items": [
+            {"id": "VLPLlibrary000000000000000001", "type": "playlist", "name": "Road Trip", "artists": [],
+             "owner": {"display_name": "Test User"}, "images": [{"url": "https://lh3.googleusercontent.com/libpl=w1200-h1200", "width": 1200, "height": 1200}]},
+            {"id": "PLlibrary000000000000000002", "type": "playlist", "name": "Focus", "artists": [], "images": []},
+        ]},
+        "albums": {"items": [
+            {"id": "MPREb_library0001", "type": "album", "name": "Library Album", "artists": [{"name": "Band", "id": "UCband"}], "images": []},
+        ]},
+    }
+
+    def log_text(self):
+        return "\n".join(self.lines)
+
+    def assert_private_data_absent(self, response, extra=()):
+        text = self.log_text()
+        for leaf in list(fx.text_leaves(response)) + list(extra):
+            if leaf == "YouTube Music":
+                continue  # a fixture subtitle that is also every log line's prefix
+            self.assertNotIn(leaf, text)
+        self.assertNotIn("googleusercontent", text)
+        self.assertNotIn("not-a-credential", text)
+
+    def test_listen_again_is_served_and_logged(self):
+        service, log = self.make_service(response=fx.web_home_listen_again())
+        result = service.get_speed_dial()
+        self.assertEqual((result["source"], result["reason"], len(result["items"])), ("listen_again", "", 6))
+        self.assertEqual(result["items"][0]["type"], "album")
+        outcome = [line for line in self.lines if "speed dial: called" in line]
+        self.assertEqual(len(outcome), 1)
+        self.assertIn("client=WEB_REMIX (cookie)", outcome[0])
+        self.assertIn("speed dial shelf=no", outcome[0])
+        self.assertIn("fallback shelves seen=listen_again", outcome[0])
+        self.assertIn("source=listen_again, items=6", outcome[0])
+        self.assertIn("reason=no speed dial shelf; listen again used", outcome[0])
+        structure = [line for line in self.lines if "speed dial: home structure:" in line]
+        self.assertEqual(len(structure), 1)
+        self.assertIn("musicTwoRowItemRenderer:6", structure[0])
+        self.assertIn("musicResponsiveListItemRenderer:8", structure[0])
+        self.assert_private_data_absent(fx.web_home_listen_again())
+
+    def test_speed_dial_outcome_is_logged(self):
+        service, log = self.make_service()
+        self.assertEqual(service.get_speed_dial()["source"], "speed_dial")
+        self.assertIn("speed dial shelf=yes", self.log_text())
+        self.assertIn("source=speed_dial, items=11", self.log_text())
+        self.assert_private_data_absent(fx.full_home())
+
+    def test_quick_picks_is_served(self):
+        service, log = self.make_service(response=fx.web_home_quick_picks_only())
+        result = service.get_speed_dial()
+        self.assertEqual((result["source"], len(result["items"])), ("quick_picks", 8))
+        self.assertEqual(result["items"][0]["type"], "song")
+        self.assertIn("source=quick_picks, items=8", self.log_text())
+        self.assert_private_data_absent(fx.web_home_quick_picks_only())
+
+    def test_library_is_the_last_fallback(self):
+        service, log = self.make_service(response=fx.web_home_nothing_usable())
+        calls = []
+        service.get_library = lambda section, max_items=100: calls.append(section) or copy.deepcopy(self.LIBRARY.get(section, {"items": []}))
+        result = service.get_speed_dial()
+        self.assertEqual(calls, ["playlists", "albums"])
+        self.assertEqual((result["source"], result["title"]), ("library", ""))
+        self.assertEqual([(item["type"], item["id"]) for item in result["items"]],
+                         [("playlist", "PLlibrary000000000000000001"), ("album", "MPREb_library0001"), ("playlist", "PLlibrary000000000000000002")])
+        self.assertEqual(result["items"][0]["playlistId"], "PLlibrary000000000000000001")
+        self.assertEqual(result["items"][1]["browseId"], "MPREb_library0001")
+        self.assertIn("source=library, items=3", self.log_text())
+        self.assert_private_data_absent(fx.web_home_nothing_usable(),
+                                        ["Road Trip", "Focus", "Library Album", "PLlibrary", "MPREb_library", "Test User"])
+
+    def test_missing_is_logged_with_a_reason(self):
+        service, log = self.make_service(response=fx.web_home_nothing_usable())
+        service.get_library = lambda section, max_items=100: {"items": []}
+        service.get_speed_dial()
+        self.assertIn("source=none, items=0 (reason=missing", self.log_text())
+
+    def test_signed_out_and_errors_are_logged(self):
+        service, log = self.make_service(signed_in=False)
+        service.get_speed_dial()
+        self.assertIn("speed dial: called; not signed in", self.log_text())
+        service, log = self.make_service(fail=True)
+        service.get_speed_dial()
+        self.assertIn("speed dial unavailable: called (refresh=no), client=WEB_REMIX (cookie), items=0 (reason=error, not cached", self.log_text())
+
+    def test_oauth_uses_the_mobile_client_and_says_so(self):
+        service, log = self.make_service(response=fx.web_home_listen_again())
+        service.settings["oauth"] = True
+        service.get_speed_dial()
+        self.assertIn("client=ANDROID_MUSIC (oauth)", self.log_text())
+
+    def test_cache_hits_are_logged_once(self):
+        service, log = self.make_service(response=fx.web_home_listen_again())
+        service.get_speed_dial()
+        service.get_speed_dial()
+        service.get_speed_dial()
+        self.assertEqual(len(log), 1)
+        cached = [line for line in self.lines if "served from the 30-minute cache" in line]
+        self.assertEqual(len(cached), 1)
+        self.assertIn("source=listen_again, items=6", cached[0])
+        fetches = [line for line in self.lines if "speed dial: called (refresh=" in line]
+        self.assertEqual(len(fetches), 1)
+
+    def test_frontend_notes_reach_the_log(self):
+        # report_diagnostic_event writes the panel's speedDial notes to NowPlaying.log as "[speed-dial] …".
+        backend = (ROOT / "mix_backend.py").read_text(encoding="utf-8")
+        start = backend.index("    async def report_diagnostic_event(")
+        body = backend[start:backend.index("\n    def ", start)]
+        self.assertIn('== "speedDial"', body)
+        self.assertIn('self._log(f"[speed-dial] ', body)
+
+    def test_old_cached_answers_are_not_reused(self):
+        self.assertNotEqual(ytmusic_service.YouTubeMusicService.SPEED_DIAL_CACHE_KEY, "speeddial:v1")
 
 
 if __name__ == "__main__":

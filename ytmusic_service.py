@@ -1043,7 +1043,9 @@ class YouTubeMusicService:
         except _NothingToCache as empty:
             return empty.value
 
-    SPEED_DIAL_CACHE_KEY = "speeddial:v1"
+    # v2: v1 cached "missing" answers from before the fallback chain.
+    SPEED_DIAL_CACHE_KEY = "speeddial:v2"
+    _speed_dial_cache_logged: Any = None
     SPEED_DIAL_TTL = 1800.0
 
     def _forget_cached(self, key: str) -> None:
@@ -1093,36 +1095,136 @@ class YouTubeMusicService:
             }
         return item
 
-    def get_speed_dial(self, refresh: bool = False) -> Dict[str, Any]:
-        """The home feed's Speed dial tiles. Never raises: empty with a reason instead.
+    def _client_label(self, client: Any) -> str:
+        """The innertube client a request went out with, e.g. "WEB_REMIX (cookie)". No credential."""
+        name = ""
+        try:
+            name = str(client.context["context"]["client"]["clientName"])
+        except Exception:
+            name = ""
+        if not name:
+            name = "ANDROID_MUSIC" if self._is_oauth() else "WEB_REMIX"
+        return f"{name} ({'oauth' if self._is_oauth() else 'cookie'})"
 
-        reason: "" (items found), "signed_out", "missing" (no Speed dial shelf in the
-        feed) or "error" (the request failed; not cached). Cached for 30 minutes;
-        refresh=True fetches again.
+    def _speed_dial_from_library(self) -> List[Dict[str, Any]]:
+        """Last fallback: the library's playlists and albums (YouTube Music lists them by
+        recent activity), interleaved, as Speed dial raw items."""
+        lists: List[List[Dict[str, Any]]] = []
+        for section in ("playlists", "albums"):
+            try:
+                values = (self.get_library(section, 30) or {}).get("items") or []
+            except Exception as exc:
+                self._log(f"YouTube Music speed dial: library {section} unavailable: {type(exc).__name__}")
+                values = []
+            raw_items: List[Dict[str, Any]] = []
+            for value in values:
+                if not isinstance(value, dict) or value.get("type") not in ("playlist", "album"):
+                    continue
+                item_id = str(value.get("id") or "")
+                kind = str(value.get("type"))
+                if kind == "playlist":
+                    item_id = item_id[2:] if item_id.startswith("VL") else item_id
+                if not item_id or not value.get("name"):
+                    continue
+                artists = ", ".join(str(artist.get("name") or "") for artist in value.get("artists") or []
+                                    if isinstance(artist, dict) and artist.get("name"))
+                raw_items.append({
+                    "type": "podcast" if value.get("isPodcast") else kind,
+                    "id": item_id,
+                    "title": str(value.get("name") or ""),
+                    "subtitle": artists or str((value.get("owner") or {}).get("display_name") or ""),
+                    "thumbnails": value.get("images") or [],
+                    "browseId": item_id if kind == "album" else "",
+                    "videoId": "",
+                    "playlistId": item_id if kind == "playlist" else "",
+                    "params": "",
+                    "pinned": False,
+                })
+            lists.append(raw_items)
+        merged: List[Dict[str, Any]] = []
+        seen = set()
+        for index in range(max((len(values) for values in lists), default=0)):
+            for values in lists:
+                if index < len(values) and (values[index]["type"], values[index]["id"]) not in seen:
+                    seen.add((values[index]["type"], values[index]["id"]))
+                    merged.append(values[index])
+        return merged[:mix_speed_dial.MAX_ITEMS]
+
+    def get_speed_dial(self, refresh: bool = False) -> Dict[str, Any]:
+        """The Speed dial grid. Never raises: empty with a reason instead.
+
+        Taken from the home feed's Speed dial shelf, else (the web home often has none)
+        Listen again, else Quick picks, else the library's playlists and albums; "source"
+        says which (speed_dial, listen_again, quick_picks, library). reason: "" (items
+        found), "signed_out", "missing" (nothing to show) or "error" (the request failed;
+        not cached). Cached for 30 minutes; refresh=True fetches again. Every outcome is
+        logged once per fetch, with a structural summary of the home response that holds
+        no titles, names, ids, thumbnails or account details.
         """
-        empty = lambda reason, **extra: {"items": [], "reason": reason, "title": "", "fetchedAt": 0, **extra}
+        empty = lambda reason, **extra: {"items": [], "reason": reason, "title": "", "source": "", "fetchedAt": 0, **extra}
         if not self._has_auth():
+            self._log("YouTube Music speed dial: called; not signed in, nothing fetched (reason=signed_out)")
             return empty("signed_out")
         key = self.SPEED_DIAL_CACHE_KEY
         if refresh:
             self._forget_cached(key)
+        fetched = {"done": False, "client": "not created"}
 
         def produce() -> Dict[str, Any]:
+            fetched["done"] = True
             # A request-local client: ytmusicapi's mobile (OAuth) context is not thread-safe.
             client = self._independent_client_for_request(True)
             with self._request_context(client):
+                label = fetched["client"] = self._client_label(client)
                 response = client._send_request("browse", {"browseId": "FEmusic_home"})
-            shelf = mix_speed_dial.extract_speed_dial(response)
-            items = [self._speed_dial_item(raw) for raw in shelf["items"]]
+            try:
+                self._log("YouTube Music speed dial: home structure: "
+                          + mix_speed_dial.format_summary(mix_speed_dial.summarize_home(response)))
+            except Exception as exc:
+                self._log(f"YouTube Music speed dial: home structure unavailable: {type(exc).__name__}")
+            shelf = mix_speed_dial.select_grid(response)
+            checked = shelf.get("checked") or {}
+            source = shelf["source"]
+            raw_items = shelf["items"]
+            if not raw_items:
+                raw_items = self._speed_dial_from_library()
+                source = mix_speed_dial.SOURCE_LIBRARY if raw_items else ""
+            items = [self._speed_dial_item(raw) for raw in raw_items]
+            found = "yes" if checked.get(mix_speed_dial.SOURCE_SPEED_DIAL) else "no"
+            seen = ",".join(name for name in (mix_speed_dial.SOURCE_LISTEN_AGAIN, mix_speed_dial.SOURCE_QUICK_PICKS)
+                            if checked.get(name)) or "none"
             if not items:
+                reason_text = "no Speed dial, Listen again or Quick picks shelf with playable items and an empty library"
+                self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}), client={label}, "
+                          f"speed dial shelf={found}, fallback shelves seen={seen}, source=none, items=0 "
+                          f"(reason=missing: {reason_text})")
                 return empty("missing")
-            return {"items": items, "reason": "", "title": shelf["title"], "fetchedAt": time.time()}
+            why = {
+                mix_speed_dial.SOURCE_SPEED_DIAL: "speed dial shelf",
+                mix_speed_dial.SOURCE_LISTEN_AGAIN: "no speed dial shelf; listen again used",
+                mix_speed_dial.SOURCE_QUICK_PICKS: "no speed dial or listen again shelf; quick picks used",
+                mix_speed_dial.SOURCE_LIBRARY: "no usable home shelf; library playlists and albums used",
+            }.get(source, "")
+            self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}), client={label}, "
+                      f"speed dial shelf={found}, fallback shelves seen={seen}, source={source}, items={len(items)} "
+                      f"(reason={why})")
+            return {"items": items, "reason": "", "title": shelf["title"] if source != mix_speed_dial.SOURCE_LIBRARY else "",
+                    "source": source, "fetchedAt": time.time()}
 
         try:
-            return self._cached(key, self.SPEED_DIAL_TTL, produce)
+            result = self._cached(key, self.SPEED_DIAL_TTL, produce)
         except Exception as exc:
-            self._log(f"YouTube Music speed dial unavailable: {type(exc).__name__}: {exc}")
+            self._log(f"YouTube Music speed dial unavailable: called (refresh={'yes' if refresh else 'no'}), "
+                      f"client={fetched['client']}, items=0 (reason=error, not cached: {type(exc).__name__}: {exc})")
             return empty("error", error=str(exc))
+        if not fetched["done"]:
+            stamp = (result.get("source"), result.get("fetchedAt"), len(result.get("items") or []))
+            if stamp != self._speed_dial_cache_logged:
+                self._speed_dial_cache_logged = stamp
+                self._log(f"YouTube Music speed dial: called; served from the 30-minute cache: "
+                          f"source={result.get('source') or 'none'}, items={len(result.get('items') or [])}, "
+                          f"reason={result.get('reason') or 'ok'}")
+        return result
 
     @staticmethod
     def _watch_track(value: Any) -> Any:

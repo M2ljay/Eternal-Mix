@@ -21,7 +21,12 @@ export type SpeedDialItem = {
   track?: any;
 };
 
-export type SpeedDialResult = { items: SpeedDialItem[]; reason: SpeedDialReason; title: string; fetchedAt: number };
+// Where the tiles came from: YouTube Music's Speed dial shelf, or (when the home feed has
+// none, as on the web client) Listen again, Quick picks or the library. The grid is
+// labelled "Speed dial" either way.
+export type SpeedDialSource = "" | "speed_dial" | "listen_again" | "quick_picks" | "library";
+
+export type SpeedDialResult = { items: SpeedDialItem[]; reason: SpeedDialReason; title: string; source: SpeedDialSource; fetchedAt: number };
 
 // The Quick Access grid, and the full view (YouTube Music shows 3 rows of 9).
 export const COMPACT_COLUMNS = 4;
@@ -34,6 +39,7 @@ export const SPEED_DIAL_EVENT = "nowPlaying:speedDialChanged";
 
 const TYPES: readonly SpeedDialType[] = ["song", "album", "playlist", "artist", "mix", "podcast", "episode"];
 const REASONS: readonly SpeedDialReason[] = ["", "signed_out", "missing", "error"];
+const SOURCES: readonly SpeedDialSource[] = ["", "speed_dial", "listen_again", "quick_picks", "library"];
 
 function text(value: unknown, max = 300): string {
   return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
@@ -65,7 +71,31 @@ export function sanitizeResult(value: unknown): SpeedDialResult {
     });
   }
   const reason = REASONS.includes(raw.reason) ? raw.reason : items.length ? "" : "error";
-  return { items, reason, title: text(raw.title), fetchedAt: Number(raw.fetchedAt) || 0 };
+  const source: SpeedDialSource = SOURCES.includes(raw.source) ? raw.source : items.length ? "speed_dial" : "";
+  return { items, reason, title: text(raw.title), source, fetchedAt: Number(raw.fetchedAt) || 0 };
+}
+
+/** The full view's small header hint for a fallback source; "" for Speed dial itself. */
+export function sourceHintKey(source: SpeedDialSource): "" | "fromListenAgain" | "fromQuickPicks" | "fromLibrary" {
+  if (source === "listen_again") return "fromListenAgain";
+  if (source === "quick_picks") return "fromQuickPicks";
+  if (source === "library") return "fromLibrary";
+  return "";
+}
+
+/**
+ * The panel's one-time diagnostic: whether the grid shows and, if not, why. Plain fields
+ * only (counts and fixed words); no titles or ids.
+ */
+export function panelDiagnostic(result: SpeedDialResult | null, shown: number): Record<string, string | number | boolean> {
+  if (!result) return { rendered: false, items: 0, hiddenBecause: "no answer from the backend yet" };
+  const hiddenBecause = shown > 0 ? "" : {
+    signed_out: "not signed in to YouTube Music",
+    missing: "backend found no Speed dial, Listen again, Quick picks or library items",
+    error: "backend call failed",
+    "": "backend answered no playable tiles",
+  }[result.reason];
+  return { rendered: shown > 0, items: shown, source: result.source || "none", reason: result.reason || "ok", ...(hiddenBecause ? { hiddenBecause } : {}) };
 }
 
 export function compactItems(items: SpeedDialItem[]): SpeedDialItem[] {

@@ -349,6 +349,20 @@ def _tiles(row: Any, max_items: int) -> List[Dict[str, Any]]:
     return _dedupe([parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
 
 
+MIN_FIRST_SHELF = 3
+
+
+def _two_row_tiles(row: Any) -> int:
+    _kind, _body, entries = _shelf_body(row)
+    return sum(1 for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MTRIR), dict))
+
+
+def _has_strapline(row: Any) -> bool:
+    _kind, body, _entries = _shelf_body(row)
+    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
+    return bool(_runs_text(header.get("strapline") if isinstance(header, dict) else None))
+
+
 def listen_again_score(row: Any) -> int:
     """How much a shelf looks like Listen again; 0 when it cannot be.
 
@@ -453,8 +467,12 @@ def select_grid(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
             (SOURCE_LISTEN_AGAIN, listen_again_score, _tiles, 3),
             (SOURCE_QUICK_PICKS, quick_picks_score, _quick_pick_items, 2)):
         best: Optional[Tuple[int, Any]] = None
-        for row in top:
+        for index, row in enumerate(top):
             score = scorer(row)
+            # The web client's first home shelf, headed with the account name (strapline),
+            # is the history shelf even when it lays its tiles out one per column.
+            if source == SOURCE_LISTEN_AGAIN and index == 0 and _has_strapline(row):
+                score = max(score + 2, MIN_FIRST_SHELF if _two_row_tiles(row) >= 2 else 0)
             if score >= minimum and (best is None or score > best[0]):
                 best = (score, row)
         if best is None:

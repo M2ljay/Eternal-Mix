@@ -368,8 +368,9 @@ class FallbackTests(unittest.TestCase):
 
     def test_an_account_headed_shelf_is_found_in_any_position(self):
         rows = [fx.plain_shelf(f"Recommended {index}") for index in range(sd.TOP_ROWS)] + [fx.listen_again_shelf(), fx.web_quick_picks()]
-        grid = sd.select_grid(fx.home(rows))
-        self.assertEqual((grid["source"], grid["index"], grid["why"]), (sd.SOURCE_LISTEN_AGAIN, sd.TOP_ROWS, "first account-headed shelf"))
+        grid = sd.select_grid(fx.home(rows), account={"name": "Test User", "photo": ""})
+        self.assertEqual((grid["source"], grid["index"], grid["why"]),
+                         (sd.SOURCE_LISTEN_AGAIN, sd.TOP_ROWS, "account-headed shelf (strapline is the account name)"))
 
     def test_nothing_usable(self):
         grid = sd.select_grid(fx.web_home_nothing_usable())
@@ -429,9 +430,11 @@ class ServiceFallbackTests(unittest.TestCase):
 
     def assert_private_data_absent(self, response, extra=()):
         text = self.log_text()
+        # Shelf titles are editorial text and the chosen one is logged; nothing else is.
+        titles = {sd.shelf_title(row) for row in sd.home_rows(response)}
         for leaf in list(fx.text_leaves(response)) + list(extra):
-            if leaf == "YouTube Music":
-                continue  # a fixture subtitle that is also every log line's prefix
+            if leaf == "YouTube Music" or leaf in titles:
+                continue  # a fixture subtitle that is also every log line's prefix, or a shelf title
             self.assertNotIn(leaf, text)
         self.assertNotIn("googleusercontent", text)
         self.assertNotIn("not-a-credential", text)
@@ -447,7 +450,7 @@ class ServiceFallbackTests(unittest.TestCase):
         self.assertIn("speed dial shelf=no", outcome[0])
         self.assertIn("fallback shelves seen=listen_again", outcome[0])
         self.assertIn("source=listen_again, items=6", outcome[0])
-        self.assertIn("shelf=#1 of 4 (first account-headed shelf)", outcome[0])
+        self.assertIn('shelf=#1 of 4 title="Listen again" (listen again shelf)', outcome[0])
         self.assertIn("saved as the last good set", outcome[0])
         structure = [line for line in self.lines if "speed dial: home structure:" in line]
         self.assertEqual(len(structure), 1)

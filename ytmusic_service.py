@@ -46,7 +46,11 @@ class YouTubeMusicService:
         self.unavailable_path = os.path.join(settings_dir, "youtube-music-unavailable.json")
         # The last speed dial taken from the listening history, and the user's pins: kept
         # outside the response cache, so clearing the cache never drops them.
-        self.speed_dial_last_good_path = os.path.join(settings_dir, "youtube-music-speed-dial-last-good.json")
+        # v2: the v1 file may hold a set taken from a seasonal shelf that only had a
+        # strapline; it is removed on first use and never read.
+        self.speed_dial_last_good_path = os.path.join(settings_dir, "youtube-music-speed-dial-last-good-v2.json")
+        self._speed_dial_last_good_v1_path = os.path.join(settings_dir, "youtube-music-speed-dial-last-good.json")
+        self._speed_dial_account_tried = False
         self.speed_dial_pins_path = os.path.join(settings_dir, "youtube-music-speed-dial-pins.json")
         self._logger = logger
         self._lock = threading.RLock()
@@ -1051,7 +1055,8 @@ class YouTubeMusicService:
 
     # v2: v1 cached "missing" answers from before the fallback chain. v3: v2 may hold a
     # library or quick-picks answer taken while the account-headed shelf was there.
-    SPEED_DIAL_CACHE_KEY = "speeddial:v3"
+    # v4: v3 may hold a set from a seasonal shelf that only had a strapline.
+    SPEED_DIAL_CACHE_KEY = "speeddial:v4"
     _speed_dial_cache_logged: Any = None
     SPEED_DIAL_TTL = 1800.0
     # A caller's max_age is clamped to [floor, TTL]: however often the frontend asks, the
@@ -1191,6 +1196,12 @@ class YouTubeMusicService:
             return False
 
     def _speed_dial_last_good(self) -> Optional[Dict[str, Any]]:
+        try:
+            if os.path.isfile(self._speed_dial_last_good_v1_path):
+                os.remove(self._speed_dial_last_good_v1_path)
+                self._log("YouTube Music speed dial: removed the earlier (v1) last good set (it could hold a seasonal shelf)")
+        except Exception as exc:
+            self._log(f"YouTube Music speed dial last-good v1 cleanup error: {type(exc).__name__}")
         value = self._read_json_file(self.speed_dial_last_good_path)
         if not isinstance(value, dict) or value.get("source") not in mix_speed_dial.GOOD_SOURCES:
             return None
@@ -1205,11 +1216,46 @@ class YouTubeMusicService:
             "source": result.get("source") or "", "savedAt": time.time()})
 
     def _forget_speed_dial_last_good(self) -> None:
+        self._speed_dial_account_tried = False
         try:
-            if os.path.isfile(self.speed_dial_last_good_path):
-                os.remove(self.speed_dial_last_good_path)
+            for path in (self.speed_dial_last_good_path, self._speed_dial_last_good_v1_path):
+                if os.path.isfile(path):
+                    os.remove(path)
         except Exception as exc:
             self._log(f"YouTube Music speed dial last-good cleanup error: {type(exc).__name__}")
+
+    def _speed_dial_account(self) -> Dict[str, str]:
+        """{"name", "photo"} of the signed-in account, for recognising its own home shelf.
+        From the profile stored at sign-in; fetched once per session when it lacks a name.
+        Compared in memory only: never logged."""
+        profile = self.settings.get("profile") if isinstance(self.settings.get("profile"), dict) else {}
+        if not str(profile.get("accountName") or "").strip() and not self._speed_dial_account_tried:
+            self._speed_dial_account_tried = True
+            try:
+                client = self._independent_client_for_request(True)
+                with self._request_context(client):
+                    fetched = client.get_account_info()
+                if isinstance(fetched, dict) and fetched.get("accountName"):
+                    with self._lock:
+                        self.settings["profile"] = fetched
+                        self._save_settings()
+                    profile = fetched
+                    self._log("YouTube Music speed dial: account info fetched to recognise the account's own shelf")
+            except Exception as exc:
+                self._log(f"YouTube Music speed dial: account info unavailable ({type(exc).__name__}); "
+                          f"only Speed dial and Listen again shelves can be recognised")
+        return {"name": str(profile.get("accountName") or ""), "photo": str(profile.get("accountPhotoUrl") or "")}
+
+    @staticmethod
+    def _speed_dial_title_for_log(title: Any, account: Dict[str, str]) -> str:
+        """A shelf's title for the log (editorial text), never the account name."""
+        text = " ".join(str(title or "").split())[:60]
+        if not text:
+            return "-"
+        name = " ".join(str(account.get("name") or "").split()).casefold()
+        if name and name in text.casefold():
+            return "(account name)"
+        return text.replace('"', "'")
 
     MAX_SPEED_DIAL_PINS = mix_speed_dial.MAX_ITEMS
 
@@ -1290,6 +1336,7 @@ class YouTubeMusicService:
             fetched["done"] = True
             refresh_text = f"refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s"
             # A request-local client: ytmusicapi's mobile (OAuth) context is not thread-safe.
+            account = self._speed_dial_account()
             client = self._independent_client_for_request(True)
             pages = 0
             with self._request_context(client):
@@ -1301,7 +1348,7 @@ class YouTubeMusicService:
                 except Exception as exc:
                     self._log(f"YouTube Music speed dial: home structure unavailable: {type(exc).__name__}")
                 rows = list(mix_speed_dial.home_rows(response))
-                shelf = mix_speed_dial.select_rows(rows)
+                shelf = mix_speed_dial.select_rows(rows, account=account)
                 token = mix_speed_dial.continuation_token(response)
                 # The first page often holds only 3 shelves: read on (bounded) before falling back.
                 while (shelf["source"] not in mix_speed_dial.GOOD_SOURCES and token
@@ -1322,14 +1369,15 @@ class YouTubeMusicService:
                     if not more:
                         break
                     rows.extend(more)
-                    shelf = mix_speed_dial.select_rows(rows)
+                    shelf = mix_speed_dial.select_rows(rows, account=account)
                     token = mix_speed_dial.continuation_token(page)
             checked = shelf.get("checked") or {}
             source = shelf["source"]
             found = "yes" if checked.get(mix_speed_dial.SOURCE_SPEED_DIAL) else "no"
             seen = ",".join(name for name in (mix_speed_dial.SOURCE_LISTEN_AGAIN, mix_speed_dial.SOURCE_QUICK_PICKS)
                             if checked.get(name)) or "none"
-            where = (f"shelf=#{shelf['index']} of {len(rows)} ({shelf['why']}), continuation pages read={pages}"
+            where = (f"shelf=#{shelf['index']} of {len(rows)} title=\"{self._speed_dial_title_for_log(shelf['title'], account)}\" "
+                     f"({shelf['why']}), continuation pages read={pages}"
                      if shelf.get("index", -1) >= 0 else f"shelf=none of {len(rows)}, continuation pages read={pages}")
             if source in mix_speed_dial.GOOD_SOURCES:
                 items = [self._speed_dial_item(raw) for raw in shelf["items"]]
@@ -1486,7 +1534,15 @@ class YouTubeMusicService:
                     forced = "podcast"
                 elif section == "episodes":
                     # "Episodes for Later" is the saved-episodes playlist (SE).
-                    saved = client.get_saved_episodes(limit=limit)
+                    try:
+                        saved = client.get_saved_episodes(limit=limit)
+                    except Exception as exc:
+                        # YouTube Music sometimes answers the SE playlist with a page that has
+                        # no contents (seen logged out, 2026-11-28); ytmusicapi then raises
+                        # "Unable to find 'contents' ...". Show no saved episodes instead.
+                        self._log(f"YouTube Music saved episodes unavailable ({type(exc).__name__}: "
+                                  f"{mix_speed_dial.short_error(exc)}); showing none")
+                        saved = {}
                     raw = saved.get("tracks") if isinstance(saved, dict) else []
                     forced = "episode"
                 else:

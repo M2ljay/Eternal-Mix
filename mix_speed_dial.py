@@ -238,8 +238,56 @@ def shelf_title(row: Any) -> str:
     return ""
 
 
-def shelf_score(row: Any) -> int:
-    """How much a home shelf looks like Speed dial; 0 when it cannot be."""
+def _image_base(url: Any) -> str:
+    """An image URL without its query and its "=s88-..." size suffix, for comparing avatars."""
+    text = str(url or "").strip().split("?", 1)[0].split("#", 1)[0]
+    if not text.startswith("https://"):
+        return ""
+    head, _, tail = text.rpartition("/")
+    if "=" in tail:
+        tail = tail.split("=", 1)[0]
+    return (head + "/" + tail).casefold() if tail else ""
+
+
+def _header(row: Any) -> Dict[str, Any]:
+    _kind, body, _entries = _shelf_body(row)
+    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer")
+    return header if isinstance(header, dict) else {}
+
+
+def account_header_match(row: Any, account: Optional[Dict[str, Any]]) -> str:
+    """How a shelf's header is the signed-in account's own: "name" (the strapline is the
+    account name), "avatar" (the header thumbnail is the account photo) or "" (it is not).
+    The account (accountName / accountPhotoUrl from get_account_info) is compared in
+    memory only. A strapline alone proves nothing: seasonal and editorial shelves have one."""
+    if not isinstance(account, dict):
+        return ""
+    header = _header(row)
+    name = " ".join(str(account.get("name") or "").split()).casefold()
+    strapline = " ".join(_runs_text(header.get("strapline")).split()).casefold()
+    if name and strapline and strapline == name:
+        return "name"
+    photo = _image_base(account.get("photo"))
+    if photo:
+        for thumbnail in _thumbnails(header):
+            if _image_base(thumbnail.get("url") if isinstance(thumbnail, dict) else "") == photo:
+                return "avatar"
+    return ""
+
+
+def _pin_capable(row: Any) -> bool:
+    """Most tiles carry YouTube Music's pin entry: only Speed dial and Listen again do."""
+    _kind, _body, entries = _shelf_body(row)
+    tiles = [entry.get(MTRIR) for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MTRIR), dict)]
+    return bool(tiles) and sum(1 for tile in tiles if pin_state(tile) is not None) * 2 >= len(tiles)
+
+
+def shelf_score(row: Any, account: Optional[Dict[str, Any]] = None) -> int:
+    """How much a home shelf looks like Speed dial; 0 when it cannot be.
+
+    Needs one stable sign that the shelf is the user's own: the known title, pin entries on
+    the tiles, or the account's own header (account_header_match). Layout alone (tiles per
+    column, a grid) never qualifies a shelf, so seasonal and editorial shelves never do."""
     kind, body, entries = _shelf_body(row)
     if not kind:
         return 0
@@ -247,26 +295,24 @@ def shelf_score(row: Any) -> int:
     # Quick picks and other song-row shelves use list rows, never two-row tiles.
     if len(tiles) < 2 or len(tiles) * 5 < len(entries) * 4:
         return 0
+    own = account_header_match(row, account)
+    pins = _pin_capable(row)
+    titled = shelf_title(row).casefold() in KNOWN_TITLES
+    if not (own or pins or titled):
+        return 0
     score = 0
-    try:
-        per_column = int(str(body.get("numItemsPerColumn") or "1"))
-    except ValueError:
-        per_column = 1
+    per_column = _per_column(body)
     if per_column >= 3:
         score += 3
     elif per_column == 2:
         score += 2
     if kind == GRID:
         score += 2
-    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
-    if _nav(header, "thumbnail"):
-        score += 2  # the account avatar
-    if _runs_text(header.get("strapline") if isinstance(header, dict) else None):
-        score += 1  # the account name
-    pin_capable = sum(1 for tile in tiles if pin_state(tile) is not None)
-    if pin_capable * 2 >= len(tiles):
+    if own:
         score += 3
-    if shelf_title(row).casefold() in KNOWN_TITLES:
+    if pins:
+        score += 3
+    if titled:
         score += 3
     return score
 
@@ -298,11 +344,11 @@ def home_rows(response: Any) -> List[Any]:
     return found
 
 
-def extract_speed_dial(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+def extract_speed_dial(response: Any, max_items: int = MAX_ITEMS, account: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """{"found", "title", "score", "items"} for the Speed dial shelf of a raw home response."""
     best: Optional[Tuple[int, Any]] = None
     for row in home_rows(response):
-        score = shelf_score(row)
+        score = shelf_score(row, account)
         if score >= MIN_SCORE and _speed_dial_layout(row) and (best is None or score > best[0]):
             best = (score, row)
     if best is None:
@@ -349,10 +395,6 @@ def _tiles(row: Any, max_items: int) -> List[Dict[str, Any]]:
     return _dedupe([parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
 
 
-# Straplines that are labels, not an account name ("SIMILAR TO" over an artist shelf,
-# "Start radio from a song" over Quick picks). Casefolded; the client asks for hl=en.
-NON_ACCOUNT_STRAPLINES = ("similar to", "more from", "start radio from a song", "because you listened to",
-                          "because you like", "from your library", "from the community", "new release")
 # How many continuation pages of the home feed are read, at most, looking for a shelf.
 MAX_CONTINUATION_PAGES = 2
 # Sources that come from the listening history: once one is shown, a later answer that
@@ -371,28 +413,23 @@ def _strapline(row: Any) -> str:
     return _runs_text(header.get("strapline") if isinstance(header, dict) else None)
 
 
-def is_account_shelf(row: Any) -> bool:
-    """The web client's account-headed shelf: two-row tiles under a header whose strapline
-    is the account name (not a label such as "SIMILAR TO"), in any position."""
+def is_account_shelf(row: Any, account: Optional[Dict[str, Any]] = None) -> bool:
+    """The web client's account-headed shelf, in any position: two-row tiles under the
+    signed-in account's own header (account_header_match). Never Quick picks."""
     kind, _body, entries = _shelf_body(row)
-    if kind != CAROUSEL:
-        return False
-    strapline = _strapline(row).casefold()
-    if not strapline or any(strapline.startswith(label) for label in NON_ACCOUNT_STRAPLINES):
-        return False
-    if _title_key(row) == SOURCE_QUICK_PICKS:
+    if kind != CAROUSEL or _title_key(row) == SOURCE_QUICK_PICKS:
         return False
     tiles = _two_row_tiles(row)
-    return tiles >= 2 and tiles * 5 >= len(entries) * 4
+    return tiles >= 2 and tiles * 5 >= len(entries) * 4 and bool(account_header_match(row, account))
 
 
 def listen_again_score(row: Any) -> int:
     """How much a shelf looks like Listen again; 0 when it cannot be.
 
-    Listen again: stacked two-row tiles of mixed kinds (albums, playlists, artists,
-    songs) from the listening history, with history signs: two tiles per column, the
-    account avatar and name in the header, pin entries on the tiles, or the English title.
-    One-kind shelves ("Recommended albums", "More from …", mixes) are not it.
+    Only by stable signs: the known title, or pin entries on most tiles (YouTube Music
+    offers "pin" only on Speed dial and Listen again tiles). A header strapline or avatar
+    counts for nothing (seasonal and editorial shelves have them). Its tiles are of mixed
+    kinds (albums, playlists, artists, songs); stacked two per column adds weight.
     """
     kind, body, entries = _shelf_body(row)
     if not kind:
@@ -403,17 +440,16 @@ def listen_again_score(row: Any) -> int:
     kinds = {item["type"] for item in (parse_tile(tile) for tile in tiles) if item}
     if len(kinds) < 2:
         return 0
+    titled = _title_key(row) == SOURCE_LISTEN_AGAIN
+    pins = _pin_capable(row)
+    if not (titled or pins):
+        return 0
     score = 0
     if _per_column(body) == 2:
         score += 2
-    header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
-    if _nav(header, "thumbnail"):
-        score += 2
-    if _runs_text(header.get("strapline") if isinstance(header, dict) else None):
-        score += 1
-    if sum(1 for tile in tiles if pin_state(tile) is not None) * 2 >= len(tiles):
+    if pins:
         score += 3
-    if _title_key(row) == SOURCE_LISTEN_AGAIN:
+    if titled:
         score += 3
     return score
 
@@ -470,18 +506,20 @@ def _quick_pick_items(row: Any, max_items: int) -> List[Dict[str, Any]]:
     return _dedupe([parse_list_row(entry.get(MRLIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
 
 
-def select_grid(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+def select_grid(response: Any, max_items: int = MAX_ITEMS, account: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """select_rows over one raw home response."""
-    return select_rows(home_rows(response), max_items)
+    return select_rows(home_rows(response), max_items, account)
 
 
-def select_rows(rows: List[Any], max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+def select_rows(rows: List[Any], max_items: int = MAX_ITEMS, account: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """The grid to show from the home feed's shelves (in order), with the fallback chain.
 
     {"found", "source", "title", "score", "items", "checked", "index", "why"}:
       1. Speed dial (its own layout: 3 tiles per column or a grid);
-      2. else the first account-headed shelf in any position (source speed_dial: on the
-         web client it is the Speed dial's place, laid out one tile per column);
+      2. else the first shelf under the signed-in account's own header, in any position
+         (source speed_dial: on the web client it is the Speed dial's place, laid out one
+         tile per column). `account` ({"name", "photo"}) is compared in memory only;
+         without it this step finds nothing, never a shelf that merely has a strapline;
       3. else Listen again, else Quick picks (both among the first shelves).
     "checked" says, per source, whether a candidate shelf was seen (a shelf whose tiles all
     failed to parse is seen but gives no items). "index" is the chosen shelf's position in
@@ -496,7 +534,7 @@ def select_rows(rows: List[Any], max_items: int = MAX_ITEMS) -> Dict[str, Any]:
 
     best: Optional[Tuple[int, int]] = None
     for index, row in enumerate(rows):
-        score = shelf_score(row)
+        score = shelf_score(row, account)
         if score >= MIN_SCORE and _speed_dial_layout(row) and (best is None or score > best[0]):
             best = (score, index)
     if best is not None:
@@ -505,14 +543,16 @@ def select_rows(rows: List[Any], max_items: int = MAX_ITEMS) -> Dict[str, Any]:
         if items:
             return chosen(SOURCE_SPEED_DIAL, best[1], best[0], items, "speed dial layout")
     for index, row in enumerate(rows):
-        if not is_account_shelf(row):
+        if not is_account_shelf(row, account):
             continue
-        # Shaped like Listen again (or named so), it stays Listen again: the full view's hint says so.
+        how = account_header_match(row, account)
+        # Named Listen again (or carrying its pin entries), it stays Listen again: the hint says so.
         source = SOURCE_LISTEN_AGAIN if (_title_key(row) == SOURCE_LISTEN_AGAIN or listen_again_score(row) >= 3) else SOURCE_SPEED_DIAL
         checked[source] = True
         items = _tiles(row, max_items)
         if items:
-            return chosen(source, index, shelf_score(row), items, "first account-headed shelf")
+            why = "account-headed shelf (strapline is the account name)" if how == "name" else "account-headed shelf (account avatar)"
+            return chosen(source, index, shelf_score(row, account), items, why)
     top = rows[:TOP_ROWS]
     for source, scorer, reader, minimum, why in (
             (SOURCE_LISTEN_AGAIN, listen_again_score, _tiles, 3, "listen again shelf"),
@@ -529,6 +569,21 @@ def select_rows(rows: List[Any], max_items: int = MAX_ITEMS) -> Dict[str, Any]:
         if items:
             return chosen(source, found[1], found[0], items, why)
     return {"found": False, "source": "", "title": "", "score": 0, "items": [], "checked": checked, "index": -1, "why": ""}
+
+
+def is_parser_error(exc: BaseException) -> bool:
+    """ytmusicapi's navigation failures: a response shape it cannot read, not a network fault."""
+    text = str(exc)
+    return text.startswith("Unable to find") or isinstance(exc, (KeyError, IndexError)) or "using path [" in text
+
+
+def short_error(exc: BaseException, limit: int = 160) -> str:
+    """An exception's text for the log, cut before any echoed response body."""
+    text = " ".join(str(exc).split())
+    for marker in (" on {", " on ["):
+        if marker in text:
+            return text[:text.index(marker)][:limit] + " on <response>"
+    return text[:limit]
 
 
 def continuation_token(response: Any) -> str:

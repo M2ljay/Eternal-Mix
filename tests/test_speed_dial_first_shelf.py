@@ -27,18 +27,26 @@ def _response(*rows):
         "sectionListRenderer": {"contents": list(rows)}}}}]}}}
 
 
+ACCOUNT = {"name": "Account", "photo": ""}
+
+
 class FirstShelfTests(unittest.TestCase):
     def test_first_account_shelf_is_used_even_one_per_column_and_one_kind(self):
-        result = m.select_grid(_response(_row(True, 10)))
+        result = m.select_grid(_response(_row(True, 10)), account=ACCOUNT)
         self.assertEqual(result["source"], m.SOURCE_SPEED_DIAL)
         self.assertEqual(len(result["items"]), 10)
 
     def test_a_later_account_shelf_is_chosen(self):
-        result = m.select_grid(_response(_row(False, 10), _row(True, 10)))
+        result = m.select_grid(_response(_row(False, 10), _row(True, 10)), account=ACCOUNT)
         self.assertEqual((result["source"], result["index"]), (m.SOURCE_SPEED_DIAL, 1))
 
+    def test_a_strapline_that_is_not_the_account_is_never_chosen(self):
+        result = m.select_grid(_response(_row(True, 10)), account={"name": "Someone Else", "photo": ""})
+        self.assertNotEqual(result["source"], m.SOURCE_SPEED_DIAL)
+        self.assertNotEqual(m.select_grid(_response(_row(True, 10)))["source"], m.SOURCE_SPEED_DIAL)
+
     def test_first_shelf_without_account_name_is_not_promoted(self):
-        result = m.select_grid(_response(_row(False, 10)))
+        result = m.select_grid(_response(_row(False, 10)), account=ACCOUNT)
         self.assertNotEqual(result["source"], m.SOURCE_SPEED_DIAL)
 
 

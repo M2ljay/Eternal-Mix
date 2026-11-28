@@ -51,6 +51,11 @@ from pathlib import Path
 import decky_plugin
 
 from ytmusic_service import YouTubeMusicService
+import mix_speed_dial
+
+# The error a request returns when YouTube Music answers in a shape ytmusicapi cannot read
+# (the frontend shows its translation, src/i18n.ts, never the parser's text).
+YOUTUBE_MUSIC_UNEXPECTED_RESPONSE = "YouTube Music returned an unexpected response"
 from legacy_migration import migrate_legacy_settings
 import mix_identity
 import mix_soundtrack
@@ -4759,6 +4764,11 @@ class Plugin:
             data = await self._run_in_executor(self._youtube_music_executor, function, *args)
             return {"ok": True, "data": data}
         except Exception as exc:
+            if mix_speed_dial.is_parser_error(exc):
+                # A response shape ytmusicapi cannot read: log it briefly, show a short line.
+                self._log(f"YouTube Music request error ({getattr(function, '__name__', 'request')}): "
+                          f"unexpected response: {mix_speed_dial.short_error(exc)}")
+                return {"ok": False, "error": YOUTUBE_MUSIC_UNEXPECTED_RESPONSE}
             self._log(f"YouTube Music request error: {exc}")
             return {"ok": False, "error": str(exc)}
 

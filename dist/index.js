@@ -723,7 +723,8 @@ var en = {
 		restartServicesTimedOut: "Plugin service restart timed out",
 		restartServicesAlreadyRunning: "A plugin service restart is already running",
 		mediaBridgeRestartFailed: "MediaBridge did not restart correctly",
-		pluginServiceRestartFailed: "Plugin service restart failed"
+		pluginServiceRestartFailed: "Plugin service restart failed",
+		youtubeMusicUnexpected: "YouTube Music couldn't load this right now"
 	},
 	youtubeMusic: {
 		album: "Album",
@@ -1051,7 +1052,8 @@ var it = {
 		restartServicesTimedOut: "Il riavvio dei servizi del plugin ha superato il tempo limite",
 		restartServicesAlreadyRunning: "È già in corso un riavvio dei servizi del plugin",
 		mediaBridgeRestartFailed: "MediaBridge non si è riavviato correttamente",
-		pluginServiceRestartFailed: "Riavvio dei servizi del plugin non riuscito"
+		pluginServiceRestartFailed: "Riavvio dei servizi del plugin non riuscito",
+		youtubeMusicUnexpected: "YouTube Music non è riuscito a caricarlo ora"
 	},
 	youtubeMusic: {
 		album: "Album",
@@ -1379,7 +1381,8 @@ var es = {
 		restartServicesTimedOut: "El reinicio de los servicios del plugin superó el tiempo de espera",
 		restartServicesAlreadyRunning: "Ya hay un reinicio de los servicios del plugin en curso",
 		mediaBridgeRestartFailed: "MediaBridge no se reinició correctamente",
-		pluginServiceRestartFailed: "No se pudieron reiniciar los servicios del plugin"
+		pluginServiceRestartFailed: "No se pudieron reiniciar los servicios del plugin",
+		youtubeMusicUnexpected: "YouTube Music no pudo cargarlo ahora"
 	},
 	youtubeMusic: {
 		album: "Álbum",
@@ -1707,7 +1710,8 @@ var fr = {
 		restartServicesTimedOut: "Le redémarrage des services du plugin a dépassé le délai imparti",
 		restartServicesAlreadyRunning: "Un redémarrage des services du plugin est déjà en cours",
 		mediaBridgeRestartFailed: "MediaBridge ne s’est pas redémarré correctement",
-		pluginServiceRestartFailed: "Échec du redémarrage des services du plugin"
+		pluginServiceRestartFailed: "Échec du redémarrage des services du plugin",
+		youtubeMusicUnexpected: "YouTube Music n'a pas pu le charger pour l'instant"
 	},
 	youtubeMusic: {
 		album: "Album",
@@ -2035,7 +2039,8 @@ var de = {
 		restartServicesTimedOut: "Zeitüberschreitung beim Neustart der Plugin-Dienste",
 		restartServicesAlreadyRunning: "Die Plugin-Dienste werden bereits neu gestartet",
 		mediaBridgeRestartFailed: "MediaBridge wurde nicht ordnungsgemäß neu gestartet",
-		pluginServiceRestartFailed: "Neustart der Plugin-Dienste fehlgeschlagen"
+		pluginServiceRestartFailed: "Neustart der Plugin-Dienste fehlgeschlagen",
+		youtubeMusicUnexpected: "YouTube Music konnte das gerade nicht laden"
 	},
 	youtubeMusic: {
 		album: "Album",
@@ -2363,7 +2368,8 @@ var ru = {
 		restartServicesTimedOut: "Превышено время ожидания перезапуска служб плагина",
 		restartServicesAlreadyRunning: "Перезапуск служб плагина уже выполняется",
 		mediaBridgeRestartFailed: "MediaBridge не удалось перезапустить корректно",
-		pluginServiceRestartFailed: "Не удалось перезапустить службы плагина"
+		pluginServiceRestartFailed: "Не удалось перезапустить службы плагина",
+		youtubeMusicUnexpected: "YouTube Music сейчас не удалось это загрузить"
 	},
 	youtubeMusic: {
 		album: "Альбом",
@@ -2691,7 +2697,8 @@ var ja = {
 		restartServicesTimedOut: "プラグインサービスの再起動がタイムアウトしました",
 		restartServicesAlreadyRunning: "プラグインサービスはすでに再起動中です",
 		mediaBridgeRestartFailed: "MediaBridgeを正常に再起動できませんでした",
-		pluginServiceRestartFailed: "プラグインサービスの再起動に失敗しました"
+		pluginServiceRestartFailed: "プラグインサービスの再起動に失敗しました",
+		youtubeMusicUnexpected: "YouTube Music で今は読み込めませんでした"
 	},
 	youtubeMusic: {
 		album: "アルバム",
@@ -3019,7 +3026,8 @@ var ko = {
 		restartServicesTimedOut: "플러그인 서비스 다시 시작 시간이 초과되었습니다",
 		restartServicesAlreadyRunning: "플러그인 서비스를 이미 다시 시작하고 있습니다",
 		mediaBridgeRestartFailed: "MediaBridge가 올바르게 다시 시작되지 않았습니다",
-		pluginServiceRestartFailed: "플러그인 서비스 다시 시작에 실패했습니다"
+		pluginServiceRestartFailed: "플러그인 서비스 다시 시작에 실패했습니다",
+		youtubeMusicUnexpected: "지금은 YouTube Music에서 불러올 수 없습니다"
 	},
 	youtubeMusic: {
 		album: "앨범",
@@ -3347,7 +3355,8 @@ var zh = {
 		restartServicesTimedOut: "插件服务重启超时",
 		restartServicesAlreadyRunning: "插件服务已在重启中",
 		mediaBridgeRestartFailed: "MediaBridge 未能正确重启",
-		pluginServiceRestartFailed: "插件服务重启失败"
+		pluginServiceRestartFailed: "插件服务重启失败",
+		youtubeMusicUnexpected: "YouTube Music 暂时无法加载"
 	},
 	youtubeMusic: {
 		album: "专辑",
@@ -3681,7 +3690,8 @@ var catalogs = {
 		restartServicesTimedOut: "O reinício dos serviços do plugin excedeu o tempo limite",
 		restartServicesAlreadyRunning: "Já há um reinício dos serviços do plugin em andamento",
 		mediaBridgeRestartFailed: "O MediaBridge não reiniciou corretamente",
-		pluginServiceRestartFailed: "Falha ao reiniciar os serviços do plugin"
+		pluginServiceRestartFailed: "Falha ao reiniciar os serviços do plugin",
+		youtubeMusicUnexpected: "O YouTube Music não conseguiu carregar isto agora"
 	},
 	youtubeMusic: {
 		album: "Álbum",
@@ -3929,6 +3939,7 @@ const runtimeMessageKeys = {
     "Plugin service restart is already running": "restartServicesAlreadyRunning",
     "MediaBridge did not restart correctly": "mediaBridgeRestartFailed",
     "Plugin service restart failed": "pluginServiceRestartFailed",
+    "YouTube Music returned an unexpected response": "youtubeMusicUnexpected",
 };
 function localizeRuntimeMessage(message, fallback = "") {
     const raw = String(message ?? "").trim();
@@ -6755,7 +6766,7 @@ function formatMegabytes(bytes) {
     return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
 }
 
-var version = "1.1.1";
+var version = "1.1.2";
 var packageInfo = {
 	version: version};
 

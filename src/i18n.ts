@@ -109,6 +109,7 @@ const runtimeMessageKeys: Record<string, keyof RuntimeTranslation> = {
   "Plugin service restart is already running": "restartServicesAlreadyRunning",
   "MediaBridge did not restart correctly": "mediaBridgeRestartFailed",
   "Plugin service restart failed": "pluginServiceRestartFailed",
+  "YouTube Music returned an unexpected response": "youtubeMusicUnexpected",
 };
 
 export function localizeRuntimeMessage(message: unknown, fallback = ""): string {

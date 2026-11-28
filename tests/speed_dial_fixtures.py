@@ -314,3 +314,29 @@ def logged_home_0156() -> Dict[str, Any]:
 def logged_home_2257() -> Dict[str, Any]:
     """22:57: #0 quick picks, #1 [title], #2 tastebuilder; continuation=yes."""
     return home_page([logged_quick_picks(), logged_two_row_shelf("Albums for you", prefix="a"), tastebuilder()], "tok1")
+
+
+def holiday_shelf(*, per_column: str = "1", avatar: bool = False) -> Dict[str, Any]:
+    """A seasonal shelf: a title, a strapline that is a label (not the account), ten two-row
+    tiles of mixed kinds without pin entries. 2026-11-28 00:13 took one for Listen again."""
+    header: Dict[str, Any] = {"title": {"runs": [{"text": "Christmas hits"}]}, "strapline": {"runs": [{"text": "Holiday season"}]}}
+    if avatar:
+        header["thumbnail"] = {"musicThumbnailRenderer": {"thumbnail": thumbs("holiday-art", (88,))}}
+    tiles = []
+    for index in range(10):
+        if index % 2:
+            tiles.append(tile(f"Christmas Song {index}", ["Song", "Carollers"], watch(f"xmas{index:07d}", f"RDAMVMxmas{index:07d}"), seed=f"x{index}", pinned=None))
+        else:
+            tiles.append(tile(f"Christmas Album {index}", ["Album", "Carollers"], browse(f"MPREb_xmas{index:05d}", ALBUM), seed=f"x{index}", pinned=None))
+    return {"musicCarouselShelfRenderer": {"header": {"musicCarouselShelfBasicHeaderRenderer": header}, "contents": tiles,
+                                           "numItemsPerColumn": per_column}}
+
+
+def logged_home_holiday() -> Dict[str, Any]:
+    """#0 holiday [title,strapline], #1 the account's own shelf, #2 tastebuilder."""
+    return home_page([holiday_shelf(), logged_two_row_shelf("Mixed for you", strapline="Test User", prefix="b"), tastebuilder()], "tok1")
+
+
+def logged_home_holiday_only() -> Dict[str, Any]:
+    """2026-11-28 00:13: #0 holiday [title,strapline], #1 [title], #2 tastebuilder; no account shelf."""
+    return home_page([holiday_shelf(), logged_two_row_shelf("Albums for you", prefix="a"), tastebuilder()])

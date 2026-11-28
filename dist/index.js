@@ -399,6 +399,12 @@ function youtubeMusicGetDetail(kind, itemId) {
 function youtubeMusicGetSpeedDial(refresh = false, maxAge = 0) {
     return call("youtube_music_get_speed_dial", refresh, maxAge);
 }
+function youtubeMusicGetSpeedDialPins() {
+    return call("youtube_music_get_speed_dial_pins");
+}
+function youtubeMusicSetSpeedDialPins(items) {
+    return call("youtube_music_set_speed_dial_pins", items);
+}
 function youtubeMusicGetSpeedDialQueue(item) {
     return call("youtube_music_get_speed_dial_queue", item);
 }
@@ -856,6 +862,8 @@ var en = {
 		play: "Play",
 		more: "More",
 		openFull: "Open in full view",
+		pin: "Pin to speed dial",
+		unpin: "Unpin",
 		nothingToPlay: "Nothing to play here",
 		pinned: "Pinned",
 		fromListenAgain: "from Listen again",
@@ -1182,6 +1190,8 @@ var it = {
 		play: "Riproduci",
 		more: "Altro",
 		openFull: "Apri a schermo intero",
+		pin: "Fissa nella selezione rapida",
+		unpin: "Rimuovi fissaggio",
 		nothingToPlay: "Niente da riprodurre qui",
 		pinned: "Fissato",
 		fromListenAgain: "da Ascolta di nuovo",
@@ -1508,6 +1518,8 @@ var es = {
 		play: "Reproducir",
 		more: "Más",
 		openFull: "Abrir a pantalla completa",
+		pin: "Fijar en marcación rápida",
+		unpin: "Desfijar",
 		nothingToPlay: "No hay nada que reproducir",
 		pinned: "Fijado",
 		fromListenAgain: "de Volver a escuchar",
@@ -1834,6 +1846,8 @@ var fr = {
 		play: "Lire",
 		more: "Plus",
 		openFull: "Ouvrir en plein écran",
+		pin: "Épingler à l'accès rapide",
+		unpin: "Désépingler",
 		nothingToPlay: "Rien à lire ici",
 		pinned: "Épinglé",
 		fromListenAgain: "depuis À réécouter",
@@ -2160,6 +2174,8 @@ var de = {
 		play: "Abspielen",
 		more: "Mehr",
 		openFull: "Im Vollbild öffnen",
+		pin: "An Schnellwahl anheften",
+		unpin: "Lösen",
 		nothingToPlay: "Hier gibt es nichts abzuspielen",
 		pinned: "Angeheftet",
 		fromListenAgain: "aus Nochmal hören",
@@ -2486,6 +2502,8 @@ var ru = {
 		play: "Воспроизвести",
 		more: "Ещё",
 		openFull: "Открыть во весь экран",
+		pin: "Закрепить в быстром наборе",
+		unpin: "Открепить",
 		nothingToPlay: "Здесь нечего воспроизвести",
 		pinned: "Закреплено",
 		fromListenAgain: "из «Слушать снова»",
@@ -2812,6 +2830,8 @@ var ja = {
 		play: "再生",
 		more: "その他",
 		openFull: "全画面で開く",
+		pin: "スピードダイヤルに固定",
+		unpin: "固定を解除",
 		nothingToPlay: "再生できるものがありません",
 		pinned: "固定済み",
 		fromListenAgain: "「もう一度聴く」から",
@@ -3138,6 +3158,8 @@ var ko = {
 		play: "재생",
 		more: "더보기",
 		openFull: "전체 화면으로 열기",
+		pin: "단축 다이얼에 고정",
+		unpin: "고정 해제",
 		nothingToPlay: "재생할 항목이 없습니다",
 		pinned: "고정됨",
 		fromListenAgain: "'다시 듣기'에서",
@@ -3464,6 +3486,8 @@ var zh = {
 		play: "播放",
 		more: "更多",
 		openFull: "全屏打开",
+		pin: "固定到快速拨号",
+		unpin: "取消固定",
 		nothingToPlay: "没有可播放的内容",
 		pinned: "已置顶",
 		fromListenAgain: "来自“再次收听”",
@@ -3796,6 +3820,8 @@ var catalogs = {
 		play: "Tocar",
 		more: "Mais",
 		openFull: "Abrir em tela cheia",
+		pin: "Fixar na discagem rápida",
+		unpin: "Desafixar",
 		nothingToPlay: "Nada para tocar aqui",
 		pinned: "Fixado",
 		fromListenAgain: "de Ouvir de novo",
@@ -6729,7 +6755,7 @@ function formatMegabytes(bytes) {
     return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
 }
 
-var version = "1.1.0";
+var version = "1.1.1";
 var packageInfo = {
 	version: version};
 
@@ -8551,6 +8577,31 @@ function stepListen(prev, track, playing, nowMs) {
     const trigger = !prev.counted && playedMs >= LISTEN_AFTER_MS;
     return { state: { key, playedMs, lastAt: nowMs, counted: prev.counted || trigger }, trigger };
 }
+// Pins: the user's own tiles, first in pin order, saved by the backend and never dropped
+// by a refresh. A pinned item that YouTube Music also returns appears once, as the pin.
+function itemKey(item) {
+    return `${item.type}:${item.id}`;
+}
+/** Backend pins, checked like any answer, each marked pinned. */
+function sanitizePins(value) {
+    const result = sanitizeResult({ items: Array.isArray(value) ? value : [] });
+    const seen = new Set();
+    return result.items.filter((item) => !seen.has(itemKey(item)) && seen.add(itemKey(item))).map((item) => ({ ...item, pinned: true }));
+}
+/** The grid's order: pins first (pin order), then the fetched tiles not already pinned. */
+function mergePinned(pins, items) {
+    const pinned = new Set(pins.map(itemKey));
+    return [...pins.map((item) => ({ ...item, pinned: true })), ...items.filter((item) => !pinned.has(itemKey(item)))];
+}
+function isPinned(pins, item) {
+    return pins.some((pin) => itemKey(pin) === itemKey(item));
+}
+/** Pins after pinning (appended last) or unpinning `item`. */
+function togglePin(pins, item) {
+    if (isPinned(pins, item))
+        return pins.filter((pin) => itemKey(pin) !== itemKey(item));
+    return [...pins, { ...item, pinned: true }];
+}
 
 const HOLD_MS = 550;
 // Last answer for this session: the grid shows at once when Quick Access reopens, and a
@@ -8558,6 +8609,46 @@ const HOLD_MS = 550;
 let current = null;
 let inflight = null;
 let focusFullViewOnOpen = false;
+// The user's pins (saved by the backend). Loaded once per session; a pin change is the
+// user's own action, so it reaches the grid at once (PINS_EVENT), not after focus leaves.
+let pins = [];
+let pinsRequest = null;
+const PINS_EVENT = "nowPlaying:speedDialPinsChanged";
+function publishPins(next) {
+    pins = next;
+    try {
+        window.dispatchEvent(new Event(PINS_EVENT));
+    }
+    catch { /* window gone */ }
+}
+function loadPins() {
+    if (!pinsRequest) {
+        pinsRequest = youtubeMusicGetSpeedDialPins()
+            .then((result) => { if (result?.ok)
+            publishPins(sanitizePins(result.data));
+        else
+            reportSpeedDialOnce("pins_failed", { error: errorText(result?.error ?? "no answer") }); })
+            .catch((error) => { reportSpeedDialOnce("pins_failed", { error: errorText(error) }); });
+    }
+    return pinsRequest;
+}
+/** Pins or unpins a tile; the grid changes at once and goes back if saving fails. */
+async function togglePinned(item) {
+    const before = pins;
+    const wanted = togglePin(before, item);
+    publishPins(wanted);
+    try {
+        const { track: _track, ...plain } = item;
+        const result = await youtubeMusicSetSpeedDialPins(wanted.map((pin) => (itemKey(pin) === itemKey(item) ? { ...plain, pinned: true } : pin)));
+        if (!result?.ok)
+            throw new Error(String(result?.error ?? "save failed"));
+        publishPins(sanitizePins(result.data));
+    }
+    catch (error) {
+        publishPins(before);
+        notify(localizeRuntimeMessage(error, getTranslations("youtubeMusic").genericError));
+    }
+}
 function publish(next) {
     // A failed refresh keeps the tiles already shown.
     if (next.reason === "error" && !next.items.length && current?.items.length)
@@ -8673,6 +8764,7 @@ function startSpeedDialFreshness() {
  */
 function useSpeedDial(gridRef) {
     const [value, setValue] = SP_REACT.useState(current);
+    const [pinned, setPinned] = SP_REACT.useState(pins);
     const [answered, setAnswered] = SP_REACT.useState(false);
     SP_REACT.useEffect(() => {
         let alive = true;
@@ -8697,8 +8789,12 @@ function useSpeedDial(gridRef) {
         const focusMoved = () => { if (waiting)
             window.setTimeout(() => { if (waiting && !focusInside())
                 apply(); }, 0); };
+        const pinsChanged = () => { if (alive)
+            setPinned(pins); };
         window.addEventListener(SPEED_DIAL_EVENT, changed);
+        window.addEventListener(PINS_EVENT, pinsChanged);
         document.addEventListener("focusout", focusMoved, true);
+        void loadPins();
         if (current) {
             setAnswered(true);
             refreshSpeedDialIfStale("open");
@@ -8712,10 +8808,11 @@ function useSpeedDial(gridRef) {
         return () => {
             alive = false;
             window.removeEventListener(SPEED_DIAL_EVENT, changed);
+            window.removeEventListener(PINS_EVENT, pinsChanged);
             document.removeEventListener("focusout", focusMoved, true);
         };
     }, []);
-    return { value, answered };
+    return { value, pinned, answered };
 }
 function notify(body) {
     toaster.toast({ title: getTranslations("speedDial").title, body, duration: 3500 });
@@ -8801,10 +8898,11 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
 function SpeedDialGrid({ variant, onOpenFull }) {
     const t = getTranslations("speedDial");
     const gridRef = SP_REACT.useRef(null);
-    const { value: result, answered } = useSpeedDial(gridRef);
+    const { value: result, pinned, answered } = useSpeedDial(gridRef);
     const [busyKey, setBusyKey] = SP_REACT.useState("");
     const full = variant === "full";
-    const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
+    const merged = mergePinned(pinned, result?.items ?? []);
+    const items = full ? fullItems(merged) : compactItems(merged);
     // Once per session and view, after the backend's first answer: shown or why hidden.
     SP_REACT.useEffect(() => {
         if (answered)
@@ -8837,21 +8935,22 @@ function SpeedDialGrid({ variant, onOpenFull }) {
             setBusyKey("");
         }
     };
-    // "More" holds one entry, in Quick Access only: the grid refreshes itself.
-    const more = !full && onOpenFull ? (item, anchor) => {
+    // "More": pin or unpin, and (Quick Access) open the full view. The grid refreshes itself.
+    const more = (item, anchor) => {
         const openFull = () => {
             focusFullViewOnOpen = true;
-            onOpenFull();
+            onOpenFull?.();
         };
+        const pin = () => void togglePinned(item);
         try {
-            DFL.showContextMenu(SP_JSX.jsx(DFL.Menu, { label: item.title, children: SP_JSX.jsx(DFL.MenuItem, { onSelected: openFull, children: t.openFull }) }), anchor);
+            DFL.showContextMenu(SP_JSX.jsxs(DFL.Menu, { label: item.title, children: [SP_JSX.jsx(DFL.MenuItem, { onSelected: pin, children: isPinned(pinned, item) ? t.unpin : t.pin }), !full && onOpenFull ? SP_JSX.jsx(DFL.MenuItem, { onSelected: openFull, children: t.openFull }) : null] }), anchor);
         }
         catch {
-            openFull();
+            pin();
         }
-    } : undefined;
+    };
     const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
-    const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: more ? (anchor) => more(item, anchor) : undefined }, `${item.type}:${item.id}`))) }));
+    const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: (anchor) => more(item, anchor) }, itemKey(item)))) }));
     if (full) {
         const hintKey = result ? sourceHintKey(result.source) : "";
         const hint = hintKey ? t[hintKey] : "";

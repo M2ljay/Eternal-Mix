@@ -255,3 +255,62 @@ def text_leaves(value: Any) -> List[str]:
 
     walk(value)
     return found
+
+
+# ---- Shapes from a real NowPlaying.log (2026-11-27), structure only ----
+# "#N musicCarouselShelfRenderer[title,strapline] perColumn=1 items=10 (musicTwoRowItemRenderer:10)"
+
+def logged_two_row_shelf(title: str, *, strapline: Optional[str] = None, prefix: str = "x") -> Dict[str, Any]:
+    header: Dict[str, Any] = {"title": {"runs": [{"text": title}]}}
+    if strapline:
+        header["strapline"] = {"runs": [{"text": strapline}]}
+    tiles = [tile(f"{title} {index}", ["Album", "Someone"], browse(f"MPREb_{prefix}{index:05d}", ALBUM), seed=f"{prefix}{index}", pinned=None)
+             for index in range(10)]
+    return {"musicCarouselShelfRenderer": {"header": {"musicCarouselShelfBasicHeaderRenderer": header}, "contents": tiles,
+                                           "numItemsPerColumn": "1"}}
+
+
+def logged_quick_picks(count: int = 20) -> Dict[str, Any]:
+    """[title,more,title=quick_picks] perColumn=4 items=20 (musicResponsiveListItemRenderer:20)."""
+    shelf = web_quick_picks(count)
+    header = shelf["musicCarouselShelfRenderer"]["header"]["musicCarouselShelfBasicHeaderRenderer"]
+    header.pop("strapline", None)
+    header["moreContentButton"] = {"buttonRenderer": {"text": {"runs": [{"text": "Play all"}]}}}
+    shelf["musicCarouselShelfRenderer"]["numItemsPerColumn"] = "4"
+    return shelf
+
+
+def tastebuilder() -> Dict[str, Any]:
+    return {"musicTastebuilderShelfRenderer": {"trackingParams": "CAE="}}
+
+
+def home_page(rows: List[Dict[str, Any]], token: str = "") -> Dict[str, Any]:
+    """A first home page; with a token it says continuation=yes."""
+    response = home(rows)
+    if token:
+        section = response["contents"]["singleColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["sectionListRenderer"]
+        section["continuations"] = [{"nextContinuationData": {"continuation": token, "clickTrackingParams": "CAE="}}]
+    return response
+
+
+def continuation_page(rows: List[Dict[str, Any]], token: str = "") -> Dict[str, Any]:
+    section: Dict[str, Any] = {"contents": copy.deepcopy(rows), "trackingParams": "CAE="}
+    if token:
+        section["continuations"] = [{"nextContinuationData": {"continuation": token}}]
+    return {"responseContext": {}, "continuationContents": {"sectionListContinuation": section}}
+
+
+def logged_home_2330() -> Dict[str, Any]:
+    """23:30 and 23:51: #0 [title], #1 [title,strapline], #2 tastebuilder; continuation=yes."""
+    return home_page([logged_two_row_shelf("Albums for you", prefix="a"),
+                      logged_two_row_shelf("Mixed for you", strapline="Test User", prefix="b"), tastebuilder()], "tok1")
+
+
+def logged_home_0156() -> Dict[str, Any]:
+    """01:56: #0 [title,strapline], #1 quick picks, #2 tastebuilder; continuation=yes."""
+    return home_page([logged_two_row_shelf("Mixed for you", strapline="Test User", prefix="b"), logged_quick_picks(), tastebuilder()], "tok1")
+
+
+def logged_home_2257() -> Dict[str, Any]:
+    """22:57: #0 quick picks, #1 [title], #2 tastebuilder; continuation=yes."""
+    return home_page([logged_quick_picks(), logged_two_row_shelf("Albums for you", prefix="a"), tastebuilder()], "tok1")

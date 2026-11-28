@@ -10,7 +10,7 @@ new Function("module", "exports", js)(mod, mod.exports);
 const {
   SPEED_DIAL_EVENT, COMPACT_COLUMNS, COMPACT_ROWS, FULL_COLUMNS, FULL_ROWS,
   sanitizeResult, compactItems, fullItems, playPlan, pickEpisodeIndex, sourceHintKey, panelDiagnostic,
-  isStale, stepListen, LISTEN_IDLE, LISTEN_AFTER_MS, OPEN_MAX_AGE_S, LISTEN_MAX_AGE_S,
+  isStale, stepListen, mergePinned, togglePin, sanitizePins, isPinned, LISTEN_IDLE, LISTEN_AFTER_MS, OPEN_MAX_AGE_S, LISTEN_MAX_AGE_S,
 } = mod.exports;
 
 function tile(type, id, extra = {}) {
@@ -153,4 +153,25 @@ test("listening: a track that ends after 15 s triggers; pauses, sleep gaps and l
   // Local files are not YouTube Music listening.
   let local = LISTEN_IDLE;
   for (let t = 0; t < 120000; t += 5000) { const step = stepListen(local, { sourceKey: "localMusic", id: "x" }, true, t); assert.equal(step.trigger, false); local = step.state; }
+});
+
+test("pins: first in pin order, never duplicated, kept whatever a refresh returns", () => {
+  const a = tile("album", "A"), b = tile("song", "B"), c = tile("playlist", "C");
+  let pins = togglePin([], c);
+  pins = togglePin(pins, a);
+  assert.deepEqual(pins.map((item) => item.id), ["C", "A"]);
+  assert.ok(pins.every((item) => item.pinned));
+  assert.deepEqual(mergePinned(pins, [a, b]).map((item) => item.id), ["C", "A", "B"]);
+  assert.deepEqual(mergePinned(pins, []).map((item) => item.id), ["C", "A"]);
+  assert.equal(isPinned(pins, a), true);
+  pins = togglePin(pins, a);
+  assert.deepEqual(pins.map((item) => item.id), ["C"]);
+  assert.equal(isPinned(pins, a), false);
+});
+
+test("pins from the backend are checked", () => {
+  const pins = sanitizePins([tile("album", "A"), tile("album", "A"), { type: "bogus", id: "x", title: "x" }, null]);
+  assert.deepEqual(pins.map((item) => item.id), ["A"]);
+  assert.equal(pins[0].pinned, true);
+  assert.deepEqual(sanitizePins("nope"), []);
 });

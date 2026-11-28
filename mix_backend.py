@@ -4673,6 +4673,12 @@ class Plugin:
     async def youtube_music_get_speed_dial(self, refresh: bool = False, max_age: float = 0) -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.get_speed_dial, bool(refresh), max_age)
 
+    async def youtube_music_get_speed_dial_pins(self) -> Dict[str, Any]:
+        return await self._youtube_music_result(self._youtube_music.get_speed_dial_pins)
+
+    async def youtube_music_set_speed_dial_pins(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        return await self._youtube_music_result(self._youtube_music.set_speed_dial_pins, items if isinstance(items, list) else [])
+
     async def youtube_music_get_speed_dial_queue(self, item: Dict[str, Any]) -> Dict[str, Any]:
         return await self._youtube_music_result(self._youtube_music.get_speed_dial_queue, item if isinstance(item, dict) else {})
 

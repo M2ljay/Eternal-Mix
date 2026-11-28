@@ -305,6 +305,14 @@ export function youtubeMusicGetSpeedDial(refresh = false, maxAge = 0): Promise<A
   return call<[refresh: boolean, maxAge: number], ApiResult<unknown>>("youtube_music_get_speed_dial", refresh, maxAge);
 }
 
+export function youtubeMusicGetSpeedDialPins(): Promise<ApiResult<unknown>> {
+  return call<[], ApiResult<unknown>>("youtube_music_get_speed_dial_pins");
+}
+
+export function youtubeMusicSetSpeedDialPins(items: object[]): Promise<ApiResult<unknown>> {
+  return call<[items: object[]], ApiResult<unknown>>("youtube_music_set_speed_dial_pins", items);
+}
+
 export function youtubeMusicGetSpeedDialQueue(item: object): Promise<ApiResult<{ tracks: any[]; mode: string; playlistId: string }>> {
   return call<[item: object], ApiResult<{ tracks: any[]; mode: string; playlistId: string }>>("youtube_music_get_speed_dial_queue", item);
 }

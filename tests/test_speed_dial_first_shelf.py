@@ -30,16 +30,16 @@ def _response(*rows):
 class FirstShelfTests(unittest.TestCase):
     def test_first_account_shelf_is_used_even_one_per_column_and_one_kind(self):
         result = m.select_grid(_response(_row(True, 10)))
-        self.assertEqual(result["source"], m.SOURCE_LISTEN_AGAIN)
+        self.assertEqual(result["source"], m.SOURCE_SPEED_DIAL)
         self.assertEqual(len(result["items"]), 10)
 
-    def test_a_later_account_shelf_is_not_promoted(self):
+    def test_a_later_account_shelf_is_chosen(self):
         result = m.select_grid(_response(_row(False, 10), _row(True, 10)))
-        self.assertNotEqual(result["source"], m.SOURCE_LISTEN_AGAIN)
+        self.assertEqual((result["source"], result["index"]), (m.SOURCE_SPEED_DIAL, 1))
 
     def test_first_shelf_without_account_name_is_not_promoted(self):
         result = m.select_grid(_response(_row(False, 10)))
-        self.assertNotEqual(result["source"], m.SOURCE_LISTEN_AGAIN)
+        self.assertNotEqual(result["source"], m.SOURCE_SPEED_DIAL)
 
 
 if __name__ == "__main__":

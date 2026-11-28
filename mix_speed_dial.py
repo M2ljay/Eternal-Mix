@@ -349,7 +349,15 @@ def _tiles(row: Any, max_items: int) -> List[Dict[str, Any]]:
     return _dedupe([parse_tile(entry.get(MTRIR) if isinstance(entry, dict) else None) for entry in entries], max_items)
 
 
-MIN_FIRST_SHELF = 3
+# Straplines that are labels, not an account name ("SIMILAR TO" over an artist shelf,
+# "Start radio from a song" over Quick picks). Casefolded; the client asks for hl=en.
+NON_ACCOUNT_STRAPLINES = ("similar to", "more from", "start radio from a song", "because you listened to",
+                          "because you like", "from your library", "from the community", "new release")
+# How many continuation pages of the home feed are read, at most, looking for a shelf.
+MAX_CONTINUATION_PAGES = 2
+# Sources that come from the listening history: once one is shown, a later answer that
+# only has Quick picks or the library does not replace it (ytmusic_service keeps it).
+GOOD_SOURCES = (SOURCE_SPEED_DIAL, SOURCE_LISTEN_AGAIN)
 
 
 def _two_row_tiles(row: Any) -> int:
@@ -357,10 +365,25 @@ def _two_row_tiles(row: Any) -> int:
     return sum(1 for entry in entries if isinstance(entry, dict) and isinstance(entry.get(MTRIR), dict))
 
 
-def _has_strapline(row: Any) -> bool:
+def _strapline(row: Any) -> str:
     _kind, body, _entries = _shelf_body(row)
     header = _nav(body, "header", "musicCarouselShelfBasicHeaderRenderer") or {}
-    return bool(_runs_text(header.get("strapline") if isinstance(header, dict) else None))
+    return _runs_text(header.get("strapline") if isinstance(header, dict) else None)
+
+
+def is_account_shelf(row: Any) -> bool:
+    """The web client's account-headed shelf: two-row tiles under a header whose strapline
+    is the account name (not a label such as "SIMILAR TO"), in any position."""
+    kind, _body, entries = _shelf_body(row)
+    if kind != CAROUSEL:
+        return False
+    strapline = _strapline(row).casefold()
+    if not strapline or any(strapline.startswith(label) for label in NON_ACCOUNT_STRAPLINES):
+        return False
+    if _title_key(row) == SOURCE_QUICK_PICKS:
+        return False
+    tiles = _two_row_tiles(row)
+    return tiles >= 2 and tiles * 5 >= len(entries) * 4
 
 
 def listen_again_score(row: Any) -> int:
@@ -448,41 +471,84 @@ def _quick_pick_items(row: Any, max_items: int) -> List[Dict[str, Any]]:
 
 
 def select_grid(response: Any, max_items: int = MAX_ITEMS) -> Dict[str, Any]:
-    """The grid to show from a raw home response, with the fallback chain.
+    """select_rows over one raw home response."""
+    return select_rows(home_rows(response), max_items)
 
-    {"found", "source", "title", "score", "items", "checked"}: Speed dial first, else
-    Listen again, else Quick picks (both among the first shelves). "checked" says, per
-    source, whether a candidate shelf was seen (a shelf whose tiles all failed to parse
-    is seen but gives no items). source is "" when nothing fits; the library fallback
-    is ytmusic_service's.
+
+def select_rows(rows: List[Any], max_items: int = MAX_ITEMS) -> Dict[str, Any]:
+    """The grid to show from the home feed's shelves (in order), with the fallback chain.
+
+    {"found", "source", "title", "score", "items", "checked", "index", "why"}:
+      1. Speed dial (its own layout: 3 tiles per column or a grid);
+      2. else the first account-headed shelf in any position (source speed_dial: on the
+         web client it is the Speed dial's place, laid out one tile per column);
+      3. else Listen again, else Quick picks (both among the first shelves).
+    "checked" says, per source, whether a candidate shelf was seen (a shelf whose tiles all
+    failed to parse is seen but gives no items). "index" is the chosen shelf's position in
+    `rows` (-1 when none) and "why" a fixed phrase for the log. source is "" when nothing
+    fits; the library fallback is ytmusic_service's.
     """
     checked = {SOURCE_SPEED_DIAL: False, SOURCE_LISTEN_AGAIN: False, SOURCE_QUICK_PICKS: False}
-    speed = extract_speed_dial(response, max_items)
-    checked[SOURCE_SPEED_DIAL] = bool(speed["found"])
-    if speed["found"] and speed["items"]:
-        return {"found": True, "source": SOURCE_SPEED_DIAL, "title": speed["title"], "score": speed["score"],
-                "items": speed["items"], "checked": checked}
-    top = home_rows(response)[:TOP_ROWS]
-    for source, scorer, reader, minimum in (
-            (SOURCE_LISTEN_AGAIN, listen_again_score, _tiles, 3),
-            (SOURCE_QUICK_PICKS, quick_picks_score, _quick_pick_items, 2)):
-        best: Optional[Tuple[int, Any]] = None
+
+    def chosen(source: str, index: int, score: int, items: List[Dict[str, Any]], why: str) -> Dict[str, Any]:
+        return {"found": True, "source": source, "title": shelf_title(rows[index]), "score": score,
+                "items": items, "checked": checked, "index": index, "why": why}
+
+    best: Optional[Tuple[int, int]] = None
+    for index, row in enumerate(rows):
+        score = shelf_score(row)
+        if score >= MIN_SCORE and _speed_dial_layout(row) and (best is None or score > best[0]):
+            best = (score, index)
+    if best is not None:
+        checked[SOURCE_SPEED_DIAL] = True
+        items = _tiles(rows[best[1]], max_items)
+        if items:
+            return chosen(SOURCE_SPEED_DIAL, best[1], best[0], items, "speed dial layout")
+    for index, row in enumerate(rows):
+        if not is_account_shelf(row):
+            continue
+        # Shaped like Listen again (or named so), it stays Listen again: the full view's hint says so.
+        source = SOURCE_LISTEN_AGAIN if (_title_key(row) == SOURCE_LISTEN_AGAIN or listen_again_score(row) >= 3) else SOURCE_SPEED_DIAL
+        checked[source] = True
+        items = _tiles(row, max_items)
+        if items:
+            return chosen(source, index, shelf_score(row), items, "first account-headed shelf")
+    top = rows[:TOP_ROWS]
+    for source, scorer, reader, minimum, why in (
+            (SOURCE_LISTEN_AGAIN, listen_again_score, _tiles, 3, "listen again shelf"),
+            (SOURCE_QUICK_PICKS, quick_picks_score, _quick_pick_items, 2, "quick picks shelf")):
+        found: Optional[Tuple[int, int]] = None
         for index, row in enumerate(top):
             score = scorer(row)
-            # The web client's first home shelf, headed with the account name (strapline),
-            # is the history shelf even when it lays its tiles out one per column.
-            if source == SOURCE_LISTEN_AGAIN and index == 0 and _has_strapline(row):
-                score = max(score + 2, MIN_FIRST_SHELF if _two_row_tiles(row) >= 2 else 0)
-            if score >= minimum and (best is None or score > best[0]):
-                best = (score, row)
-        if best is None:
+            if score >= minimum and (found is None or score > found[0]):
+                found = (score, index)
+        if found is None:
             continue
         checked[source] = True
-        items = reader(best[1], max_items)
+        items = reader(rows[found[1]], max_items)
         if items:
-            return {"found": True, "source": source, "title": shelf_title(best[1]), "score": best[0],
-                    "items": items, "checked": checked}
-    return {"found": False, "source": "", "title": "", "score": 0, "items": [], "checked": checked}
+            return chosen(source, found[1], found[0], items, why)
+    return {"found": False, "source": "", "title": "", "score": 0, "items": [], "checked": checked, "index": -1, "why": ""}
+
+
+def continuation_token(response: Any) -> str:
+    """The token for the home feed's next page: from the first page's section list or from
+    a continuation page; "" when there is none."""
+    lists = (
+        _nav(response, "contents", "singleColumnBrowseResultsRenderer", "tabs", 0, "tabRenderer", "content", "sectionListRenderer"),
+        _nav(response, "continuationContents", "sectionListContinuation"),
+    )
+    for section in lists:
+        token = _str(_nav(section, "continuations", 0, "nextContinuationData", "continuation"))
+        if token:
+            return token
+    return ""
+
+
+def continuation_rows(response: Any) -> List[Any]:
+    """The shelves of a home continuation page."""
+    rows = _nav(response, "continuationContents", "sectionListContinuation", "contents")
+    return rows if isinstance(rows, list) else []
 
 
 def _renderer_name(value: Any) -> str:

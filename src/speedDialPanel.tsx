@@ -19,14 +19,19 @@ import {
   LISTEN_MAX_AGE_S,
   MIN_ASK_GAP_MS,
   OPEN_MAX_AGE_S,
+  isPinned,
   isStale,
+  mergePinned,
+  sanitizePins,
   stepListen,
+  togglePin,
   SPEED_DIAL_EVENT,
   compactItems,
   fullItems,
   panelDiagnostic,
   pickEpisodeIndex,
   playPlan,
+  itemKey,
   sanitizeResult,
   sourceHintKey,
   type SpeedDialItem,
@@ -40,6 +45,41 @@ const HOLD_MS = 550;
 let current: SpeedDialResult | null = null;
 let inflight: Promise<SpeedDialResult> | null = null;
 let focusFullViewOnOpen = false;
+// The user's pins (saved by the backend). Loaded once per session; a pin change is the
+// user's own action, so it reaches the grid at once (PINS_EVENT), not after focus leaves.
+let pins: SpeedDialItem[] = [];
+let pinsRequest: Promise<void> | null = null;
+const PINS_EVENT = "nowPlaying:speedDialPinsChanged";
+
+function publishPins(next: SpeedDialItem[]) {
+  pins = next;
+  try { window.dispatchEvent(new Event(PINS_EVENT)); } catch { /* window gone */ }
+}
+
+function loadPins(): Promise<void> {
+  if (!pinsRequest) {
+    pinsRequest = python.youtubeMusicGetSpeedDialPins()
+      .then((result) => { if (result?.ok) publishPins(sanitizePins(result.data)); else reportSpeedDialOnce("pins_failed", { error: errorText(result?.error ?? "no answer") }); })
+      .catch((error) => { reportSpeedDialOnce("pins_failed", { error: errorText(error) }); });
+  }
+  return pinsRequest;
+}
+
+/** Pins or unpins a tile; the grid changes at once and goes back if saving fails. */
+async function togglePinned(item: SpeedDialItem): Promise<void> {
+  const before = pins;
+  const wanted = togglePin(before, item);
+  publishPins(wanted);
+  try {
+    const { track: _track, ...plain } = item as any;
+    const result = await python.youtubeMusicSetSpeedDialPins(wanted.map((pin) => (itemKey(pin) === itemKey(item) ? { ...plain, pinned: true } : pin)));
+    if (!result?.ok) throw new Error(String(result?.error ?? "save failed"));
+    publishPins(sanitizePins(result.data));
+  } catch (error) {
+    publishPins(before);
+    notify(localizeRuntimeMessage(error, getTranslations("youtubeMusic").genericError));
+  }
+}
 
 function publish(next: SpeedDialResult) {
   // A failed refresh keeps the tiles already shown.
@@ -136,8 +176,9 @@ export function startSpeedDialFreshness(): () => void {
  * stale. A new answer that arrives while focus is inside the grid waits until focus
  * leaves it (or the grid closes), so the tile under the cursor never moves or vanishes.
  */
-function useSpeedDial(gridRef: { current: HTMLElement | null }): { value: SpeedDialResult | null; answered: boolean } {
+function useSpeedDial(gridRef: { current: HTMLElement | null }): { value: SpeedDialResult | null; pinned: SpeedDialItem[]; answered: boolean } {
   const [value, setValue] = useState<SpeedDialResult | null>(current);
+  const [pinned, setPinned] = useState<SpeedDialItem[]>(pins);
   const [answered, setAnswered] = useState(false);
   useEffect(() => {
     let alive = true;
@@ -148,8 +189,11 @@ function useSpeedDial(gridRef: { current: HTMLElement | null }): { value: SpeedD
     const apply = () => { if (alive) { waiting = false; setValue(current); } };
     const changed = () => { if (focusInside()) waiting = true; else apply(); };
     const focusMoved = () => { if (waiting) window.setTimeout(() => { if (waiting && !focusInside()) apply(); }, 0); };
+    const pinsChanged = () => { if (alive) setPinned(pins); };
     window.addEventListener(SPEED_DIAL_EVENT, changed);
+    window.addEventListener(PINS_EVENT, pinsChanged);
     document.addEventListener("focusout", focusMoved, true);
+    void loadPins();
     if (current) {
       setAnswered(true);
       refreshSpeedDialIfStale("open");
@@ -159,10 +203,11 @@ function useSpeedDial(gridRef: { current: HTMLElement | null }): { value: SpeedD
     return () => {
       alive = false;
       window.removeEventListener(SPEED_DIAL_EVENT, changed);
+      window.removeEventListener(PINS_EVENT, pinsChanged);
       document.removeEventListener("focusout", focusMoved, true);
     };
   }, []);
-  return { value, answered };
+  return { value, pinned, answered };
 }
 
 function notify(body: string) {
@@ -279,10 +324,11 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
 export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "full"; onOpenFull?: () => void }) {
   const t = getTranslations("speedDial");
   const gridRef = useRef<HTMLDivElement>(null);
-  const { value: result, answered } = useSpeedDial(gridRef);
+  const { value: result, pinned, answered } = useSpeedDial(gridRef);
   const [busyKey, setBusyKey] = useState("");
   const full = variant === "full";
-  const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
+  const merged = mergePinned(pinned, result?.items ?? []);
+  const items = full ? fullItems(merged) : compactItems(merged);
 
   // Once per session and view, after the backend's first answer: shown or why hidden.
   useEffect(() => {
@@ -308,23 +354,25 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
     try { await playSpeedDialItem(item); } finally { setBusyKey(""); }
   };
 
-  // "More" holds one entry, in Quick Access only: the grid refreshes itself.
-  const more = !full && onOpenFull ? (item: SpeedDialItem, anchor?: EventTarget) => {
+  // "More": pin or unpin, and (Quick Access) open the full view. The grid refreshes itself.
+  const more = (item: SpeedDialItem, anchor?: EventTarget) => {
     const openFull = () => {
       focusFullViewOnOpen = true;
-      onOpenFull();
+      onOpenFull?.();
     };
+    const pin = () => void togglePinned(item);
     try {
       showContextMenu(
         <Menu label={item.title}>
-          <MenuItem onSelected={openFull}>{t.openFull}</MenuItem>
+          <MenuItem onSelected={pin}>{isPinned(pinned, item) ? t.unpin : t.pin}</MenuItem>
+          {!full && onOpenFull ? <MenuItem onSelected={openFull}>{t.openFull}</MenuItem> : null}
         </Menu>,
         anchor,
       );
     } catch {
-      openFull();
+      pin();
     }
-  } : undefined;
+  };
 
   const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
   const grid = (
@@ -335,12 +383,12 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
     >
       {items.map((item) => (
         <SpeedDialTile
-          key={`${item.type}:${item.id}`}
+          key={itemKey(item)}
           item={item}
           full={full}
           busy={busyKey === `${item.type}:${item.id}`}
           onPlay={() => void play(item)}
-          onMore={more ? (anchor) => more(item, anchor) : undefined}
+          onMore={(anchor) => more(item, anchor)}
         />
       ))}
     </Focusable>

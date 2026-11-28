@@ -200,3 +200,33 @@ export function stepListen(prev: ListenState, track: any, playing: boolean, nowM
   const trigger = !prev.counted && playedMs >= LISTEN_AFTER_MS;
   return { state: { key, playedMs, lastAt: nowMs, counted: prev.counted || trigger }, trigger };
 }
+
+// Pins: the user's own tiles, first in pin order, saved by the backend and never dropped
+// by a refresh. A pinned item that YouTube Music also returns appears once, as the pin.
+
+export function itemKey(item: Pick<SpeedDialItem, "type" | "id">): string {
+  return `${item.type}:${item.id}`;
+}
+
+/** Backend pins, checked like any answer, each marked pinned. */
+export function sanitizePins(value: unknown): SpeedDialItem[] {
+  const result = sanitizeResult({ items: Array.isArray(value) ? value : [] });
+  const seen = new Set<string>();
+  return result.items.filter((item) => !seen.has(itemKey(item)) && seen.add(itemKey(item))).map((item) => ({ ...item, pinned: true }));
+}
+
+/** The grid's order: pins first (pin order), then the fetched tiles not already pinned. */
+export function mergePinned(pins: SpeedDialItem[], items: SpeedDialItem[]): SpeedDialItem[] {
+  const pinned = new Set(pins.map(itemKey));
+  return [...pins.map((item) => ({ ...item, pinned: true })), ...items.filter((item) => !pinned.has(itemKey(item)))];
+}
+
+export function isPinned(pins: SpeedDialItem[], item: SpeedDialItem): boolean {
+  return pins.some((pin) => itemKey(pin) === itemKey(item));
+}
+
+/** Pins after pinning (appended last) or unpinning `item`. */
+export function togglePin(pins: SpeedDialItem[], item: SpeedDialItem): SpeedDialItem[] {
+  if (isPinned(pins, item)) return pins.filter((pin) => itemKey(pin) !== itemKey(item));
+  return [...pins, { ...item, pinned: true }];
+}

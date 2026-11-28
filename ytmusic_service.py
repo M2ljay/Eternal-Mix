@@ -44,6 +44,10 @@ class YouTubeMusicService:
         self.response_cache_dir = os.path.join(settings_dir, "youtube-music-response-cache")
         self.browser_profile_dir = os.path.join(settings_dir, "youtube-music-browser-profile")
         self.unavailable_path = os.path.join(settings_dir, "youtube-music-unavailable.json")
+        # The last speed dial taken from the listening history, and the user's pins: kept
+        # outside the response cache, so clearing the cache never drops them.
+        self.speed_dial_last_good_path = os.path.join(settings_dir, "youtube-music-speed-dial-last-good.json")
+        self.speed_dial_pins_path = os.path.join(settings_dir, "youtube-music-speed-dial-pins.json")
         self._logger = logger
         self._lock = threading.RLock()
         self._client: Any = None
@@ -556,6 +560,7 @@ class YouTubeMusicService:
             profile = self._client_for_request(True).get_account_info()
             self.settings["profile"] = profile if isinstance(profile, dict) else {}
             self.clear_cache()
+            self._forget_speed_dial_last_good()
             self._save_settings()
         return self.public_settings()
 
@@ -567,6 +572,7 @@ class YouTubeMusicService:
             self._client = None
             self._client_signature = ""
             self.clear_cache()
+            self._forget_speed_dial_last_good()
             self._save_settings()
         try:
             if os.path.isdir(self.browser_profile_dir):
@@ -1043,8 +1049,9 @@ class YouTubeMusicService:
         except _NothingToCache as empty:
             return empty.value
 
-    # v2: v1 cached "missing" answers from before the fallback chain.
-    SPEED_DIAL_CACHE_KEY = "speeddial:v2"
+    # v2: v1 cached "missing" answers from before the fallback chain. v3: v2 may hold a
+    # library or quick-picks answer taken while the account-headed shelf was there.
+    SPEED_DIAL_CACHE_KEY = "speeddial:v3"
     _speed_dial_cache_logged: Any = None
     SPEED_DIAL_TTL = 1800.0
     # A caller's max_age is clamped to [floor, TTL]: however often the frontend asks, the
@@ -1162,6 +1169,100 @@ class YouTubeMusicService:
                     merged.append(values[index])
         return merged[:mix_speed_dial.MAX_ITEMS]
 
+    # ---- Speed dial: the last good set and the user's pins (JSON files in settings_dir) ----
+
+    def _read_json_file(self, path: str) -> Any:
+        try:
+            with open(path, "r", encoding="utf-8") as handle:
+                return json.load(handle)
+        except Exception:
+            return None
+
+    def _write_json_file(self, path: str, value: Any) -> bool:
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            temporary = path + ".tmp"
+            with open(temporary, "w", encoding="utf-8") as handle:
+                json.dump(value, handle, ensure_ascii=False, separators=(",", ":"))
+            os.replace(temporary, path)
+            return True
+        except Exception as exc:
+            self._log(f"YouTube Music speed dial file write error: {type(exc).__name__}")
+            return False
+
+    def _speed_dial_last_good(self) -> Optional[Dict[str, Any]]:
+        value = self._read_json_file(self.speed_dial_last_good_path)
+        if not isinstance(value, dict) or value.get("source") not in mix_speed_dial.GOOD_SOURCES:
+            return None
+        items = value.get("items")
+        if not isinstance(items, list) or not items:
+            return None
+        return value
+
+    def _remember_speed_dial_last_good(self, result: Dict[str, Any]) -> None:
+        self._write_json_file(self.speed_dial_last_good_path, {
+            "items": result.get("items") or [], "title": result.get("title") or "",
+            "source": result.get("source") or "", "savedAt": time.time()})
+
+    def _forget_speed_dial_last_good(self) -> None:
+        try:
+            if os.path.isfile(self.speed_dial_last_good_path):
+                os.remove(self.speed_dial_last_good_path)
+        except Exception as exc:
+            self._log(f"YouTube Music speed dial last-good cleanup error: {type(exc).__name__}")
+
+    MAX_SPEED_DIAL_PINS = mix_speed_dial.MAX_ITEMS
+
+    @staticmethod
+    def _clean_pin(value: Any) -> Optional[Dict[str, Any]]:
+        if not isinstance(value, dict):
+            return None
+        kind = str(value.get("type") or "")
+        item_id = str(value.get("id") or "").strip()[:200]
+        title = str(value.get("title") or "").strip()[:300]
+        if kind not in mix_speed_dial.ITEM_TYPES or not item_id or not title:
+            return None
+        clean: Dict[str, Any] = {"type": kind, "id": item_id, "title": title}
+        for key, limit in (("subtitle", 300), ("thumbnail", 2000), ("browseId", 200), ("videoId", 64),
+                           ("playlistId", 200), ("params", 200)):
+            clean[key] = str(value.get(key) or "")[:limit]
+        images = value.get("images")
+        clean["images"] = [{k: image[k] for k in ("url", "width", "height") if k in image}
+                           for image in images if isinstance(image, dict) and isinstance(image.get("url"), str)][:4] \
+            if isinstance(images, list) else []
+        clean["round"] = bool(value.get("round"))
+        clean["pinned"] = True
+        if isinstance(value.get("track"), dict):
+            clean["track"] = value["track"]
+        return clean
+
+    def get_speed_dial_pins(self) -> List[Dict[str, Any]]:
+        """The user's pinned speed dial items, in pin order (never touched by a refresh)."""
+        value = self._read_json_file(self.speed_dial_pins_path)
+        items = value.get("items") if isinstance(value, dict) else None
+        pins: List[Dict[str, Any]] = []
+        seen = set()
+        for entry in items if isinstance(items, list) else []:
+            clean = self._clean_pin(entry)
+            if clean and (clean["type"], clean["id"]) not in seen:
+                seen.add((clean["type"], clean["id"]))
+                pins.append(clean)
+        return pins[:self.MAX_SPEED_DIAL_PINS]
+
+    def set_speed_dial_pins(self, items: Any) -> List[Dict[str, Any]]:
+        """Replaces the pins (in the given order) and answers what was saved."""
+        pins: List[Dict[str, Any]] = []
+        seen = set()
+        for entry in items if isinstance(items, list) else []:
+            clean = self._clean_pin(entry)
+            if clean and (clean["type"], clean["id"]) not in seen:
+                seen.add((clean["type"], clean["id"]))
+                pins.append(clean)
+        pins = pins[:self.MAX_SPEED_DIAL_PINS]
+        self._write_json_file(self.speed_dial_pins_path, {"items": pins})
+        self._log(f"YouTube Music speed dial: pins saved, count={len(pins)}")
+        return pins
+
     def get_speed_dial(self, refresh: bool = False, max_age: Any = 0) -> Dict[str, Any]:
         """The Speed dial grid. Never raises: empty with a reason instead.
 
@@ -1187,41 +1288,84 @@ class YouTubeMusicService:
 
         def produce() -> Dict[str, Any]:
             fetched["done"] = True
+            refresh_text = f"refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s"
             # A request-local client: ytmusicapi's mobile (OAuth) context is not thread-safe.
             client = self._independent_client_for_request(True)
+            pages = 0
             with self._request_context(client):
                 label = fetched["client"] = self._client_label(client)
                 response = client._send_request("browse", {"browseId": "FEmusic_home"})
-            try:
-                self._log("YouTube Music speed dial: home structure: "
-                          + mix_speed_dial.format_summary(mix_speed_dial.summarize_home(response)))
-            except Exception as exc:
-                self._log(f"YouTube Music speed dial: home structure unavailable: {type(exc).__name__}")
-            shelf = mix_speed_dial.select_grid(response)
+                try:
+                    self._log("YouTube Music speed dial: home structure: "
+                              + mix_speed_dial.format_summary(mix_speed_dial.summarize_home(response)))
+                except Exception as exc:
+                    self._log(f"YouTube Music speed dial: home structure unavailable: {type(exc).__name__}")
+                rows = list(mix_speed_dial.home_rows(response))
+                shelf = mix_speed_dial.select_rows(rows)
+                token = mix_speed_dial.continuation_token(response)
+                # The first page often holds only 3 shelves: read on (bounded) before falling back.
+                while (shelf["source"] not in mix_speed_dial.GOOD_SOURCES and token
+                       and pages < mix_speed_dial.MAX_CONTINUATION_PAGES):
+                    try:
+                        page = client._send_request("browse", {}, additionalParams=f"&ctoken={token}&continuation={token}")
+                    except Exception as exc:
+                        self._log(f"YouTube Music speed dial: continuation page {pages + 1} failed: {type(exc).__name__}")
+                        break
+                    pages += 1
+                    more = mix_speed_dial.continuation_rows(page)
+                    self._log(f"YouTube Music speed dial: continuation page {pages}: shelves={len(more)}, "
+                              f"structure: " + mix_speed_dial.format_summary(
+                                  {"wrapper": "sectionListContinuation", "rows": len(more),
+                                   "continuation": bool(mix_speed_dial.continuation_token(page)),
+                                   "shelves": mix_speed_dial.summarize_home({"contents": {"singleColumnBrowseResultsRenderer": {"tabs": [
+                                       {"tabRenderer": {"content": {"sectionListRenderer": {"contents": more}}}}]}}})["shelves"]}))
+                    if not more:
+                        break
+                    rows.extend(more)
+                    shelf = mix_speed_dial.select_rows(rows)
+                    token = mix_speed_dial.continuation_token(page)
             checked = shelf.get("checked") or {}
             source = shelf["source"]
+            found = "yes" if checked.get(mix_speed_dial.SOURCE_SPEED_DIAL) else "no"
+            seen = ",".join(name for name in (mix_speed_dial.SOURCE_LISTEN_AGAIN, mix_speed_dial.SOURCE_QUICK_PICKS)
+                            if checked.get(name)) or "none"
+            where = (f"shelf=#{shelf['index']} of {len(rows)} ({shelf['why']}), continuation pages read={pages}"
+                     if shelf.get("index", -1) >= 0 else f"shelf=none of {len(rows)}, continuation pages read={pages}")
+            if source in mix_speed_dial.GOOD_SOURCES:
+                items = [self._speed_dial_item(raw) for raw in shelf["items"]]
+                result = {"items": items, "reason": "", "title": shelf["title"], "source": source, "fetchedAt": time.time()}
+                self._remember_speed_dial_last_good(result)
+                self._log(f"YouTube Music speed dial: called ({refresh_text}), client={label}, "
+                          f"speed dial shelf={found}, fallback shelves seen={seen}, source={source}, items={len(items)}, "
+                          f"{where} (reason={shelf['why']}; saved as the last good set)")
+                return result
+            # No history shelf this time: a good set seen before wins over Quick picks or the library.
+            last = self._speed_dial_last_good()
+            if last:
+                age = max(0, int(time.time() - float(last.get("savedAt") or 0)))
+                self._log(f"YouTube Music speed dial: called ({refresh_text}), client={label}, "
+                          f"speed dial shelf={found}, fallback shelves seen={seen}, {where}; "
+                          f"kept the last good set: source={last['source']}, items={len(last['items'])}, age={age}s "
+                          f"(reason=this fetch had only {source or 'nothing usable'}; a fallback never replaces a good set)")
+                return {"items": last["items"], "reason": "", "title": str(last.get("title") or ""),
+                        "source": last["source"], "fetchedAt": time.time()}
             raw_items = shelf["items"]
             if not raw_items:
                 raw_items = self._speed_dial_from_library()
                 source = mix_speed_dial.SOURCE_LIBRARY if raw_items else ""
             items = [self._speed_dial_item(raw) for raw in raw_items]
-            found = "yes" if checked.get(mix_speed_dial.SOURCE_SPEED_DIAL) else "no"
-            seen = ",".join(name for name in (mix_speed_dial.SOURCE_LISTEN_AGAIN, mix_speed_dial.SOURCE_QUICK_PICKS)
-                            if checked.get(name)) or "none"
             if not items:
                 reason_text = "no Speed dial, Listen again or Quick picks shelf with playable items and an empty library"
-                self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s), client={label}, "
-                          f"speed dial shelf={found}, fallback shelves seen={seen}, source=none, items=0 "
+                self._log(f"YouTube Music speed dial: called ({refresh_text}), client={label}, "
+                          f"speed dial shelf={found}, fallback shelves seen={seen}, source=none, items=0, {where} "
                           f"(reason=missing: {reason_text})")
                 return empty("missing")
             why = {
-                mix_speed_dial.SOURCE_SPEED_DIAL: "speed dial shelf",
-                mix_speed_dial.SOURCE_LISTEN_AGAIN: "no speed dial shelf; listen again used",
-                mix_speed_dial.SOURCE_QUICK_PICKS: "no speed dial or listen again shelf; quick picks used",
-                mix_speed_dial.SOURCE_LIBRARY: "no usable home shelf; library playlists and albums used",
+                mix_speed_dial.SOURCE_QUICK_PICKS: "no speed dial or listen again shelf, no last good set; quick picks used",
+                mix_speed_dial.SOURCE_LIBRARY: "no usable home shelf, no last good set; library playlists and albums used",
             }.get(source, "")
-            self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s), client={label}, "
-                      f"speed dial shelf={found}, fallback shelves seen={seen}, source={source}, items={len(items)} "
+            self._log(f"YouTube Music speed dial: called ({refresh_text}), client={label}, "
+                      f"speed dial shelf={found}, fallback shelves seen={seen}, source={source}, items={len(items)}, {where} "
                       f"(reason={why})")
             return {"items": items, "reason": "", "title": shelf["title"] if source != mix_speed_dial.SOURCE_LIBRARY else "",
                     "source": source, "fetchedAt": time.time()}

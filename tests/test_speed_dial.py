@@ -361,8 +361,15 @@ class FallbackTests(unittest.TestCase):
         self.assertEqual(grid["source"], sd.SOURCE_QUICK_PICKS)
 
     def test_fallbacks_only_look_at_the_first_shelves(self):
-        rows = [fx.plain_shelf(f"Recommended {index}") for index in range(sd.TOP_ROWS)] + [fx.listen_again_shelf(), fx.web_quick_picks()]
+        later = fx.listen_again_shelf()
+        later["musicCarouselShelfRenderer"]["header"]["musicCarouselShelfBasicHeaderRenderer"].pop("strapline")
+        rows = [fx.plain_shelf(f"Recommended {index}") for index in range(sd.TOP_ROWS)] + [later, fx.web_quick_picks()]
         self.assertFalse(sd.select_grid(fx.home(rows))["found"])
+
+    def test_an_account_headed_shelf_is_found_in_any_position(self):
+        rows = [fx.plain_shelf(f"Recommended {index}") for index in range(sd.TOP_ROWS)] + [fx.listen_again_shelf(), fx.web_quick_picks()]
+        grid = sd.select_grid(fx.home(rows))
+        self.assertEqual((grid["source"], grid["index"], grid["why"]), (sd.SOURCE_LISTEN_AGAIN, sd.TOP_ROWS, "first account-headed shelf"))
 
     def test_nothing_usable(self):
         grid = sd.select_grid(fx.web_home_nothing_usable())
@@ -440,7 +447,8 @@ class ServiceFallbackTests(unittest.TestCase):
         self.assertIn("speed dial shelf=no", outcome[0])
         self.assertIn("fallback shelves seen=listen_again", outcome[0])
         self.assertIn("source=listen_again, items=6", outcome[0])
-        self.assertIn("reason=no speed dial shelf; listen again used", outcome[0])
+        self.assertIn("shelf=#1 of 4 (first account-headed shelf)", outcome[0])
+        self.assertIn("saved as the last good set", outcome[0])
         structure = [line for line in self.lines if "speed dial: home structure:" in line]
         self.assertEqual(len(structure), 1)
         self.assertIn("musicTwoRowItemRenderer:6", structure[0])
@@ -481,7 +489,7 @@ class ServiceFallbackTests(unittest.TestCase):
         service, log = self.make_service(response=fx.web_home_nothing_usable())
         service.get_library = lambda section, max_items=100: {"items": []}
         service.get_speed_dial()
-        self.assertIn("source=none, items=0 (reason=missing", self.log_text())
+        self.assertIn("source=none, items=0, shelf=none of 2, continuation pages read=0 (reason=missing", self.log_text())
 
     def test_signed_out_and_errors_are_logged(self):
         service, log = self.make_service(signed_in=False)

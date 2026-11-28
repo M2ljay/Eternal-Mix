@@ -271,9 +271,8 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
   if (full) {
     const hintKey = result ? sourceHintKey(result.source) : "";
     const hint = hintKey ? t[hintKey] : "";
-    // TODO(Core UI): the Core Starfield goes behind this black area once Core supplies it.
     return (
-      <section className="npSpeedDial npSpeedDialFull" style={{ marginTop: "28px", background: CORE.black }}>
+      <section className="npSpeedDial npSpeedDialFull" style={{ marginTop: "28px", background: "transparent" }}>
         <style>{TILE_CSS}</style>
         <h2 style={{ margin: "0 0 13px", fontSize: "25px", fontWeight: 650, color: CORE.text }}>
           {t.title}

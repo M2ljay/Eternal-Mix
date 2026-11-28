@@ -16,7 +16,7 @@ import { localAudioPlayer, useLocalAudioState } from "./localAudio";
 import { LocalSeekBar, LocalSeekButtons } from "./seekControls";
 import { YouTubeMusicBigPicture, YouTubeMusicBrowser, YouTubeMusicSettingsPanel } from "./youtubeMusic";
 import { GameSoundtrackEntry, startGameSoundtrack } from "./gameSoundtrackPanel";
-import { SpeedDialGrid, reportSpeedDialOnce } from "./speedDialPanel";
+import { SpeedDialGrid, reportSpeedDialOnce, startSpeedDialFreshness } from "./speedDialPanel";
 import { offerEnabled as soundtrackOfferEnabled, setOfferEnabled as setSoundtrackOfferEnabled } from "./gameSoundtrack";
 import { formatTranslation, getTranslations, localizeRuntimeMessage } from "./i18n";
 import type { CoreTranslation } from "./i18n";
@@ -4325,6 +4325,7 @@ function startGameDucking(): () => void {
 
 let stopGameDucking: () => void = () => {};
 let stopGameSoundtrack: () => void = () => {};
+let stopSpeedDialFreshness: () => void = () => {};
 
 function soundtrackStorage(): Storage | undefined {
   try { return window.localStorage; } catch { return undefined; }
@@ -4336,6 +4337,7 @@ export default definePlugin(() => {
   try {
     stopGameSoundtrack = startGameSoundtrack({ appName: PLUGIN_DISPLAY_NAME, available: () => loadEnabledAppKeys()[0] === "youtubeMusic" });
   } catch { stopGameSoundtrack = () => {}; }
+  try { stopSpeedDialFreshness = startSpeedDialFreshness(); } catch { stopSpeedDialFreshness = () => {}; }
   routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
   routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
   routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
@@ -4355,6 +4357,7 @@ export default definePlugin(() => {
       forceRestoreFullscreenChrome();
       try { stopGameDucking(); } catch { /* best effort */ }
       try { stopGameSoundtrack(); } catch { /* best effort */ }
+      try { stopSpeedDialFreshness(); } catch { /* best effort */ }
       publishPlaybackActivity(false, "Stopped", "", "", "");
       localAudioPlayer.destroy();
       routerHook.removeRoute(FULLSCREEN_ROUTE);

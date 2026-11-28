@@ -396,8 +396,8 @@ function youtubeMusicGetLibrary(section, maxItems = 100) {
 function youtubeMusicGetDetail(kind, itemId) {
     return call("youtube_music_get_detail", kind, itemId);
 }
-function youtubeMusicGetSpeedDial(refresh = false) {
-    return call("youtube_music_get_speed_dial", refresh);
+function youtubeMusicGetSpeedDial(refresh = false, maxAge = 0) {
+    return call("youtube_music_get_speed_dial", refresh, maxAge);
 }
 function youtubeMusicGetSpeedDialQueue(item) {
     return call("youtube_music_get_speed_dial_queue", item);
@@ -855,9 +855,7 @@ var en = {
 		title: "Speed dial",
 		play: "Play",
 		more: "More",
-		refresh: "Refresh speed dial",
 		openFull: "Open in full view",
-		refreshed: "Speed dial refreshed",
 		nothingToPlay: "Nothing to play here",
 		pinned: "Pinned",
 		fromListenAgain: "from Listen again",
@@ -1183,9 +1181,7 @@ var it = {
 		title: "Selezione rapida",
 		play: "Riproduci",
 		more: "Altro",
-		refresh: "Aggiorna selezione rapida",
 		openFull: "Apri a schermo intero",
-		refreshed: "Selezione rapida aggiornata",
 		nothingToPlay: "Niente da riprodurre qui",
 		pinned: "Fissato",
 		fromListenAgain: "da Ascolta di nuovo",
@@ -1511,9 +1507,7 @@ var es = {
 		title: "Marcación rápida",
 		play: "Reproducir",
 		more: "Más",
-		refresh: "Actualizar marcación rápida",
 		openFull: "Abrir a pantalla completa",
-		refreshed: "Marcación rápida actualizada",
 		nothingToPlay: "No hay nada que reproducir",
 		pinned: "Fijado",
 		fromListenAgain: "de Volver a escuchar",
@@ -1839,9 +1833,7 @@ var fr = {
 		title: "Accès rapide",
 		play: "Lire",
 		more: "Plus",
-		refresh: "Actualiser l'accès rapide",
 		openFull: "Ouvrir en plein écran",
-		refreshed: "Accès rapide actualisé",
 		nothingToPlay: "Rien à lire ici",
 		pinned: "Épinglé",
 		fromListenAgain: "depuis À réécouter",
@@ -2167,9 +2159,7 @@ var de = {
 		title: "Schnellwahl",
 		play: "Abspielen",
 		more: "Mehr",
-		refresh: "Schnellwahl aktualisieren",
 		openFull: "Im Vollbild öffnen",
-		refreshed: "Schnellwahl aktualisiert",
 		nothingToPlay: "Hier gibt es nichts abzuspielen",
 		pinned: "Angeheftet",
 		fromListenAgain: "aus Nochmal hören",
@@ -2495,9 +2485,7 @@ var ru = {
 		title: "Быстрый набор",
 		play: "Воспроизвести",
 		more: "Ещё",
-		refresh: "Обновить быстрый набор",
 		openFull: "Открыть во весь экран",
-		refreshed: "Быстрый набор обновлён",
 		nothingToPlay: "Здесь нечего воспроизвести",
 		pinned: "Закреплено",
 		fromListenAgain: "из «Слушать снова»",
@@ -2823,9 +2811,7 @@ var ja = {
 		title: "スピードダイヤル",
 		play: "再生",
 		more: "その他",
-		refresh: "スピードダイヤルを更新",
 		openFull: "全画面で開く",
-		refreshed: "スピードダイヤルを更新しました",
 		nothingToPlay: "再生できるものがありません",
 		pinned: "固定済み",
 		fromListenAgain: "「もう一度聴く」から",
@@ -3151,9 +3137,7 @@ var ko = {
 		title: "단축 다이얼",
 		play: "재생",
 		more: "더보기",
-		refresh: "단축 다이얼 새로고침",
 		openFull: "전체 화면으로 열기",
-		refreshed: "단축 다이얼을 새로고침했습니다",
 		nothingToPlay: "재생할 항목이 없습니다",
 		pinned: "고정됨",
 		fromListenAgain: "'다시 듣기'에서",
@@ -3479,9 +3463,7 @@ var zh = {
 		title: "快速拨号",
 		play: "播放",
 		more: "更多",
-		refresh: "刷新快速拨号",
 		openFull: "全屏打开",
-		refreshed: "快速拨号已刷新",
 		nothingToPlay: "没有可播放的内容",
 		pinned: "已置顶",
 		fromListenAgain: "来自“再次收听”",
@@ -3813,9 +3795,7 @@ var catalogs = {
 		title: "Discagem rápida",
 		play: "Tocar",
 		more: "Mais",
-		refresh: "Atualizar discagem rápida",
 		openFull: "Abrir em tela cheia",
-		refreshed: "Discagem rápida atualizada",
 		nothingToPlay: "Nada para tocar aqui",
 		pinned: "Fixado",
 		fromListenAgain: "de Ouvir de novo",
@@ -6749,7 +6729,7 @@ function formatMegabytes(bytes) {
     return Number.isFinite(value) && value > 0 ? (value / 1000000).toFixed(1) : "?";
 }
 
-var version = "1.0.3";
+var version = "1.1.0";
 var packageInfo = {
 	version: version};
 
@@ -8532,10 +8512,49 @@ function pickEpisodeIndex(episodes, progress) {
     }
     return 0;
 }
+// Keeping the grid fresh without a refresh button. Ages are in seconds and go to the
+// backend as max_age, which clamps them and fetches YouTube Music's home only when its
+// cached answer is older; these checks just avoid asking when the answer we hold is fresh.
+const OPEN_MAX_AGE_S = 300; // page or panel opens, Steam regains focus, resume from sleep
+const LISTEN_MAX_AGE_S = 180; // after listening: at most one home fetch every 3 minutes
+const LISTEN_AFTER_MS = 45000; // a track counts once it has played this long
+const LISTEN_FINISHED_MS = 15000; // or when it ends (track changes or stops) after this long
+const LISTEN_DEBOUNCE_MS = 20000; // listening triggers settle before one fetch
+const MIN_ASK_GAP_MS = 60000; // never ask the backend more often than this for one reason
+/** Whether `result` is older than `maxAgeS` (no answer, or one never fetched, is stale). */
+function isStale(result, nowMs, maxAgeS) {
+    if (!result || !result.fetchedAt)
+        return true;
+    return nowMs - result.fetchedAt * 1000 >= maxAgeS * 1000;
+}
+const LISTEN_IDLE = { key: "", playedMs: 0, lastAt: 0, counted: false };
+/**
+ * One look at the player (polled every few seconds). Counts the time a YouTube Music
+ * track has been playing and says when listening should refresh the grid: once per
+ * track after LISTEN_AFTER_MS, or when it gives way to another after LISTEN_FINISHED_MS. A gap between
+ * looks counts at most 10 seconds, so sleep or a stalled poll never counts as listening.
+ */
+function stepListen(prev, track, playing, nowMs) {
+    const key = track && String(track.sourceKey ?? "") === "youtubeMusic" ? String(track.videoId || track.id || "") : "";
+    if (key !== prev.key) {
+        // The previous track ended or was changed: it counts if it played long enough.
+        const finished = !!prev.key && !prev.counted && prev.playedMs >= LISTEN_FINISHED_MS;
+        return { state: { key, playedMs: 0, lastAt: playing && key ? nowMs : 0, counted: false }, trigger: finished };
+    }
+    // Paused: the clock stops until it plays again.
+    if (!playing)
+        return { state: { ...prev, lastAt: 0 }, trigger: false };
+    if (!key)
+        return { state: prev, trigger: false };
+    const step = prev.lastAt ? Math.max(0, Math.min(10000, nowMs - prev.lastAt)) : 0;
+    const playedMs = prev.playedMs + step;
+    const trigger = !prev.counted && playedMs >= LISTEN_AFTER_MS;
+    return { state: { key, playedMs, lastAt: nowMs, counted: prev.counted || trigger }, trigger };
+}
 
 const HOLD_MS = 550;
-// Last answer for this session: the grid shows at once when Quick Access reopens, then
-// the backend (30-minute cache) confirms it.
+// Last answer for this session: the grid shows at once when Quick Access reopens, and a
+// fresher answer replaces it when it arrives (see refreshSpeedDialIfStale).
 let current = null;
 let inflight = null;
 let focusFullViewOnOpen = false;
@@ -8563,10 +8582,11 @@ function reportSpeedDialOnce(event, details) {
 function errorText(error) {
     return String(error?.message ?? error ?? "unknown").replace(/\s+/g, " ").slice(0, 120);
 }
-function loadSpeedDial(refresh = false) {
-    if (inflight && !refresh)
+/** Asks the backend; `maxAge` (seconds) lets it fetch again when its cached answer is older. */
+function loadSpeedDial(maxAge = OPEN_MAX_AGE_S) {
+    if (inflight)
         return inflight;
-    const request = youtubeMusicGetSpeedDial(refresh)
+    const request = youtubeMusicGetSpeedDial(false, maxAge)
         .then((result) => {
         if (!result?.ok)
             reportSpeedDialOnce("call_failed", { error: errorText(result?.error ?? "no answer") });
@@ -8581,18 +8601,119 @@ function loadSpeedDial(refresh = false) {
         inflight = null; });
     return request;
 }
-function useSpeedDial() {
+// When each reason last asked, so a failing or signed-out backend is not asked in a loop.
+const lastAsked = new Map();
+/**
+ * Refreshes in the background when the answer held is older than `maxAge` seconds. Never
+ * awaited by the UI; the grid keeps showing what it has until the new answer arrives.
+ */
+function refreshSpeedDialIfStale(reason, maxAge = OPEN_MAX_AGE_S) {
+    const now = Date.now();
+    if (inflight || !isStale(current, now, maxAge))
+        return;
+    if (now - (lastAsked.get(reason) ?? 0) < MIN_ASK_GAP_MS)
+        return;
+    lastAsked.set(reason, now);
+    void loadSpeedDial(maxAge);
+}
+/**
+ * Plugin-wide triggers, started once at load: Steam regaining focus or waking from sleep,
+ * and listening (a YouTube Music track played for a while, or finished), debounced.
+ */
+function startSpeedDialFreshness() {
+    const stops = [];
+    const onFocus = () => refreshSpeedDialIfStale("focus");
+    const onVisible = () => { if (document.visibilityState === "visible")
+        refreshSpeedDialIfStale("focus"); };
+    try {
+        window.addEventListener("focus", onFocus);
+        document.addEventListener("visibilitychange", onVisible);
+        stops.push(() => { window.removeEventListener("focus", onFocus); document.removeEventListener("visibilitychange", onVisible); });
+    }
+    catch { /* no window */ }
+    try {
+        const system = globalThis.SteamClient?.System;
+        if (typeof system?.RegisterForOnResumeFromSuspend === "function") {
+            const handle = system.RegisterForOnResumeFromSuspend(() => refreshSpeedDialIfStale("resume"));
+            stops.push(() => { try {
+                handle?.unregister?.();
+            }
+            catch { /* gone */ } });
+        }
+    }
+    catch { /* Steam API missing */ }
+    let listen = LISTEN_IDLE;
+    let debounce = 0;
+    const poll = window.setInterval(() => {
+        try {
+            const state = localAudioPlayer.getSnapshot();
+            const step = stepListen(listen, state.track, state.status === "Playing", Date.now());
+            listen = step.state;
+            if (!step.trigger)
+                return;
+            if (debounce)
+                window.clearTimeout(debounce);
+            debounce = window.setTimeout(() => { debounce = 0; refreshSpeedDialIfStale("listening", LISTEN_MAX_AGE_S); }, LISTEN_DEBOUNCE_MS);
+        }
+        catch { /* player gone */ }
+    }, 5000);
+    stops.push(() => { window.clearInterval(poll); if (debounce)
+        window.clearTimeout(debounce); });
+    return () => { for (const stop of stops.splice(0)) {
+        try {
+            stop();
+        }
+        catch { /* best effort */ }
+    } };
+}
+/**
+ * The grid's data. Shows the held answer at once and asks for a fresher one if it is
+ * stale. A new answer that arrives while focus is inside the grid waits until focus
+ * leaves it (or the grid closes), so the tile under the cursor never moves or vanishes.
+ */
+function useSpeedDial(gridRef) {
     const [value, setValue] = SP_REACT.useState(current);
     const [answered, setAnswered] = SP_REACT.useState(false);
     SP_REACT.useEffect(() => {
         let alive = true;
-        const changed = () => setValue(current);
-        window.addEventListener(SPEED_DIAL_EVENT, changed);
-        void loadSpeedDial(false).then(() => { if (alive) {
+        let waiting = false;
+        const focusInside = () => {
+            try {
+                const grid = gridRef.current;
+                return !!grid && !!document.activeElement && grid.contains(document.activeElement);
+            }
+            catch {
+                return false;
+            }
+        };
+        const apply = () => { if (alive) {
+            waiting = false;
             setValue(current);
+        } };
+        const changed = () => { if (focusInside())
+            waiting = true;
+        else
+            apply(); };
+        const focusMoved = () => { if (waiting)
+            window.setTimeout(() => { if (waiting && !focusInside())
+                apply(); }, 0); };
+        window.addEventListener(SPEED_DIAL_EVENT, changed);
+        document.addEventListener("focusout", focusMoved, true);
+        if (current) {
             setAnswered(true);
-        } });
-        return () => { alive = false; window.removeEventListener(SPEED_DIAL_EVENT, changed); };
+            refreshSpeedDialIfStale("open");
+        }
+        else {
+            void loadSpeedDial(OPEN_MAX_AGE_S).then(() => { if (alive) {
+                changed();
+                setAnswered(true);
+            } });
+        }
+        return () => {
+            alive = false;
+            window.removeEventListener(SPEED_DIAL_EVENT, changed);
+            document.removeEventListener("focusout", focusMoved, true);
+        };
     }, []);
     return { value, answered };
 }
@@ -8658,9 +8779,11 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
     SP_REACT.useEffect(() => cancelHold, []);
     const startHold = (event) => {
         held.current = false;
+        if (!onMore)
+            return;
         cancelHold();
         const anchor = event?.currentTarget ?? undefined;
-        holdTimer.current = window.setTimeout(() => { holdTimer.current = 0; held.current = true; onMore(anchor); }, HOLD_MS);
+        holdTimer.current = window.setTimeout(() => { holdTimer.current = 0; held.current = true; onMore?.(anchor); }, HOLD_MS);
     };
     return (SP_JSX.jsxs(DFL.Focusable, { className: `npSpeedDialTile${busy ? " npSpeedDialBusy" : ""}`, noFocusRing: true, onActivate: () => {
             // The click that ends a long press is not a press.
@@ -8669,7 +8792,7 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
                 return;
             }
             onPlay();
-        }, onOKActionDescription: t.play, onSecondaryButton: (event) => onMore(event?.currentTarget ?? event?.target ?? undefined), onSecondaryActionDescription: t.more, onFocus: (event) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }), onPointerDown: startHold, onPointerUp: cancelHold, onPointerLeave: cancelHold, onPointerCancel: cancelHold, onContextMenu: (event) => { event?.preventDefault?.(); cancelHold(); onMore(event?.currentTarget ?? undefined); }, style: { display: "flex", flexDirection: "column", gap: full ? "7px" : "4px", padding: full ? "4px" : "2px" }, children: [SP_JSX.jsxs("div", { className: "npSpeedDialArt", style: { borderRadius: item.round ? "50%" : full ? "8px" : "5px" }, children: [item.thumbnail ? SP_JSX.jsx("img", { src: item.thumbnail, alt: "", loading: "lazy", referrerPolicy: "no-referrer", draggable: false }) : null, item.pinned ? (SP_JSX.jsx("span", { "aria-label": t.pinned, style: { position: "absolute", top: full ? 6 : 3, right: full ? 6 : 3, display: "flex", padding: full ? 4 : 2, borderRadius: 999, background: CORE.gunmetal, color: CORE.steel }, children: SP_JSX.jsx(FaThumbtack, { size: full ? 11 : 7 }) })) : null] }), SP_JSX.jsx("div", { className: "npSpeedDialName", style: { ...ellipsis, textAlign: full ? "left" : "center", fontSize: full ? "15px" : ".62em", fontWeight: 600, lineHeight: 1.2, color: CORE.steel }, children: item.title }), full && item.subtitle ? SP_JSX.jsx("div", { style: { ...ellipsis, fontSize: "13px", lineHeight: 1.2, color: CORE.hint }, children: item.subtitle }) : null] }));
+        }, onOKActionDescription: t.play, onSecondaryButton: onMore ? (event) => onMore(event?.currentTarget ?? event?.target ?? undefined) : undefined, onSecondaryActionDescription: onMore ? t.more : undefined, onFocus: (event) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" }), onPointerDown: startHold, onPointerUp: cancelHold, onPointerLeave: cancelHold, onPointerCancel: cancelHold, onContextMenu: (event) => { event?.preventDefault?.(); cancelHold(); onMore?.(event?.currentTarget ?? undefined); }, style: { display: "flex", flexDirection: "column", gap: full ? "7px" : "4px", padding: full ? "4px" : "2px" }, children: [SP_JSX.jsxs("div", { className: "npSpeedDialArt", style: { borderRadius: item.round ? "50%" : full ? "8px" : "5px" }, children: [item.thumbnail ? SP_JSX.jsx("img", { src: item.thumbnail, alt: "", loading: "lazy", referrerPolicy: "no-referrer", draggable: false }) : null, item.pinned ? (SP_JSX.jsx("span", { "aria-label": t.pinned, style: { position: "absolute", top: full ? 6 : 3, right: full ? 6 : 3, display: "flex", padding: full ? 4 : 2, borderRadius: 999, background: CORE.gunmetal, color: CORE.steel }, children: SP_JSX.jsx(FaThumbtack, { size: full ? 11 : 7 }) })) : null] }), SP_JSX.jsx("div", { className: "npSpeedDialName", style: { ...ellipsis, textAlign: full ? "left" : "center", fontSize: full ? "15px" : ".62em", fontWeight: 600, lineHeight: 1.2, color: CORE.steel }, children: item.title }), full && item.subtitle ? SP_JSX.jsx("div", { style: { ...ellipsis, fontSize: "13px", lineHeight: 1.2, color: CORE.hint }, children: item.subtitle }) : null] }));
 }
 /**
  * The Speed dial grid. `compact` is the Quick Access block (2 by 4), `full` the
@@ -8677,9 +8800,9 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }) {
  */
 function SpeedDialGrid({ variant, onOpenFull }) {
     const t = getTranslations("speedDial");
-    const { value: result, answered } = useSpeedDial();
-    const [busyKey, setBusyKey] = SP_REACT.useState("");
     const gridRef = SP_REACT.useRef(null);
+    const { value: result, answered } = useSpeedDial(gridRef);
+    const [busyKey, setBusyKey] = SP_REACT.useState("");
     const full = variant === "full";
     const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
     // Once per session and view, after the backend's first answer: shown or why hidden.
@@ -8714,24 +8837,21 @@ function SpeedDialGrid({ variant, onOpenFull }) {
             setBusyKey("");
         }
     };
-    const more = (item, anchor) => {
-        const refresh = () => {
-            void loadSpeedDial(true).then((next) => { if (next.reason !== "error")
-                notify(t.refreshed); });
-        };
+    // "More" holds one entry, in Quick Access only: the grid refreshes itself.
+    const more = !full && onOpenFull ? (item, anchor) => {
         const openFull = () => {
             focusFullViewOnOpen = true;
-            onOpenFull?.();
+            onOpenFull();
         };
         try {
-            DFL.showContextMenu(SP_JSX.jsxs(DFL.Menu, { label: item.title, children: [SP_JSX.jsx(DFL.MenuItem, { onSelected: refresh, children: t.refresh }), !full && onOpenFull ? SP_JSX.jsx(DFL.MenuItem, { onSelected: openFull, children: t.openFull }) : null] }), anchor);
+            DFL.showContextMenu(SP_JSX.jsx(DFL.Menu, { label: item.title, children: SP_JSX.jsx(DFL.MenuItem, { onSelected: openFull, children: t.openFull }) }), anchor);
         }
         catch {
-            refresh();
+            openFull();
         }
-    };
+    } : undefined;
     const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
-    const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: (anchor) => more(item, anchor) }, `${item.type}:${item.id}`))) }));
+    const grid = (SP_JSX.jsx(DFL.Focusable, { ref: gridRef, "flow-children": "grid", style: { display: "grid", gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gap: full ? "12px" : "5px", width: "100%" }, children: items.map((item) => (SP_JSX.jsx(SpeedDialTile, { item: item, full: full, busy: busyKey === `${item.type}:${item.id}`, onPlay: () => void play(item), onMore: more ? (anchor) => more(item, anchor) : undefined }, `${item.type}:${item.id}`))) }));
     if (full) {
         const hintKey = result ? sourceHintKey(result.source) : "";
         const hint = hintKey ? t[hintKey] : "";
@@ -43986,6 +44106,7 @@ function startGameDucking() {
 }
 let stopGameDucking = () => { };
 let stopGameSoundtrack = () => { };
+let stopSpeedDialFreshness = () => { };
 function soundtrackStorage() {
     try {
         return window.localStorage;
@@ -44008,6 +44129,12 @@ var index = definePlugin(() => {
     catch {
         stopGameSoundtrack = () => { };
     }
+    try {
+        stopSpeedDialFreshness = startSpeedDialFreshness();
+    }
+    catch {
+        stopSpeedDialFreshness = () => { };
+    }
     routerHook.addRoute(FULLSCREEN_ROUTE, FullscreenRoute);
     routerHook.addRoute(LOCAL_MUSIC_BIG_PICTURE_ROUTE, LocalMusicBigPictureRoute);
     routerHook.addRoute(YOUTUBE_MUSIC_BIG_PICTURE_ROUTE, YouTubeMusicBigPictureRoute);
@@ -44026,6 +44153,10 @@ var index = definePlugin(() => {
             catch { /* best effort */ }
             try {
                 stopGameSoundtrack();
+            }
+            catch { /* best effort */ }
+            try {
+                stopSpeedDialFreshness();
             }
             catch { /* best effort */ }
             publishPlaybackActivity(false, "Stopped", "", "", "");

@@ -1047,6 +1047,18 @@ class YouTubeMusicService:
     SPEED_DIAL_CACHE_KEY = "speeddial:v2"
     _speed_dial_cache_logged: Any = None
     SPEED_DIAL_TTL = 1800.0
+    # A caller's max_age is clamped to [floor, TTL]: however often the frontend asks, the
+    # home feed is fetched at most once a minute.
+    SPEED_DIAL_MIN_AGE = 60.0
+
+    def _speed_dial_max_age(self, max_age: Any) -> float:
+        try:
+            value = float(max_age or 0)
+        except (TypeError, ValueError):
+            value = 0.0
+        if value <= 0 or value != value:
+            return self.SPEED_DIAL_TTL
+        return min(self.SPEED_DIAL_TTL, max(self.SPEED_DIAL_MIN_AGE, value))
 
     def _forget_cached(self, key: str) -> None:
         with self._lock:
@@ -1150,14 +1162,16 @@ class YouTubeMusicService:
                     merged.append(values[index])
         return merged[:mix_speed_dial.MAX_ITEMS]
 
-    def get_speed_dial(self, refresh: bool = False) -> Dict[str, Any]:
+    def get_speed_dial(self, refresh: bool = False, max_age: Any = 0) -> Dict[str, Any]:
         """The Speed dial grid. Never raises: empty with a reason instead.
 
         Taken from the home feed's Speed dial shelf, else (the web home often has none)
         Listen again, else Quick picks, else the library's playlists and albums; "source"
         says which (speed_dial, listen_again, quick_picks, library). reason: "" (items
         found), "signed_out", "missing" (nothing to show) or "error" (the request failed;
-        not cached). Cached for 30 minutes; refresh=True fetches again. Every outcome is
+        not cached). Cached for at most 30 minutes; max_age (seconds, clamped to 1-30
+        minutes) fetches again once the cached answer is older than that, and refresh=True
+        fetches again whatever its age. Every outcome is
         logged once per fetch, with a structural summary of the home response that holds
         no titles, names, ids, thumbnails or account details.
         """
@@ -1166,6 +1180,7 @@ class YouTubeMusicService:
             self._log("YouTube Music speed dial: called; not signed in, nothing fetched (reason=signed_out)")
             return empty("signed_out")
         key = self.SPEED_DIAL_CACHE_KEY
+        ttl = self._speed_dial_max_age(max_age)
         if refresh:
             self._forget_cached(key)
         fetched = {"done": False, "client": "not created"}
@@ -1195,7 +1210,7 @@ class YouTubeMusicService:
                             if checked.get(name)) or "none"
             if not items:
                 reason_text = "no Speed dial, Listen again or Quick picks shelf with playable items and an empty library"
-                self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}), client={label}, "
+                self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s), client={label}, "
                           f"speed dial shelf={found}, fallback shelves seen={seen}, source=none, items=0 "
                           f"(reason=missing: {reason_text})")
                 return empty("missing")
@@ -1205,23 +1220,23 @@ class YouTubeMusicService:
                 mix_speed_dial.SOURCE_QUICK_PICKS: "no speed dial or listen again shelf; quick picks used",
                 mix_speed_dial.SOURCE_LIBRARY: "no usable home shelf; library playlists and albums used",
             }.get(source, "")
-            self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}), client={label}, "
+            self._log(f"YouTube Music speed dial: called (refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s), client={label}, "
                       f"speed dial shelf={found}, fallback shelves seen={seen}, source={source}, items={len(items)} "
                       f"(reason={why})")
             return {"items": items, "reason": "", "title": shelf["title"] if source != mix_speed_dial.SOURCE_LIBRARY else "",
                     "source": source, "fetchedAt": time.time()}
 
         try:
-            result = self._cached(key, self.SPEED_DIAL_TTL, produce)
+            result = self._cached(key, ttl, produce)
         except Exception as exc:
-            self._log(f"YouTube Music speed dial unavailable: called (refresh={'yes' if refresh else 'no'}), "
+            self._log(f"YouTube Music speed dial unavailable: called (refresh={'yes' if refresh else 'no'}, max_age={int(ttl)}s), "
                       f"client={fetched['client']}, items=0 (reason=error, not cached: {type(exc).__name__}: {exc})")
             return empty("error", error=str(exc))
         if not fetched["done"]:
             stamp = (result.get("source"), result.get("fetchedAt"), len(result.get("items") or []))
             if stamp != self._speed_dial_cache_logged:
                 self._speed_dial_cache_logged = stamp
-                self._log(f"YouTube Music speed dial: called; served from the 30-minute cache: "
+                self._log(f"YouTube Music speed dial: called; served from the cache (max_age={int(ttl)}s): "
                           f"source={result.get('source') or 'none'}, items={len(result.get('items') or [])}, "
                           f"reason={result.get('reason') or 'ok'}")
         return result

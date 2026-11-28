@@ -301,8 +301,8 @@ export function youtubeMusicGetDetail(kind: "album" | "playlist" | "artist", ite
   return call<[kind: string, itemId: string], ApiResult>("youtube_music_get_detail", kind, itemId);
 }
 
-export function youtubeMusicGetSpeedDial(refresh = false): Promise<ApiResult<unknown>> {
-  return call<[refresh: boolean], ApiResult<unknown>>("youtube_music_get_speed_dial", refresh);
+export function youtubeMusicGetSpeedDial(refresh = false, maxAge = 0): Promise<ApiResult<unknown>> {
+  return call<[refresh: boolean, maxAge: number], ApiResult<unknown>>("youtube_music_get_speed_dial", refresh, maxAge);
 }
 
 export function youtubeMusicGetSpeedDialQueue(item: object): Promise<ApiResult<{ tracks: any[]; mode: string; playlistId: string }>> {

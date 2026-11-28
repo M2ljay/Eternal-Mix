@@ -10,6 +10,7 @@ new Function("module", "exports", js)(mod, mod.exports);
 const {
   SPEED_DIAL_EVENT, COMPACT_COLUMNS, COMPACT_ROWS, FULL_COLUMNS, FULL_ROWS,
   sanitizeResult, compactItems, fullItems, playPlan, pickEpisodeIndex, sourceHintKey, panelDiagnostic,
+  isStale, stepListen, LISTEN_IDLE, LISTEN_AFTER_MS, OPEN_MAX_AGE_S, LISTEN_MAX_AGE_S,
 } = mod.exports;
 
 function tile(type, id, extra = {}) {
@@ -115,4 +116,41 @@ test("the panel logs once through the diagnostic route, and Quick Access says wh
   // The label stays "Speed dial"; the source hint is in the full view only.
   assert.equal((panel.match(/sourceHintKey\(/g) ?? []).length, 1);
   assert.ok(panel.indexOf("sourceHintKey(") > panel.indexOf("if (full) {"));
+});
+
+test("freshness: no answer or an old one is stale", () => {
+  const now = 1_000_000_000_000;
+  assert.equal(isStale(null, now, OPEN_MAX_AGE_S), true);
+  assert.equal(isStale({ items: [], reason: "error", title: "", source: "", fetchedAt: 0 }, now, OPEN_MAX_AGE_S), true);
+  const fresh = { items: [], reason: "", title: "", source: "speed_dial", fetchedAt: now / 1000 - 60 };
+  assert.equal(isStale(fresh, now, OPEN_MAX_AGE_S), false);
+  assert.equal(isStale({ ...fresh, fetchedAt: now / 1000 - 200 }, now, LISTEN_MAX_AGE_S), true);
+});
+
+test("listening: one trigger per track after it has played a while", () => {
+  const song = { sourceKey: "youtubeMusic", videoId: "abc" };
+  let state = LISTEN_IDLE, triggers = 0, t = 0;
+  for (let i = 0; i < 30; i += 1) {
+    const step = stepListen(state, song, true, t); state = step.state; triggers += step.trigger ? 1 : 0; t += 5000;
+  }
+  assert.equal(triggers, 1);
+  assert.ok(state.playedMs >= LISTEN_AFTER_MS);
+});
+
+test("listening: a track that ends after 15 s triggers; pauses, sleep gaps and local files do not count", () => {
+  const a = { sourceKey: "youtubeMusic", videoId: "a" }, b = { sourceKey: "youtubeMusic", videoId: "b" };
+  let state = stepListen(LISTEN_IDLE, a, true, 0).state;
+  for (let t = 5000; t <= 20000; t += 5000) state = stepListen(state, a, true, t).state;
+  assert.equal(stepListen(state, b, true, 25000).trigger, true);
+  // Paused: no time counts.
+  let paused = stepListen(LISTEN_IDLE, a, true, 0).state;
+  for (let t = 5000; t <= 120000; t += 5000) assert.equal(stepListen(paused, a, false, t).trigger, false), paused = stepListen(paused, a, false, t).state;
+  assert.equal(paused.playedMs, 0);
+  // One huge gap counts 10 s at most.
+  const gap = stepListen(stepListen(LISTEN_IDLE, a, true, 1000).state, a, true, 3_600_000);
+  assert.equal(gap.trigger, false);
+  assert.equal(gap.state.playedMs, 10000);
+  // Local files are not YouTube Music listening.
+  let local = LISTEN_IDLE;
+  for (let t = 0; t < 120000; t += 5000) { const step = stepListen(local, { sourceKey: "localMusic", id: "x" }, true, t); assert.equal(step.trigger, false); local = step.state; }
 });

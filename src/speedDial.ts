@@ -159,3 +159,44 @@ export function pickEpisodeIndex(episodes: any[], progress: (episode: any) => Ep
   return 0;
 }
 
+
+// Keeping the grid fresh without a refresh button. Ages are in seconds and go to the
+// backend as max_age, which clamps them and fetches YouTube Music's home only when its
+// cached answer is older; these checks just avoid asking when the answer we hold is fresh.
+export const OPEN_MAX_AGE_S = 300; // page or panel opens, Steam regains focus, resume from sleep
+export const LISTEN_MAX_AGE_S = 180; // after listening: at most one home fetch every 3 minutes
+export const LISTEN_AFTER_MS = 45_000; // a track counts once it has played this long
+export const LISTEN_FINISHED_MS = 15_000; // or when it ends (track changes or stops) after this long
+export const LISTEN_DEBOUNCE_MS = 20_000; // listening triggers settle before one fetch
+export const MIN_ASK_GAP_MS = 60_000; // never ask the backend more often than this for one reason
+
+/** Whether `result` is older than `maxAgeS` (no answer, or one never fetched, is stale). */
+export function isStale(result: SpeedDialResult | null, nowMs: number, maxAgeS: number): boolean {
+  if (!result || !result.fetchedAt) return true;
+  return nowMs - result.fetchedAt * 1000 >= maxAgeS * 1000;
+}
+
+export type ListenState = { key: string; playedMs: number; lastAt: number; counted: boolean };
+export const LISTEN_IDLE: ListenState = { key: "", playedMs: 0, lastAt: 0, counted: false };
+
+/**
+ * One look at the player (polled every few seconds). Counts the time a YouTube Music
+ * track has been playing and says when listening should refresh the grid: once per
+ * track after LISTEN_AFTER_MS, or when it gives way to another after LISTEN_FINISHED_MS. A gap between
+ * looks counts at most 10 seconds, so sleep or a stalled poll never counts as listening.
+ */
+export function stepListen(prev: ListenState, track: any, playing: boolean, nowMs: number): { state: ListenState; trigger: boolean } {
+  const key = track && String(track.sourceKey ?? "") === "youtubeMusic" ? String(track.videoId || track.id || "") : "";
+  if (key !== prev.key) {
+    // The previous track ended or was changed: it counts if it played long enough.
+    const finished = !!prev.key && !prev.counted && prev.playedMs >= LISTEN_FINISHED_MS;
+    return { state: { key, playedMs: 0, lastAt: playing && key ? nowMs : 0, counted: false }, trigger: finished };
+  }
+  // Paused: the clock stops until it plays again.
+  if (!playing) return { state: { ...prev, lastAt: 0 }, trigger: false };
+  if (!key) return { state: prev, trigger: false };
+  const step = prev.lastAt ? Math.max(0, Math.min(10_000, nowMs - prev.lastAt)) : 0;
+  const playedMs = prev.playedMs + step;
+  const trigger = !prev.counted && playedMs >= LISTEN_AFTER_MS;
+  return { state: { key, playedMs, lastAt: nowMs, counted: prev.counted || trigger }, trigger };
+}

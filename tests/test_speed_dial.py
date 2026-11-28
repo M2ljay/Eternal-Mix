@@ -235,6 +235,29 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(len(log), 3)
         self.assertEqual(service.SPEED_DIAL_TTL, 1800.0)
 
+    def test_max_age_fetches_again_once_the_answer_is_older(self):
+        service, log = self.make_service()
+        service.get_speed_dial(max_age=300)
+        self.assertEqual(len(log), 1)
+        service.get_speed_dial(max_age=300)
+        self.assertEqual(len(log), 1)
+        real_monotonic, real_time = ytmusic_service.time.monotonic, ytmusic_service.time.time
+        with mock.patch.object(ytmusic_service.time, "monotonic", lambda: real_monotonic() + 301), \
+                mock.patch.object(ytmusic_service.time, "time", lambda: real_time() + 301):
+            service.get_speed_dial()  # the 30-minute default still holds it
+            self.assertEqual(len(log), 1)
+            service.get_speed_dial(max_age=300)
+            self.assertEqual(len(log), 2)
+
+    def test_max_age_is_clamped_to_one_minute_and_thirty(self):
+        service, _ = self.make_service()
+        self.assertEqual(service._speed_dial_max_age(5), 60.0)
+        self.assertEqual(service._speed_dial_max_age(10_000), 1800.0)
+        self.assertEqual(service._speed_dial_max_age(0), 1800.0)
+        self.assertEqual(service._speed_dial_max_age("bad"), 1800.0)
+        self.assertEqual(service._speed_dial_max_age(float("nan")), 1800.0)
+        self.assertEqual(service._speed_dial_max_age(180), 180.0)
+
     def test_signing_out_or_clearing_drops_the_cache(self):
         service, log = self.make_service()
         service.get_speed_dial()
@@ -466,7 +489,7 @@ class ServiceFallbackTests(unittest.TestCase):
         self.assertIn("speed dial: called; not signed in", self.log_text())
         service, log = self.make_service(fail=True)
         service.get_speed_dial()
-        self.assertIn("speed dial unavailable: called (refresh=no), client=WEB_REMIX (cookie), items=0 (reason=error, not cached", self.log_text())
+        self.assertIn("speed dial unavailable: called (refresh=no, max_age=1800s), client=WEB_REMIX (cookie), items=0 (reason=error, not cached", self.log_text())
 
     def test_oauth_uses_the_mobile_client_and_says_so(self):
         service, log = self.make_service(response=fx.web_home_listen_again())
@@ -480,7 +503,7 @@ class ServiceFallbackTests(unittest.TestCase):
         service.get_speed_dial()
         service.get_speed_dial()
         self.assertEqual(len(log), 1)
-        cached = [line for line in self.lines if "served from the 30-minute cache" in line]
+        cached = [line for line in self.lines if "served from the cache (max_age=1800s)" in line]
         self.assertEqual(len(cached), 1)
         self.assertIn("source=listen_again, items=6", cached[0])
         fetches = [line for line in self.lines if "speed dial: called (refresh=" in line]

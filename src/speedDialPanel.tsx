@@ -9,11 +9,18 @@ import { FaThumbtack } from "react-icons/fa";
 import * as python from "./python";
 import { CORE } from "./corePalette";
 import { getTranslations, localizeRuntimeMessage } from "./i18n";
-import { podcastProgress } from "./localAudio";
+import { localAudioPlayer, podcastProgress } from "./localAudio";
 import { playYouTubeMusicCollection, playYouTubeMusicTracks } from "./youtubeMusic";
 import {
   COMPACT_COLUMNS,
   FULL_COLUMNS,
+  LISTEN_DEBOUNCE_MS,
+  LISTEN_IDLE,
+  LISTEN_MAX_AGE_S,
+  MIN_ASK_GAP_MS,
+  OPEN_MAX_AGE_S,
+  isStale,
+  stepListen,
   SPEED_DIAL_EVENT,
   compactItems,
   fullItems,
@@ -28,8 +35,8 @@ import {
 
 const HOLD_MS = 550;
 
-// Last answer for this session: the grid shows at once when Quick Access reopens, then
-// the backend (30-minute cache) confirms it.
+// Last answer for this session: the grid shows at once when Quick Access reopens, and a
+// fresher answer replaces it when it arrives (see refreshSpeedDialIfStale).
 let current: SpeedDialResult | null = null;
 let inflight: Promise<SpeedDialResult> | null = null;
 let focusFullViewOnOpen = false;
@@ -56,9 +63,10 @@ function errorText(error: unknown): string {
   return String((error as any)?.message ?? error ?? "unknown").replace(/\s+/g, " ").slice(0, 120);
 }
 
-export function loadSpeedDial(refresh = false): Promise<SpeedDialResult> {
-  if (inflight && !refresh) return inflight;
-  const request = python.youtubeMusicGetSpeedDial(refresh)
+/** Asks the backend; `maxAge` (seconds) lets it fetch again when its cached answer is older. */
+export function loadSpeedDial(maxAge = OPEN_MAX_AGE_S): Promise<SpeedDialResult> {
+  if (inflight) return inflight;
+  const request = python.youtubeMusicGetSpeedDial(false, maxAge)
     .then((result) => {
       if (!result?.ok) reportSpeedDialOnce("call_failed", { error: errorText(result?.error ?? "no answer") });
       return sanitizeResult(result?.ok ? result.data : { reason: "error" });
@@ -72,15 +80,87 @@ export function loadSpeedDial(refresh = false): Promise<SpeedDialResult> {
   return request;
 }
 
-function useSpeedDial(): { value: SpeedDialResult | null; answered: boolean } {
+// When each reason last asked, so a failing or signed-out backend is not asked in a loop.
+const lastAsked = new Map<string, number>();
+
+/**
+ * Refreshes in the background when the answer held is older than `maxAge` seconds. Never
+ * awaited by the UI; the grid keeps showing what it has until the new answer arrives.
+ */
+export function refreshSpeedDialIfStale(reason: string, maxAge = OPEN_MAX_AGE_S): void {
+  const now = Date.now();
+  if (inflight || !isStale(current, now, maxAge)) return;
+  if (now - (lastAsked.get(reason) ?? 0) < MIN_ASK_GAP_MS) return;
+  lastAsked.set(reason, now);
+  void loadSpeedDial(maxAge);
+}
+
+/**
+ * Plugin-wide triggers, started once at load: Steam regaining focus or waking from sleep,
+ * and listening (a YouTube Music track played for a while, or finished), debounced.
+ */
+export function startSpeedDialFreshness(): () => void {
+  const stops: (() => void)[] = [];
+  const onFocus = () => refreshSpeedDialIfStale("focus");
+  const onVisible = () => { if (document.visibilityState === "visible") refreshSpeedDialIfStale("focus"); };
+  try {
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisible);
+    stops.push(() => { window.removeEventListener("focus", onFocus); document.removeEventListener("visibilitychange", onVisible); });
+  } catch { /* no window */ }
+  try {
+    const system = (globalThis as any).SteamClient?.System;
+    if (typeof system?.RegisterForOnResumeFromSuspend === "function") {
+      const handle = system.RegisterForOnResumeFromSuspend(() => refreshSpeedDialIfStale("resume"));
+      stops.push(() => { try { handle?.unregister?.(); } catch { /* gone */ } });
+    }
+  } catch { /* Steam API missing */ }
+  let listen = LISTEN_IDLE;
+  let debounce = 0;
+  const poll = window.setInterval(() => {
+    try {
+      const state = localAudioPlayer.getSnapshot();
+      const step = stepListen(listen, state.track, state.status === "Playing", Date.now());
+      listen = step.state;
+      if (!step.trigger) return;
+      if (debounce) window.clearTimeout(debounce);
+      debounce = window.setTimeout(() => { debounce = 0; refreshSpeedDialIfStale("listening", LISTEN_MAX_AGE_S); }, LISTEN_DEBOUNCE_MS);
+    } catch { /* player gone */ }
+  }, 5000);
+  stops.push(() => { window.clearInterval(poll); if (debounce) window.clearTimeout(debounce); });
+  return () => { for (const stop of stops.splice(0)) { try { stop(); } catch { /* best effort */ } } };
+}
+
+/**
+ * The grid's data. Shows the held answer at once and asks for a fresher one if it is
+ * stale. A new answer that arrives while focus is inside the grid waits until focus
+ * leaves it (or the grid closes), so the tile under the cursor never moves or vanishes.
+ */
+function useSpeedDial(gridRef: { current: HTMLElement | null }): { value: SpeedDialResult | null; answered: boolean } {
   const [value, setValue] = useState<SpeedDialResult | null>(current);
   const [answered, setAnswered] = useState(false);
   useEffect(() => {
     let alive = true;
-    const changed = () => setValue(current);
+    let waiting = false;
+    const focusInside = () => {
+      try { const grid = gridRef.current; return !!grid && !!document.activeElement && grid.contains(document.activeElement); } catch { return false; }
+    };
+    const apply = () => { if (alive) { waiting = false; setValue(current); } };
+    const changed = () => { if (focusInside()) waiting = true; else apply(); };
+    const focusMoved = () => { if (waiting) window.setTimeout(() => { if (waiting && !focusInside()) apply(); }, 0); };
     window.addEventListener(SPEED_DIAL_EVENT, changed);
-    void loadSpeedDial(false).then(() => { if (alive) { setValue(current); setAnswered(true); } });
-    return () => { alive = false; window.removeEventListener(SPEED_DIAL_EVENT, changed); };
+    document.addEventListener("focusout", focusMoved, true);
+    if (current) {
+      setAnswered(true);
+      refreshSpeedDialIfStale("open");
+    } else {
+      void loadSpeedDial(OPEN_MAX_AGE_S).then(() => { if (alive) { changed(); setAnswered(true); } });
+    }
+    return () => {
+      alive = false;
+      window.removeEventListener(SPEED_DIAL_EVENT, changed);
+      document.removeEventListener("focusout", focusMoved, true);
+    };
   }, []);
   return { value, answered };
 }
@@ -136,7 +216,7 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
   full: boolean;
   busy: boolean;
   onPlay: () => void;
-  onMore: (anchor?: EventTarget) => void;
+  onMore?: (anchor?: EventTarget) => void;
 }) {
   const t = getTranslations("speedDial");
   const holdTimer = useRef(0);
@@ -148,9 +228,10 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
   useEffect(() => cancelHold, []);
   const startHold = (event: any) => {
     held.current = false;
+    if (!onMore) return;
     cancelHold();
     const anchor = event?.currentTarget ?? undefined;
-    holdTimer.current = window.setTimeout(() => { holdTimer.current = 0; held.current = true; onMore(anchor); }, HOLD_MS);
+    holdTimer.current = window.setTimeout(() => { holdTimer.current = 0; held.current = true; onMore?.(anchor); }, HOLD_MS);
   };
   return (
     <Focusable
@@ -162,14 +243,14 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
         onPlay();
       }}
       onOKActionDescription={t.play}
-      onSecondaryButton={(event: any) => onMore(event?.currentTarget ?? event?.target ?? undefined)}
-      onSecondaryActionDescription={t.more}
+      onSecondaryButton={onMore ? (event: any) => onMore(event?.currentTarget ?? event?.target ?? undefined) : undefined}
+      onSecondaryActionDescription={onMore ? t.more : undefined}
       onFocus={(event: any) => event?.currentTarget?.scrollIntoView?.({ block: "nearest", inline: "nearest", behavior: "smooth" })}
       onPointerDown={startHold}
       onPointerUp={cancelHold}
       onPointerLeave={cancelHold}
       onPointerCancel={cancelHold}
-      onContextMenu={(event: any) => { event?.preventDefault?.(); cancelHold(); onMore(event?.currentTarget ?? undefined); }}
+      onContextMenu={(event: any) => { event?.preventDefault?.(); cancelHold(); onMore?.(event?.currentTarget ?? undefined); }}
       style={{ display: "flex", flexDirection: "column", gap: full ? "7px" : "4px", padding: full ? "4px" : "2px" }}
     >
       <div className="npSpeedDialArt" style={{ borderRadius: item.round ? "50%" : full ? "8px" : "5px" }}>
@@ -197,9 +278,9 @@ function SpeedDialTile({ item, full, busy, onPlay, onMore }: {
  */
 export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "full"; onOpenFull?: () => void }) {
   const t = getTranslations("speedDial");
-  const { value: result, answered } = useSpeedDial();
-  const [busyKey, setBusyKey] = useState("");
   const gridRef = useRef<HTMLDivElement>(null);
+  const { value: result, answered } = useSpeedDial(gridRef);
+  const [busyKey, setBusyKey] = useState("");
   const full = variant === "full";
   const items = result ? (full ? fullItems(result.items) : compactItems(result.items)) : [];
 
@@ -227,26 +308,23 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
     try { await playSpeedDialItem(item); } finally { setBusyKey(""); }
   };
 
-  const more = (item: SpeedDialItem, anchor?: EventTarget) => {
-    const refresh = () => {
-      void loadSpeedDial(true).then((next) => { if (next.reason !== "error") notify(t.refreshed); });
-    };
+  // "More" holds one entry, in Quick Access only: the grid refreshes itself.
+  const more = !full && onOpenFull ? (item: SpeedDialItem, anchor?: EventTarget) => {
     const openFull = () => {
       focusFullViewOnOpen = true;
-      onOpenFull?.();
+      onOpenFull();
     };
     try {
       showContextMenu(
         <Menu label={item.title}>
-          <MenuItem onSelected={refresh}>{t.refresh}</MenuItem>
-          {!full && onOpenFull ? <MenuItem onSelected={openFull}>{t.openFull}</MenuItem> : null}
+          <MenuItem onSelected={openFull}>{t.openFull}</MenuItem>
         </Menu>,
         anchor,
       );
     } catch {
-      refresh();
+      openFull();
     }
-  };
+  } : undefined;
 
   const columns = full ? FULL_COLUMNS : COMPACT_COLUMNS;
   const grid = (
@@ -262,7 +340,7 @@ export function SpeedDialGrid({ variant, onOpenFull }: { variant: "compact" | "f
           full={full}
           busy={busyKey === `${item.type}:${item.id}`}
           onPlay={() => void play(item)}
-          onMore={(anchor) => more(item, anchor)}
+          onMore={more ? (anchor) => more(item, anchor) : undefined}
         />
       ))}
     </Focusable>
